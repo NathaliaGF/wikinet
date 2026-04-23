@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portas Conhecidas — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle"></button></div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 09</div>
+        <h1 class="page-title">Portas Conhecidas</h1>
+        <p class="page-description">Referência completa das portas mais importantes. Guarde esta página — você vai consultar durante troubleshooting, configuração de firewall e entrevistas.</p>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header"><span class="mp-label">Progresso</span><span class="mp-pct" id="mpPct">0%</span></div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- O que são portas -->
+      <div class="section" id="o-que-sao-portas">
+        <div class="section-header">
+          <h2>O que são Portas e por que Importam</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="port-intro" data-fav-title="O que são Portas" data-fav-page="Portas">☆</button>
+            <label class="section-check" data-section="o-que-sao-portas"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Revisão rápida</div>
+          <p>Uma porta é um número de <strong>0 a 65535</strong> que identifica qual serviço em um computador deve receber os dados. O sistema operacional usa a combinação <code>IP:porta</code> para entregar pacotes ao processo correto.</p>
+          <p><strong>Faixas de portas:</strong></p>
+          <ul>
+            <li><strong>0 – 1023:</strong> "Well-known ports" — reservadas para serviços padrão (HTTP, HTTPS, SSH, DNS). Precisam de privilégios de administrador para usar.</li>
+            <li><strong>1024 – 49151:</strong> "Registered ports" — serviços registrados na IANA, mas não precisam de root. Ex: MySQL (3306), PostgreSQL (5432).</li>
+            <li><strong>49152 – 65535:</strong> "Dynamic/Ephemeral ports" — usadas pelo SO para conexões de saída (cliente). Quando você acessa um site, o SO aloca uma dessas portas para sua conexão.</li>
+          </ul>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ Por que saber portas de memória?</div>
+          <p>Para: configurar regras de firewall corretamente, diagnosticar conectividade ("o serviço está na porta certa?"), entrevistas de emprego na área de redes/infra, entender logs de servidor, ler arquivos de configuração.</p>
+        </div>
+      </div>
+
+      <!-- Tabela de portas -->
+      <div class="section" id="tabela-portas">
+        <div class="section-header">
+          <h2>Tabela Completa de Portas</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="port-table" data-fav-title="Tabela de Portas" data-fav-page="Portas">☆</button>
+            <label class="section-check" data-section="tabela-portas"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="port-table">
+            <thead>
+              <tr><th>Porta</th><th>Protocolo</th><th>Serviço</th><th>Explicação simples</th></tr>
+            </thead>
+            <tbody>
+              <tr class="port-common"><td>20</td><td>TCP</td><td>FTP Data</td><td>Transferência de dados no protocolo FTP (modo ativo). O canal de controle usa a porta 21.</td></tr>
+              <tr class="port-common"><td>21</td><td>TCP</td><td>FTP Control</td><td>Comandos do FTP: autenticação, listagem de arquivos, controle da transferência.</td></tr>
+              <tr class="port-secure"><td>22</td><td>TCP</td><td>SSH</td><td>Secure Shell — acesso remoto criptografado a servidores. Também usado para SFTP e tunelamento.</td></tr>
+              <tr class="port-critical"><td>23</td><td>TCP</td><td>Telnet</td><td>Acesso remoto SEM criptografia. Nunca use em produção — senhas viajam em texto puro.</td></tr>
+              <tr class="port-common"><td>25</td><td>TCP</td><td>SMTP</td><td>Envio de e-mail entre servidores de correio eletrônico (MTA-MTA). Frequentemente bloqueado por ISPs para clientes.</td></tr>
+              <tr class="port-secure"><td>53</td><td>UDP/TCP</td><td>DNS</td><td>Resolução de nomes. UDP para consultas normais (&lt;512 bytes), TCP para grandes transferências e DNSSEC.</td></tr>
+              <tr class="port-common"><td>67</td><td>UDP</td><td>DHCP Server</td><td>Servidor DHCP recebe requisições de descoberta dos clientes.</td></tr>
+              <tr class="port-common"><td>68</td><td>UDP</td><td>DHCP Client</td><td>Cliente DHCP recebe a oferta de configuração de rede do servidor.</td></tr>
+              <tr class="port-common"><td>80</td><td>TCP</td><td>HTTP</td><td>Web sem criptografia. Navegadores modernos mostram aviso "Não seguro" em sites HTTP.</td></tr>
+              <tr class="port-common"><td>110</td><td>TCP</td><td>POP3</td><td>Post Office Protocol — baixa e-mails do servidor (geralmente os remove de lá depois).</td></tr>
+              <tr class="port-common"><td>143</td><td>TCP</td><td>IMAP</td><td>Internet Message Access Protocol — sincroniza e-mails com o servidor. E-mails ficam no servidor.</td></tr>
+              <tr class="port-secure"><td>443</td><td>TCP</td><td>HTTPS</td><td>HTTP com criptografia TLS. Padrão para toda a web moderna. Criptografa dados em trânsito.</td></tr>
+              <tr class="port-secure"><td>465</td><td>TCP</td><td>SMTPS</td><td>SMTP sobre SSL/TLS implícito. Usado por clientes de e-mail para envio seguro.</td></tr>
+              <tr class="port-secure"><td>587</td><td>TCP</td><td>SMTP Submission</td><td>Porta padrão para clientes enviarem e-mail para o servidor de saída (com autenticação obrigatória).</td></tr>
+              <tr class="port-secure"><td>993</td><td>TCP</td><td>IMAPS</td><td>IMAP sobre TLS. Use esta ao invés da 143 sempre que possível.</td></tr>
+              <tr class="port-secure"><td>995</td><td>TCP</td><td>POP3S</td><td>POP3 sobre TLS. Use esta ao invés da 110 sempre que possível.</td></tr>
+              <tr class="port-common"><td>3306</td><td>TCP</td><td>MySQL/MariaDB</td><td>Banco de dados MySQL. Nunca exponha diretamente para a internet — use SSH tunnel ou VPN.</td></tr>
+              <tr class="port-critical"><td>3389</td><td>TCP</td><td>RDP</td><td>Remote Desktop Protocol — acesso remoto gráfico ao Windows. Alvo frequente de ataques de brute-force.</td></tr>
+              <tr class="port-common"><td>5060</td><td>UDP/TCP</td><td>SIP</td><td>Session Initiation Protocol — sinalização VoIP. Sem criptografia; alvo de ataques em sistemas expostos.</td></tr>
+              <tr class="port-secure"><td>5061</td><td>TCP</td><td>SIP/TLS</td><td>SIP com criptografia TLS. Use esta em produção.</td></tr>
+              <tr class="port-common"><td>8080</td><td>TCP</td><td>HTTP Alternativo</td><td>Porta HTTP alternativa. Usada em servidores de desenvolvimento, proxies e aplicações que não rodam como root.</td></tr>
+              <tr class="port-secure"><td>8443</td><td>TCP</td><td>HTTPS Alternativo</td><td>Porta HTTPS alternativa. Comum quando a 443 está em uso ou por convenção em certas aplicações.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Dicas -->
+      <div class="section" id="dicas">
+        <div class="section-header">
+          <h2>Dicas Práticas e Boas Práticas</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="port-tips" data-fav-title="Dicas de Portas" data-fav-page="Portas">☆</button>
+            <label class="section-check" data-section="dicas"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ As portas que mais aparecem em entrevistas</div>
+          <ul>
+            <li><strong>22</strong> — SSH (não confunda com Telnet/23)</li>
+            <li><strong>25, 587, 465</strong> — SMTP (envio de e-mail; 25 entre servidores, 587 de cliente)</li>
+            <li><strong>53</strong> — DNS (UDP por padrão)</li>
+            <li><strong>80</strong> — HTTP</li>
+            <li><strong>443</strong> — HTTPS</li>
+            <li><strong>3306</strong> — MySQL</li>
+            <li><strong>3389</strong> — RDP</li>
+          </ul>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ Armadilhas comuns</div>
+          <ul>
+            <li><strong>Porta 25 bloqueada pelo ISP:</strong> provedores de internet bloqueiam a porta 25 de saída para clientes comuns, para evitar spam. Use a 587 para envio com autenticação.</li>
+            <li><strong>RDP exposto na internet (3389):</strong> é um dos vetores de ataque mais explorados. Se precisar usar RDP remotamente, use uma VPN ou mude para uma porta não-padrão com autenticação forte.</li>
+            <li><strong>SSH na porta 22 com senha simples:</strong> bots varrem a internet procurando a porta 22 e tentam combinações de usuário/senha. Use chaves SSH e desative autenticação por senha.</li>
+            <li><strong>MySQL na 3306 exposto:</strong> nunca exponha bancos de dados diretamente para a internet. Sempre use acesso via SSH tunnel ou restrinja por IP no firewall.</li>
+          </ul>
+        </div>
+
+        <div class="bloco-revisao">
+          <div class="bloco-header">✏️ Exercício</div>
+          <p>Dado o seguinte log de firewall, identifique qual serviço foi acessado em cada linha:</p>
+          <pre><code>ALLOW TCP 203.0.113.5:54821 → 192.168.1.10:443
+ALLOW TCP 192.168.1.10:49200 → 8.8.8.8:53
+DENY  TCP 45.33.32.156:12345 → 192.168.1.10:3389
+ALLOW TCP 10.0.0.5:51000 → 10.0.0.20:3306</code></pre>
+          <p><strong>Respostas:</strong></p>
+          <ul>
+            <li>Linha 1: Alguém acessou um site HTTPS no servidor 192.168.1.10</li>
+            <li>Linha 2: Seu servidor consultou o DNS do Google (8.8.8.8)</li>
+            <li>Linha 3: Tentativa de acesso RDP BLOQUEADA — possível ataque de brute-force</li>
+            <li>Linha 4: Conexão ao MySQL entre hosts internos — normal</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="portas">
+        <div class="fc-header"><h3>🃏 Flashcards — Portas</h3><span class="fc-counter">1 / 7</span></div>
+        <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
+        <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
+      </div>
+
+      <div class="quiz-section" data-quiz-set="portas">
+        <div class="quiz-header"><h3>📝 Quiz — Portas</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-result"><div class="quiz-result-score"></div><div class="quiz-result-msg"></div><button class="quiz-retry">Tentar novamente</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

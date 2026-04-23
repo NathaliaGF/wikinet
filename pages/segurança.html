@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segurança Básica — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle"></button></div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 07</div>
+        <h1 class="page-title">Segurança Básica de Redes</h1>
+        <p class="page-description">Os ataques mais comuns que você precisa conhecer — não para realizá-los, mas para entender como se defender e por que certas boas práticas existem.</p>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header"><span class="mp-label">Progresso</span><span class="mp-pct" id="mpPct">0%</span></div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- Firewall tipos -->
+      <div class="section" id="firewall-tipos">
+        <div class="section-header">
+          <h2>Firewall: Stateful vs Stateless</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="seg-fw" data-fav-title="Firewall Stateful vs Stateless" data-fav-page="Segurança">☆</button>
+            <label class="section-check" data-section="firewall-tipos"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Diferença fundamental</div>
+          <p><strong>Firewall Stateless (sem estado):</strong> analisa cada pacote individualmente, sem contexto. Uma regra simples como "bloquear TCP de qualquer IP na porta 80 para dentro" é verificada pacote a pacote. É rápido, mas não sabe se um pacote TCP faz parte de uma conexão legítima ou é um ataque.</p>
+          <p><strong>Exemplo de problema stateless:</strong> se você libera TCP na porta 80 para entrada, um atacante pode enviar pacotes TCP com flag ACK sem nunca ter estabelecido a conexão — e o firewall stateless deixa passar, pois a porta está liberada.</p>
+          <p><strong>Firewall Stateful (com estado):</strong> mantém uma tabela de conexões ativas. Quando você abre uma conexão TCP (SYN), o firewall registra. Quando chega um pacote ACK, ele verifica: "existe uma conexão com esse SYN registrado?". Se não existe, bloqueia.</p>
+          <p>Na prática, virtualmente todos os firewalls modernos são stateful. O stateless ainda aparece em ACLs de roteadores e regras simples de filtragem em alta performance.</p>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ Resumo rápido</div>
+          <ul>
+            <li><strong>Stateless:</strong> cada pacote é avaliado isoladamente. Mais rápido, menos seguro.</li>
+            <li><strong>Stateful:</strong> rastreia o estado das conexões. Mais seguro, ligeiramente mais lento.</li>
+            <li><strong>NGFW:</strong> inspeciona o conteúdo (Camada 7), identifica aplicações.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Ataques -->
+      <div class="section" id="ataques">
+        <div class="section-header">
+          <h2>Ataques Comuns</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="seg-ataques" data-fav-title="Ataques Comuns" data-fav-page="Segurança">☆</button>
+            <label class="section-check" data-section="ataques"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <h3>Man-in-the-Middle (MITM)</h3>
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Como funciona</div>
+          <p>No ataque MITM, o atacante se posiciona entre dois comunicadores — A e B — fazendo com que ambos pensem estar falando diretamente um com o outro, quando na verdade toda a comunicação passa pelo atacante.</p>
+          <p><strong>Como é executado em redes Wi-Fi:</strong></p>
+          <ol>
+            <li>Atacante cria um ponto de acesso Wi-Fi falso com nome confiável ("Starbucks_Free")</li>
+            <li>Vítima conecta achando ser legítimo</li>
+            <li>Todo o tráfego da vítima passa pelo atacante</li>
+            <li>Sem HTTPS, o atacante lê todo o conteúdo. Com HTTPS, ele ainda pode ver os domínios acessados (via DNS ou SNI), mas não o conteúdo</li>
+          </ol>
+          <p><strong>Outra forma — ARP Spoofing:</strong> em redes locais, o atacante envia respostas ARP falsas, fazendo os dispositivos pensarem que o MAC do gateway é o MAC do atacante. Todo o tráfego de saída passa pelo atacante antes de ir para o gateway real.</p>
+          <p><strong>Defesa:</strong> use sempre HTTPS. Em redes não confiáveis, use VPN. HSTS (HTTP Strict Transport Security) força HTTPS e previne downgrade attacks.</p>
+        </div>
+
+        <h3>DDoS — Distributed Denial of Service</h3>
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Como funciona</div>
+          <p>O objetivo do DDoS é tornar um serviço indisponível ao sobrecarregar seus recursos (banda, CPU, conexões). Um DoS simples vem de uma fonte. O DDoS usa <strong>múltiplas fontes simultâneas</strong> — geralmente uma <strong>botnet</strong>: rede de dispositivos comprometidos controlados pelo atacante.</p>
+          <p><strong>Tipos comuns:</strong></p>
+          <ul>
+            <li><strong>Volumétrico:</strong> inunda com tráfego massivo (Gbps). Objetivo: esgotar a banda. Ex: UDP flood, ICMP flood.</li>
+            <li><strong>Protocolo:</strong> explora fraquezas em protocolos. Ex: SYN flood — envia milhares de SYNs sem completar o handshake, lotando a tabela de conexões do servidor.</li>
+            <li><strong>Camada 7 (Aplicação):</strong> envia requisições HTTP legítimas em volume massivo. Difícil de distinguir de tráfego real. Ex: HTTP flood.</li>
+          </ul>
+          <p><strong>Defesa:</strong> rate limiting, CDNs com capacidade de absorção (Cloudflare, AWS Shield), anycast routing, filtros de tráfego upstream no provedor.</p>
+        </div>
+
+        <h3>IP Spoofing</h3>
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Como funciona</div>
+          <p>O atacante forja o endereço IP de origem dos pacotes que envia. Usos: ocultar a identidade real, fazer o alvo achar que o ataque vem de outro lugar, amplificar ataques DDoS (o atacante envia uma requisição com IP spoofado da vítima — a resposta volumosa vai para a vítima).</p>
+          <p><strong>Defesa:</strong> ISPs podem implementar <strong>BCP38</strong> (Ingress Filtering) — descartam pacotes de clientes cujo IP de origem não bate com o range alocado para aquele cliente. Infelizmente nem todos os ISPs fazem isso.</p>
+        </div>
+
+        <h3>Phishing</h3>
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Como funciona</div>
+          <p>Phishing é engenharia social — o atacante cria e-mails, sites ou mensagens que imitam entidades confiáveis (banco, Amazon, Microsoft) para enganar a vítima a revelar credenciais, dados bancários ou instalar malware.</p>
+          <p><strong>Variações:</strong></p>
+          <ul>
+            <li><strong>Spear phishing:</strong> direcionado a uma pessoa específica, com informações personalizadas (nome, cargo, projeto atual).</li>
+            <li><strong>Smishing:</strong> phishing via SMS.</li>
+            <li><strong>Vishing:</strong> phishing via chamada de voz.</li>
+          </ul>
+          <p><strong>Defesa técnica:</strong> SPF, DKIM e DMARC (registros DNS que autenticam e-mails), filtros de e-mail, MFA (autenticação de dois fatores). A principal defesa é treinamento de usuários — tecnologia sozinha não resolve.</p>
+        </div>
+      </div>
+
+      <!-- VPN -->
+      <div class="section" id="vpn">
+        <div class="section-header">
+          <h2>VPN — Virtual Private Network</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="seg-vpn" data-fav-title="VPN" data-fav-page="Segurança">☆</button>
+            <label class="section-check" data-section="vpn"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que é uma VPN</div>
+          <p>Uma VPN cria um <strong>túnel criptografado</strong> entre seu dispositivo e um servidor VPN. Todo o tráfego que passa por esse túnel é criptografado, então intermediários (ISP, operadora, Wi-Fi público) veem apenas bytes ilegíveis.</p>
+          <p><strong>O que a VPN protege:</strong></p>
+          <ul>
+            <li>O tráfego entre você e o servidor VPN (contra interceptação na rede intermediária)</li>
+            <li>Seu IP real é ocultado dos sites que você acessa (eles veem o IP do servidor VPN)</li>
+          </ul>
+          <p><strong>O que a VPN NÃO protege:</strong></p>
+          <ul>
+            <li>O tráfego entre o servidor VPN e o destino final (a menos que use HTTPS)</li>
+            <li>Malware já instalado no seu dispositivo</li>
+            <li>Cookies e fingerprint do navegador que identificam você</li>
+            <li>Você ainda precisa confiar no provedor de VPN — ele vê seu tráfego</li>
+          </ul>
+          <p><strong>Protocolos VPN:</strong> OpenVPN, WireGuard (moderno, rápido), IKEv2/IPSec, L2TP/IPSec. WireGuard é o estado da arte atualmente — código base menor, criptografia moderna, performance superior.</p>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ VPN não é invisibilidade total</div>
+          <p>Marketing de VPN exagera nas promessas. Uma VPN comercial muda quem pode ver seu tráfego — do ISP para o provedor de VPN. Se o provedor de VPN guardar logs, você não está protegido contra investigações legais. Para anonimato real, o modelo de ameaça é muito mais complexo.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="seguranca">
+        <div class="fc-header"><h3>🃏 Flashcards — Segurança</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
+        <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
+      </div>
+
+      <div class="quiz-section" data-quiz-set="seguranca">
+        <div class="quiz-header"><h3>📝 Quiz — Segurança</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-result"><div class="quiz-result-score"></div><div class="quiz-result-msg"></div><button class="quiz-retry">Tentar novamente</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

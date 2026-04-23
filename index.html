@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RedesWiki — Aprenda redes do zero</title>
+  <meta name="description" content="Wiki interativa para aprender redes de computadores do zero: IPv4, TCP/IP, DNS, HTTP, segurança e muito mais.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/>
+            <rect y="9" width="20" height="2" rx="1"/>
+            <rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" aria-label="Alternar tema"></button>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">✦ Wiki gratuita & open-source</div>
+      <h1>Aprenda <span>Redes de Computadores</span><br>do absoluto zero.</h1>
+      <p class="hero-subtitle">9 módulos com explicações diretas, analogias do mundo real, quizzes e flashcards. Sem enrolação, sem lorem ipsum.</p>
+      <a href="pages/fundamentos.html" class="hero-cta">Começar agora →</a>
+
+      <div class="stats-bar">
+        <div class="stat"><span class="stat-num">9</span><span class="stat-label">Módulos</span></div>
+        <div class="stat"><span class="stat-num">60+</span><span class="stat-label">Flashcards</span></div>
+        <div class="stat"><span class="stat-num">27+</span><span class="stat-label">Questões de quiz</span></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Conteúdo real</span></div>
+      </div>
+    </section>
+
+    <!-- Módulos -->
+    <section class="home-section" id="modulos">
+      <h2>Módulos</h2>
+      <p style="color:var(--text-muted);margin-bottom:0.5rem;">Clique em qualquer módulo para começar. Recomendamos seguir a ordem numerada.</p>
+      <div class="module-grid" id="moduleGrid">
+        <!-- Preenchido pelo JS e estático abaixo para funcionar sem JS -->
+        <a href="pages/fundamentos.html" class="module-card">
+          <div class="module-card-icon">🌐</div>
+          <div class="module-card-num">Módulo 01</div>
+          <h3>Fundamentos de Redes</h3>
+          <p>IP, porta, pacote, latência e largura de banda.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-fundamentos"></div></div><span class="mc-pct" id="mc-pct-fundamentos">0%</span></div>
+        </a>
+        <a href="pages/modelos.html" class="module-card">
+          <div class="module-card-icon">🏛️</div>
+          <div class="module-card-num">Módulo 02</div>
+          <h3>Modelos de Camadas</h3>
+          <p>OSI e TCP/IP: por que existem e como funcionam.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-modelos"></div></div><span class="mc-pct" id="mc-pct-modelos">0%</span></div>
+        </a>
+        <a href="pages/endereçamento.html" class="module-card">
+          <div class="module-card-icon">📍</div>
+          <div class="module-card-num">Módulo 03</div>
+          <h3>Endereçamento</h3>
+          <p>IPv4, IPv6, CIDR, NAT, ARP e gateway explicados.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-enderecamento"></div></div><span class="mc-pct" id="mc-pct-enderecamento">0%</span></div>
+        </a>
+        <a href="pages/protocolos.html" class="module-card">
+          <div class="module-card-icon">🔌</div>
+          <div class="module-card-num">Módulo 04</div>
+          <h3>Protocolos Principais</h3>
+          <p>TCP, UDP, DNS, DHCP, HTTP/S, TLS, SSH, SMTP.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-protocolos"></div></div><span class="mc-pct" id="mc-pct-protocolos">0%</span></div>
+        </a>
+        <a href="pages/acesso-site.html" class="module-card">
+          <div class="module-card-icon">🌍</div>
+          <div class="module-card-num">Módulo 05</div>
+          <h3>O que Acontece ao Acessar um Site</h3>
+          <p>Timeline completa: DNS → TCP → TLS → HTTP.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-acesso-site"></div></div><span class="mc-pct" id="mc-pct-acesso-site">0%</span></div>
+        </a>
+        <a href="pages/equipamentos.html" class="module-card">
+          <div class="module-card-icon">🖥️</div>
+          <div class="module-card-num">Módulo 06</div>
+          <h3>Equipamentos de Rede</h3>
+          <p>Roteadores, switches, firewalls e proxies.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-equipamentos"></div></div><span class="mc-pct" id="mc-pct-equipamentos">0%</span></div>
+        </a>
+        <a href="pages/segurança.html" class="module-card">
+          <div class="module-card-icon">🔒</div>
+          <div class="module-card-num">Módulo 07</div>
+          <h3>Segurança Básica</h3>
+          <p>MITM, DDoS, spoofing, phishing e VPN.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-seguranca"></div></div><span class="mc-pct" id="mc-pct-seguranca">0%</span></div>
+        </a>
+        <a href="pages/troubleshooting.html" class="module-card">
+          <div class="module-card-icon">🔧</div>
+          <div class="module-card-num">Módulo 08</div>
+          <h3>Troubleshooting</h3>
+          <p>ping, traceroute, nslookup, netstat na prática.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-troubleshooting"></div></div><span class="mc-pct" id="mc-pct-troubleshooting">0%</span></div>
+        </a>
+        <a href="pages/portas.html" class="module-card">
+          <div class="module-card-icon">🚪</div>
+          <div class="module-card-num">Módulo 09</div>
+          <h3>Portas Conhecidas</h3>
+          <p>Tabela completa das portas e serviços mais importantes.</p>
+          <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-portas"></div></div><span class="mc-pct" id="mc-pct-portas">0%</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Trilha sugerida -->
+    <section class="home-section" id="trilha">
+      <h2>Por onde começar?</h2>
+      <p style="color:var(--text-muted)">Se você está começando agora, siga essa ordem. Cada módulo usa conceitos do anterior.</p>
+      <div class="study-path">
+        <div class="study-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4><a href="pages/fundamentos.html">Fundamentos (Módulo 1)</a></h4>
+            <p>Antes de tudo: entenda o que é IP, porta e pacote. São os blocos de construção de tudo.</p>
+          </div>
+        </div>
+        <div class="study-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4><a href="pages/modelos.html">Modelos de Camadas (Módulo 2)</a></h4>
+            <p>O modelo OSI é a linguagem universal de redes. Qualquer livro, certificação ou entrevista vai usar esses termos.</p>
+          </div>
+        </div>
+        <div class="study-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4><a href="pages/endereçamento.html">Endereçamento (Módulo 3)</a></h4>
+            <p>IPv4, máscara de sub-rede e NAT aparecem em absolutamente todo lugar. Invista tempo aqui.</p>
+          </div>
+        </div>
+        <div class="study-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4><a href="pages/protocolos.html">Protocolos Principais (Módulo 4)</a></h4>
+            <p>DNS, TCP/UDP e HTTP/HTTPS são usados diariamente por qualquer desenvolvedor ou sysadmin.</p>
+          </div>
+        </div>
+        <div class="study-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4><a href="pages/acesso-site.html">Acesso a um site (Módulo 5)</a></h4>
+            <p>Este módulo une tudo: é a prática dos 4 anteriores em uma única timeline.</p>
+          </div>
+        </div>
+        <div class="study-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <h4><a href="pages/equipamentos.html">Equipamentos + Segurança (Módulos 6 e 7)</a></h4>
+            <p>Contextualize o hardware real e entenda os riscos do mundo moderno.</p>
+          </div>
+        </div>
+        <div class="study-step">
+          <div class="step-num">7</div>
+          <div class="step-content">
+            <h4><a href="pages/troubleshooting.html">Troubleshooting + Portas (Módulos 8 e 9)</a></h4>
+            <p>Referência prática para o dia a dia. Volte aqui quando tiver um problema real.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Se eu fosse iniciante -->
+    <section class="home-section">
+      <h2>Se eu fosse iniciante, estudaria assim</h2>
+      <div class="honest-box">
+        <p><strong>Não tente memorizar tudo de uma vez.</strong> Redes é um tema vasto. A maioria das pessoas fica travada tentando decorar o modelo OSI antes de entender por que ele existe. Comece pelo "porquê", não pelo "o quê".</p>
+        <p><strong>Conecte sempre com o que você já sabe.</strong> Você já usou um GPS? Já mandou uma carta? Já pediu comida por delivery? Ótimo — são analogias perfeitas para roteamento, protocolos e cliente-servidor. Este site usa isso o tempo todo.</p>
+        <p><strong>Pratique os comandos do Módulo 8 desde cedo.</strong> Abra o terminal e execute <code>ping google.com</code>, <code>traceroute google.com</code> e <code>nslookup google.com</code> enquanto estuda os conceitos. Ver na prática consolida a teoria muito mais rápido do que reler.</p>
+        <p><strong>Use os quizzes como diagnóstico, não como prova.</strong> Se errou uma questão, não é fracasso — é um mapa do que revisar. Cada resposta errada tem uma explicação que vale mais do que a resposta certa.</p>
+        <p><strong>Para certificações (CompTIA Network+, CCNA):</strong> este material cobre os fundamentos necessários. Depois daqui, passe para o material oficial da certificação — você vai perceber que já sabe boa parte.</p>
+      </div>
+    </section>
+
+    <!-- Progresso geral -->
+    <section class="home-section" id="progresso">
+      <h2>Seu Progresso</h2>
+      <div class="global-progress">
+        <div class="gp-top">
+          <div>
+            <div class="gp-pct" id="gpPct">0%</div>
+            <div class="gp-label">do conteúdo estudado</div>
+          </div>
+          <button class="gp-reset" id="resetProgress">Resetar progresso</button>
+        </div>
+        <div class="gp-bar"><div class="gp-fill" id="gpFill"></div></div>
+        <div class="gp-modules" id="gpModules"></div>
+      </div>
+    </section>
+
+    <!-- Favoritos -->
+    <section class="home-section" id="favoritos">
+      <h2>⭐ Meus Favoritos</h2>
+      <div id="favoritesContainer"></div>
+    </section>
+
+    <!-- Referências -->
+    <section class="home-section" id="referencias">
+      <h2>Referências e Leituras Complementares</h2>
+      <p style="color:var(--text-muted)">Este wiki foi construído sobre fontes confiáveis. Se quiser aprofundar algum tema, consulte:</p>
+      <div class="ref-grid">
+        <a href="https://developer.mozilla.org" target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-card-name">MDN Web Docs</div>
+          <div class="ref-card-desc">Referência técnica de HTTP, TLS, DNS e APIs de rede.</div>
+        </a>
+        <a href="https://www.cloudflare.com/learning/" target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-card-name">Cloudflare Learning</div>
+          <div class="ref-card-desc">Artigos aprofundados sobre DNS, CDN, DDoS, Zero Trust.</div>
+        </a>
+        <a href="https://www.netacad.com" target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-card-name">Cisco Networking Academy</div>
+          <div class="ref-card-desc">Cursos gratuitos de redes com trilhas para CCNA.</div>
+        </a>
+        <a href="https://learn.microsoft.com" target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-card-name">Microsoft Learn</div>
+          <div class="ref-card-desc">Redes em contexto Azure: VNets, NSGs, DNS, VPN Gateway.</div>
+        </a>
+        <a href="https://aws.amazon.com/what-is/" target="_blank" rel="noopener" class="ref-card">
+          <div class="ref-card-name">AWS — What is?</div>
+          <div class="ref-card-desc">Explicações diretas de conceitos de rede em contexto cloud.</div>
+        </a>
+      </div>
+    </section>
+
+    <footer style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:2rem;">
+      RedesWiki — Conteúdo livre para estudo. Aprenda, compartilhe, melhore.
+    </footer>
+  </div><!-- /main-content -->
+</div><!-- /app-layout -->
+
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">↑</button>
+
+<script src="data/content.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/interactive.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundamentos de Redes — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" aria-label="Alternar tema"></button>
+      </div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 01</div>
+        <h1 class="page-title">Fundamentos de Redes</h1>
+        <p class="page-description">Antes de estudar protocolos e arquiteturas complexas, você precisa dominar os blocos básicos: o que é uma rede, como os dispositivos se identificam, e como os dados viajam.</p>
+      </div>
+
+      <!-- Progresso do módulo -->
+      <div class="module-progress">
+        <div class="mp-header">
+          <span class="mp-label">Progresso deste módulo</span>
+          <span class="mp-pct" id="mpPct">0%</span>
+        </div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- ─── Seção 1: O que é uma rede ─────────────────── -->
+      <div class="section" id="oque-e-rede">
+        <div class="section-header">
+          <h2>O que é uma rede de computadores?</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="fund-rede" data-fav-title="O que é uma rede" data-fav-page="Fundamentos">☆</button>
+            <label class="section-check" data-section="oque-e-rede">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>Uma rede de computadores é um conjunto de dois ou mais dispositivos — computadores, celulares, impressoras, roteadores — que estão interconectados e conseguem <strong>trocar dados entre si</strong>.</p>
+          <p>Essa conexão pode ser física (cabo Ethernet, fibra óptica) ou sem fio (Wi-Fi, 4G/5G). O que importa é que os dispositivos consigam se comunicar segundo um conjunto de regras chamadas <strong>protocolos</strong>.</p>
+          <p>A internet, por exemplo, não é uma rede única — é uma <em>rede de redes</em>: bilhões de dispositivos conectados através de milhões de redes menores que se interligam.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Sistema Postal</div>
+          <p>Pense na rede como um sistema postal global. Cada casa (dispositivo) tem um endereço único. Quando você quer mandar uma carta (dado), coloca no envelope (pacote), escreve o endereço do destinatário, e entrega nos Correios (roteador). Os Correios decidem o melhor caminho para que a carta chegue ao destino.</p>
+          <p>Sem endereços, os Correios não sabem para onde entregar. Sem o sistema de rotas, a carta nunca chega. Redes funcionam da mesma forma.</p>
+        </div>
+
+        <div class="bloco-resumo">
+          <div class="bloco-header">📝 Resumo</div>
+          <ul>
+            <li>Rede = dispositivos interconectados que trocam dados</li>
+            <li>A conexão pode ser cabeada ou sem fio</li>
+            <li>Protocolos são as regras que permitem a comunicação</li>
+            <li>A internet é uma rede de redes</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ─── Seção 2: Cliente vs Servidor ──────────────── -->
+      <div class="section" id="cliente-servidor">
+        <div class="section-header">
+          <h2>Cliente vs. Servidor</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="fund-cs" data-fav-title="Cliente vs Servidor" data-fav-page="Fundamentos">☆</button>
+            <label class="section-check" data-section="cliente-servidor">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>Na comunicação em rede, geralmente há dois papéis distintos:</p>
+          <ul>
+            <li><strong>Cliente:</strong> o dispositivo que <em>inicia</em> uma requisição. Ele pede algo — uma página web, um arquivo, um e-mail.</li>
+            <li><strong>Servidor:</strong> o dispositivo que <em>aguarda</em> requisições e as processa, enviando uma resposta.</li>
+          </ul>
+          <p>Importante: esses são papéis, não tipos de hardware. O mesmo computador pode ser cliente em uma conversa (quando acessa um site) e servidor em outra (quando outros acessam um serviço que ele hospeda).</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Restaurante</div>
+          <p>Você (cliente) senta à mesa e chama o garçom. O garçom leva seu pedido para a cozinha (servidor). A cozinha processa o pedido e o garçom traz o prato de volta para você.</p>
+          <p>No modelo cliente-servidor: você é o navegador, o garçom é a rede, e a cozinha é o servidor web. O prato pronto é a página HTML que você recebe.</p>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Exemplo Concreto</div>
+          <p>Quando você digita <code>google.com</code> no navegador:</p>
+          <ul>
+            <li>Seu navegador (cliente) envia uma requisição HTTP GET para o servidor do Google</li>
+            <li>O servidor do Google processa a requisição</li>
+            <li>O servidor responde com o HTML, CSS e JavaScript da página</li>
+            <li>Seu navegador renderiza (desenha) a página na tela</li>
+          </ul>
+          <p>Todo esse processo acontece em menos de 1 segundo na maioria das conexões modernas.</p>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ O que você precisa guardar</div>
+          <p><strong>Cliente inicia, servidor responde.</strong> O cliente sempre dá o primeiro passo. O servidor fica esperando (escutando numa porta) até alguém pedir algo.</p>
+        </div>
+      </div>
+
+      <!-- ─── Seção 3: Endereço IP ───────────────────────── -->
+      <div class="section" id="endereço-ip">
+        <div class="section-header">
+          <h2>Endereço IP</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="fund-ip" data-fav-title="Endereço IP" data-fav-page="Fundamentos">☆</button>
+            <label class="section-check" data-section="endereço-ip">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>IP significa <strong>Internet Protocol</strong>. O endereço IP é um número único que identifica cada dispositivo em uma rede — sem ele, ninguém sabe para onde enviar os dados.</p>
+          <p>Existem duas versões em uso hoje:</p>
+          <ul>
+            <li><strong>IPv4:</strong> formato <code>192.168.1.10</code> — 4 grupos de números de 0 a 255, separados por ponto. Tecnicamente são 32 bits de informação. Suporta cerca de 4,3 bilhões de endereços (que já estão esgotados).</li>
+            <li><strong>IPv6:</strong> formato <code>2001:0db8:85a3::8a2e:0370:7334</code> — 128 bits. Suporta 340 undecilhões de endereços (praticamente infinito).</li>
+          </ul>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Endereço de casa</div>
+          <p>O IP é como o endereço de uma casa: "Rua das Flores, 42, São Paulo". Sem esse endereço, o carteiro não sabe onde entregar a correspondência. Com o endereço, o sistema postal (a rede) consegue rotear a carta até o destino correto.</p>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Exemplo Concreto</div>
+          <p>Para ver seu IP local, abra o terminal e digite:</p>
+          <pre><code># Windows
+ipconfig
+
+# Linux / Mac
+ip addr
+# ou
+ifconfig</code></pre>
+          <p>Você vai ver algo como <code>192.168.1.105</code>. Esse é seu endereço dentro da rede local. Para ver seu IP público (como a internet te enxerga), acesse <strong>whatismyip.com</strong>.</p>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ Erros comuns de iniciantes</div>
+          <p><strong>Confundir IP local com IP público:</strong> seu roteador tem um IP público (ex: <code>201.34.56.78</code>) que é visível na internet. Seus dispositivos em casa têm IPs privados (ex: <code>192.168.1.x</code>) que não saem diretamente para a internet. Isso é feito pelo NAT (veremos no Módulo 3).</p>
+          <p><strong>Achar que IP é fixo:</strong> na maioria dos casos, o IP muda. Seu provedor pode trocar seu IP público, e o DHCP pode dar um IP diferente ao seu notebook a cada conexão.</p>
+        </div>
+      </div>
+
+      <!-- ─── Seção 4: Portas ────────────────────────────── -->
+      <div class="section" id="portas">
+        <div class="section-header">
+          <h2>Portas de Rede</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="fund-portas" data-fav-title="Portas de Rede" data-fav-page="Fundamentos">☆</button>
+            <label class="section-check" data-section="portas">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>O endereço IP identifica o computador na rede. Mas um computador roda dezenas de serviços ao mesmo tempo — navegador web, cliente de e-mail, servidor FTP. Como os dados chegam ao serviço certo?</p>
+          <p>É aí que entram as <strong>portas</strong>. Uma porta é um número de 0 a 65535 que identifica qual serviço/aplicação dentro do computador deve receber aquele pacote.</p>
+          <p>Endereços famosos: HTTP usa porta <strong>80</strong>, HTTPS usa <strong>443</strong>, SSH usa <strong>22</strong>, DNS usa <strong>53</strong>.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Apartamento</div>
+          <p>O endereço IP é o endereço do prédio ("Av. Paulista, 1000"). A porta é o número do apartamento ("Apto 42"). A carta (pacote) chega no prédio pelo IP, mas o porteiro (sistema operacional) olha para o número do apartamento (porta) para saber a qual morador entregar.</p>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ O que você precisa guardar</div>
+          <ul>
+            <li><strong>IP:</strong> identifica o computador (endereço do prédio)</li>
+            <li><strong>Porta:</strong> identifica o serviço (número do apartamento)</li>
+            <li>Um endereço completo na rede é: <code>IP:porta</code> — ex: <code>192.168.1.5:80</code></li>
+            <li>Portas de 0 a 1023 são "well-known" e reservadas para serviços padrão</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ─── Seção 5: Pacotes ───────────────────────────── -->
+      <div class="section" id="pacotes">
+        <div class="section-header">
+          <h2>Pacotes de Dados</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="fund-pacotes" data-fav-title="Pacotes de Dados" data-fav-page="Fundamentos">☆</button>
+            <label class="section-check" data-section="pacotes">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>Dados na rede não viajam em um único bloco — eles são divididos em pedaços menores chamados <strong>pacotes</strong>. Cada pacote carrega:</p>
+          <ul>
+            <li><strong>Cabeçalho (Header):</strong> metadados — endereço de origem, endereço de destino, número de sequência, protocolo, checksum (para verificação de erros).</li>
+            <li><strong>Payload (dados):</strong> o conteúdo em si — um pedaço do arquivo, parte da página web, etc.</li>
+          </ul>
+          <p>Os pacotes podem seguir caminhos diferentes pela rede e chegar fora de ordem. O protocolo TCP (que veremos no Módulo 4) garante que eles sejam remontados na ordem correta no destino.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Carta em pedaços</div>
+          <p>Imagine que você precisa enviar uma carta enorme para um amigo que mora do outro lado do país, mas só tem envelopes pequenos. Você divide a carta em 10 partes, numera cada parte (1/10, 2/10, 3/10...) e coloca em envelopes separados. Cada envelope pode ir por uma rota diferente, mas seu amigo consegue remontar a carta na ordem certa quando todos chegam.</p>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Exemplo Concreto</div>
+          <p>Quando você baixa um vídeo de 100 MB:</p>
+          <ul>
+            <li>O arquivo é dividido em milhares de pacotes de ~1500 bytes cada</li>
+            <li>Cada pacote tem o endereço IP de origem (servidor), destino (seu computador) e seu número de sequência</li>
+            <li>Os pacotes viajam pela rede, possivelmente por caminhos diferentes</li>
+            <li>Seu computador recebe os pacotes, verifica a integridade e remonta o arquivo na ordem</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ─── Seção 6: Latência, Banda, Jitter ──────────── -->
+      <div class="section" id="latencia-banda-jitter">
+        <div class="section-header">
+          <h2>Latência, Largura de Banda e Jitter</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="fund-lat" data-fav-title="Latência, Banda e Jitter" data-fav-page="Fundamentos">☆</button>
+            <label class="section-check" data-section="latencia-banda-jitter">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p><strong>Latência (RTT — Round-Trip Time):</strong> é o tempo que um pacote leva para ir do ponto A ao ponto B <em>e voltar</em>. Medida em milissegundos (ms). Quanto menor, melhor.</p>
+          <ul>
+            <li>&lt; 20ms: excelente (fibra local)</li>
+            <li>20–80ms: bom (DSL, cabo)</li>
+            <li>80–200ms: perceptível (pode afetar jogos online)</li>
+            <li>&gt; 200ms: ruim (VoIP com atraso notável)</li>
+          </ul>
+          <p><strong>Largura de Banda (Bandwidth):</strong> é a capacidade máxima de transferência de dados de um link, medida em Mbps ou Gbps. É o tamanho do "cano" — quanto maior, mais dados passam simultaneamente. <em>Não confunda com velocidade!</em></p>
+          <p><strong>Jitter:</strong> é a variação na latência entre pacotes consecutivos. Se o primeiro pacote demora 20ms, o segundo 25ms e o terceiro 15ms, o jitter é essa oscilação. Alto jitter é devastador para VoIP e video chamadas.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Estrada</div>
+          <p><strong>Latência</strong> é o tempo de viagem de São Paulo ao Rio de Janeiro (distância e velocidade da estrada). <strong>Largura de banda</strong> é o número de faixas da rodovia — mais faixas, mais carros (dados) ao mesmo tempo. <strong>Jitter</strong> é quando o trânsito para e anda, para e anda — os carros chegam em intervalos irregulares.</p>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Exemplo Concreto</div>
+          <p>Execute no terminal:</p>
+          <pre><code>ping -c 5 8.8.8.8</code></pre>
+          <p>A saída mostra o RTT de cada pacote (ex: <code>time=12.4 ms</code>). O <code>min/avg/max/mdev</code> no final mostra o mínimo, médio, máximo e o desvio padrão — esse último é uma medida de jitter.</p>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ Erros comuns de iniciantes</div>
+          <p><strong>"Minha internet é 100Mbps, por que o download está lento?"</strong> — Largura de banda alta não garante latência baixa. Se o servidor está sobrecarregado ou sua distância ao servidor é grande, o download pode ser lento mesmo com banda boa. São problemas diferentes.</p>
+          <p><strong>Confundir Mbps com MB/s:</strong> 100 Mbps (megabits por segundo) = 12,5 MB/s (megabytes por segundo). Provedores anunciam em bits, gerenciadores de download mostram em bytes. Divida por 8 para converter.</p>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ O que você precisa guardar</div>
+          <ul>
+            <li><strong>Latência:</strong> tempo de viagem do pacote (ms) — afeta experiência em tempo real</li>
+            <li><strong>Banda:</strong> capacidade do link (Mbps/Gbps) — afeta throughput (volume)</li>
+            <li><strong>Jitter:</strong> variação da latência — killer de VoIP e jogos online</li>
+            <li>Pode ter banda alta e latência alta ao mesmo tempo — são características independentes</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ─── Flashcards ────────────────────────────────── -->
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="fundamentos">
+        <div class="fc-header">
+          <h3>🃏 Flashcards — Fundamentos</h3>
+          <span class="fc-counter">1 / 8</span>
+        </div>
+        <div class="fc-viewport">
+          <div class="fc-card">
+            <div class="fc-front">
+              <div class="fc-hint">Clique para ver a resposta</div>
+              <div class="fc-question"></div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-hint">Resposta</div>
+              <div class="fc-answer"></div>
+            </div>
+          </div>
+        </div>
+        <div class="fc-controls">
+          <button class="fc-btn" data-fc-prev>← Anterior</button>
+          <button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button>
+          <button class="fc-btn" data-fc-next>Próximo →</button>
+        </div>
+      </div>
+
+      <!-- ─── Quiz ─────────────────────────────────────── -->
+      <div class="quiz-section" data-quiz-set="fundamentos">
+        <div class="quiz-header">
+          <h3>📝 Quiz — Fundamentos</h3>
+          <span class="quiz-score-badge"></span>
+        </div>
+        <div class="quiz-question">
+          <div class="quiz-q-num"></div>
+          <div class="quiz-q-text"></div>
+          <div class="quiz-options"></div>
+          <div class="quiz-feedback"></div>
+          <div class="quiz-nav"><span></span><button class="quiz-next-btn">Próxima →</button></div>
+        </div>
+        <div class="quiz-question">
+          <div class="quiz-q-num"></div>
+          <div class="quiz-q-text"></div>
+          <div class="quiz-options"></div>
+          <div class="quiz-feedback"></div>
+          <div class="quiz-nav"><span></span><button class="quiz-next-btn">Próxima →</button></div>
+        </div>
+        <div class="quiz-question">
+          <div class="quiz-q-num"></div>
+          <div class="quiz-q-text"></div>
+          <div class="quiz-options"></div>
+          <div class="quiz-feedback"></div>
+          <div class="quiz-nav"><span></span><button class="quiz-next-btn">Ver resultado</button></div>
+        </div>
+        <div class="quiz-result">
+          <div class="quiz-result-score"></div>
+          <div class="quiz-result-msg"></div>
+          <button class="quiz-retry">Tentar novamente</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

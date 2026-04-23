@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Troubleshooting — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle"></button></div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 08</div>
+        <h1 class="page-title">Troubleshooting de Redes</h1>
+        <p class="page-description">Como diagnosticar problemas de rede sistematicamente: a metodologia, os comandos e como interpretar cada resultado.</p>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header"><span class="mp-label">Progresso</span><span class="mp-pct" id="mpPct">0%</span></div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- Metodologia -->
+      <div class="section" id="metodologia">
+        <div class="section-header">
+          <h2>A Metodologia — Como Pensar</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ts-met" data-fav-title="Metodologia de Troubleshooting" data-fav-page="Troubleshooting">☆</button>
+            <label class="section-check" data-section="metodologia"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Diagnose de dentro para fora</div>
+          <p>Quando a rede "não funciona", a maioria das pessoas fica tentando coisas aleatórias. Profissionais seguem uma metodologia: eliminam possibilidades de forma sistemática, do ponto mais próximo ao mais distante.</p>
+          <p><strong>Ordem de diagnóstico (bottom-up pelo OSI):</strong></p>
+          <ol>
+            <li><strong>Físico:</strong> o cabo está conectado? O Wi-Fi está ativo? A interface está UP? Parece óbvio, mas 30% dos problemas são físicos.</li>
+            <li><strong>Enlace/Local:</strong> ping para o gateway (<code>192.168.1.1</code>). Se funciona, sua rede local está ok.</li>
+            <li><strong>Internet (IP):</strong> ping para um IP na internet (<code>8.8.8.8</code>). Se funciona, mas DNS não, o problema é de resolução de nomes.</li>
+            <li><strong>DNS:</strong> <code>nslookup google.com</code>. Se IP funciona mas nome não, é problema de DNS.</li>
+            <li><strong>Aplicação:</strong> ping funciona mas site não carrega? Pode ser porta bloqueada, firewall, ou problema no servidor.</li>
+          </ol>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ Regra de ouro do troubleshooting</div>
+          <p><strong>"O que mudou?"</strong> — A pergunta mais importante. A rede funcionava antes? O que foi alterado recentemente? Updates de sistema? Novo roteador? Mudança de ISP? 80% dos problemas novos têm uma causa recente identificável.</p>
+        </div>
+      </div>
+
+      <!-- ping -->
+      <div class="section" id="ping">
+        <div class="section-header">
+          <h2>ping — Testando Conectividade</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ts-ping" data-fav-title="Comando ping" data-fav-page="Troubleshooting">☆</button>
+            <label class="section-check" data-section="ping"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que é e como usar</div>
+          <p>O <code>ping</code> envia pacotes <strong>ICMP Echo Request</strong> para um destino e aguarda <strong>ICMP Echo Reply</strong>. Mede o RTT (Round-Trip Time) e detecta perda de pacotes.</p>
+          <pre><code># Linux / Mac
+ping -c 5 8.8.8.8
+
+# Windows
+ping -n 5 8.8.8.8</code></pre>
+          <p>Saída típica:</p>
+          <pre><code>PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: icmp_seq=0 ttl=117 time=12.4 ms
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=11.9 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=13.1 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.5 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=117 time=12.2 ms
+
+--- 8.8.8.8 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss
+round-trip min/avg/max/stddev = 11.9/12.4/13.1/0.4 ms</code></pre>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Como interpretar</div>
+          <ul>
+            <li><strong>time=12.4 ms:</strong> latência (RTT). Abaixo de 50ms é bom para internet doméstica.</li>
+            <li><strong>ttl=117:</strong> TTL (Time To Live). O valor original era 128 (Windows) ou 64 (Linux). 128-117=11 hops até o destino.</li>
+            <li><strong>0% packet loss:</strong> sem perda de pacotes. Qualquer perda acima de 1% em conexão estável indica problema.</li>
+            <li><strong>stddev=0.4 ms:</strong> desvio padrão da latência (jitter). Baixo = conexão estável.</li>
+          </ul>
+          <p><strong>Sequência de diagnóstico com ping:</strong></p>
+          <ol>
+            <li><code>ping 127.0.0.1</code> — testa o próprio stack de rede do SO. Se falhar, problema no SO.</li>
+            <li><code>ping 192.168.1.1</code> — testa conectividade com o gateway. Se falhar, problema na rede local.</li>
+            <li><code>ping 8.8.8.8</code> — testa conectividade internet. Se falhar, problema de roteamento/ISP.</li>
+            <li><code>ping google.com</code> — testa DNS. Se falhar aqui mas IP funcionar, problema de DNS.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- traceroute -->
+      <div class="section" id="traceroute">
+        <div class="section-header">
+          <h2>traceroute / tracert — Rastreando o Caminho</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ts-trace" data-fav-title="traceroute" data-fav-page="Troubleshooting">☆</button>
+            <label class="section-check" data-section="traceroute"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Como funciona</div>
+          <p>O traceroute revela cada <strong>roteador (hop)</strong> no caminho entre você e o destino, com a latência de cada salto. Funciona enviando pacotes com TTL crescente: primeiro TTL=1 (morre no primeiro roteador, que responde com ICMP Time Exceeded), depois TTL=2, etc.</p>
+          <pre><code># Linux / Mac
+traceroute google.com
+
+# Windows
+tracert google.com</code></pre>
+          <p>Saída típica:</p>
+          <pre><code>traceroute to google.com (142.250.78.14), 30 hops max
+ 1  192.168.1.1 (192.168.1.1)     1.2 ms   1.1 ms   1.0 ms   ← Gateway local
+ 2  10.10.0.1 (10.10.0.1)         8.4 ms   8.5 ms   8.3 ms   ← Roteador do ISP
+ 3  200.45.12.1                   12.3 ms  12.1 ms  12.4 ms  ← POP do ISP
+ 4  * * *                         timeout  timeout  timeout  ← Bloqueia ICMP
+ 5  108.170.236.1                  22.5 ms  22.3 ms  22.6 ms
+ 6  142.250.78.14                  24.8 ms  24.5 ms  24.9 ms  ← Google!</code></pre>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Como interpretar</div>
+          <ul>
+            <li><strong>Latência crescendo gradualmente:</strong> normal — cada hop adiciona tempo de processamento e distância física.</li>
+            <li><strong>Latência pulando muito em um hop específico:</strong> gargalo naquele roteador.</li>
+            <li><strong>"* * *":</strong> não significa que a rota parou — muitos roteadores bloqueiam ICMP. Se o destino final responde, a rota está ok.</li>
+            <li><strong>Rota para quando a latência aumenta abruptamente:</strong> indica congestionamento ou problema naquele segmento.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- nslookup -->
+      <div class="section" id="nslookup">
+        <div class="section-header">
+          <h2>nslookup — Depurando DNS</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ts-ns" data-fav-title="nslookup" data-fav-page="Troubleshooting">☆</button>
+            <label class="section-check" data-section="nslookup"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Consultas DNS manuais</div>
+          <pre><code># Consulta básica
+nslookup google.com
+
+# Especificar servidor DNS
+nslookup google.com 8.8.8.8
+
+# Consultar registro específico (MX, TXT, AAAA)
+nslookup -type=MX gmail.com
+nslookup -type=TXT github.com
+nslookup -type=AAAA google.com</code></pre>
+
+          <p>Saída típica:</p>
+          <pre><code>Server:  192.168.1.1    ← DNS sendo consultado
+Address: 192.168.1.1#53
+
+Non-authoritative answer:
+Name:   google.com
+Address: 142.250.78.14  ← IP resolvido</code></pre>
+          <p>"Non-authoritative answer" significa que a resposta veio de um cache (não diretamente do servidor autoritativo). É normal.</p>
+
+          <p><strong>Cenários de diagnóstico:</strong></p>
+          <ul>
+            <li><strong>"Can't resolve":</strong> o DNS não conseguiu resolver. Tente com 8.8.8.8 explicitamente — se funcionar, o problema é no seu servidor DNS padrão.</li>
+            <li><strong>IP errado:</strong> propagação DNS incompleta, ou cache corrompido. Limpe o cache com <code>ipconfig /flushdns</code> (Windows) ou <code>sudo systemd-resolve --flush-caches</code> (Linux).</li>
+            <li><strong>SERVFAIL:</strong> o servidor DNS tentou resolver mas falhou.</li>
+            <li><strong>NXDOMAIN:</strong> o domínio não existe.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- netstat -->
+      <div class="section" id="netstat">
+        <div class="section-header">
+          <h2>netstat — Conexões Ativas</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ts-net" data-fav-title="netstat" data-fav-page="Troubleshooting">☆</button>
+            <label class="section-check" data-section="netstat"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que mostra</div>
+          <p>O <code>netstat</code> (ou o moderno <code>ss</code> no Linux) mostra conexões TCP/UDP ativas, portas em escuta (LISTEN) e estatísticas de rede.</p>
+          <pre><code># Conexões ativas com processo
+netstat -tulnp      # Linux (com sudo para ver processos)
+netstat -ano        # Windows
+
+# Ver quem está escutando em uma porta específica
+ss -tlnp | grep :80  # Linux moderno</code></pre>
+          <p>Saída e estados TCP:</p>
+          <ul>
+            <li><strong>LISTEN:</strong> serviço aguardando conexões naquela porta</li>
+            <li><strong>ESTABLISHED:</strong> conexão ativa</li>
+            <li><strong>TIME_WAIT:</strong> conexão encerrada, aguardando timeout (normal)</li>
+            <li><strong>CLOSE_WAIT:</strong> conexão remota fechou, aguardando local fechar</li>
+            <li><strong>SYN_SENT:</strong> tentando estabelecer conexão</li>
+          </ul>
+          <p><strong>Use netstat para:</strong> verificar se um serviço está realmente escutando na porta esperada, ver conexões suspeitas (processo desconhecido com conexão externa), diagnosticar "port in use" ao subir um serviço.</p>
+        </div>
+      </div>
+
+      <!-- Fluxo diagnóstico -->
+      <div class="section" id="fluxo-diagnostico">
+        <div class="section-header">
+          <h2>Fluxograma de Diagnóstico</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ts-flow" data-fav-title="Fluxograma de Diagnóstico" data-fav-page="Troubleshooting">☆</button>
+            <label class="section-check" data-section="fluxo-diagnostico"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="flowchart">
+          <h4>Diagnóstico: "Não consigo acessar a internet"</h4>
+          <div class="fc-col">
+            <div class="fc-node">Início: Rede não funciona</div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-node">ping 127.0.0.1</div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-row">
+              <div class="fc-col"><div class="fc-node fc-fail">Falha → Stack TCP/IP corrompido<br>Reinstale drivers de rede</div><div class="fc-label">FALHA</div></div>
+              <div class="fc-label"> ← </div>
+              <div class="fc-node" style="background:var(--memorize-bg);border-color:var(--memorize-bdr);color:var(--memorize-txt)">OK?</div>
+              <div class="fc-label"> → </div>
+              <div class="fc-col"><div class="fc-node fc-ok">OK → Continua</div><div class="fc-label">OK</div></div>
+            </div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-node">ping 192.168.1.1 (gateway)</div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-row">
+              <div class="fc-col"><div class="fc-node fc-fail">Falha → Cabo/Wi-Fi<br>Verifique conexão física<br>Reinicie roteador</div><div class="fc-label">FALHA</div></div>
+              <div class="fc-label"> ← </div>
+              <div class="fc-node" style="background:var(--memorize-bg);border-color:var(--memorize-bdr);color:var(--memorize-txt)">OK?</div>
+              <div class="fc-label"> → </div>
+              <div class="fc-col"><div class="fc-node fc-ok">OK → Continua</div><div class="fc-label">OK</div></div>
+            </div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-node">ping 8.8.8.8 (IP externo)</div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-row">
+              <div class="fc-col"><div class="fc-node fc-fail">Falha → Problema no ISP<br>Verifique pagamento/status<br>Ligue para suporte</div><div class="fc-label">FALHA</div></div>
+              <div class="fc-label"> ← </div>
+              <div class="fc-node" style="background:var(--memorize-bg);border-color:var(--memorize-bdr);color:var(--memorize-txt)">OK?</div>
+              <div class="fc-label"> → </div>
+              <div class="fc-col"><div class="fc-node fc-ok">OK → Continua</div><div class="fc-label">OK</div></div>
+            </div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-node">nslookup google.com</div>
+            <div class="fc-arrow">↓</div>
+            <div class="fc-row">
+              <div class="fc-col"><div class="fc-node fc-fail">Falha → Problema de DNS<br>Mude para 8.8.8.8 ou 1.1.1.1<br>ipconfig /flushdns</div><div class="fc-label">FALHA</div></div>
+              <div class="fc-label"> ← </div>
+              <div class="fc-node" style="background:var(--memorize-bg);border-color:var(--memorize-bdr);color:var(--memorize-txt)">OK?</div>
+              <div class="fc-label"> → </div>
+              <div class="fc-col"><div class="fc-node fc-ok">DNS OK mas site falha →<br>Problema na aplicação<br>Verifique porta/firewall</div><div class="fc-label">OK</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="troubleshooting">
+        <div class="fc-header"><h3>🃏 Flashcards — Troubleshooting</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
+        <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
+      </div>
+
+      <div class="quiz-section" data-quiz-set="troubleshooting">
+        <div class="quiz-header"><h3>📝 Quiz — Troubleshooting</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-result"><div class="quiz-result-score"></div><div class="quiz-result-msg"></div><button class="quiz-retry">Tentar novamente</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

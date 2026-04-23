@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipamentos de Rede — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle"></button></div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 06</div>
+        <h1 class="page-title">Equipamentos de Rede</h1>
+        <p class="page-description">Roteadores, switches, firewalls e proxies — o que cada um faz, em qual camada atua e qual a diferença real entre eles.</p>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header"><span class="mp-label">Progresso</span><span class="mp-pct" id="mpPct">0%</span></div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- Roteador -->
+      <div class="section" id="roteador">
+        <div class="section-header">
+          <h2>Roteador</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="eq-router" data-fav-title="Roteador" data-fav-page="Equipamentos">☆</button>
+            <label class="section-check" data-section="roteador"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que é e onde fica</div>
+          <p>O <strong>roteador</strong> é o equipamento que <em>conecta redes diferentes</em> e decide o melhor caminho para os pacotes chegarem ao destino. Ele opera na <strong>Camada 3 (Rede)</strong> do modelo OSI, lendo endereços IP.</p>
+          <p>Em casa, o seu roteador Wi-Fi faz três coisas ao mesmo tempo: conecta sua rede interna (LAN) à internet, realiza NAT (traduz IPs privados para o IP público), e distribui endereços IP via DHCP.</p>
+          <p>Em empresas, roteadores mais sofisticados gerenciam tabelas de roteamento complexas, suportam múltiplos protocolos de roteamento (OSPF, BGP) e podem ter várias interfaces de rede.</p>
+          <p><strong>Tabela de roteamento:</strong> o roteador mantém uma tabela que diz "para chegar à rede X, mande para a interface Y". Essa tabela pode ser configurada manualmente (roteamento estático) ou aprendida automaticamente por protocolos de roteamento dinâmico.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — GPS / Sistema viário</div>
+          <p>O roteador é como o sistema de rodovias interestaduais: ele conecta <em>cidades diferentes</em> (redes diferentes) e sabe qual caminho tomar (qual rota) para que um carro (pacote) saia de São Paulo (rede A) e chegue ao Rio de Janeiro (rede B).</p>
+        </div>
+      </div>
+
+      <!-- Switch -->
+      <div class="section" id="switch">
+        <div class="section-header">
+          <h2>Switch</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="eq-switch" data-fav-title="Switch" data-fav-page="Equipamentos">☆</button>
+            <label class="section-check" data-section="switch"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que é e como funciona</div>
+          <p>O <strong>switch</strong> conecta dispositivos <em>dentro da mesma rede local</em>. Opera na <strong>Camada 2 (Enlace de Dados)</strong>, usando <strong>endereços MAC</strong> (não IPs) para decidir para qual porta enviar cada quadro Ethernet.</p>
+          <p>Quando o switch recebe um quadro, ele lê o MAC de destino e consulta sua <strong>tabela MAC</strong> (também chamada de tabela CAM). Se sabe para qual porta esse MAC está conectado, envia apenas naquela porta. Se não sabe, envia para todas as portas (flood).</p>
+          <p>Com o tempo, o switch aprende quais MACs estão em quais portas e para de fazer flood — assim o tráfego fica isolado, evitando colisões e aumentando a eficiência.</p>
+          <p><strong>Switch Layer 3:</strong> switches mais avançados também fazem roteamento IP (Camada 3), combinando funções de switch e roteador. Muito usado em redes corporativas.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Porteiro de prédio inteligente</div>
+          <p>O switch é como um porteiro que conhece o rosto (MAC) de todos os moradores. Quando chega uma entrega (pacote) para o João do apartamento 42, ele não manda para todos os andares — vai direto ao 42. Um hub antigo, por comparação, gritaria o nome de João para todos os andares ao mesmo tempo.</p>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ Erros comuns de iniciantes</div>
+          <p><strong>Confundir switch com roteador:</strong> switch = mesma rede, MAC, Camada 2. Roteador = redes diferentes, IP, Camada 3. Se você tem 50 computadores no escritório todos no mesmo segmento de rede, use um switch. Se quer conectar esse escritório à internet, precisa de um roteador.</p>
+        </div>
+      </div>
+
+      <!-- Firewall -->
+      <div class="section" id="firewall">
+        <div class="section-header">
+          <h2>Firewall</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="eq-fw" data-fav-title="Firewall" data-fav-page="Equipamentos">☆</button>
+            <label class="section-check" data-section="firewall"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que é um firewall</div>
+          <p>O <strong>firewall</strong> é um sistema (hardware ou software) que inspeciona o tráfego de rede e decide, com base em regras, o que <strong>bloquear</strong> ou <strong>permitir</strong>.</p>
+          <p>Um firewall inspeciona os pacotes considerando:</p>
+          <ul>
+            <li><strong>Endereço IP de origem e destino</strong></li>
+            <li><strong>Porta de origem e destino</strong></li>
+            <li><strong>Protocolo</strong> (TCP, UDP, ICMP)</li>
+            <li><strong>Estado da conexão</strong> (em firewalls stateful)</li>
+          </ul>
+          <p><strong>Tipos de firewall:</strong></p>
+          <ul>
+            <li><strong>Packet Filter (stateless):</strong> analisa cada pacote individualmente, sem considerar o contexto da conexão. Regras simples baseadas em IP/porta. Muito rápido, mas limitado.</li>
+            <li><strong>Stateful Inspection:</strong> rastreia o estado das conexões TCP. Sabe se um pacote pertence a uma conexão já estabelecida. Mais inteligente que o stateless.</li>
+            <li><strong>Next-Generation Firewall (NGFW):</strong> inspeciona o conteúdo dos pacotes (camada 7), identifica aplicações, bloqueia por categoria de URL, detecta malware.</li>
+          </ul>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ Onde o firewall fica</div>
+          <p>O firewall geralmente fica na <strong>borda da rede</strong> — entre a internet e a rede interna. Em ambientes corporativos, há firewalls em múltiplos pontos (edge firewall, firewall interno entre segmentos, firewall no host). Em casa, o seu roteador já tem um firewall básico embutido.</p>
+        </div>
+      </div>
+
+      <!-- Proxy -->
+      <div class="section" id="proxy">
+        <div class="section-header">
+          <h2>Proxy — Forward e Reverse</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="eq-proxy" data-fav-title="Proxy" data-fav-page="Equipamentos">☆</button>
+            <label class="section-check" data-section="proxy"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O que é um proxy</div>
+          <p>Um proxy é um servidor intermediário que fica entre duas partes da comunicação. Existem dois tipos principais:</p>
+          <p><strong>Forward Proxy (Proxy de Saída):</strong></p>
+          <ul>
+            <li>Fica entre os clientes (sua rede) e a internet</li>
+            <li>Os clientes configuram o proxy — todo tráfego passa por ele</li>
+            <li>Usos: filtragem de conteúdo (ex: bloquear redes sociais na empresa), cache de conteúdo (economiza banda), anonimização (o servidor externo vê o IP do proxy, não do cliente)</li>
+          </ul>
+          <p><strong>Reverse Proxy (Proxy Reverso):</strong></p>
+          <ul>
+            <li>Fica na frente dos servidores de aplicação</li>
+            <li>Os clientes externos não sabem que existe — pensam que estão falando diretamente com o servidor</li>
+            <li>Usos: balanceamento de carga (distribuir requisições entre múltiplos servidores), terminação SSL/TLS, cache, proteção dos servidores de origem</li>
+            <li>Exemplos: nginx, HAProxy, AWS ALB, Cloudflare</li>
+          </ul>
+        </div>
+
+        <div class="bloco-resumo">
+          <div class="bloco-header">📝 Resumo dos equipamentos</div>
+          <ul>
+            <li><strong>Roteador:</strong> Camada 3, conecta redes diferentes, usa IP, decide caminhos</li>
+            <li><strong>Switch:</strong> Camada 2, conecta dispositivos na mesma rede, usa MAC, muito rápido</li>
+            <li><strong>Firewall:</strong> inspeciona e filtra tráfego com base em regras de segurança</li>
+            <li><strong>Proxy:</strong> intermediário — forward (cliente → internet) ou reverso (internet → servidor)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="equipamentos">
+        <div class="fc-header"><h3>🃏 Flashcards — Equipamentos</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
+        <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
+      </div>
+
+      <div class="quiz-section" data-quiz-set="equipamentos">
+        <div class="quiz-header"><h3>📝 Quiz — Equipamentos</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-result"><div class="quiz-result-score"></div><div class="quiz-result-msg"></div><button class="quiz-retry">Tentar novamente</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

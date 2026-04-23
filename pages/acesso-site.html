@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O que Acontece ao Acessar um Site — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle"></button></div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 05</div>
+        <h1 class="page-title">O que Acontece ao Acessar um Site?</h1>
+        <p class="page-description">Este módulo une tudo que você aprendeu: a timeline completa de o que acontece nos bastidores quando você digita uma URL e aperta Enter.</p>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header"><span class="mp-label">Progresso</span><span class="mp-pct" id="mpPct">0%</span></div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- Visão geral -->
+      <div class="section" id="visao-geral">
+        <div class="section-header">
+          <h2>Visão Geral — Os 7 Passos</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ac-geral" data-fav-title="Visão Geral do Acesso" data-fav-page="Acesso a Site">☆</button>
+            <label class="section-check" data-section="visao-geral"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 O cenário</div>
+          <p>Você abre o Chrome, digita <code>https://github.com</code> e aperta Enter. Em menos de um segundo, a página carrega. O que aconteceu nesse tempo? Vamos destrinchar cada passo.</p>
+        </div>
+
+        <div class="timeline-access">
+          <div class="ta-step">
+            <div class="ta-num">1</div>
+            <div class="ta-content">
+              <div class="ta-title">Você digita a URL</div>
+              <div class="ta-desc">O navegador analisa a URL: protocolo (https), domínio (github.com), caminho (/). Antes de qualquer coisa, precisa descobrir o endereço IP de github.com.</div>
+              <span class="ta-detail">https://github.com/</span>
+            </div>
+          </div>
+          <div class="ta-step">
+            <div class="ta-num">2</div>
+            <div class="ta-content">
+              <div class="ta-title">Resolução DNS</div>
+              <div class="ta-desc">O navegador consulta o cache DNS local → SO → servidor DNS recursivo → servidores raiz → TLD → autoritativo. Resultado: github.com = 140.82.114.3</div>
+              <span class="ta-detail">github.com → 140.82.114.3</span>
+            </div>
+          </div>
+          <div class="ta-step">
+            <div class="ta-num">3</div>
+            <div class="ta-content">
+              <div class="ta-title">Conexão TCP (Three-Way Handshake)</div>
+              <div class="ta-desc">Com o IP em mãos, o navegador abre uma conexão TCP na porta 443. São trocados três pacotes: SYN → SYN-ACK → ACK. Conexão estabelecida.</div>
+              <span class="ta-detail">SYN → SYN-ACK → ACK</span>
+            </div>
+          </div>
+          <div class="ta-step">
+            <div class="ta-num">4</div>
+            <div class="ta-content">
+              <div class="ta-title">Handshake TLS</div>
+              <div class="ta-desc">Como é HTTPS, cliente e servidor negociam criptografia, trocam certificados e derivam chaves de sessão. A partir daqui, tudo é criptografado.</div>
+              <span class="ta-detail">Client Hello → Server Hello → Certificado → Chave de sessão</span>
+            </div>
+          </div>
+          <div class="ta-step">
+            <div class="ta-num">5</div>
+            <div class="ta-content">
+              <div class="ta-title">Requisição HTTP GET</div>
+              <div class="ta-desc">Dentro do túnel TLS, o navegador envia: GET / HTTP/1.1, Host: github.com, Accept: text/html, User-Agent: Chrome/xxx e outros headers.</div>
+              <span class="ta-detail">GET / HTTP/1.1 → Host: github.com</span>
+            </div>
+          </div>
+          <div class="ta-step">
+            <div class="ta-num">6</div>
+            <div class="ta-content">
+              <div class="ta-title">Resposta do Servidor</div>
+              <div class="ta-desc">O servidor responde: HTTP/1.1 200 OK, Content-Type: text/html, e o corpo com o HTML da página. Pode também redirecionar (301/302) ou dar erro (404, 500).</div>
+              <span class="ta-detail">HTTP/1.1 200 OK → HTML, CSS, JS</span>
+            </div>
+          </div>
+          <div class="ta-step">
+            <div class="ta-num">7</div>
+            <div class="ta-content">
+              <div class="ta-title">Renderização do Navegador</div>
+              <div class="ta-desc">O navegador analisa o HTML, baixa CSS e JavaScript referenciados (mais requisições HTTP!), executa o JS, monta o DOM e renderiza a página visualmente.</div>
+              <span class="ta-detail">HTML → DOM → CSSOM → Render Tree → Paint</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DNS Resolução detalhada -->
+      <div class="section" id="dns-resolucao">
+        <div class="section-header">
+          <h2>Resolução DNS — Passo a Passo</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ac-dns" data-fav-title="Resolução DNS" data-fav-page="Acesso a Site">☆</button>
+            <label class="section-check" data-section="dns-resolucao"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Como a resolução DNS funciona</div>
+          <p>A resolução DNS parece simples, mas tem vários servidores envolvidos. Entender isso ajuda a diagnosticar problemas de "site não carrega".</p>
+          <ul>
+            <li><strong>Cache do navegador:</strong> primeiro lugar consultado. Guarda respostas recentes.</li>
+            <li><strong>Cache do SO:</strong> <code>C:\Windows\System32\drivers\etc\hosts</code> e cache do sistema.</li>
+            <li><strong>Servidor DNS Recursivo:</strong> geralmente seu provedor ou DNS público (8.8.8.8 do Google, 1.1.1.1 da Cloudflare). Faz o trabalho duro consultando os outros.</li>
+            <li><strong>Servidores Raiz (Root):</strong> 13 endereços de servidores raiz no mundo (a.root-servers.net até m.root-servers.net). Sabem onde estão os servidores TLD.</li>
+            <li><strong>Servidor TLD:</strong> gerencia extensões como <code>.com</code>, <code>.org</code>, <code>.br</code>. Sabe quais são os servidores autoritativos de cada domínio.</li>
+            <li><strong>Servidor Autoritativo:</strong> tem a resposta final. É onde o dono do domínio cadastrou os registros DNS. Diz: "github.com = 140.82.114.3, TTL = 60 segundos".</li>
+          </ul>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ TTL — Time to Live</div>
+          <p>Cada resposta DNS tem um TTL (em segundos) que diz por quanto tempo ela pode ser cacheada. TTL baixo (60s) = mudanças propagam rápido. TTL alto (86400s = 24h) = menos consultas, mas mudanças demoram para propagar. <strong>Quando você troca o DNS de um domínio, espere o TTL anterior expirar.</strong></p>
+        </div>
+      </div>
+
+      <!-- TCP Handshake -->
+      <div class="section" id="tcp-handshake">
+        <div class="section-header">
+          <h2>Three-Way Handshake TCP</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ac-tcp" data-fav-title="Three-Way Handshake" data-fav-page="Acesso a Site">☆</button>
+            <label class="section-check" data-section="tcp-handshake"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="diagram-handshake">
+          <h4>Three-Way Handshake — Estabelecimento de Conexão TCP</h4>
+          <div class="hs-actors">
+            <span>🖥️ Seu Computador (Cliente)</span>
+            <span>🌐 Servidor (github.com)</span>
+          </div>
+          <div class="hs-steps">
+            <div class="hs-step">
+              <div class="hs-step-num">1</div>
+              <div class="hs-msg">
+                <div class="hs-label">SYN →</div>
+                <div class="hs-desc">"Olá! Quero conectar. Meu número de sequência inicial é 1000."</div>
+              </div>
+              <div class="hs-dir">→</div>
+            </div>
+            <div class="hs-step">
+              <div class="hs-step-num">2</div>
+              <div class="hs-msg">
+                <div class="hs-label">← SYN-ACK</div>
+                <div class="hs-desc">"Recebi seu SYN (1000). Aceito a conexão. Meu número inicial é 5000. Aguardo seu ACK."</div>
+              </div>
+              <div class="hs-dir">←</div>
+            </div>
+            <div class="hs-step">
+              <div class="hs-step-num">3</div>
+              <div class="hs-msg">
+                <div class="hs-label">ACK →</div>
+                <div class="hs-desc">"Recebi seu SYN-ACK (5000). Conexão estabelecida! Pode começar."</div>
+              </div>
+              <div class="hs-dir">→</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Por que três passos?</div>
+          <p>O handshake garante que <strong>ambos os lados</strong> estão prontos para comunicar e que a conexão é bidirecional. Com dois passos, o cliente saberia que o servidor recebeu o SYN, mas o servidor não teria confirmação de que o cliente recebeu o SYN-ACK. O terceiro passo (ACK) fecha esse ciclo.</p>
+          <p>Os números de sequência (SEQ) são usados para ordenar os segmentos TCP e detectar perda de pacotes. Cada byte de dados incrementa o número de sequência.</p>
+        </div>
+      </div>
+
+      <!-- TLS Handshake -->
+      <div class="section" id="tls-handshake">
+        <div class="section-header">
+          <h2>Handshake TLS</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ac-tls" data-fav-title="Handshake TLS" data-fav-page="Acesso a Site">☆</button>
+            <label class="section-check" data-section="tls-handshake"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>Depois do handshake TCP, se é HTTPS, acontece o handshake TLS. No TLS 1.3 (atual):</p>
+          <ol>
+            <li><strong>Client Hello:</strong> cliente envia versão TLS suportada, algoritmos de criptografia suportados (cipher suites) e um número aleatório.</li>
+            <li><strong>Server Hello:</strong> servidor escolhe o cipher suite, envia número aleatório, e o <strong>certificado digital</strong>.</li>
+            <li><strong>Verificação do certificado:</strong> o navegador verifica se o certificado foi emitido por uma CA confiável (embutida no SO/navegador), se o domínio bate e se não está expirado.</li>
+            <li><strong>Troca de chaves:</strong> usam criptografia de chave pública para estabelecer um segredo compartilhado (sem nunca enviá-lo pela rede).</li>
+            <li><strong>Derivação da chave de sessão:</strong> ambos derivam a mesma chave simétrica a partir do segredo.</li>
+            <li><strong>Finished:</strong> ambos confirmam que o handshake foi bem-sucedido. Comunicação criptografada começa.</li>
+          </ol>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ TLS 1.3 é mais rápido</div>
+          <p>O TLS 1.3 reduziu o handshake para apenas 1 round-trip (antes eram 2). Em conexões repetidas ao mesmo servidor, o TLS 1.3 com 0-RTT pode até eliminar completamente o handshake, enviando dados na primeira mensagem.</p>
+        </div>
+      </div>
+
+      <!-- HTTP Request -->
+      <div class="section" id="http-request">
+        <div class="section-header">
+          <h2>Requisição HTTP e Resposta</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ac-http" data-fav-title="Requisição HTTP" data-fav-page="Acesso a Site">☆</button>
+            <label class="section-check" data-section="http-request"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Estrutura de uma Requisição HTTP</div>
+          <pre><code>GET /index.html HTTP/1.1
+Host: github.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120
+Accept: text/html,application/xhtml+xml
+Accept-Language: pt-BR,pt;q=0.9
+Connection: keep-alive
+Cookie: _gh_sess=xxxxx</code></pre>
+          <p>E a resposta do servidor:</p>
+          <pre><code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+Content-Length: 15432
+Cache-Control: no-cache
+Set-Cookie: _octo=GH1.xxx; SameSite=Strict
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;...
+</code></pre>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Códigos de Status HTTP mais importantes</div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Código</th><th>Significado</th><th>Quando ocorre</th></tr></thead>
+              <tbody>
+                <tr><td>200</td><td>OK</td><td>Requisição bem-sucedida</td></tr>
+                <tr><td>201</td><td>Created</td><td>Recurso criado com sucesso (POST)</td></tr>
+                <tr><td>301/302</td><td>Moved Permanently/Temporarily</td><td>Redirecionamento</td></tr>
+                <tr><td>304</td><td>Not Modified</td><td>Use o cache — não mudou</td></tr>
+                <tr><td>400</td><td>Bad Request</td><td>Requisição malformada</td></tr>
+                <tr><td>401</td><td>Unauthorized</td><td>Precisa autenticar</td></tr>
+                <tr><td>403</td><td>Forbidden</td><td>Autenticado mas sem permissão</td></tr>
+                <tr><td>404</td><td>Not Found</td><td>Recurso não existe</td></tr>
+                <tr><td>500</td><td>Internal Server Error</td><td>Bug no servidor</td></tr>
+                <tr><td>503</td><td>Service Unavailable</td><td>Servidor sobrecarregado ou em manutenção</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Renderização -->
+      <div class="section" id="resposta-render">
+        <div class="section-header">
+          <h2>Renderização do Navegador</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ac-render" data-fav-title="Renderização" data-fav-page="Acesso a Site">☆</button>
+            <label class="section-check" data-section="resposta-render"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Do HTML à tela</div>
+          <ol>
+            <li><strong>HTML parsing:</strong> navegador lê o HTML e constrói o <strong>DOM</strong> (Document Object Model) — uma árvore de elementos.</li>
+            <li><strong>Requisições adicionais:</strong> ao encontrar <code>&lt;link rel="stylesheet"&gt;</code> e <code>&lt;script src="..."&gt;</code>, faz novas requisições HTTP para buscar CSS e JS.</li>
+            <li><strong>CSS parsing:</strong> constrói o <strong>CSSOM</strong> (CSS Object Model).</li>
+            <li><strong>Render Tree:</strong> combina DOM + CSSOM para construir a árvore de renderização — apenas os elementos visíveis.</li>
+            <li><strong>Layout (Reflow):</strong> calcula a posição e tamanho de cada elemento na tela.</li>
+            <li><strong>Paint:</strong> pinta os pixels na tela.</li>
+            <li><strong>Composite:</strong> combina as camadas em uma imagem final.</li>
+          </ol>
+          <p>Enquanto isso, o JavaScript pode modificar o DOM dinamicamente, causando novos ciclos de layout e paint (por isso JS pesado torna páginas lentas).</p>
+        </div>
+
+        <div class="bloco-resumo">
+          <div class="bloco-header">📝 Resumo do fluxo completo</div>
+          <p>Digitar URL → Verificar cache DNS → Consultar DNS → Obter IP → Three-way handshake TCP → Handshake TLS → Enviar HTTP GET → Receber HTML → Parsear HTML → Buscar CSS/JS → Construir DOM/CSSOM → Renderizar → Exibir página.</p>
+          <p>Tudo isso em &lt;500ms em condições normais. Cada etapa pode ser um ponto de falha quando algo dá errado.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="acesso-site">
+        <div class="fc-header"><h3>🃏 Flashcards — Acesso a Site</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
+        <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
+      </div>
+
+      <div class="quiz-section" data-quiz-set="acesso-site">
+        <div class="quiz-header"><h3>📝 Quiz — Acesso a Site</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-result"><div class="quiz-result-score"></div><div class="quiz-result-msg"></div><button class="quiz-retry">Tentar novamente</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

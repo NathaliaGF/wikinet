@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Endereçamento — RedesWiki</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle"></button></div>
+    </div>
+
+    <main class="article-wrapper">
+      <div class="page-header">
+        <div class="page-tag">Módulo 03</div>
+        <h1 class="page-title">Endereçamento</h1>
+        <p class="page-description">IPv4, IPv6, máscaras de sub-rede, CIDR, NAT e ARP — os mecanismos que identificam e localizam cada dispositivo na rede.</p>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header"><span class="mp-label">Progresso</span><span class="mp-pct" id="mpPct">0%</span></div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- IPv4 -->
+      <div class="section" id="ipv4">
+        <div class="section-header">
+          <h2>IPv4 — Formato e Classes</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-ipv4" data-fav-title="IPv4" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="ipv4"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>Um endereço IPv4 tem <strong>32 bits</strong>, divididos em 4 grupos de 8 bits (octetos), separados por pontos. Cada octeto vai de 0 a 255. Exemplo: <code>192.168.1.10</code>.</p>
+          <p>O endereço IPv4 tem duas partes: a <strong>parte de rede</strong> (identifica qual rede) e a <strong>parte de host</strong> (identifica qual dispositivo dentro dessa rede). A máscara de sub-rede determina onde termina uma e começa a outra.</p>
+          <p>As classes históricas de IPv4 (A, B, C) determinavam o tamanho padrão da rede, mas foram substituídas pelo CIDR (veremos a seguir):</p>
+          <ul>
+            <li><strong>Classe A:</strong> 10.x.x.x — grandes redes (8 bits de rede, 24 de host)</li>
+            <li><strong>Classe B:</strong> 172.16.x.x a 172.31.x.x — redes médias (16 bits de rede)</li>
+            <li><strong>Classe C:</strong> 192.168.x.x — redes pequenas (24 bits de rede, 8 de host)</li>
+          </ul>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ Faixas de IP privado (RFC 1918)</div>
+          <ul>
+            <li><code>10.0.0.0/8</code> — de 10.0.0.0 a 10.255.255.255 (16 milhões de hosts)</li>
+            <li><code>172.16.0.0/12</code> — de 172.16.0.0 a 172.31.255.255 (1 milhão de hosts)</li>
+            <li><code>192.168.0.0/16</code> — de 192.168.0.0 a 192.168.255.255 (65.536 hosts)</li>
+          </ul>
+          <p>Esses endereços <strong>nunca aparecem diretamente na internet</strong>. Eles são usados em redes internas (casa, empresa) e o NAT faz a tradução.</p>
+        </div>
+      </div>
+
+      <!-- Máscara de sub-rede -->
+      <div class="section" id="mascara-subrede">
+        <div class="section-header">
+          <h2>Máscara de Sub-rede</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-mask" data-fav-title="Máscara de sub-rede" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="mascara-subrede"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>A máscara de sub-rede diz ao dispositivo quais bits do endereço IP pertencem à <strong>rede</strong> e quais pertencem ao <strong>host</strong>. Os bits "1" marcam a parte de rede; os bits "0" marcam a parte de host.</p>
+          <p>Exemplo: máscara <code>255.255.255.0</code> em binário é:</p>
+          <pre><code>11111111.11111111.11111111.00000000</code></pre>
+          <p>Com IP <code>192.168.1.10</code> e essa máscara:</p>
+          <ul>
+            <li><strong>Rede:</strong> 192.168.1.0 (os três primeiros octetos)</li>
+            <li><strong>Host:</strong> 10 (o último octeto)</li>
+            <li><strong>Hosts disponíveis:</strong> .1 a .254 (256 - endereço de rede - broadcast = 254)</li>
+            <li><strong>Broadcast:</strong> 192.168.1.255</li>
+          </ul>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — CEP</div>
+          <p>O CEP funciona como a máscara. "01310-100" — os primeiros dígitos identificam o bairro/cidade (rede), os últimos identificam o logradouro (host). A máscara diz até onde vai o "bairro" e onde começa a identificação individual da casa.</p>
+        </div>
+      </div>
+
+      <!-- CIDR -->
+      <div class="section" id="cidr">
+        <div class="section-header">
+          <h2>CIDR — Notação em Barra</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-cidr" data-fav-title="CIDR" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="cidr"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p><strong>CIDR</strong> (Classless Inter-Domain Routing) é uma forma mais compacta de escrever rede + máscara. Em vez de escrever <code>192.168.1.0 / 255.255.255.0</code>, você escreve apenas <code>192.168.1.0/24</code>.</p>
+          <p>O número após a barra indica <strong>quantos bits são a parte de rede</strong>.</p>
+        </div>
+
+        <div class="bloco-exemplo">
+          <div class="bloco-header">🔍 Tabela CIDR Prática</div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Notação CIDR</th><th>Máscara</th><th>Hosts utilizáveis</th><th>Uso típico</th></tr></thead>
+              <tbody>
+                <tr><td><code>/8</code></td><td>255.0.0.0</td><td>~16 milhões</td><td>ISPs, grandes nuvens</td></tr>
+                <tr><td><code>/16</code></td><td>255.255.0.0</td><td>~65.000</td><td>Grandes empresas</td></tr>
+                <tr><td><code>/24</code></td><td>255.255.255.0</td><td>254</td><td>Redes domésticas e pequenas empresas</td></tr>
+                <tr><td><code>/25</code></td><td>255.255.255.128</td><td>126</td><td>Divisão de /24 em 2</td></tr>
+                <tr><td><code>/30</code></td><td>255.255.255.252</td><td>2</td><td>Links ponto-a-ponto entre roteadores</td></tr>
+                <tr><td><code>/32</code></td><td>255.255.255.255</td><td>1 (host único)</td><td>Rotas para um host específico</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ Regra rápida para /24</div>
+          <p><code>/24</code> = últimos 8 bits para hosts = 2⁸ = 256 endereços = 254 hosts utilizáveis (subtrai o endereço de rede e o broadcast).</p>
+        </div>
+      </div>
+
+      <!-- IPv6 -->
+      <div class="section" id="ipv6">
+        <div class="section-header">
+          <h2>IPv6 — Por que ele existe?</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-ipv6" data-fav-title="IPv6" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="ipv6"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>O IPv4 suporta ~4,3 bilhões de endereços. Com a explosão de dispositivos conectados (celulares, IoT, servidores cloud), esses endereços acabaram. A solução foi o IPv6, com 128 bits que permitem <strong>340 undecilhões</strong> de endereços — praticamente infinito.</p>
+          <p>Formato IPv6: <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code></p>
+          <p>Com abreviação (zeros à esquerda omitidos, sequências de zeros substituídas por <code>::</code>): <code>2001:db8:85a3::8a2e:370:7334</code></p>
+          <p><strong>Diferenças práticas importantes do IPv6:</strong></p>
+          <ul>
+            <li>Sem broadcast — usa multicast e anycast</li>
+            <li>Autoconfiguração sem DHCP (SLAAC)</li>
+            <li>IPSec é nativo (não opcional como no IPv4)</li>
+            <li>Sem necessidade de NAT — cada dispositivo pode ter IP público único</li>
+          </ul>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ Erros comuns de iniciantes</div>
+          <p><strong>"IPv6 substituiu o IPv4":</strong> ainda não totalmente. Hoje a internet roda os dois protocolos simultaneamente (dual-stack). A transição é gradual e vai levar muitos anos.</p>
+        </div>
+      </div>
+
+      <!-- Gateway -->
+      <div class="section" id="gateway">
+        <div class="section-header">
+          <h2>Gateway Padrão</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-gw" data-fav-title="Gateway Padrão" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="gateway"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>O <strong>gateway padrão</strong> (default gateway) é o endereço do roteador na sua rede local. Quando o seu computador quer mandar dados para fora da rede local (para um IP que não está na mesma sub-rede), ele envia o pacote para o gateway. O gateway conhece o caminho para o destino.</p>
+          <p>Em casa, o gateway é o seu roteador Wi-Fi. Tipicamente tem o endereço <code>192.168.1.1</code> ou <code>192.168.0.1</code>.</p>
+        </div>
+
+        <div class="bloco-analogia">
+          <div class="bloco-header">💡 Analogia — Portão do condomínio</div>
+          <p>Dentro do condomínio (rede local), os moradores (dispositivos) se comunicam diretamente entre si. Para sair do condomínio (acessar a internet), todos passam pelo portão (gateway). O porteiro (roteador) sabe as rotas para fora.</p>
+        </div>
+      </div>
+
+      <!-- NAT -->
+      <div class="section" id="nat">
+        <div class="section-header">
+          <h2>NAT — Network Address Translation</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-nat" data-fav-title="NAT" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="nat"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p><strong>Problema:</strong> os IPs privados (192.168.x.x, 10.x.x.x) não são roteáveis na internet pública. Se você tentar acessar google.com com IP 192.168.1.5, a resposta não vai saber como voltar para você.</p>
+          <p><strong>Solução:</strong> o roteador usa <strong>NAT</strong>. Ele substitui o IP privado de origem pelo seu IP público antes de enviar o pacote para a internet. Quando a resposta chega, ele faz o caminho inverso — substitui o IP público pelo IP privado do dispositivo correto e entrega internamente.</p>
+        </div>
+
+        <div class="diagram-nat">
+          <h4>Diagrama NAT — Rede interna → Roteador → Internet</h4>
+          <div class="nat-row">
+            <div class="nat-hosts-col">
+              <div class="nat-box">
+                <div class="nat-box-title">Notebook</div>
+                <div class="nat-box-ip">192.168.1.10</div>
+                <div class="nat-host">IP privado</div>
+              </div>
+              <div class="nat-box">
+                <div class="nat-box-title">Celular</div>
+                <div class="nat-box-ip">192.168.1.11</div>
+                <div class="nat-host">IP privado</div>
+              </div>
+              <div class="nat-box">
+                <div class="nat-box-title">Smart TV</div>
+                <div class="nat-box-ip">192.168.1.12</div>
+                <div class="nat-host">IP privado</div>
+              </div>
+            </div>
+            <div class="nat-arrow">→→→</div>
+            <div class="nat-box nat-router">
+              <div class="nat-box-title">Roteador / NAT</div>
+              <div class="nat-box-ip">Interno: 192.168.1.1<br>Externo: 201.45.67.89</div>
+              <div class="nat-host">Faz a tradução</div>
+            </div>
+            <div class="nat-arrow">→→→</div>
+            <div class="nat-box nat-internet">
+              <div class="nat-box-title">Internet</div>
+              <div class="nat-box-ip">Vê apenas: 201.45.67.89</div>
+              <div class="nat-host">IP público</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bloco-memorizar">
+          <div class="bloco-header">⚡ O que você precisa guardar</div>
+          <p>NAT = muitos IPs privados → um IP público. O roteador mantém uma <strong>tabela de tradução</strong> para saber para qual dispositivo interno entregar cada resposta. Sem NAT, sua rede local precisaria de um IP público para cada dispositivo.</p>
+        </div>
+      </div>
+
+      <!-- ARP -->
+      <div class="section" id="arp">
+        <div class="section-header">
+          <h2>ARP — Address Resolution Protocol</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="end-arp" data-fav-title="ARP" data-fav-page="Endereçamento">☆</button>
+            <label class="section-check" data-section="arp"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+
+        <div class="bloco-explicacao">
+          <div class="bloco-header">📖 Explicação</div>
+          <p>Para enviar dados na rede local (camada 2 Ethernet), os dispositivos precisam do <strong>endereço MAC</strong> do destinatário — não só do IP. O problema é: como descobrir o MAC a partir de um IP?</p>
+          <p>Resposta: <strong>ARP</strong>. O processo é:</p>
+          <ol>
+            <li>Seu computador precisa falar com <code>192.168.1.5</code></li>
+            <li>Envia um broadcast ARP: <em>"Quem tem o IP 192.168.1.5? Me diga seu endereço MAC!"</em></li>
+            <li>O dono do IP responde: <em>"Sou eu! Meu MAC é AA:BB:CC:DD:EE:FF"</em></li>
+            <li>Seu computador salva isso no <strong>cache ARP</strong> (válido por alguns minutos)</li>
+            <li>Na próxima vez, consulta o cache antes de perguntar novamente</li>
+          </ol>
+          <p>Veja seu cache ARP com o comando: <code>arp -a</code></p>
+        </div>
+
+        <div class="bloco-erros">
+          <div class="bloco-header">⚠️ ARP Spoofing — Vulnerabilidade conhecida</div>
+          <p>O ARP não tem autenticação. Um atacante pode enviar respostas ARP falsas, se passando por outro dispositivo (como o gateway). Isso é um ataque MITM clássico em redes locais. Switches modernos com "Dynamic ARP Inspection" mitigam isso.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="flashcard-section" data-flashcard-set="enderecamento">
+        <div class="fc-header"><h3>🃏 Flashcards — Endereçamento</h3><span class="fc-counter">1 / 7</span></div>
+        <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
+        <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
+      </div>
+
+      <div class="quiz-section" data-quiz-set="enderecamento">
+        <div class="quiz-header"><h3>📝 Quiz — Endereçamento</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
+        <div class="quiz-result"><div class="quiz-result-score"></div><div class="quiz-result-msg"></div><button class="quiz-retry">Tentar novamente</button></div>
+      </div>
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script src="../data/content.js"></script>
+<script src="../js/progress.js"></script>
+<script src="../js/interactive.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
