@@ -203,16 +203,17 @@
   transition: all var(--transition);
 }
 .gp-module-dot.done { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
-.gp-reset {
+.gp-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; }
+.gp-reset, .gp-export {
   background: none; border: 1px solid var(--border);
   border-radius: var(--radius-xs);
   padding: 0.35rem 0.8rem;
   color: var(--text-muted); font-size: 0.8rem;
   font-family: var(--font-body);
   cursor: pointer; transition: all var(--transition);
-  margin-top: 0.75rem;
 }
 .gp-reset:hover { border-color: var(--error-bdr); color: var(--error-txt); }
+.gp-export:hover { border-color: var(--accent); color: var(--accent); }
 
 /* References section */
 .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.25rem 0; }

@@ -22,6 +22,20 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "RedesWiki — Fundamentos de Redes de Computadores",
+    "description": "Wiki interativa com 9 módulos sobre redes de computadores: fundamentos, modelos OSI/TCP-IP, endereçamento, protocolos, equipamentos, segurança e troubleshooting.",
+    "provider": { "@type": "Organization", "name": "RedesWiki", "url": "https://nathaliagf.github.io/wikinet/index.html" },
+    "hasCourseInstance": { "@type": "CourseInstance", "courseMode": "online" },
+    "teaches": ["Redes de computadores", "Protocolos de rede", "Endereçamento IP", "Troubleshooting", "Cibersegurança básica"],
+    "inLanguage": "pt-BR",
+    "isAccessibleForFree": true,
+    "url": "https://nathaliagf.github.io/wikinet/index.html"
+  }
+  </script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Ir para o conteúdo</a>
@@ -244,7 +258,10 @@
             <div class="gp-pct" id="gpPct">0%</div>
             <div class="gp-label">do conteúdo estudado</div>
           </div>
-          <button class="gp-reset" id="resetProgress">Resetar progresso</button>
+          <div class="gp-actions">
+            <button class="gp-export" id="exportProgress">⬇ Exportar</button>
+            <button class="gp-reset" id="resetProgress">Resetar progresso</button>
+          </div>
         </div>
         <div class="gp-bar"><div class="gp-fill" id="gpFill"></div></div>
         <div class="gp-modules" id="gpModules"></div>

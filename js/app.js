@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initOnlineStatus();
   initTOC();
   initBottomArticleNav();
+  initSectionAnchors();
+  prefetchNextModule();
   loadPomodoro();
 });
 
@@ -188,6 +190,59 @@ function initBottomArticleNav() {
 
   nav.innerHTML = prevSlot + nextSlot;
   main.appendChild(nav);
+}
+
+/* ── Section anchor links ────────────────────────────── */
+function initSectionAnchors() {
+  document.querySelectorAll('.article-wrapper .section[id] h2').forEach(h => {
+    const section = h.closest('.section[id]');
+    if (!section || h.querySelector('.rw-anchor-link')) return;
+
+    const a = document.createElement('a');
+    a.className = 'rw-anchor-link';
+    a.href = `#${section.id}`;
+    a.setAttribute('aria-label', 'Link permanente para esta seção');
+    a.title = 'Copiar link desta seção';
+    a.textContent = '#';
+
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const url = new URL(window.location.href);
+      url.hash = `#${section.id}`;
+      history.pushState(null, '', url.toString());
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url.toString()).then(() => showCopyLinkToast()).catch(() => {});
+      }
+    });
+
+    h.appendChild(a);
+  });
+}
+
+function showCopyLinkToast() {
+  const t = document.createElement('div');
+  t.className = 'rw-toast';
+  t.innerHTML = '<span class="rw-toast-icon">🔗</span> <span>Link copiado!</span>';
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('rw-toast--show'));
+  setTimeout(() => {
+    t.classList.remove('rw-toast--show');
+    t.addEventListener('transitionend', () => t.remove(), { once: true });
+  }, 2000);
+}
+
+/* ── Prefetch next module ────────────────────────────── */
+function prefetchNextModule() {
+  const pageId = getCurrentPageId();
+  if (typeof MODULES === 'undefined') return;
+  const idx = MODULES.findIndex(m => m.id === pageId);
+  if (idx === -1 || idx + 1 >= MODULES.length) return;
+  const next = MODULES[idx + 1];
+  const base = window.location.pathname.includes('/pages/') ? '../' : './';
+  const link = document.createElement('link');
+  link.rel = 'prefetch';
+  link.href = `${base}${next.url}`;
+  document.head.appendChild(link);
 }
 
 /* ── Load Pomodoro dynamically ───────────────────────── */

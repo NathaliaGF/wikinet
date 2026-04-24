@@ -1604,6 +1604,7 @@ body.is-offline .offline-badge { display: flex; }
 .rw-pom-btn:hover { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
 .rw-pom-btn.rw-pom-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .rw-pom-btn.rw-pom-primary:hover { background: var(--accent-hover); }
+.rw-pom-notif-btn { display: block; width: 100%; margin-top: 0.5rem; font-size: 0.75rem; }
 .rw-pom-fab {
   width: 3rem; height: 3rem; border-radius: 50%;
   background: var(--bg-tertiary); border: 1px solid var(--border);
@@ -1800,4 +1801,21 @@ h2:focus-within .rw-anchor-link { opacity: 1; }
 
   /* code */
   code, pre { background: #f0f0f0 !important; color: #111 !important; }
+
+  /* personal notes: show when there's content */
+  .rw-notes-wrap:has(.has-notes) { display: block !important; page-break-inside: avoid; }
+  .rw-notes-toggle { display: none !important; }
+  .rw-notes-body { display: block !important; max-height: none !important; overflow: visible !important; }
+  .rw-notes-textarea {
+    display: block !important;
+    resize: none !important;
+    border: 1px solid #ccc !important;
+    background: #f9f9f9 !important;
+    color: #111 !important;
+    font-size: 9pt;
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.4rem !important;
+  }
+  .rw-notes-hint { display: none !important; }
 }

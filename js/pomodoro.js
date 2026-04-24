@@ -161,10 +161,6 @@
   function build() {
     restore();
 
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-
     const wrap = document.createElement('div');
     wrap.className = 'rw-pomodoro';
     wrap.innerHTML = `
@@ -199,6 +195,18 @@
     elFab.addEventListener('click', togglePanel);
     elStart.addEventListener('click', handleStartPause);
     elReset.addEventListener('click', handleReset);
+
+    if ('Notification' in window && Notification.permission === 'default') {
+      const notifBtn = document.createElement('button');
+      notifBtn.className = 'rw-pom-btn rw-pom-notif-btn';
+      notifBtn.type = 'button';
+      notifBtn.title = 'Receber alertas ao fim de cada sessão Pomodoro';
+      notifBtn.textContent = '🔔 Ativar alertas';
+      notifBtn.addEventListener('click', () => {
+        Notification.requestPermission().then(() => notifBtn.remove());
+      });
+      elPanel.querySelector('p').insertAdjacentElement('afterend', notifBtn);
+    }
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && panelOpen) {

@@ -541,6 +541,8 @@ const Progress = (() => {
       if (cardFill) cardFill.style.width = `${completion.pct}%`;
       if (cardPct) cardPct.textContent = `${completion.pct}%`;
     });
+
+    updateModuleBadges();
   }
 
   function updateSidebarProgress() {
@@ -630,6 +632,34 @@ const Progress = (() => {
         renderFavorites();
         notifyChange({ type: 'favorites' });
       });
+    });
+  }
+
+  function initExport() {
+    const btn = document.getElementById('exportProgress');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const allKeys = Object.values(StorageHub.KEYS);
+      const data = {};
+      allKeys.forEach(key => {
+        if (!key) return;
+        try { data[key] = JSON.parse(localStorage.getItem(key)); }
+        catch { data[key] = localStorage.getItem(key); }
+      });
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        version: 1,
+        data
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `redeswiki-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
   }
 
@@ -760,6 +790,98 @@ const Progress = (() => {
       toast.classList.remove('rw-toast--show');
       toast.addEventListener('transitionend', () => toast.remove(), { once: true });
     }, 2000);
+  }
+
+  /* ── Section personal notes ──────────────────────────── */
+  function loadNotes() { return StorageHub.loadJson(StorageHub.KEYS.notes, {}); }
+  function saveNotes(data) { StorageHub.saveJson(StorageHub.KEYS.notes, data); }
+
+  function initSectionNotes() {
+    const pageId = getCurrentPageId();
+    document.querySelectorAll('.section[id]').forEach(section => {
+      const sectionId = section.id;
+      const key = `${pageId}:${sectionId}`;
+      const notes = loadNotes();
+      const saved = notes[key] || '';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'rw-notes-wrap';
+
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'rw-notes-toggle' + (saved ? ' has-notes' : '');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.innerHTML = `<span class="rw-notes-toggle-icon">📝</span> ${saved ? 'Ver nota' : 'Adicionar nota'}`;
+
+      const body = document.createElement('div');
+      body.className = 'rw-notes-body';
+
+      const textarea = document.createElement('textarea');
+      textarea.className = 'rw-notes-textarea';
+      textarea.placeholder = 'Suas anotações sobre esta seção…';
+      textarea.value = saved;
+      textarea.setAttribute('aria-label', 'Nota pessoal da seção');
+      textarea.rows = 3;
+
+      const hint = document.createElement('p');
+      hint.className = 'rw-notes-hint';
+      hint.textContent = 'Salvo automaticamente no seu navegador.';
+
+      body.appendChild(textarea);
+      body.appendChild(hint);
+      wrap.appendChild(toggle);
+      wrap.appendChild(body);
+
+      toggle.addEventListener('click', () => {
+        const open = body.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+        if (open) textarea.focus();
+      });
+
+      let saveTimer;
+      textarea.addEventListener('input', () => {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          const latest = loadNotes();
+          const val = textarea.value.trim();
+          if (val) { latest[key] = val; } else { delete latest[key]; }
+          saveNotes(latest);
+          const hasContent = !!val;
+          toggle.classList.toggle('has-notes', hasContent);
+          toggle.innerHTML = `<span class="rw-notes-toggle-icon">📝</span> ${hasContent ? 'Ver nota' : 'Adicionar nota'}`;
+        }, 600);
+      });
+
+      /* attach after section-state-group if it exists, else end of section */
+      const stateGroup = section.querySelector('.section-state-group');
+      if (stateGroup) { stateGroup.after(wrap); }
+      else { section.appendChild(wrap); }
+    });
+  }
+
+  /* ── Module completion badges ─────────────────────────── */
+  function updateModuleBadges() {
+    if (typeof MODULES === 'undefined') return;
+    MODULES.forEach(module => {
+      const fill = document.getElementById(`mc-fill-${module.id}`);
+      const card = fill?.closest('.module-card');
+      if (!card) return;
+
+      const completion = getModuleCompletion(module.id);
+      const quiz = getQuizPerformance(module.id);
+      const earned = completion.pct === 100 && quiz.attempts > 0 && quiz.lastPct >= 70;
+
+      let badge = card.querySelector('.mc-badge');
+      if (earned && !badge) {
+        badge = document.createElement('span');
+        badge.className = 'mc-badge';
+        badge.title = 'Concluído: 100% das seções + quiz ≥ 70%';
+        badge.textContent = '✓ Concluído';
+        card.appendChild(badge);
+      } else if (!earned && badge) {
+        badge.remove();
+      }
+    });
   }
 
   function recordEvent(type, payload = {}) {
@@ -942,13 +1064,16 @@ const Progress = (() => {
     initFavButtons();
     renderFavorites();
     initReset();
+    initExport();
     initShareButtons();
+    initSectionNotes();
   }
 
   return {
     init,
     updateGlobalProgress,
     updateSidebarProgress,
+    updateModuleBadges,
     getCurrentPageId,
     getModuleCompletion,
     getModuleMastery,
