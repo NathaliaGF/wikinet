@@ -1203,8 +1203,23 @@
 .lab-page-desc { color: var(--text-muted); font-size: 0.9rem; }
 
 /* ── Tabs ─────────────────────────────────────────────── */
-.lab-tabs { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.25rem; margin-bottom: 1.5rem; scrollbar-width: none; }
+.lab-tabs-shell {
+  position: relative; display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.lab-tabs {
+  display: flex; gap: 0.4rem; overflow-x: auto; overflow-y: hidden;
+  padding-bottom: 0.25rem; scroll-behavior: smooth; scrollbar-width: none;
+  flex: 1; min-width: 0;
+}
 .lab-tabs::-webkit-scrollbar { display: none; }
+.lab-tabs-nav {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-secondary);
+  cursor: pointer; transition: all var(--transition);
+}
+.lab-tabs-nav:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.lab-tabs-nav[hidden] { display: none; }
 .lab-tab {
   flex-shrink: 0;
   background: var(--bg-secondary); border: 1px solid var(--border);
@@ -1214,6 +1229,10 @@
 }
 .lab-tab:hover { border-color: var(--accent); color: var(--accent); }
 .lab-tab.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+@media (max-width: 700px) {
+  .lab-tabs-shell { gap: 0.35rem; }
+  .lab-tabs-nav { width: 30px; height: 30px; }
+}
 
 /* ── Panels ───────────────────────────────────────────── */
 .lab-panels { position: relative; }
@@ -1438,40 +1457,234 @@
 /* ════════════════════════════════════════════════════════
    7. TOPOLOGY BUILDER
 ════════════════════════════════════════════════════════ */
+.topo-workspace {
+  display: flex; flex-direction: column; gap: 1rem;
+}
 .topo-toolbar {
-  display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; padding: 0.5rem;
-  background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-xs);
+  display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem;
+  background: #1a1d27; border: 1px solid var(--border); border-radius: var(--radius);
+}
+.topo-tools-group,
+.topo-actions-group {
+  display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center;
+}
+.topo-tools-group { flex: 1 1 420px; }
+.topo-actions-group { flex: 2 1 460px; justify-content: flex-end; }
+.topo-tool,
+.topo-action-btn,
+.topo-template {
+  background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-xs);
+  color: var(--text-secondary); font-family: var(--font-body); transition: all var(--transition);
+}
+.topo-tool,
+.topo-action-btn {
+  padding: 0.45rem 0.7rem; font-size: 0.75rem; cursor: pointer;
 }
 .topo-tool {
+  display: inline-flex; align-items: center; gap: 0.35rem; min-width: 92px; justify-content: center;
+}
+.topo-tool span { font-size: 0.72rem; }
+.topo-tool:hover,
+.topo-action-btn:hover,
+.topo-template:hover { border-color: var(--accent); color: var(--accent); }
+.topo-tool.active,
+.topo-action-btn.active {
+  background: var(--accent-dim); border-color: var(--accent); color: var(--accent);
+}
+.topo-template {
+  padding: 0.44rem 0.65rem; font-size: 0.75rem; min-width: 180px;
+}
+.topo-main {
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1rem;
+}
+.topo-stage {
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.topo-stage-topbar {
+  display: flex; justify-content: space-between; gap: 0.75rem; align-items: center;
+  background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.75rem 0.9rem;
+}
+.topo-stage-copy { font-size: 0.8rem; color: var(--text-muted); }
+.topo-port-select {
+  display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--text-muted);
+}
+.topo-port-select select {
   background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-xs);
-  padding: 0.35rem 0.6rem; font-size: 0.75rem; cursor: pointer; color: var(--text-secondary);
-  font-family: var(--font-body); display: flex; flex-direction: column; align-items: center;
-  gap: 0.15rem; min-width: 54px; transition: all var(--transition);
+  color: var(--text-primary); padding: 0.35rem 0.45rem;
 }
-.topo-tool:hover { border-color: var(--accent); color: var(--accent); }
-.topo-tool.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
-.topo-tool span { font-size: 0.6rem; }
-.topo-divider { width: 1px; background: var(--border); margin: 0 0.2rem; }
+.topo-canvas-scroll {
+  max-height: 600px; overflow: auto; background: #0f1117; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.75rem;
+}
 .topo-canvas-wrap {
-  position: relative; background: var(--bg-secondary); border: 1px solid var(--border);
-  border-radius: var(--radius); height: 340px; overflow: hidden; user-select: none;
+  position: relative; width: 1200px; height: 700px; overflow: hidden; user-select: none;
+  border-radius: calc(var(--radius) - 2px);
+  background:
+    linear-gradient(rgba(79, 142, 247, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 142, 247, 0.08) 1px, transparent 1px),
+    #10141d;
+  background-size: 80px 80px, 80px 80px, auto;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
 }
-.topo-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.topo-nodes { position: absolute; inset: 0; }
+.topo-grid-highlight,
+.topo-drop-feedback {
+  position: absolute; width: 80px; height: 80px; border-radius: 14px; pointer-events: none;
+}
+.topo-grid-highlight {
+  border: 1px dashed rgba(79, 142, 247, 0.55); background: rgba(79, 142, 247, 0.08);
+  opacity: 0; transition: opacity 0.15s ease;
+}
+.topo-grid-highlight.visible { opacity: 1; }
+.topo-drop-feedback {
+  border: 2px solid rgba(239,68,68,0.8); background: rgba(239,68,68,0.12); opacity: 0;
+}
+.topo-drop-feedback.active {
+  opacity: 1; animation: topoShake 0.5s ease;
+}
+.topo-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.topo-svg defs { pointer-events: none; }
+.topo-edge-group { pointer-events: auto; }
+.topo-edge {
+  fill: none; stroke: #475063; stroke-width: 3; transition: stroke 0.25s ease, filter 0.25s ease;
+}
+.topo-edge--warn { stroke: #f59e0b; stroke-dasharray: 6 5; }
+.topo-edge--active {
+  stroke: var(--accent); filter: drop-shadow(0 0 4px rgba(79, 142, 247, 0.65));
+}
+.topo-edge-label {
+  font-size: 12px; fill: var(--text-primary); cursor: text; user-select: none;
+}
+.topo-edge-label-bg { fill: rgba(15,17,23,0.88); stroke: rgba(255,255,255,0.08); rx: 10; ry: 10; }
+.topo-nodes,
+.topo-traffic-layer,
+.topo-overlay-layer { position: absolute; inset: 0; }
 .topo-node {
-  position: absolute; display: flex; flex-direction: column; align-items: center;
-  gap: 0.15rem; cursor: move; width: 56px;
+  position: absolute; width: 80px; height: 80px; padding: 0.35rem; border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08); background: rgba(26,29,39,0.95);
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0.2rem;
+  cursor: grab; transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  touch-action: none;
 }
-.topo-node-icon { font-size: 1.6rem; line-height: 1; }
+.topo-node:hover { border-color: rgba(79, 142, 247, 0.6); }
+.topo-node:active { cursor: grabbing; }
+.topo-node--selected {
+  border-color: var(--accent); box-shadow: 0 0 0 1px rgba(79, 142, 247, 0.3), 0 12px 24px rgba(0,0,0,0.25);
+}
+.topo-node--connect {
+  border-color: #f59e0b; box-shadow: 0 0 0 1px rgba(245,158,11,0.3), 0 0 20px rgba(245,158,11,0.16);
+}
+.topo-node--pulse { animation: topoPulse 0.9s ease; }
+.topo-node--invalid { animation: topoShake 0.5s ease; border-color: rgba(239,68,68,0.9); }
+.topo-node-icon { font-size: 1.8rem; line-height: 1; }
 .topo-node-label {
-  font-size: 0.6rem; color: var(--text-muted); text-align: center;
-  width: 100%; min-height: 12px; outline: none; cursor: text;
+  max-width: 68px; font-size: 0.68rem; color: var(--text-primary); text-align: center;
+  line-height: 1.15; word-break: break-word;
 }
-.topo-node--selected .topo-node-icon { filter: drop-shadow(0 0 6px var(--accent)); }
-.topo-node--connect .topo-node-icon { filter: drop-shadow(0 0 6px #f59e0b); }
+.topo-node-ip {
+  max-width: 68px; font-size: 0.58rem; color: var(--text-muted); text-align: center; line-height: 1.2;
+}
+.topo-packet,
+.topo-status-badge {
+  position: absolute; pointer-events: none; transform: translate(-50%, -50%);
+}
+.topo-packet {
+  width: 18px; height: 18px; border-radius: 999px; background: linear-gradient(135deg, #4f8ef7, #9bc1ff);
+  box-shadow: 0 0 14px rgba(79,142,247,0.6);
+}
+.topo-packet--danger { background: linear-gradient(135deg, #ef4444, #fca5a5); box-shadow: 0 0 14px rgba(239,68,68,0.48); }
+.topo-status-badge {
+  font-size: 1rem; width: 24px; height: 24px; display: grid; place-items: center;
+}
+.topo-callout {
+  position: absolute; min-width: 210px; max-width: 280px; padding: 0.65rem 0.75rem;
+  background: rgba(26,29,39,0.98); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 14px; color: var(--text-secondary); font-size: 0.76rem; line-height: 1.45;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.28); z-index: 5;
+}
+.topo-callout strong { color: var(--text-primary); }
+.topo-callout--danger { border-left-color: #ef4444; }
+.topo-callout--warn { border-left-color: #f59e0b; }
 .topo-hint {
-  position: absolute; bottom: 0.5rem; left: 50%; transform: translateX(-50%);
-  font-size: 0.7rem; color: var(--text-muted); pointer-events: none; white-space: nowrap;
+  position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%);
+  background: rgba(15,17,23,0.92); border: 1px solid var(--border); border-radius: 999px;
+  padding: 0.45rem 0.75rem; font-size: 0.72rem; color: var(--text-muted); white-space: nowrap;
+}
+.topo-sidepanel {
+  background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; min-height: 420px; transform: translateX(14px); opacity: 0.88; transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.topo-sidepanel.open { transform: translateX(0); opacity: 1; }
+.topo-sidepanel-head {
+  padding: 0.9rem 1rem; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.topo-sidepanel-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
+.topo-sidepanel-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.9rem; }
+.topo-inspector-empty { color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; }
+.topo-inspector-field { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.76rem; color: var(--text-muted); }
+.topo-inspector-input,
+.topo-inspector-textarea {
+  background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-xs);
+  color: var(--text-primary); padding: 0.5rem 0.6rem; font-size: 0.8rem;
+}
+.topo-inspector-textarea { min-height: 88px; resize: vertical; }
+.topo-conn-list { display: flex; flex-direction: column; gap: 0.45rem; }
+.topo-conn-chip {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px;
+  padding: 0.45rem 0.55rem; font-size: 0.76rem; color: var(--text-secondary);
+}
+.topo-sidepanel-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.topo-info-link {
+  display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none;
+  background: var(--accent-dim); border: 1px solid rgba(79,142,247,0.35); color: var(--accent);
+  padding: 0.5rem 0.7rem; border-radius: var(--radius-xs); font-size: 0.76rem;
+}
+.topo-sim-panel {
+  background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.9rem 1rem; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 1rem;
+}
+.topo-sim-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.35rem; }
+.topo-sim-subtitle { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+.topo-sim-log,
+.topo-sim-steps {
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+.topo-sim-step {
+  border: 1px solid var(--border); border-radius: 14px; padding: 0.65rem 0.75rem; background: rgba(255,255,255,0.02);
+}
+.topo-sim-step strong { color: var(--text-primary); display: block; margin-bottom: 0.2rem; }
+.topo-sim-step span { color: var(--text-secondary); font-size: 0.78rem; line-height: 1.5; }
+.topo-toast {
+  position: fixed; left: 50%; bottom: 1.5rem; transform: translate(-50%, 18px);
+  background: rgba(26,29,39,0.96); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  color: var(--text-secondary); padding: 0.7rem 0.9rem; border-radius: 14px; z-index: 1400;
+  opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 16px 34px rgba(0,0,0,0.28);
+}
+.topo-toast.show { opacity: 1; transform: translate(-50%, 0); }
+.topo-toast--warn { border-left-color: #f59e0b; }
+.topo-toast--danger { border-left-color: #ef4444; }
+@keyframes topoShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@keyframes topoPulse {
+  0% { box-shadow: 0 0 0 0 rgba(79,142,247,0.45); }
+  100% { box-shadow: 0 0 0 18px rgba(79,142,247,0); }
+}
+@media (max-width: 1100px) {
+  .topo-main { grid-template-columns: 1fr; }
+  .topo-sidepanel { min-height: 0; }
+}
+@media (max-width: 760px) {
+  .topo-stage-topbar,
+  .topo-sim-panel { grid-template-columns: 1fr; display: grid; }
+  .topo-actions-group { justify-content: flex-start; }
+  .topo-template { min-width: 0; width: 100%; }
 }
 
 /* ════════════════════════════════════════════════════════

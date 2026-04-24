@@ -46,14 +46,18 @@
       </div>
 
       <!-- Tab strip -->
-      <div class="lab-tabs" role="tablist" aria-label="Ferramentas do laboratório">
-        <button class="lab-tab" data-tab="labPacket"  role="tab">📦 Jornada do Pacote</button>
-        <button class="lab-tab" data-tab="labDNS"     role="tab">🌐 DNS Recursivo</button>
-        <button class="lab-tab" data-tab="labMITM"    role="tab">😈 Ataque MITM</button>
-        <button class="lab-tab" data-tab="labOSI"     role="tab">🏛️ Encapsulamento OSI</button>
-        <button class="lab-tab" data-tab="labHTTP"    role="tab">🔧 Requisição HTTP</button>
-        <button class="lab-tab" data-tab="labTCP"     role="tab">📋 Cabeçalho TCP/IP</button>
-        <button class="lab-tab" data-tab="labTopo"    role="tab">🗺️ Topologia de Rede</button>
+      <div class="lab-tabs-shell">
+        <button class="lab-tabs-nav lab-tabs-nav--left" id="labTabsPrev" type="button" aria-label="Ver abas anteriores" hidden>&lt;</button>
+        <div class="lab-tabs" id="labTabs" role="tablist" aria-label="Ferramentas do laboratório">
+          <button class="lab-tab" data-tab="labPacket"  role="tab">📦 Jornada do Pacote</button>
+          <button class="lab-tab" data-tab="labDNS"     role="tab">🌐 DNS Recursivo</button>
+          <button class="lab-tab" data-tab="labMITM"    role="tab">😈 Ataque MITM</button>
+          <button class="lab-tab" data-tab="labOSI"     role="tab">🏛️ Encapsulamento OSI</button>
+          <button class="lab-tab" data-tab="labHTTP"    role="tab">🔧 Requisição HTTP</button>
+          <button class="lab-tab" data-tab="labTCP"     role="tab">📋 Cabeçalho TCP/IP</button>
+          <button class="lab-tab" data-tab="labTopo"    role="tab">🗺️ Topologia de Rede</button>
+        </div>
+        <button class="lab-tabs-nav lab-tabs-nav--right" id="labTabsNext" type="button" aria-label="Ver próximas abas" hidden>&gt;</button>
       </div>
 
       <!-- Panels -->
