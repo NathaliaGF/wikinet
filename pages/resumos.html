@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cheat Sheets — RedesWiki</title>
+  <meta name="description" content="Referências rápidas de redes: portas conhecidas, comandos CLI de diagnóstico, modelo OSI, cabeçalhos TCP/IP e fórmulas de sub-rede.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/resumos.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cheat Sheets de Redes — RedesWiki">
+  <meta property="og:description" content="Referências rápidas: portas, comandos CLI, OSI, TCP/IP, sub-redes. Otimizado para impressão.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="print-btn" onclick="window.print()" title="Imprimir / Salvar como PDF" style="background:none;border:1px solid var(--border);border-radius:var(--radius-xs);padding:0.3rem 0.7rem;color:var(--text-muted);cursor:pointer;font-size:0.8rem;">🖨️ Imprimir</button>
+        <button class="theme-toggle" aria-label="Alternar tema"></button>
+      </div>
+    </div>
+
+    <main class="article-wrapper resumos-wrapper" id="main-content">
+      <div class="page-header">
+        <div class="page-tag">Referência</div>
+        <h1 class="page-title">📋 Cheat Sheets</h1>
+        <p class="page-description">Referências rápidas para consulta e impressão. Clique em 🖨️ Imprimir para exportar como PDF.</p>
+      </div>
+
+      <!-- ── Seção 1: Portas ── -->
+      <section class="cs-section" id="cs-portas">
+        <h2 class="cs-title">Portas de Rede Conhecidas</h2>
+        <table class="cs-table">
+          <thead><tr><th>Porta</th><th>Proto</th><th>Serviço</th><th>Descrição</th></tr></thead>
+          <tbody>
+            <tr><td>20</td><td>TCP</td><td>FTP Data</td><td>Transferência de dados FTP (modo ativo)</td></tr>
+            <tr><td>21</td><td>TCP</td><td>FTP Control</td><td>Comandos e autenticação FTP</td></tr>
+            <tr><td>22</td><td>TCP</td><td>SSH</td><td>Acesso remoto seguro (criptografado)</td></tr>
+            <tr><td>23</td><td>TCP</td><td>Telnet</td><td>Acesso remoto sem criptografia — evitar</td></tr>
+            <tr><td>25</td><td>TCP</td><td>SMTP</td><td>Envio de e-mail entre servidores</td></tr>
+            <tr><td>53</td><td>UDP/TCP</td><td>DNS</td><td>Resolução de nomes de domínio</td></tr>
+            <tr><td>67</td><td>UDP</td><td>DHCP Server</td><td>Servidor DHCP recebe requisições</td></tr>
+            <tr><td>68</td><td>UDP</td><td>DHCP Client</td><td>Cliente DHCP recebe configuração</td></tr>
+            <tr><td>80</td><td>TCP</td><td>HTTP</td><td>Web sem criptografia</td></tr>
+            <tr><td>110</td><td>TCP</td><td>POP3</td><td>Leitura de e-mail (baixa e remove)</td></tr>
+            <tr><td>143</td><td>TCP</td><td>IMAP</td><td>Leitura de e-mail sincronizada</td></tr>
+            <tr><td>443</td><td>TCP</td><td>HTTPS</td><td>Web com TLS — padrão moderno</td></tr>
+            <tr><td>465</td><td>TCP</td><td>SMTPS</td><td>SMTP sobre SSL/TLS</td></tr>
+            <tr><td>587</td><td>TCP</td><td>SMTP Submission</td><td>Envio por clientes de e-mail</td></tr>
+            <tr><td>993</td><td>TCP</td><td>IMAPS</td><td>IMAP sobre TLS</td></tr>
+            <tr><td>995</td><td>TCP</td><td>POP3S</td><td>POP3 sobre TLS</td></tr>
+            <tr><td>3306</td><td>TCP</td><td>MySQL</td><td>Banco de dados MySQL/MariaDB</td></tr>
+            <tr><td>3389</td><td>TCP</td><td>RDP</td><td>Desktop remoto Windows</td></tr>
+            <tr><td>5060</td><td>UDP/TCP</td><td>SIP</td><td>Sinalização VoIP</td></tr>
+            <tr><td>8080</td><td>TCP</td><td>HTTP Alt</td><td>HTTP alternativo (proxies, dev)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 2: Comandos CLI ── -->
+      <section class="cs-section" id="cs-cli">
+        <h2 class="cs-title">Comandos CLI de Diagnóstico</h2>
+        <table class="cs-table">
+          <thead><tr><th>Comando</th><th>O que faz</th><th>Exemplo</th></tr></thead>
+          <tbody>
+            <tr><td><code>ping</code></td><td>Testa alcançabilidade ICMP e mede RTT</td><td><code>ping 8.8.8.8</code></td></tr>
+            <tr><td><code>traceroute</code> / <code>tracert</code></td><td>Mostra cada salto até o destino</td><td><code>traceroute google.com</code></td></tr>
+            <tr><td><code>nslookup</code></td><td>Consulta DNS interativamente</td><td><code>nslookup google.com 8.8.8.8</code></td></tr>
+            <tr><td><code>dig</code></td><td>Consulta DNS com detalhes completos</td><td><code>dig @8.8.8.8 google.com A</code></td></tr>
+            <tr><td><code>ipconfig</code> / <code>ip a</code></td><td>Mostra interfaces de rede e IPs</td><td><code>ip addr show eth0</code></td></tr>
+            <tr><td><code>netstat</code></td><td>Conexões ativas e portas em escuta</td><td><code>netstat -tuln</code></td></tr>
+            <tr><td><code>ss</code></td><td>Substituto moderno do netstat</td><td><code>ss -tulnp</code></td></tr>
+            <tr><td><code>curl</code></td><td>Faz requisições HTTP/S na linha de comando</td><td><code>curl -I https://google.com</code></td></tr>
+            <tr><td><code>wget</code></td><td>Baixa arquivos via HTTP/FTP</td><td><code>wget https://exemplo.com/file.zip</code></td></tr>
+            <tr><td><code>tcpdump</code></td><td>Captura pacotes de rede (requer root)</td><td><code>tcpdump -i eth0 port 80</code></td></tr>
+            <tr><td><code>nmap</code></td><td>Escaneamento de portas e hosts</td><td><code>nmap -sV 192.168.1.0/24</code></td></tr>
+            <tr><td><code>arp</code></td><td>Exibe/modifica tabela ARP local</td><td><code>arp -n</code></td></tr>
+            <tr><td><code>route</code> / <code>ip route</code></td><td>Tabela de roteamento local</td><td><code>ip route show</code></td></tr>
+            <tr><td><code>nc</code> (netcat)</td><td>TCP/UDP raw — teste de conectividade</td><td><code>nc -vz host 443</code></td></tr>
+            <tr><td><code>openssl s_client</code></td><td>Inspeciona certificado TLS</td><td><code>openssl s_client -connect host:443</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 3: Modelo OSI ── -->
+      <section class="cs-section" id="cs-osi">
+        <h2 class="cs-title">Modelo OSI vs TCP/IP</h2>
+        <table class="cs-table">
+          <thead><tr><th>#</th><th>OSI</th><th>TCP/IP</th><th>Função</th><th>PDU</th><th>Exemplos</th></tr></thead>
+          <tbody>
+            <tr><td>7</td><td>Aplicação</td>   <td rowspan="3" style="vertical-align:middle;text-align:center">Aplicação</td><td>Interface com o usuário/software</td><td>Dados</td><td>HTTP, FTP, DNS, SMTP</td></tr>
+            <tr><td>6</td><td>Apresentação</td><td>Formato, compressão, criptografia</td><td>Dados</td><td>SSL/TLS, MIME, ASCII</td></tr>
+            <tr><td>5</td><td>Sessão</td>      <td>Controle de diálogos, tokens</td><td>Dados</td><td>NetBIOS, RPC</td></tr>
+            <tr><td>4</td><td>Transporte</td>  <td>Transporte</td><td>Entrega fim-a-fim, controle de fluxo</td><td>Segmento</td><td>TCP, UDP, SCTP</td></tr>
+            <tr><td>3</td><td>Rede</td>        <td>Internet</td><td>Endereçamento lógico, roteamento</td><td>Pacote</td><td>IP, ICMP, OSPF, BGP</td></tr>
+            <tr><td>2</td><td>Enlace</td>      <td rowspan="2" style="vertical-align:middle;text-align:center">Acesso à Rede</td><td>Endereçamento físico, acesso ao meio</td><td>Quadro</td><td>Ethernet, Wi-Fi, PPP</td></tr>
+            <tr><td>1</td><td>Física</td>      <td>Bits no meio físico</td><td>Bit</td><td>RJ-45, fibra, rádio</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 4: TCP Handshake ── -->
+      <section class="cs-section" id="cs-tcp">
+        <h2 class="cs-title">TCP — Handshakes e Flags</h2>
+        <div class="cs-two-col">
+          <div>
+            <h3 class="cs-subtitle">Three-Way Handshake (abertura)</h3>
+            <table class="cs-table">
+              <thead><tr><th>Passo</th><th>De → Para</th><th>Flag</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Cliente → Servidor</td><td><code>SYN</code></td></tr>
+                <tr><td>2</td><td>Servidor → Cliente</td><td><code>SYN-ACK</code></td></tr>
+                <tr><td>3</td><td>Cliente → Servidor</td><td><code>ACK</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h3 class="cs-subtitle">Four-Way Teardown (encerramento)</h3>
+            <table class="cs-table">
+              <thead><tr><th>Passo</th><th>De → Para</th><th>Flag</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Iniciador → Par</td><td><code>FIN</code></td></tr>
+                <tr><td>2</td><td>Par → Iniciador</td><td><code>ACK</code></td></tr>
+                <tr><td>3</td><td>Par → Iniciador</td><td><code>FIN</code></td></tr>
+                <tr><td>4</td><td>Iniciador → Par</td><td><code>ACK</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <h3 class="cs-subtitle" style="margin-top:1rem">Flags TCP</h3>
+        <table class="cs-table">
+          <thead><tr><th>Flag</th><th>Significado</th></tr></thead>
+          <tbody>
+            <tr><td><code>SYN</code></td><td>Synchronize — inicia conexão, sincroniza números de sequência</td></tr>
+            <tr><td><code>ACK</code></td><td>Acknowledgment — confirma recebimento de dados</td></tr>
+            <tr><td><code>FIN</code></td><td>Finish — encerra conexão (graceful shutdown)</td></tr>
+            <tr><td><code>RST</code></td><td>Reset — aborta conexão imediatamente</td></tr>
+            <tr><td><code>PSH</code></td><td>Push — pede ao receptor para entregar os dados à aplicação imediatamente</td></tr>
+            <tr><td><code>URG</code></td><td>Urgent — dados urgentes (Urgent Pointer válido)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 5: Sub-redes ── -->
+      <section class="cs-section" id="cs-subnets">
+        <h2 class="cs-title">Sub-redes IPv4 — Tabela CIDR</h2>
+        <table class="cs-table">
+          <thead><tr><th>CIDR</th><th>Máscara</th><th>Hosts Úteis</th><th>Uso Típico</th></tr></thead>
+          <tbody>
+            <tr><td>/8</td> <td>255.0.0.0</td>      <td>16.777.214</td><td>ISPs, grandes provedores</td></tr>
+            <tr><td>/16</td><td>255.255.0.0</td>    <td>65.534</td>    <td>Grandes corporações</td></tr>
+            <tr><td>/24</td><td>255.255.255.0</td>  <td>254</td>       <td>Redes locais domésticas/pequenas empresas</td></tr>
+            <tr><td>/25</td><td>255.255.255.128</td><td>126</td>       <td>Duas sub-redes de /24</td></tr>
+            <tr><td>/26</td><td>255.255.255.192</td><td>62</td>        <td>Quatro sub-redes de /24</td></tr>
+            <tr><td>/27</td><td>255.255.255.224</td><td>30</td>        <td>Segmentos pequenos</td></tr>
+            <tr><td>/28</td><td>255.255.255.240</td><td>14</td>        <td>Segmentos muito pequenos</td></tr>
+            <tr><td>/29</td><td>255.255.255.248</td><td>6</td>         <td>Links ponto-a-ponto</td></tr>
+            <tr><td>/30</td><td>255.255.255.252</td><td>2</td>         <td>Links ponto-a-ponto (padrão)</td></tr>
+            <tr><td>/31</td><td>255.255.255.254</td><td>2 (sem BRD)</td><td>Links ponto-a-ponto (RFC 3021)</td></tr>
+            <tr><td>/32</td><td>255.255.255.255</td><td>1 (host)</td>  <td>Rota host, loopback</td></tr>
+          </tbody>
+        </table>
+        <div class="cs-formula-box">
+          <strong>Fórmulas:</strong>
+          Hosts úteis = 2<sup>n</sup> − 2 &nbsp;|&nbsp;
+          Endereço de rede = IP AND Máscara &nbsp;|&nbsp;
+          Broadcast = Rede OR NOT(Máscara) &nbsp;|&nbsp;
+          n = bits do host = 32 − prefixo
+        </div>
+      </section>
+
+      <!-- ── Seção 6: IPs Reservados ── -->
+      <section class="cs-section" id="cs-reserved">
+        <h2 class="cs-title">Faixas de IP Reservadas (RFC 1918 + especiais)</h2>
+        <table class="cs-table">
+          <thead><tr><th>Faixa</th><th>CIDR</th><th>Uso</th></tr></thead>
+          <tbody>
+            <tr><td>10.0.0.0 – 10.255.255.255</td>    <td>/8</td> <td>Privado (classe A)</td></tr>
+            <tr><td>172.16.0.0 – 172.31.255.255</td>  <td>/12</td><td>Privado (classe B)</td></tr>
+            <tr><td>192.168.0.0 – 192.168.255.255</td><td>/16</td><td>Privado (classe C) — mais comum em casas</td></tr>
+            <tr><td>127.0.0.0 – 127.255.255.255</td>  <td>/8</td> <td>Loopback local</td></tr>
+            <tr><td>169.254.0.0 – 169.254.255.255</td><td>/16</td><td>Link-local (APIPA — sem DHCP)</td></tr>
+            <tr><td>224.0.0.0 – 239.255.255.255</td>  <td>/4</td> <td>Multicast</td></tr>
+            <tr><td>240.0.0.0 – 255.255.255.254</td>  <td>/4</td> <td>Reservado (uso futuro)</td></tr>
+            <tr><td>255.255.255.255</td>               <td>/32</td><td>Broadcast limitado</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/heatmap.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2>JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação e progresso.</p>
+  </div>
+</noscript>
+</body>
+</html>

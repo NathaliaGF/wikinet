@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratório Interativo — RedesWiki</title>
+  <meta name="description" content="Simuladores interativos: jornada de pacote, DNS recursivo, ataque MITM, encapsulamento OSI, montador de requisição HTTP, cabeçalho TCP/IP e topologia de rede.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/interativo.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Laboratório Interativo — RedesWiki">
+  <meta property="og:description" content="Simuladores visuais de redes: DNS, MITM, OSI, HTTP, TCP/IP e topologia drag-and-drop.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" aria-label="Alternar tema"></button>
+      </div>
+    </div>
+
+    <main class="lab-main" id="main-content">
+      <div class="lab-page-header">
+        <h1 class="lab-page-title">🔬 Laboratório Interativo</h1>
+        <p class="lab-page-desc">Simuladores visuais para fixar conceitos sem precisar de terminal ou equipamento real.</p>
+      </div>
+
+      <!-- Tab strip -->
+      <div class="lab-tabs" role="tablist" aria-label="Ferramentas do laboratório">
+        <button class="lab-tab" data-tab="labPacket"  role="tab">📦 Jornada do Pacote</button>
+        <button class="lab-tab" data-tab="labDNS"     role="tab">🌐 DNS Recursivo</button>
+        <button class="lab-tab" data-tab="labMITM"    role="tab">😈 Ataque MITM</button>
+        <button class="lab-tab" data-tab="labOSI"     role="tab">🏛️ Encapsulamento OSI</button>
+        <button class="lab-tab" data-tab="labHTTP"    role="tab">🔧 Requisição HTTP</button>
+        <button class="lab-tab" data-tab="labTCP"     role="tab">📋 Cabeçalho TCP/IP</button>
+        <button class="lab-tab" data-tab="labTopo"    role="tab">🗺️ Topologia de Rede</button>
+      </div>
+
+      <!-- Panels -->
+      <div class="lab-panels">
+
+        <!-- 1. Packet Journey -->
+        <section class="lab-panel" id="labPacket" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Jornada de um Pacote</h2>
+            <p>Acompanhe um pacote saindo do seu PC até o servidor, vendo o que muda em cada salto: TTL, NAT, roteamento e mais.</p>
+          </div>
+          <!-- JS monta aqui -->
+        </section>
+
+        <!-- 2. DNS Recursive -->
+        <section class="lab-panel" id="labDNS" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Simulador de DNS Recursivo</h2>
+            <p>Digite um domínio e veja passo a passo como o DNS resolve o nome: resolver local → root → TLD → autoritativo → resposta.</p>
+          </div>
+        </section>
+
+        <!-- 3. MITM -->
+        <section class="lab-panel" id="labMITM" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Simulador de Ataque MITM</h2>
+            <p>Veja como um atacante intercepta tráfego HTTP e por que o TLS torna isso inútil.</p>
+          </div>
+        </section>
+
+        <!-- 4. OSI Encapsulation -->
+        <section class="lab-panel" id="labOSI" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Encapsulamento OSI — Camada a Camada</h2>
+            <p>Clique em "Encapsular" para ver cada camada adicionando seu cabeçalho ao pacote. Clique em qualquer bloco para ver os campos.</p>
+          </div>
+        </section>
+
+        <!-- 5. HTTP Builder -->
+        <section class="lab-panel" id="labHTTP" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Montador de Requisição HTTP</h2>
+            <p>Monte uma requisição HTTP escolhendo método, URL, headers e body. Veja o texto bruto em tempo real.</p>
+          </div>
+        </section>
+
+        <!-- 6. TCP Header -->
+        <section class="lab-panel" id="labTCP" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Construtor de Cabeçalho TCP/IP</h2>
+            <p>Preencha os campos do cabeçalho IP e TCP e veja o diagrama visual do pacote atualizar em tempo real.</p>
+          </div>
+        </section>
+
+        <!-- 7. Topology -->
+        <section class="lab-panel" id="labTopo" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Montador de Topologia de Rede</h2>
+            <p>Arraste dispositivos para o canvas e conecte-os. Use "Conectar" para desenhar enlaces. Dê duplo clique nos labels para renomear.</p>
+          </div>
+        </section>
+
+      </div><!-- /lab-panels -->
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/heatmap.js"></script>
+<script defer src="../js/interativo.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2>JavaScript necessário</h2>
+    <p>O Laboratório Interativo usa JavaScript para todas as simulações.</p>
+  </div>
+</noscript>
+</body>
+</html>

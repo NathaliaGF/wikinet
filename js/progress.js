@@ -900,6 +900,7 @@ const Progress = (() => {
     const analytics = loadAnalytics();
     analytics.pageViews[pageId] = (analytics.pageViews[pageId] || 0) + 1;
     saveAnalytics(analytics);
+    if (typeof Heatmap !== 'undefined') Heatmap.trackToday();
   }
 
   function recordSearch(term, results = []) {

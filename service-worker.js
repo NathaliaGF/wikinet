@@ -1,7 +1,7 @@
 /* ── RedesWiki Service Worker — Offline First ────────── */
 'use strict';
 
-const CACHE_NAME = 'redeswiki-v3';
+const CACHE_NAME = 'redeswiki-v4';
 
 const ASSETS = [
   './',
@@ -30,6 +30,10 @@ const ASSETS = [
   './pages/simulado.html',
   './pages/exercicios.html',
   './pages/revisao.html',
+  './pages/interativo.html',
+  './pages/resumos.html',
+  './js/interativo.js',
+  './js/heatmap.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './404.html',

@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   Navigation.init();
   if (typeof Glossary    !== 'undefined') Glossary.init();
   if (typeof SubnetCalc  !== 'undefined') SubnetCalc.init();
+  if (typeof Lab         !== 'undefined') Lab.init();
+  if (typeof Heatmap     !== 'undefined') { Heatmap.render('hmContainer'); Heatmap.maybeShowWeeklyReport(); }
   initPWA();
   registerSW();
   initOnlineStatus();
@@ -350,6 +352,16 @@ function buildSidebar() {
           <li class="nav-item">
             <a href="${getRelativePath('pages/exercicios.html')}" class="${currentPage === 'exercicios' ? 'active' : ''}" ${currentPage === 'exercicios' ? 'aria-current="page"' : ''}>
               <span class="nav-icon">💻</span> Exercícios Práticos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="${getRelativePath('pages/interativo.html')}" class="${currentPage === 'interativo' ? 'active' : ''}" ${currentPage === 'interativo' ? 'aria-current="page"' : ''}>
+              <span class="nav-icon">🔬</span> Laboratório
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="${getRelativePath('pages/resumos.html')}" class="${currentPage === 'resumos' ? 'active' : ''}" ${currentPage === 'resumos' ? 'aria-current="page"' : ''}>
+              <span class="nav-icon">📋</span> Cheat Sheets
             </a>
           </li>
         </ul>

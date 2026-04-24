@@ -312,6 +312,16 @@ const TOOL_PAGES = {
     title: 'Exercícios Práticos',
     description: 'Cenários guiados para treinar troubleshooting e interpretação de sinais.',
     relatedModules: ['fundamentos', 'enderecamento', 'protocolos', 'troubleshooting', 'portas']
+  },
+  interativo: {
+    title: 'Laboratório Interativo',
+    description: 'Simuladores visuais de redes para praticar DNS, HTTP, MITM, encapsulamento, cabeçalhos e topologias.',
+    relatedModules: ['modelos', 'enderecamento', 'protocolos', 'acesso-site', 'equipamentos', 'seguranca']
+  },
+  resumos: {
+    title: 'Cheat Sheets',
+    description: 'Folhas de referência rápida com portas, comandos, camadas, sub-redes e estruturas de protocolo.',
+    relatedModules: ['fundamentos', 'modelos', 'enderecamento', 'protocolos', 'troubleshooting', 'portas']
   }
 };
 
