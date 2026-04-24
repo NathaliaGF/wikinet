@@ -826,6 +826,8 @@ const Lab = (() => {
   function initTopology() {
     const container = document.getElementById('labTopo');
     if (!container) return;
+    initTopologyV3(container);
+    return;
 
     const STORAGE_KEY = 'rw-topology-v2';
     const GRID = 80;
@@ -2262,6 +2264,1606 @@ const Lab = (() => {
 
     if (localStorage.getItem(STORAGE_KEY)) loadTopology();
     else loadTemplate('home', true);
+  }
+
+  function initTopologyV3(container) {
+    const STORAGE_KEY = 'rw-topology-v3';
+    const GRID = 90;
+    const CANVAS_WIDTH = 1400;
+    const CANVAS_HEIGHT = 800;
+    const GRID_COLS = Math.floor(CANVAS_WIDTH / GRID);
+    const GRID_ROWS = Math.floor(CANVAS_HEIGHT / GRID);
+    const HISTORY_LIMIT = 20;
+    const ZOOM_MIN = 0.5;
+    const ZOOM_MAX = 1.5;
+    const ZOOM_STEP = 0.1;
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    const DEVICES = {
+      pc: { icon: '💻', label: 'PC', moduleUrl: 'fundamentos.html', description: 'Host final que gera tráfego de aplicação.' },
+      laptop: { icon: '🖥️', label: 'Laptop', moduleUrl: 'fundamentos.html', description: 'Outro endpoint para treinar cenários de acesso.' },
+      router: { icon: '📡', label: 'Roteador', moduleUrl: 'equipamentos.html', description: 'Camada 3: roteia pacotes e faz NAT.' },
+      switch: { icon: '🔀', label: 'Switch', moduleUrl: 'equipamentos.html', description: 'Camada 2: encaminha por MAC.' },
+      server: { icon: '🖥️', label: 'Servidor', moduleUrl: 'protocolos.html', description: 'Publica serviços e responde requisições.' },
+      firewall: { icon: '🔒', label: 'Firewall', moduleUrl: 'seguranca.html', description: 'Inspeciona e bloqueia ou permite tráfego.' },
+      internet: { icon: '🌐', label: 'Internet', moduleUrl: 'acesso-site.html', description: 'Representa a rede externa.' },
+      attacker: { icon: '😈', label: 'Atacante', moduleUrl: 'seguranca.html', description: 'Simula MITM e interceptação.' }
+    };
+
+    const TEMPLATES = {
+      home: {
+        label: 'Rede doméstica',
+        hint: 'Rede simples com hosts internos saindo por um roteador até a internet.',
+        nodes: [
+          { type: 'pc', label: 'PC-1', col: 2, row: 4 },
+          { type: 'laptop', label: 'Laptop-1', col: 2, row: 6 },
+          { type: 'router', label: 'Roteador', col: 5, row: 5 },
+          { type: 'internet', label: 'Internet', col: 9, row: 3 }
+        ],
+        edges: [
+          { from: 'PC-1', to: 'Roteador', label: 'LAN' },
+          { from: 'Laptop-1', to: 'Roteador', label: 'Wi-Fi' },
+          { from: 'Roteador', to: 'Internet', label: 'WAN' }
+        ]
+      },
+      corporate: {
+        label: 'Rede corporativa',
+        hint: 'Clientes convergem em switch, seguem por roteador e firewall até o servidor.',
+        nodes: [
+          { type: 'pc', label: 'PC-1', col: 1, row: 4 },
+          { type: 'pc', label: 'PC-2', col: 1, row: 5 },
+          { type: 'pc', label: 'PC-3', col: 1, row: 6 },
+          { type: 'switch', label: 'Switch', col: 4, row: 5 },
+          { type: 'router', label: 'Roteador', col: 7, row: 5 },
+          { type: 'firewall', label: 'Firewall', col: 10, row: 5 },
+          { type: 'server', label: 'Servidor', col: 13, row: 5 }
+        ],
+        edges: [
+          { from: 'PC-1', to: 'Switch', label: 'Acesso' },
+          { from: 'PC-2', to: 'Switch', label: 'Acesso' },
+          { from: 'PC-3', to: 'Switch', label: 'Acesso' },
+          { from: 'Switch', to: 'Roteador', label: 'Trunk' },
+          { from: 'Roteador', to: 'Firewall', label: 'L3' },
+          { from: 'Firewall', to: 'Servidor', label: 'DMZ' }
+        ]
+      },
+      attack: {
+        label: 'Cenário de ataque',
+        hint: 'O atacante fica entre cliente e destino para ilustrar MITM.',
+        nodes: [
+          { type: 'pc', label: 'Cliente', col: 2, row: 5 },
+          { type: 'attacker', label: 'Atacante', col: 5, row: 5 },
+          { type: 'switch', label: 'Switch', col: 8, row: 5 },
+          { type: 'server', label: 'Servidor', col: 11, row: 5 }
+        ],
+        edges: [
+          { from: 'Cliente', to: 'Atacante', label: 'Interceptado' },
+          { from: 'Atacante', to: 'Switch', label: 'Relay' },
+          { from: 'Switch', to: 'Servidor', label: 'HTTP' }
+        ]
+      },
+      dmz: {
+        label: 'Rede com DMZ',
+        hint: 'A DMZ expõe serviços públicos enquanto a rede interna fica atrás de outra camada de proteção.',
+        nodes: [
+          { type: 'internet', label: 'Internet', col: 1, row: 4 },
+          { type: 'firewall', label: 'FW Externo', col: 4, row: 4 },
+          { type: 'switch', label: 'Switch DMZ', col: 7, row: 4 },
+          { type: 'server', label: 'Servidor Web', col: 10, row: 3 },
+          { type: 'firewall', label: 'FW Interno', col: 10, row: 6 },
+          { type: 'pc', label: 'Rede Interna', col: 13, row: 6 }
+        ],
+        edges: [
+          { from: 'Internet', to: 'FW Externo', label: 'WAN' },
+          { from: 'FW Externo', to: 'Switch DMZ', label: 'DMZ' },
+          { from: 'Switch DMZ', to: 'Servidor Web', label: 'Web' },
+          { from: 'Switch DMZ', to: 'FW Interno', label: 'Segregado' },
+          { from: 'FW Interno', to: 'Rede Interna', label: 'LAN' }
+        ]
+      }
+    };
+
+    const refs = {};
+    const state = {
+      nodes: [],
+      edges: [],
+      nextNodeId: 1,
+      nextEdgeId: 1,
+      selectedNodeId: null,
+      placingType: null,
+      mode: 'idle',
+      connectFrom: null,
+      freePathSelection: [],
+      zoom: 1,
+      history: [],
+      drag: null,
+      edgeDrag: null,
+      hoveredEdgeId: null,
+      hoverNodeId: null,
+      tooltipNodeId: null,
+      hoverTimer: null,
+      editingEdgeId: null,
+      toastTimer: null,
+      simEdgeIds: new Set()
+    };
+
+    container.innerHTML = `
+      <div class="topo-workspace topo-workspace--v3">
+        <div class="topo-toolbar">
+          <div class="topo-toolbar-group topo-toolbar-group--devices" id="topoDeviceTools">
+            ${Object.entries(DEVICES).map(([key, device]) => `
+              <button class="topo-tool" type="button" data-device="${key}" draggable="true">
+                <span class="topo-tool-icon">${device.icon}</span>
+                <span>${device.label}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div class="topo-toolbar-divider" aria-hidden="true"></div>
+          <div class="topo-toolbar-group topo-toolbar-group--actions">
+            <button class="topo-action-btn" id="topoConnectBtn" type="button">🔗 Conectar</button>
+            <button class="topo-action-btn" id="topoUndoBtn" type="button">↩ Desfazer</button>
+            <button class="topo-action-btn" id="topoDeleteBtn" type="button">🗑️ Deletar</button>
+            <button class="topo-action-btn" id="topoClearBtn" type="button">🧹 Limpar</button>
+            <button class="topo-action-btn" id="topoOrganizeBtn" type="button">🧭 Organizar</button>
+            <button class="topo-action-btn" id="topoSimBtn" type="button">⚡ Simular</button>
+          </div>
+          <div class="topo-toolbar-divider" aria-hidden="true"></div>
+          <div class="topo-toolbar-group topo-toolbar-group--storage">
+            <select class="topo-template" id="topoTemplateSelect" aria-label="Templates">
+              <option value="">📂 Templates ▾</option>
+              <option value="home">Rede doméstica</option>
+              <option value="corporate">Rede corporativa</option>
+              <option value="attack">Cenário de ataque</option>
+              <option value="dmz">Rede com DMZ</option>
+            </select>
+            <button class="topo-action-btn" id="topoSaveBtn" type="button">💾 Salvar</button>
+            <button class="topo-action-btn" id="topoLoadBtn" type="button">📂 Carregar</button>
+            <button class="topo-action-btn" id="topoExportBtn" type="button">🖼️ Exportar PNG</button>
+          </div>
+        </div>
+
+        <div class="topo-main">
+          <div class="topo-stage">
+            <div class="topo-stage-topbar">
+              <div class="topo-stage-copy" id="topoStageCopy">Clique em um dispositivo na barra acima para começar ou arraste para o canvas.</div>
+              <label class="topo-port-select">Porta alvo
+                <select id="topoPortSelect">
+                  <option value="80">80</option>
+                  <option value="22">22</option>
+                  <option value="443" selected>443</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="topo-canvas-shell">
+              <div class="topo-canvas-scroll" id="topoCanvasScroll">
+                <div class="topo-canvas-viewport" id="topoCanvasViewport">
+                  <div class="topo-canvas-wrap" id="topoCanvas">
+                    <svg class="topo-svg" id="topoSVG" aria-hidden="true"></svg>
+                    <div class="topo-edge-html" id="topoEdgeHtml"></div>
+                    <div class="topo-grid-highlight" id="topoGridHighlight"></div>
+                    <div class="topo-drop-feedback" id="topoDropFeedback"></div>
+                    <div class="topo-empty-state" id="topoEmptyState">
+                      <div class="topo-empty-card">
+                        <strong>👆 Clique em um dispositivo</strong>
+                        <span>na barra acima para começar</span>
+                        <span>ou carregue um template →</span>
+                      </div>
+                    </div>
+                    <div class="topo-nodes" id="topoNodes"></div>
+                    <div class="topo-traffic-layer" id="topoTrafficLayer"></div>
+                    <div class="topo-overlay-layer" id="topoOverlayLayer"></div>
+                    <button class="topo-undo-float" id="topoUndoFloat" type="button">↩ Desfazer</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="topo-zoom-controls">
+                <button class="topo-zoom-btn" id="topoZoomOut" type="button">−</button>
+                <span class="topo-zoom-value" id="topoZoomValue">100%</span>
+                <button class="topo-zoom-btn" id="topoZoomIn" type="button">+</button>
+              </div>
+            </div>
+
+            <div class="topo-sim-panel">
+              <div>
+                <div class="topo-sim-title" id="topoSimTitle">Topologia pronta</div>
+                <div class="topo-sim-subtitle" id="topoSimSubtitle">Monte o cenário e clique em "Simular". Em topologia livre, escolha origem e destino para usar BFS.</div>
+              </div>
+              <div class="topo-sim-log" id="topoSimLog">
+                <div class="topo-sim-step"><strong>Dica</strong><span>Posicione por clique, mova com drag e conecte pelo botão ou pelos pontos azuis.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="topo-sidepanel" id="topoInspector">
+            <div class="topo-sidepanel-head">
+              <div class="topo-sidepanel-title">Painel do dispositivo</div>
+            </div>
+            <div class="topo-sidepanel-body" id="topoInspectorBody">
+              <div class="topo-inspector-empty">Clique em um dispositivo do canvas para editar nome, IP, revisar conexões e navegar para o conteúdo relacionado.</div>
+            </div>
+          </aside>
+        </div>
+      </div>`;
+
+    refs.deviceTools = container.querySelector('#topoDeviceTools');
+    refs.templateSelect = container.querySelector('#topoTemplateSelect');
+    refs.connectBtn = container.querySelector('#topoConnectBtn');
+    refs.undoBtn = container.querySelector('#topoUndoBtn');
+    refs.undoFloat = container.querySelector('#topoUndoFloat');
+    refs.deleteBtn = container.querySelector('#topoDeleteBtn');
+    refs.clearBtn = container.querySelector('#topoClearBtn');
+    refs.organizeBtn = container.querySelector('#topoOrganizeBtn');
+    refs.simBtn = container.querySelector('#topoSimBtn');
+    refs.saveBtn = container.querySelector('#topoSaveBtn');
+    refs.loadBtn = container.querySelector('#topoLoadBtn');
+    refs.exportBtn = container.querySelector('#topoExportBtn');
+    refs.portSelect = container.querySelector('#topoPortSelect');
+    refs.stageCopy = container.querySelector('#topoStageCopy');
+    refs.scroll = container.querySelector('#topoCanvasScroll');
+    refs.viewport = container.querySelector('#topoCanvasViewport');
+    refs.canvas = container.querySelector('#topoCanvas');
+    refs.svg = container.querySelector('#topoSVG');
+    refs.edgeHtml = container.querySelector('#topoEdgeHtml');
+    refs.gridHighlight = container.querySelector('#topoGridHighlight');
+    refs.dropFeedback = container.querySelector('#topoDropFeedback');
+    refs.emptyState = container.querySelector('#topoEmptyState');
+    refs.nodesLayer = container.querySelector('#topoNodes');
+    refs.trafficLayer = container.querySelector('#topoTrafficLayer');
+    refs.overlayLayer = container.querySelector('#topoOverlayLayer');
+    refs.inspector = container.querySelector('#topoInspector');
+    refs.inspectorBody = container.querySelector('#topoInspectorBody');
+    refs.simTitle = container.querySelector('#topoSimTitle');
+    refs.simSubtitle = container.querySelector('#topoSimSubtitle');
+    refs.simLog = container.querySelector('#topoSimLog');
+    refs.zoomOut = container.querySelector('#topoZoomOut');
+    refs.zoomIn = container.querySelector('#topoZoomIn');
+    refs.zoomValue = container.querySelector('#topoZoomValue');
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function persist(showToastMessage) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        nodes: state.nodes,
+        edges: state.edges,
+        nextNodeId: state.nextNodeId,
+        nextEdgeId: state.nextEdgeId
+      }));
+      if (showToastMessage) showToast('Topologia salva no navegador.');
+    }
+
+    function cloneSnapshot() {
+      return JSON.parse(JSON.stringify({
+        nodes: state.nodes,
+        edges: state.edges,
+        nextNodeId: state.nextNodeId,
+        nextEdgeId: state.nextEdgeId,
+        selectedNodeId: state.selectedNodeId
+      }));
+    }
+
+    function pushHistory() {
+      state.history.push(cloneSnapshot());
+      if (state.history.length > HISTORY_LIMIT) state.history.shift();
+    }
+
+    function restoreSnapshot(snapshot) {
+      if (!snapshot) return;
+      state.nodes = snapshot.nodes || [];
+      state.edges = snapshot.edges || [];
+      state.nextNodeId = snapshot.nextNodeId || 1;
+      state.nextEdgeId = snapshot.nextEdgeId || 1;
+      state.selectedNodeId = snapshot.selectedNodeId || state.nodes[0]?.id || null;
+      state.connectFrom = null;
+      state.freePathSelection = [];
+      state.mode = 'idle';
+      persist(false);
+      render();
+    }
+
+    function undoLastAction() {
+      restoreSnapshot(state.history.pop());
+    }
+
+    function getNodeById(id) {
+      return state.nodes.find(node => node.id === id) || null;
+    }
+
+    function getEdgeBetween(a, b) {
+      return state.edges.find(edge => (edge.from === a && edge.to === b) || (edge.from === b && edge.to === a)) || null;
+    }
+
+    function buildAdjacency(nodesList = state.nodes, edgesList = state.edges) {
+      const adjacency = new Map(nodesList.map(node => [node.id, []]));
+      edgesList.forEach(edge => {
+        if (!adjacency.has(edge.from) || !adjacency.has(edge.to)) return;
+        adjacency.get(edge.from).push(edge.to);
+        adjacency.get(edge.to).push(edge.from);
+      });
+      return adjacency;
+    }
+
+    function shortestPath(startId, endId) {
+      if (startId === endId) return [startId];
+      const adjacency = buildAdjacency();
+      const queue = [[startId]];
+      const seen = new Set([startId]);
+      while (queue.length) {
+        const path = queue.shift();
+        const current = path[path.length - 1];
+        for (const next of adjacency.get(current) || []) {
+          if (seen.has(next)) continue;
+          const candidate = [...path, next];
+          if (next === endId) return candidate;
+          seen.add(next);
+          queue.push(candidate);
+        }
+      }
+      return null;
+    }
+
+    function isEndpoint(node) {
+      return !!node && (node.type === 'pc' || node.type === 'laptop');
+    }
+
+    function findChain(pattern, nodesList = state.nodes, edgesList = state.edges) {
+      const adjacency = buildAdjacency(nodesList, edgesList);
+      function matches(node, expected) {
+        return expected === 'endpoint' ? isEndpoint(node) : node?.type === expected;
+      }
+      function walk(nodeId, index, visited) {
+        const node = nodesList.find(item => item.id === nodeId);
+        if (!matches(node, pattern[index])) return null;
+        if (index === pattern.length - 1) return [nodeId];
+        for (const next of adjacency.get(nodeId) || []) {
+          if (visited.has(next)) continue;
+          const result = walk(next, index + 1, new Set([...visited, next]));
+          if (result) return [nodeId, ...result];
+        }
+        return null;
+      }
+      for (const node of nodesList) {
+        const result = walk(node.id, 0, new Set([node.id]));
+        if (result) return result;
+      }
+      return null;
+    }
+
+    function detectScenario(nodesList, edgesList) {
+      const adjacency = buildAdjacency(nodesList, edgesList);
+      const endpoints = nodesList.filter(isEndpoint);
+      const servers = nodesList.filter(node => node.type === 'server');
+
+      const corporate = findChain(['endpoint', 'switch', 'router', 'firewall', 'server'], nodesList, edgesList);
+      if (corporate) return { kind: 'corporate', path: corporate };
+
+      for (const endpoint of endpoints) {
+        for (const server of servers) {
+          const path = shortestPath(endpoint.id, server.id);
+          if (!path) continue;
+          const types = path.map(id => getNodeById(id)?.type);
+          const attackerIndex = types.indexOf('attacker');
+          if (attackerIndex !== -1) {
+            const blocked = types.slice(attackerIndex + 1).includes('firewall');
+            return { kind: blocked ? 'mitm-blocked' : 'mitm', path };
+          }
+        }
+      }
+
+      const firewallBasic = findChain(['endpoint', 'firewall', 'server'], nodesList, edgesList);
+      if (firewallBasic) return { kind: 'firewall-basic', path: firewallBasic };
+
+      for (const endpoint of endpoints) {
+        for (const next of adjacency.get(endpoint.id) || []) {
+          const sw = getNodeById(next);
+          if (!sw || sw.type !== 'switch') continue;
+          const targets = (adjacency.get(sw.id) || []).filter(id => getNodeById(id)?.type === 'server');
+          if (targets.length >= 2) return { kind: 'switch-broadcast', path: [endpoint.id, sw.id], targets };
+        }
+      }
+
+      const nat = findChain(['endpoint', 'router', 'internet'], nodesList, edgesList);
+      if (nat) return { kind: 'nat', path: nat };
+
+      const firewallOnly = findChain(['endpoint', 'firewall'], nodesList, edgesList);
+      if (firewallOnly) {
+        const firewall = getNodeById(firewallOnly[1]);
+        if (firewall && (adjacency.get(firewall.id) || []).length === 1) return { kind: 'firewall-blocked', path: firewallOnly };
+      }
+
+      return { kind: 'free' };
+    }
+
+    function autoIpFor(type) {
+      const seq = state.nodes.filter(node => node.type === type).length + 1;
+      const table = {
+        pc: `192.168.1.${10 + seq}`,
+        laptop: `192.168.1.${30 + seq}`,
+        router: '192.168.1.1',
+        switch: `192.168.1.${200 + seq}`,
+        server: `10.0.0.${10 + seq}`,
+        firewall: `10.0.0.${100 + seq}`,
+        internet: '201.34.56.78',
+        attacker: `192.168.1.${60 + seq}`
+      };
+      return table[type] || `10.0.0.${10 + seq}`;
+    }
+
+    function gridToLeft(col) {
+      return col * GRID;
+    }
+
+    function gridToTop(row) {
+      return row * GRID;
+    }
+
+    function getRenderCell(nodeId) {
+      if (state.drag && state.drag.nodeId === nodeId) return state.drag.previewCell || state.drag.startCell;
+      const node = getNodeById(nodeId);
+      return node ? { col: node.col, row: node.row } : { col: 0, row: 0 };
+    }
+
+    function getNodeCenter(nodeOrId) {
+      const cell = typeof nodeOrId === 'number' ? getRenderCell(nodeOrId) : { col: nodeOrId.col, row: nodeOrId.row };
+      return { x: gridToLeft(cell.col) + GRID / 2, y: gridToTop(cell.row) + GRID / 2 };
+    }
+
+    function getCanvasPoint(event) {
+      const source = event.touches?.[0] || event.changedTouches?.[0] || event;
+      const rect = refs.viewport.getBoundingClientRect();
+      return {
+        x: clamp((source.clientX - rect.left) / state.zoom, 0, CANVAS_WIDTH),
+        y: clamp((source.clientY - rect.top) / state.zoom, 0, CANVAS_HEIGHT)
+      };
+    }
+
+    function snapPoint(x, y) {
+      return {
+        col: clamp(Math.round((x - GRID / 2) / GRID), 0, GRID_COLS - 1),
+        row: clamp(Math.round((y - GRID / 2) / GRID), 0, GRID_ROWS - 1)
+      };
+    }
+
+    function getOccupant(col, row, exceptId) {
+      return state.nodes.find(node => node.col === col && node.row === row && node.id !== exceptId) || null;
+    }
+
+    function findNearestFreeCell(col, row, exceptId) {
+      if (!getOccupant(col, row, exceptId)) return { col, row, moved: false };
+      for (let radius = 1; radius <= Math.max(GRID_COLS, GRID_ROWS); radius += 1) {
+        for (let r = row - radius; r <= row + radius; r += 1) {
+          for (let c = col - radius; c <= col + radius; c += 1) {
+            if (Math.abs(c - col) !== radius && Math.abs(r - row) !== radius) continue;
+            if (c < 0 || r < 0 || c >= GRID_COLS || r >= GRID_ROWS) continue;
+            if (!getOccupant(c, r, exceptId)) return { col: c, row: r, moved: true };
+          }
+        }
+      }
+      return null;
+    }
+
+    function createNode(type, col, row, data = {}) {
+      const count = state.nodes.filter(node => node.type === type).length + 1;
+      return {
+        id: data.id ?? state.nextNodeId++,
+        type,
+        label: data.label || `${DEVICES[type].label}-${count}`,
+        ip: data.ip || autoIpFor(type),
+        col,
+        row
+      };
+    }
+
+    function createEdge(from, to, data = {}) {
+      return {
+        id: data.id ?? state.nextEdgeId++,
+        from,
+        to,
+        label: data.label || '',
+        warning: data.warning || ''
+      };
+    }
+
+    function updateUndoButtons() {
+      const disabled = !state.history.length;
+      refs.undoBtn.disabled = disabled;
+      refs.undoFloat.disabled = disabled;
+      refs.undoFloat.classList.toggle('show', !disabled);
+    }
+
+    function updateZoom() {
+      refs.canvas.style.transform = `scale(${state.zoom})`;
+      refs.viewport.style.width = `${CANVAS_WIDTH * state.zoom}px`;
+      refs.viewport.style.height = `${CANVAS_HEIGHT * state.zoom}px`;
+      refs.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+    }
+
+    function showToast(message, tone = 'info', options = {}) {
+      document.querySelectorAll('.topo-toast').forEach(node => node.remove());
+      const toast = document.createElement('div');
+      toast.className = `topo-toast${tone === 'warn' ? ' topo-toast--warn' : ''}${tone === 'danger' ? ' topo-toast--danger' : ''}`;
+      const body = document.createElement('div');
+      body.className = 'topo-toast-body';
+      body.innerHTML = message;
+      toast.appendChild(body);
+      if (Array.isArray(options.actions) && options.actions.length) {
+        const actions = document.createElement('div');
+        actions.className = 'topo-toast-actions';
+        options.actions.forEach(action => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'topo-toast-btn';
+          button.textContent = action.label;
+          button.addEventListener('click', () => {
+            if (state.toastTimer) clearTimeout(state.toastTimer);
+            toast.remove();
+            action.onClick();
+          });
+          actions.appendChild(button);
+        });
+        toast.appendChild(actions);
+      }
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      if (state.toastTimer) clearTimeout(state.toastTimer);
+      if (!options.sticky) {
+        state.toastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 240);
+        }, options.timeout || 2600);
+      }
+      return toast;
+    }
+
+    function showCallout(nodeId, html, tone = 'info', timeout = 2800) {
+      refs.overlayLayer.querySelectorAll('.topo-callout').forEach(node => node.remove());
+      const node = getNodeById(nodeId);
+      if (!node) return;
+      const center = getNodeCenter(node.id);
+      const callout = document.createElement('div');
+      callout.className = `topo-callout${tone === 'warn' ? ' topo-callout--warn' : ''}${tone === 'danger' ? ' topo-callout--danger' : ''}`;
+      callout.innerHTML = html;
+      callout.style.left = `${clamp(center.x + 40, 16, CANVAS_WIDTH - 280)}px`;
+      callout.style.top = `${clamp(center.y - 20, 16, CANVAS_HEIGHT - 150)}px`;
+      refs.overlayLayer.appendChild(callout);
+      setTimeout(() => callout.remove(), timeout);
+    }
+
+    function flashCell(col, row) {
+      refs.dropFeedback.style.left = `${gridToLeft(col)}px`;
+      refs.dropFeedback.style.top = `${gridToTop(row)}px`;
+      refs.dropFeedback.classList.remove('active');
+      void refs.dropFeedback.offsetWidth;
+      refs.dropFeedback.classList.add('active');
+      setTimeout(() => refs.dropFeedback.classList.remove('active'), 220);
+    }
+
+    function maybeEdgeWarning(a, b) {
+      const first = getNodeById(a);
+      const second = getNodeById(b);
+      if (!first || !second) return '';
+      if (first.type === 'router' && second.type === 'router') {
+        return 'Ligação direta entre roteadores é incomum em laboratórios básicos; normalmente há um meio L2 entre eles.';
+      }
+      return '';
+    }
+
+    function updateStageCopy() {
+      if (state.mode === 'connect') {
+        refs.stageCopy.textContent = state.connectFrom
+          ? '2º clique: dispositivo de destino.'
+          : '1º clique: dispositivo de origem | 2º clique: dispositivo de destino';
+      } else if (state.mode === 'free-path') {
+        refs.stageCopy.textContent = state.freePathSelection.length
+          ? 'Agora clique no destino para animar o menor caminho.'
+          : 'Topologia livre: clique na origem e depois no destino.';
+      } else if (state.placingType) {
+        refs.stageCopy.textContent = `Clique no canvas para posicionar o ${DEVICES[state.placingType].label}.`;
+      } else {
+        refs.stageCopy.textContent = 'Clique em um dispositivo na barra acima para começar ou arraste para o canvas.';
+      }
+      refs.canvas.classList.toggle('topo-canvas--placing', !!state.placingType);
+    }
+
+    function renderTooltip() {
+      refs.overlayLayer.querySelectorAll('.topo-tooltip, .topo-edge-editor').forEach(node => {
+        if (!node.classList.contains('topo-edge-editor')) node.remove();
+      });
+      if (!state.tooltipNodeId) return;
+      const node = getNodeById(state.tooltipNodeId);
+      if (!node) return;
+      const tooltip = document.createElement('div');
+      tooltip.className = 'topo-tooltip';
+      tooltip.innerHTML = `<strong>${escapeHtml(node.label)}</strong><span>${escapeHtml(node.ip)}</span>`;
+      const center = getNodeCenter(node.id);
+      tooltip.style.left = `${center.x}px`;
+      tooltip.style.top = `${center.y - 56}px`;
+      refs.overlayLayer.appendChild(tooltip);
+    }
+
+    function renderEdgeEditor() {
+      refs.overlayLayer.querySelectorAll('.topo-edge-editor').forEach(node => node.remove());
+      if (!state.editingEdgeId) return;
+      const edge = state.edges.find(item => item.id === state.editingEdgeId);
+      if (!edge) return;
+      const a = getNodeCenter(edge.from);
+      const b = getNodeCenter(edge.to);
+      const input = document.createElement('input');
+      input.className = 'topo-edge-editor';
+      input.value = edge.label || '';
+      input.style.left = `${(a.x + b.x) / 2}px`;
+      input.style.top = `${(a.y + b.y) / 2}px`;
+      refs.overlayLayer.appendChild(input);
+      input.focus();
+      input.select();
+      const save = () => {
+        edge.label = input.value.trim().slice(0, 24);
+        state.editingEdgeId = null;
+        persist(false);
+        render();
+      };
+      input.addEventListener('keydown', event => {
+        if (event.key === 'Enter') save();
+        if (event.key === 'Escape') {
+          state.editingEdgeId = null;
+          render();
+        }
+      });
+      input.addEventListener('blur', save, { once: true });
+    }
+
+    function renderEdges() {
+      refs.svg.innerHTML = '';
+      refs.edgeHtml.innerHTML = '';
+      const defs = document.createElementNS(SVG_NS, 'defs');
+      const marker = document.createElementNS(SVG_NS, 'marker');
+      marker.setAttribute('id', 'topoArrowHeadV3');
+      marker.setAttribute('markerWidth', '10');
+      marker.setAttribute('markerHeight', '10');
+      marker.setAttribute('refX', '8');
+      marker.setAttribute('refY', '5');
+      marker.setAttribute('orient', 'auto');
+      const markerPath = document.createElementNS(SVG_NS, 'path');
+      markerPath.setAttribute('d', 'M0,0 L10,5 L0,10 z');
+      markerPath.setAttribute('fill', '#4f8ef7');
+      marker.appendChild(markerPath);
+      defs.appendChild(marker);
+      refs.svg.appendChild(defs);
+
+      state.edges.forEach(edge => {
+        const a = getNodeCenter(edge.from);
+        const b = getNodeCenter(edge.to);
+        const group = document.createElementNS(SVG_NS, 'g');
+        group.setAttribute('class', 'topo-edge-group');
+        group.dataset.edgeId = String(edge.id);
+
+        const hit = document.createElementNS(SVG_NS, 'line');
+        hit.setAttribute('class', 'topo-edge-hit');
+        hit.setAttribute('x1', a.x);
+        hit.setAttribute('y1', a.y);
+        hit.setAttribute('x2', b.x);
+        hit.setAttribute('y2', b.y);
+        group.appendChild(hit);
+
+        const line = document.createElementNS(SVG_NS, 'line');
+        line.setAttribute('class', `topo-edge${edge.warning ? ' topo-edge--warn' : ''}${state.hoveredEdgeId === edge.id ? ' topo-edge--hovered' : ''}${state.simEdgeIds.has(edge.id) ? ' topo-edge--active' : ''}`);
+        line.setAttribute('x1', a.x);
+        line.setAttribute('y1', a.y);
+        line.setAttribute('x2', b.x);
+        line.setAttribute('y2', b.y);
+        line.setAttribute('marker-end', 'url(#topoArrowHeadV3)');
+        group.appendChild(line);
+        group.addEventListener('mouseenter', () => {
+          state.hoveredEdgeId = edge.id;
+          render();
+        });
+        group.addEventListener('mouseleave', () => {
+          state.hoveredEdgeId = null;
+          render();
+        });
+        refs.svg.appendChild(group);
+
+        const midX = (a.x + b.x) / 2;
+        const midY = (a.y + b.y) / 2;
+        const label = document.createElement('button');
+        label.type = 'button';
+        label.className = 'topo-edge-label';
+        label.style.left = `${midX}px`;
+        label.style.top = `${midY}px`;
+        label.textContent = edge.label || (edge.warning ? 'incomum' : 'enlace');
+        label.addEventListener('dblclick', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          state.editingEdgeId = edge.id;
+          renderEdgeEditor();
+        });
+        refs.edgeHtml.appendChild(label);
+
+        const token = document.createElement('div');
+        token.className = 'topo-edge-token';
+        token.style.left = `${a.x}px`;
+        token.style.top = `${a.y}px`;
+        token.style.setProperty('--dx', `${b.x - a.x}px`);
+        token.style.setProperty('--dy', `${b.y - a.y}px`);
+        refs.edgeHtml.appendChild(token);
+
+        if (state.hoveredEdgeId === edge.id) {
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'topo-edge-delete';
+          remove.textContent = '✕';
+          remove.style.left = `${midX + 42}px`;
+          remove.style.top = `${midY}px`;
+          remove.addEventListener('click', event => {
+            event.stopPropagation();
+            pushHistory();
+            state.edges = state.edges.filter(item => item.id !== edge.id);
+            state.hoveredEdgeId = null;
+            persist(false);
+            render();
+          });
+          refs.edgeHtml.appendChild(remove);
+        }
+      });
+
+      if (state.edgeDrag) {
+        const draft = document.createElementNS(SVG_NS, 'line');
+        draft.setAttribute('class', 'topo-edge topo-edge--draft');
+        draft.setAttribute('x1', state.edgeDrag.start.x);
+        draft.setAttribute('y1', state.edgeDrag.start.y);
+        draft.setAttribute('x2', state.edgeDrag.end.x);
+        draft.setAttribute('y2', state.edgeDrag.end.y);
+        refs.svg.appendChild(draft);
+      }
+    }
+
+    function renderNodes() {
+      refs.nodesLayer.innerHTML = state.nodes.map(node => {
+        const cell = getRenderCell(node.id);
+        const classes = ['topo-node'];
+        if (node.id === state.selectedNodeId) classes.push('topo-node--selected');
+        if (node.id === state.connectFrom) classes.push('topo-node--origin');
+        if (state.drag && state.drag.nodeId === node.id) classes.push('topo-node--dragging');
+        if (state.hoverNodeId === node.id || node.id === state.selectedNodeId || node.id === state.connectFrom) classes.push('topo-node--handles');
+        return `
+          <div class="${classes.join(' ')}" data-node-id="${node.id}" style="left:${gridToLeft(cell.col)}px;top:${gridToTop(cell.row)}px;">
+            <div class="topo-node-icon">${DEVICES[node.type].icon}</div>
+            <div class="topo-node-label">${escapeHtml(node.label)}</div>
+            <div class="topo-node-ip">${escapeHtml(node.ip)}</div>
+            <span class="topo-node-badge">origem</span>
+            <button class="topo-connector topo-connector--n" data-side="n" type="button"></button>
+            <button class="topo-connector topo-connector--e" data-side="e" type="button"></button>
+            <button class="topo-connector topo-connector--s" data-side="s" type="button"></button>
+            <button class="topo-connector topo-connector--w" data-side="w" type="button"></button>
+          </div>`;
+      }).join('');
+      attachNodeEvents();
+    }
+
+    function updateInspector() {
+      const node = getNodeById(state.selectedNodeId);
+      refs.inspector.classList.toggle('open', !!node);
+      if (!node) {
+        refs.inspectorBody.innerHTML = '<div class="topo-inspector-empty">Clique em um dispositivo do canvas para editar nome, IP, revisar conexões e navegar para o conteúdo relacionado.</div>';
+        return;
+      }
+      const adjacency = buildAdjacency().get(node.id) || [];
+      refs.inspectorBody.innerHTML = `
+        <label class="topo-inspector-field">Nome
+          <input class="topo-inspector-input" id="topoInspectorName" value="${escapeHtml(node.label)}">
+        </label>
+        <label class="topo-inspector-field">IP fictício
+          <input class="topo-inspector-input" id="topoInspectorIp" value="${escapeHtml(node.ip)}">
+        </label>
+        <div class="topo-inspector-field">Função
+          <div class="topo-inspector-copy">${escapeHtml(DEVICES[node.type].label)}: ${escapeHtml(DEVICES[node.type].description)}</div>
+        </div>
+        <div class="topo-inspector-field">Conectado a
+          <ul class="topo-conn-list">
+            ${(adjacency.map(id => getNodeById(id)).filter(Boolean).map(other => `<li>${escapeHtml(other.label)}</li>`).join('') || '<li>Sem conexões.</li>')}
+          </ul>
+        </div>
+        <div class="topo-sidepanel-actions">
+          <button class="btn-lab btn-lab--ghost btn-lab--sm" type="button" id="topoInspectorDelete">🗑️ Remover dispositivo</button>
+          <button class="btn-lab btn-lab--ghost btn-lab--sm" type="button" id="topoInspectorConnect">🔗 Conectar a outro...</button>
+        </div>
+        <a class="topo-info-link" href="${getRelativePath(`pages/${DEVICES[node.type].moduleUrl}`)}">Ver no conteúdo</a>`;
+
+      refs.inspectorBody.querySelector('#topoInspectorName').addEventListener('input', event => {
+        node.label = event.target.value.trim().slice(0, 28) || DEVICES[node.type].label;
+        persist(false);
+        render();
+      });
+      refs.inspectorBody.querySelector('#topoInspectorIp').addEventListener('input', event => {
+        node.ip = event.target.value.trim().slice(0, 24);
+        persist(false);
+        renderNodes();
+      });
+      refs.inspectorBody.querySelector('#topoInspectorDelete').addEventListener('click', () => confirmDeleteNode(node.id));
+      refs.inspectorBody.querySelector('#topoInspectorConnect').addEventListener('click', () => enterConnectMode(node.id));
+    }
+
+    function render() {
+      updateStageCopy();
+      refs.emptyState.classList.toggle('hidden', state.nodes.length > 0);
+      refs.deviceTools.querySelectorAll('[data-device]').forEach(button => {
+        button.classList.toggle('active', button.dataset.device === state.placingType);
+      });
+      refs.connectBtn.classList.toggle('active', state.mode === 'connect');
+      updateUndoButtons();
+      renderEdges();
+      renderNodes();
+      updateInspector();
+      renderTooltip();
+      renderEdgeEditor();
+    }
+
+    function createConnection(from, to) {
+      if (from === to) {
+        showToast('Escolha dois dispositivos diferentes.', 'warn');
+        return false;
+      }
+      if (getEdgeBetween(from, to)) {
+        showToast('Esses dispositivos já estão conectados.', 'warn');
+        return false;
+      }
+      pushHistory();
+      const warning = maybeEdgeWarning(from, to);
+      state.edges.push(createEdge(from, to, { warning, label: warning ? 'incomum' : '' }));
+      state.connectFrom = null;
+      state.mode = 'idle';
+      persist(false);
+      render();
+      if (warning) showToast('Conexão incomum: permitida, mas com alerta didático.', 'warn', { timeout: 3400 });
+      return true;
+    }
+
+    function placeNode(type, target) {
+      const free = findNearestFreeCell(target.col, target.row);
+      if (!free) {
+        showToast('Não há espaço livre no canvas.', 'danger');
+        return;
+      }
+      pushHistory();
+      if (free.moved) flashCell(target.col, target.row);
+      const node = createNode(type, free.col, free.row);
+      state.nodes.push(node);
+      state.selectedNodeId = node.id;
+      state.placingType = null;
+      state.mode = 'idle';
+      persist(false);
+      render();
+    }
+
+    function removeNode(nodeId) {
+      pushHistory();
+      state.edges = state.edges.filter(edge => edge.from !== nodeId && edge.to !== nodeId);
+      state.nodes = state.nodes.filter(node => node.id !== nodeId);
+      if (state.selectedNodeId === nodeId) state.selectedNodeId = null;
+      if (state.connectFrom === nodeId) state.connectFrom = null;
+      persist(false);
+      render();
+    }
+
+    function confirmDeleteNode(nodeId) {
+      const node = getNodeById(nodeId);
+      if (!node) return;
+      showToast(`Remover ${escapeHtml(node.label)}?`, 'danger', {
+        sticky: true,
+        actions: [
+          { label: 'Sim', onClick: () => removeNode(nodeId) },
+          { label: 'Não', onClick: () => {} }
+        ]
+      });
+    }
+
+    function clearTopology() {
+      pushHistory();
+      state.nodes = [];
+      state.edges = [];
+      state.selectedNodeId = null;
+      state.nextNodeId = 1;
+      state.nextEdgeId = 1;
+      state.connectFrom = null;
+      state.placingType = null;
+      state.mode = 'idle';
+      persist(false);
+      render();
+      setSimulationPanel('Canvas limpo', 'Adicione dispositivos, conecte e simule novamente.', [
+        { title: 'Próximo passo', body: 'Escolha um dispositivo na barra e clique no canvas.' }
+      ]);
+    }
+
+    function organizeNodes() {
+      if (!state.nodes.length) return;
+      pushHistory();
+      [...state.nodes].sort((a, b) => a.type.localeCompare(b.type, 'pt-BR') || a.label.localeCompare(b.label, 'pt-BR'))
+        .forEach((node, index) => {
+          node.col = index % GRID_COLS;
+          node.row = Math.floor(index / GRID_COLS);
+        });
+      persist(false);
+      render();
+    }
+
+    function applyTemplate(templateKey) {
+      const template = TEMPLATES[templateKey];
+      if (!template) return;
+      pushHistory();
+      state.nodes = [];
+      state.edges = [];
+      state.nextNodeId = 1;
+      state.nextEdgeId = 1;
+      const lookup = new Map();
+      template.nodes.forEach(item => {
+        const node = createNode(item.type, item.col, item.row, { label: item.label, ip: item.ip });
+        state.nodes.push(node);
+        lookup.set(item.label, node.id);
+      });
+      template.edges.forEach(item => {
+        const from = lookup.get(item.from);
+        const to = lookup.get(item.to);
+        if (from && to) state.edges.push(createEdge(from, to, { label: item.label }));
+      });
+      state.selectedNodeId = state.nodes[0]?.id || null;
+      state.mode = 'idle';
+      state.placingType = null;
+      persist(false);
+      render();
+      setSimulationPanel(template.label, template.hint, [{ title: 'Template carregado', body: template.hint }]);
+      showToast(template.hint);
+    }
+
+    function confirmTemplate(templateKey) {
+      if (!templateKey) return;
+      if (!state.nodes.length) {
+        applyTemplate(templateKey);
+        refs.templateSelect.value = '';
+        return;
+      }
+      showToast('Canvas tem dispositivos. Substituir?', 'warn', {
+        sticky: true,
+        actions: [
+          { label: 'Sim', onClick: () => applyTemplate(templateKey) },
+          { label: 'Cancelar', onClick: () => {} }
+        ]
+      });
+      refs.templateSelect.value = '';
+    }
+
+    function saveTopology() {
+      persist(true);
+    }
+
+    function loadTopology() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        showToast('Nenhuma topologia salva encontrada.', 'warn');
+        return;
+      }
+      try {
+        pushHistory();
+        const parsed = JSON.parse(raw);
+        state.nodes = Array.isArray(parsed.nodes) ? parsed.nodes : [];
+        state.edges = Array.isArray(parsed.edges) ? parsed.edges : [];
+        state.nextNodeId = Number(parsed.nextNodeId) || 1;
+        state.nextEdgeId = Number(parsed.nextEdgeId) || 1;
+        state.selectedNodeId = state.nodes[0]?.id || null;
+        state.connectFrom = null;
+        state.placingType = null;
+        state.mode = 'idle';
+        render();
+      } catch {
+        showToast('Falha ao carregar a topologia salva.', 'danger');
+      }
+    }
+
+    function roundedRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+
+    function exportPng() {
+      const canvas = document.createElement('canvas');
+      canvas.width = CANVAS_WIDTH;
+      canvas.height = CANVAS_HEIGHT;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.fillStyle = '#0f1117';
+      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      ctx.fillStyle = '#2a2d3a';
+      for (let x = 0; x <= CANVAS_WIDTH; x += 45) {
+        for (let y = 0; y <= CANVAS_HEIGHT; y += 45) {
+          ctx.beginPath();
+          ctx.arc(x, y, 1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      state.edges.forEach(edge => {
+        const a = getNodeCenter(edge.from);
+        const b = getNodeCenter(edge.to);
+        ctx.strokeStyle = '#4f8ef7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+        if (edge.label) {
+          const midX = (a.x + b.x) / 2;
+          const midY = (a.y + b.y) / 2;
+          ctx.font = '12px sans-serif';
+          const textWidth = Math.max(60, ctx.measureText(edge.label).width + 16);
+          ctx.fillStyle = 'rgba(15,17,23,0.92)';
+          roundedRect(ctx, midX - textWidth / 2, midY - 14, textWidth, 24, 12);
+          ctx.fill();
+          ctx.fillStyle = '#e5e7eb';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(edge.label, midX, midY - 1);
+        }
+      });
+      state.nodes.forEach(node => {
+        const left = gridToLeft(node.col) + 7;
+        const top = gridToTop(node.row) + 7;
+        roundedRect(ctx, left, top, GRID - 14, GRID - 14, 18);
+        ctx.fillStyle = '#1a1d27';
+        ctx.fill();
+        ctx.strokeStyle = '#2a3345';
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = '28px sans-serif';
+        ctx.fillText(DEVICES[node.type].icon, left + (GRID - 14) / 2, top + 28);
+        ctx.fillStyle = '#e5e7eb';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(node.label.slice(0, 14), left + (GRID - 14) / 2, top + 52);
+        ctx.fillStyle = '#98a1b5';
+        ctx.font = '9px monospace';
+        ctx.fillText(node.ip.slice(0, 16), left + (GRID - 14) / 2, top + 68);
+      });
+      const done = blob => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'topologia-wikinet.png';
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      };
+      if (canvas.toBlob) canvas.toBlob(done);
+      else {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'topologia-wikinet.png';
+        link.click();
+      }
+    }
+
+    function setSimulationPanel(title, subtitle, steps) {
+      refs.simTitle.textContent = title;
+      refs.simSubtitle.textContent = subtitle;
+      refs.simLog.innerHTML = steps.map(step => `<div class="topo-sim-step"><strong>${escapeHtml(step.title)}</strong><span>${escapeHtml(step.body)}</span></div>`).join('');
+    }
+
+    function showStatusBadge(nodeId, symbol) {
+      const center = getNodeCenter(nodeId);
+      const badge = document.createElement('div');
+      badge.className = 'topo-status-badge';
+      badge.textContent = symbol;
+      badge.style.left = `${center.x}px`;
+      badge.style.top = `${center.y - 40}px`;
+      refs.overlayLayer.appendChild(badge);
+      setTimeout(() => badge.remove(), 1200);
+    }
+
+    function setEdgeActive(edgeId, active) {
+      if (active) state.simEdgeIds.add(edgeId);
+      else state.simEdgeIds.delete(edgeId);
+      renderEdges();
+    }
+
+    function animateSegment(fromId, toId, options = {}) {
+      const a = getNodeCenter(fromId);
+      const b = getNodeCenter(toId);
+      const edge = getEdgeBetween(fromId, toId);
+      const packet = document.createElement('div');
+      packet.className = `topo-packet${options.danger ? ' topo-packet--danger' : ''}`;
+      packet.style.left = `${a.x}px`;
+      packet.style.top = `${a.y}px`;
+      refs.trafficLayer.appendChild(packet);
+      if (edge) setEdgeActive(edge.id, true);
+      return new Promise(resolve => {
+        const start = performance.now();
+        const duration = options.duration || 780;
+        function step(now) {
+          const progress = Math.min(1, (now - start) / duration);
+          packet.style.left = `${a.x + (b.x - a.x) * progress}px`;
+          packet.style.top = `${a.y + (b.y - a.y) * progress}px`;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+            return;
+          }
+          packet.remove();
+          if (edge) setEdgeActive(edge.id, false);
+          resolve();
+        }
+        requestAnimationFrame(step);
+      });
+    }
+
+    async function animatePath(path, options = {}) {
+      for (let index = 0; index < path.length - 1; index += 1) {
+        await animateSegment(path[index], path[index + 1], options);
+      }
+    }
+
+    async function animateBroadcast(fromId, targets) {
+      await Promise.all(targets.map(target => animateSegment(fromId, target, { duration: 720 })));
+    }
+
+    async function simulateFirewallBasic(path) {
+      const port = refs.portSelect.value;
+      await animateSegment(path[0], path[1]);
+      showCallout(path[1], '<strong>Firewall</strong><br>Porta 80: ALLOW<br>Porta 22: BLOCK<br>Porta 443: ALLOW', port === '22' ? 'danger' : 'info', 3200);
+      if (port === '22') {
+        showStatusBadge(path[1], '✖');
+        showToast('Bloqueado pelo Firewall.', 'danger');
+        return;
+      }
+      await animateSegment(path[1], path[2]);
+      showStatusBadge(path[2], '✓');
+    }
+
+    async function simulateSwitchBroadcast(scenario) {
+      await animateSegment(scenario.path[0], scenario.path[1]);
+      showCallout(scenario.path[1], '<strong>Switch opera na camada 2</strong><br>Envia para todas as portas até aprender o MAC de destino.', 'warn', 3200);
+      await animateBroadcast(scenario.path[1], scenario.targets || []);
+    }
+
+    async function simulateNat(path) {
+      const client = getNodeById(path[0]);
+      await animateSegment(path[0], path[1]);
+      showCallout(path[1], `<strong>NAT</strong><br>Trocando IP ${escapeHtml(client?.ip || '192.168.1.5')} → 201.34.56.78`, 'info', 3200);
+      await animateSegment(path[1], path[2]);
+      showStatusBadge(path[2], '✓');
+    }
+
+    async function simulateFirewallBlocked(path) {
+      await animateSegment(path[0], path[1], { danger: true });
+      showCallout(path[1], '<strong>Sem rota para o destino</strong><br>O firewall não tem para onde encaminhar o pacote.', 'danger', 3000);
+      showStatusBadge(path[1], '✖');
+    }
+
+    async function simulateCorporate(path) {
+      const port = refs.portSelect.value;
+      const client = getNodeById(path[0]);
+      const server = getNodeById(path[4]);
+      showCallout(path[0], `<strong>Pacote montado</strong><br>IP origem: ${escapeHtml(client?.ip || '')}<br>IP destino: ${escapeHtml(server?.ip || '')}`, 'info', 2200);
+      await animateSegment(path[0], path[1]);
+      showCallout(path[1], '<strong>Switch</strong><br>Encaminhando por MAC.', 'info', 2200);
+      await animateSegment(path[1], path[2]);
+      showCallout(path[2], '<strong>Roteador</strong><br>Roteando e trocando MAC.', 'info', 2200);
+      await animateSegment(path[2], path[3]);
+      showCallout(path[3], '<strong>Firewall</strong><br>80 ALLOW | 22 BLOCK | 443 ALLOW', port === '22' ? 'danger' : 'info', 2600);
+      if (port === '22') {
+        showStatusBadge(path[3], '✖');
+        return;
+      }
+      await animateSegment(path[3], path[4]);
+      showCallout(path[4], '<strong>Servidor</strong><br>HTTP 200 OK', 'info', 2200);
+      showStatusBadge(path[4], '✓');
+    }
+
+    async function simulateMitm(path, blocked) {
+      const attackerIndex = path.findIndex(id => getNodeById(id)?.type === 'attacker');
+      for (let index = 0; index < attackerIndex; index += 1) {
+        await animateSegment(path[index], path[index + 1], { danger: true });
+      }
+      showCallout(path[attackerIndex], '<strong>Interceptei</strong><br>GET /login HTTP/1.1<br>senha=abc123', 'danger', 3600);
+      if (blocked) {
+        const firewallId = path.find(id => getNodeById(id)?.type === 'firewall');
+        const firewallIndex = path.indexOf(firewallId);
+        for (let index = attackerIndex; index < firewallIndex; index += 1) {
+          await animateSegment(path[index], path[index + 1], { danger: true });
+        }
+        showCallout(firewallId, '<strong>Firewall</strong><br>Fluxo suspeito bloqueado antes do servidor.', 'danger', 2800);
+        showStatusBadge(firewallId, '✖');
+        return;
+      }
+      for (let index = attackerIndex; index < path.length - 1; index += 1) {
+        await animateSegment(path[index], path[index + 1], { danger: true });
+      }
+      showToast('MITM ativo — adicione um Firewall ou use HTTPS.', 'danger', { timeout: 3600 });
+    }
+
+    async function simulateFreePath(path) {
+      const labels = path.map(id => getNodeById(id)?.label || '?').join(' → ');
+      setSimulationPanel('Topologia livre', 'O caminho foi calculado com BFS no grafo de conexões.', [
+        { title: 'Menor caminho encontrado', body: labels }
+      ]);
+      await animatePath(path);
+    }
+
+    async function runSimulation() {
+      if (!state.nodes.length) {
+        showToast('Monte a topologia primeiro.', 'warn');
+        return;
+      }
+      const scenario = detectScenario(state.nodes, state.edges);
+      if (scenario.kind === 'free') {
+        state.mode = 'free-path';
+        state.freePathSelection = [];
+        render();
+        setSimulationPanel('Topologia livre', 'Clique em dois dispositivos conectados para ver o caminho do pacote.', [
+          { title: 'Aguardando seleção', body: 'Primeiro clique: origem. Segundo clique: destino.' }
+        ]);
+        return;
+      }
+      state.mode = 'simulating';
+      render();
+      if (scenario.kind === 'firewall-basic') await simulateFirewallBasic(scenario.path);
+      else if (scenario.kind === 'switch-broadcast') await simulateSwitchBroadcast(scenario);
+      else if (scenario.kind === 'nat') await simulateNat(scenario.path);
+      else if (scenario.kind === 'firewall-blocked') await simulateFirewallBlocked(scenario.path);
+      else if (scenario.kind === 'corporate') await simulateCorporate(scenario.path);
+      else if (scenario.kind === 'mitm') await simulateMitm(scenario.path, false);
+      else if (scenario.kind === 'mitm-blocked') await simulateMitm(scenario.path, true);
+      state.mode = 'idle';
+      render();
+    }
+
+    function enterConnectMode(originId) {
+      state.mode = 'connect';
+      state.connectFrom = originId || null;
+      render();
+    }
+
+    function handleFreePathSelect(nodeId) {
+      if (!state.freePathSelection.length) {
+        state.freePathSelection = [nodeId];
+        state.selectedNodeId = nodeId;
+        render();
+        return;
+      }
+      const path = shortestPath(state.freePathSelection[0], nodeId);
+      state.freePathSelection = [];
+      state.mode = 'idle';
+      render();
+      if (!path) {
+        showToast('Esses dois dispositivos não estão conectados.', 'danger');
+        return;
+      }
+      simulateFreePath(path);
+    }
+
+    function handleNodeClick(nodeId) {
+      if (state.mode === 'free-path') {
+        handleFreePathSelect(nodeId);
+        return;
+      }
+      if (state.mode === 'connect') {
+        if (!state.connectFrom) {
+          state.connectFrom = nodeId;
+          state.selectedNodeId = nodeId;
+          render();
+          return;
+        }
+        createConnection(state.connectFrom, nodeId);
+        state.selectedNodeId = nodeId;
+        render();
+        return;
+      }
+      state.selectedNodeId = nodeId;
+      render();
+    }
+
+    function connectorPoint(nodeId, side) {
+      const center = getNodeCenter(nodeId);
+      const offset = GRID / 2 - 10;
+      if (side === 'n') return { x: center.x, y: center.y - offset };
+      if (side === 's') return { x: center.x, y: center.y + offset };
+      if (side === 'e') return { x: center.x + offset, y: center.y };
+      return { x: center.x - offset, y: center.y };
+    }
+
+    function nodeIdFromClientPoint(clientX, clientY) {
+      const target = document.elementFromPoint(clientX, clientY);
+      return target?.closest?.('.topo-node') ? Number(target.closest('.topo-node').dataset.nodeId) : null;
+    }
+
+    function beginNodeDrag(event, nodeId) {
+      if (state.mode === 'simulating') return;
+      const node = getNodeById(nodeId);
+      if (!node) return;
+      const point = getCanvasPoint(event);
+      const ghost = document.createElement('div');
+      ghost.className = 'topo-drag-ghost';
+      ghost.innerHTML = `${DEVICES[node.type].icon}<span>${escapeHtml(node.label)}</span>`;
+      ghost.style.left = `${gridToLeft(node.col)}px`;
+      ghost.style.top = `${gridToTop(node.row)}px`;
+      refs.overlayLayer.appendChild(ghost);
+      state.drag = {
+        nodeId,
+        origin: { x: point.x, y: point.y },
+        offsetX: point.x - gridToLeft(node.col),
+        offsetY: point.y - gridToTop(node.row),
+        startCell: { col: node.col, row: node.row },
+        previewCell: { col: node.col, row: node.row },
+        ghost,
+        moved: false
+      };
+      state.selectedNodeId = nodeId;
+      render();
+    }
+
+    function moveNodeDrag(event) {
+      if (!state.drag) return;
+      event.preventDefault();
+      const point = getCanvasPoint(event);
+      state.drag.moved = state.drag.moved || Math.abs(point.x - state.drag.origin.x) > 6 || Math.abs(point.y - state.drag.origin.y) > 6;
+      const target = snapPoint(point.x - state.drag.offsetX + GRID / 2, point.y - state.drag.offsetY + GRID / 2);
+      const free = findNearestFreeCell(target.col, target.row, state.drag.nodeId) || target;
+      if (getOccupant(target.col, target.row, state.drag.nodeId)) flashCell(target.col, target.row);
+      state.drag.previewCell = { col: free.col, row: free.row };
+      state.drag.ghost.style.left = `${gridToLeft(free.col)}px`;
+      state.drag.ghost.style.top = `${gridToTop(free.row)}px`;
+      refs.gridHighlight.style.left = `${gridToLeft(free.col)}px`;
+      refs.gridHighlight.style.top = `${gridToTop(free.row)}px`;
+      refs.gridHighlight.classList.add('visible');
+      renderEdges();
+      renderNodes();
+    }
+
+    function endNodeDrag() {
+      if (!state.drag) return;
+      const drag = state.drag;
+      state.drag = null;
+      refs.gridHighlight.classList.remove('visible');
+      drag.ghost.remove();
+      if (!drag.moved) {
+        state.selectedNodeId = drag.nodeId;
+        render();
+        return;
+      }
+      const node = getNodeById(drag.nodeId);
+      if (!node || !drag.previewCell) {
+        render();
+        return;
+      }
+      pushHistory();
+      node.col = drag.previewCell.col;
+      node.row = drag.previewCell.row;
+      persist(false);
+      render();
+    }
+
+    function beginEdgeDrag(event, nodeId, side) {
+      event.preventDefault();
+      event.stopPropagation();
+      state.edgeDrag = {
+        from: nodeId,
+        start: connectorPoint(nodeId, side),
+        end: connectorPoint(nodeId, side)
+      };
+      renderEdges();
+    }
+
+    function moveEdgeDrag(event) {
+      if (!state.edgeDrag) return;
+      event.preventDefault();
+      state.edgeDrag.end = getCanvasPoint(event);
+      renderEdges();
+    }
+
+    function endEdgeDrag(event) {
+      if (!state.edgeDrag) return;
+      const source = event.changedTouches?.[0] || event;
+      const targetNodeId = nodeIdFromClientPoint(source.clientX, source.clientY);
+      const from = state.edgeDrag.from;
+      state.edgeDrag = null;
+      renderEdges();
+      if (targetNodeId && targetNodeId !== from) createConnection(from, targetNodeId);
+    }
+
+    function attachNodeEvents() {
+      refs.nodesLayer.querySelectorAll('.topo-node').forEach(nodeEl => {
+        const nodeId = Number(nodeEl.dataset.nodeId);
+        nodeEl.addEventListener('mouseenter', () => {
+          state.hoverNodeId = nodeId;
+          clearTimeout(state.hoverTimer);
+          state.hoverTimer = setTimeout(() => {
+            state.tooltipNodeId = nodeId;
+            renderTooltip();
+          }, 500);
+          renderNodes();
+        });
+        nodeEl.addEventListener('mouseleave', () => {
+          clearTimeout(state.hoverTimer);
+          state.hoverNodeId = null;
+          state.tooltipNodeId = null;
+          render();
+        });
+        nodeEl.addEventListener('click', event => {
+          if (event.target.closest('.topo-connector')) return;
+          event.stopPropagation();
+          handleNodeClick(nodeId);
+        });
+        nodeEl.addEventListener('mousedown', event => {
+          if (event.button !== 0 || event.target.closest('.topo-connector')) return;
+          event.preventDefault();
+          beginNodeDrag(event, nodeId);
+        });
+        nodeEl.addEventListener('touchstart', event => {
+          if (event.target.closest('.topo-connector')) return;
+          beginNodeDrag(event, nodeId);
+        }, { passive: false });
+        nodeEl.querySelectorAll('.topo-connector').forEach(connector => {
+          const side = connector.dataset.side;
+          connector.addEventListener('mousedown', event => beginEdgeDrag(event, nodeId, side));
+          connector.addEventListener('touchstart', event => beginEdgeDrag(event, nodeId, side), { passive: false });
+        });
+      });
+    }
+
+    function handleCanvasClick(event) {
+      if (event.target.closest('.topo-node') || event.target.closest('.topo-edge-label') || event.target.closest('.topo-edge-delete')) return;
+      if (state.placingType) {
+        const point = getCanvasPoint(event);
+        placeNode(state.placingType, snapPoint(point.x, point.y));
+        return;
+      }
+      state.selectedNodeId = null;
+      state.connectFrom = null;
+      if (state.mode === 'connect') state.mode = 'idle';
+      render();
+    }
+
+    refs.deviceTools.querySelectorAll('[data-device]').forEach(button => {
+      button.addEventListener('click', () => {
+        state.placingType = state.placingType === button.dataset.device ? null : button.dataset.device;
+        state.mode = state.placingType ? 'placing' : 'idle';
+        if (state.placingType) showToast(`Clique no canvas para posicionar o ${DEVICES[state.placingType].label}.`);
+        render();
+      });
+      button.addEventListener('dragstart', event => {
+        const ghost = document.createElement('div');
+        ghost.className = 'topo-drag-proxy';
+        ghost.textContent = `${DEVICES[button.dataset.device].icon} ${DEVICES[button.dataset.device].label}`;
+        document.body.appendChild(ghost);
+        event.dataTransfer.effectAllowed = 'copy';
+        event.dataTransfer.setData('text/plain', button.dataset.device);
+        event.dataTransfer.setDragImage(ghost, 22, 16);
+        state.placingType = button.dataset.device;
+        state.mode = 'placing';
+        updateStageCopy();
+        setTimeout(() => ghost.remove(), 0);
+      });
+    });
+
+    refs.viewport.addEventListener('dragover', event => {
+      event.preventDefault();
+      const point = getCanvasPoint(event);
+      const cell = snapPoint(point.x, point.y);
+      refs.gridHighlight.style.left = `${gridToLeft(cell.col)}px`;
+      refs.gridHighlight.style.top = `${gridToTop(cell.row)}px`;
+      refs.gridHighlight.classList.add('visible');
+    });
+    refs.viewport.addEventListener('dragleave', () => refs.gridHighlight.classList.remove('visible'));
+    refs.viewport.addEventListener('drop', event => {
+      event.preventDefault();
+      refs.gridHighlight.classList.remove('visible');
+      const type = event.dataTransfer.getData('text/plain');
+      if (!DEVICES[type]) return;
+      const point = getCanvasPoint(event);
+      placeNode(type, snapPoint(point.x, point.y));
+    });
+
+    document.addEventListener('mousemove', event => {
+      if (state.drag) moveNodeDrag(event);
+      if (state.edgeDrag) moveEdgeDrag(event);
+    });
+    document.addEventListener('mouseup', event => {
+      if (state.drag) endNodeDrag(event);
+      if (state.edgeDrag) endEdgeDrag(event);
+    });
+    document.addEventListener('touchmove', event => {
+      if (state.drag) moveNodeDrag(event);
+      if (state.edgeDrag) moveEdgeDrag(event);
+    }, { passive: false });
+    document.addEventListener('touchend', event => {
+      if (state.drag) endNodeDrag(event);
+      if (state.edgeDrag) endEdgeDrag(event);
+    }, { passive: false });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        state.connectFrom = null;
+        if (state.mode === 'connect') state.mode = 'idle';
+        state.edgeDrag = null;
+        render();
+      }
+      if ((event.key === 'Delete' || event.key === 'Backspace') && state.selectedNodeId && !event.target.matches('input, textarea')) {
+        event.preventDefault();
+        confirmDeleteNode(state.selectedNodeId);
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') {
+        event.preventDefault();
+        undoLastAction();
+      }
+    });
+    refs.canvas.addEventListener('click', handleCanvasClick);
+
+    refs.connectBtn.addEventListener('click', () => {
+      if (state.mode === 'connect') {
+        state.mode = 'idle';
+        state.connectFrom = null;
+      } else {
+        enterConnectMode(null);
+      }
+      render();
+    });
+    refs.undoBtn.addEventListener('click', undoLastAction);
+    refs.undoFloat.addEventListener('click', undoLastAction);
+    refs.deleteBtn.addEventListener('click', () => {
+      if (!state.selectedNodeId) {
+        showToast('Selecione um dispositivo para remover.', 'warn');
+        return;
+      }
+      confirmDeleteNode(state.selectedNodeId);
+    });
+    refs.clearBtn.addEventListener('click', () => {
+      if (!state.nodes.length) return;
+      showToast('Limpar o canvas inteiro?', 'warn', {
+        sticky: true,
+        actions: [
+          { label: 'Sim', onClick: clearTopology },
+          { label: 'Cancelar', onClick: () => {} }
+        ]
+      });
+    });
+    refs.organizeBtn.addEventListener('click', organizeNodes);
+    refs.simBtn.addEventListener('click', runSimulation);
+    refs.saveBtn.addEventListener('click', saveTopology);
+    refs.loadBtn.addEventListener('click', loadTopology);
+    refs.exportBtn.addEventListener('click', exportPng);
+    refs.templateSelect.addEventListener('change', () => confirmTemplate(refs.templateSelect.value));
+    refs.zoomOut.addEventListener('click', () => {
+      state.zoom = clamp(Number((state.zoom - ZOOM_STEP).toFixed(2)), ZOOM_MIN, ZOOM_MAX);
+      updateZoom();
+    });
+    refs.zoomIn.addEventListener('click', () => {
+      state.zoom = clamp(Number((state.zoom + ZOOM_STEP).toFixed(2)), ZOOM_MIN, ZOOM_MAX);
+      updateZoom();
+    });
+
+    updateZoom();
+    updateUndoButtons();
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        state.nodes = Array.isArray(parsed.nodes) ? parsed.nodes : [];
+        state.edges = Array.isArray(parsed.edges) ? parsed.edges : [];
+        state.nextNodeId = Number(parsed.nextNodeId) || 1;
+        state.nextEdgeId = Number(parsed.nextEdgeId) || 1;
+        state.selectedNodeId = state.nodes[0]?.id || null;
+      } catch {
+        state.nodes = [];
+        state.edges = [];
+      }
+    }
+    render();
   }
 
   /* ── Utility ─────────────────────────────────────────── */
