@@ -1461,6 +1461,37 @@ body.is-offline .offline-badge { display: flex; }
 .rw-toast--show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .rw-toast-icon { font-size: 1rem; }
 
+.rw-cache-refresh-wrap,
+.rw-cache-refresh-standalone {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: center;
+}
+.rw-cache-refresh {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.2;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition), opacity var(--transition);
+}
+.rw-cache-refresh:hover {
+  color: var(--text-primary);
+  border-color: rgba(79,142,247,0.45);
+  background: rgba(79,142,247,0.08);
+}
+.rw-cache-refresh:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.rw-cache-refresh-standalone {
+  padding: 1.25rem 1rem 2rem;
+}
+
 /* ── Progress animations ─────────────────────────────── */
 @keyframes sectionCheckPop {
   0%   { transform: scale(1); }

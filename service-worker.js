@@ -1,7 +1,7 @@
 /* ── RedesWiki Service Worker — Offline First ────────── */
 'use strict';
 
-const CACHE_NAME = 'redeswiki-v5';
+const CACHE_NAME = 'redeswiki-v6';
 
 const ASSETS = [
   './',
@@ -58,13 +58,23 @@ self.addEventListener('activate', e => {
   );
 });
 
-/* ── Fetch: fonts cache-first, rest cache-first with network fallback ── */
+function isHtmlRequest(request) {
+  return request.mode === 'navigate' ||
+    (request.destination === 'document') ||
+    (request.headers.get('accept') || '').includes('text/html');
+}
+
+function isStaticAsset(requestUrl) {
+  return /\.(?:css|js|png|jpg|jpeg|svg|webp|ico|json)$/i.test(requestUrl.pathname);
+}
+
+/* ── Fetch: HTML network-first, assets cache-first ───── */
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
-  const url = e.request.url;
+  const url = new URL(e.request.url);
 
-  if (url.includes('fonts.googleapis.com') || url.includes('fonts.gstatic.com')) {
+  if (url.href.includes('fonts.googleapis.com') || url.href.includes('fonts.gstatic.com')) {
     e.respondWith(
       caches.open(CACHE_NAME).then(cache =>
         cache.match(e.request).then(cached => {
@@ -81,15 +91,37 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(response => {
-        if (!response || response.status !== 200 || response.type === 'opaque') return response;
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+  if (isHtmlRequest(e.request)) {
+    e.respondWith(
+      fetch(e.request).then(response => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+        }
         return response;
-      }).catch(() => caches.match('./index.html'));
-    })
+      }).catch(() =>
+        caches.match(e.request).then(cached => cached || caches.match('./index.html'))
+      )
+    );
+    return;
+  }
+
+  if (isStaticAsset(url)) {
+    e.respondWith(
+      caches.match(e.request).then(cached => {
+        if (cached) return cached;
+        return fetch(e.request).then(response => {
+          if (!response || response.status !== 200 || response.type === 'opaque') return response;
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  e.respondWith(
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });

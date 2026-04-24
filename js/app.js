@@ -2,8 +2,10 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+  stripRefreshParam();
   initTheme();
   buildSidebar();
+  initCacheRefreshControl();
   initBackToTop();
   buildBreadcrumbs();
   Progress.init();
@@ -23,6 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
   prefetchNextModule();
   loadPomodoro();
 });
+
+function stripRefreshParam() {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has('rw-refresh')) return;
+  url.searchParams.delete('rw-refresh');
+  window.history.replaceState({}, '', url.toString());
+}
 
 /* ── PWA install banner ───────────────────────────── */
 let _deferredInstall = null;
@@ -73,22 +82,23 @@ function showInstallBanner() {
   });
 }
 
+function showNetToast(msg, icon, warm, timeout = 4000) {
+  const t = document.createElement('div');
+  t.className = 'rw-toast';
+  t.style.cssText = warm
+    ? '--toast-bg:var(--bg-secondary)'
+    : '--toast-bg:#1c0d0d';
+  t.innerHTML = `<span class="rw-toast-icon">${icon}</span> <span>${msg}</span>`;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('rw-toast--show'));
+  setTimeout(() => {
+    t.classList.remove('rw-toast--show');
+    t.addEventListener('transitionend', () => t.remove(), { once: true });
+  }, timeout);
+}
+
 /* ── Online / Offline indicator ──────────────────────── */
 function initOnlineStatus() {
-  function showNetToast(msg, icon, warm) {
-    const t = document.createElement('div');
-    t.className = 'rw-toast';
-    t.style.cssText = warm
-      ? '--toast-bg:var(--bg-secondary)'
-      : '--toast-bg:#1c0d0d';
-    t.innerHTML = `<span class="rw-toast-icon">${icon}</span> <span>${msg}</span>`;
-    document.body.appendChild(t);
-    requestAnimationFrame(() => t.classList.add('rw-toast--show'));
-    setTimeout(() => {
-      t.classList.remove('rw-toast--show');
-      t.addEventListener('transitionend', () => t.remove(), { once: true });
-    }, 4000);
-  }
   window.addEventListener('offline', () =>
     showNetToast('Você está offline. O conteúdo ainda funciona.', '📡', false));
   window.addEventListener('online', () =>
@@ -262,6 +272,55 @@ function registerSW() {
     ? '../service-worker.js'
     : './service-worker.js';
   navigator.serviceWorker.register(swPath).catch(() => {});
+}
+
+async function forceRefreshApp(button) {
+  if (button) button.disabled = true;
+  showNetToast('Cache limpo. Atualizando...', '↻', true, 2200);
+
+  if ('caches' in window) {
+    try {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(key => caches.delete(key)));
+    } catch {}
+  }
+
+  if ('serviceWorker' in navigator) {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(registration => registration.unregister()));
+    } catch {}
+  }
+
+  const url = new URL(window.location.href);
+  url.searchParams.set('rw-refresh', Date.now().toString());
+  window.location.replace(url.toString());
+}
+
+function initCacheRefreshControl() {
+  if (document.getElementById('rwRefreshControl')) return;
+
+  const button = document.createElement('button');
+  button.id = 'rwRefreshControl';
+  button.className = 'rw-cache-refresh';
+  button.type = 'button';
+  button.textContent = 'Problemas após atualização? Limpar cache';
+  button.addEventListener('click', () => forceRefreshApp(button));
+
+  const footer = document.querySelector('footer');
+  if (footer) {
+    const wrap = document.createElement('div');
+    wrap.className = 'rw-cache-refresh-wrap';
+    wrap.appendChild(button);
+    footer.appendChild(wrap);
+    return;
+  }
+
+  const host = document.querySelector('main') || document.querySelector('.content') || document.body;
+  const wrap = document.createElement('div');
+  wrap.className = 'rw-cache-refresh-standalone';
+  wrap.appendChild(button);
+  host.appendChild(wrap);
 }
 
 /* ── Theme ───────────────────────────────────────────── */
