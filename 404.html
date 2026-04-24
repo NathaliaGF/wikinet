@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página não encontrada — RedesWiki</title>
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/">
+  <meta name="theme-color" content="#4f8ef7">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .error-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+    .error-code {
+      font-size: clamp(5rem, 20vw, 9rem);
+      font-weight: 700;
+      font-family: var(--font-heading);
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .error-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .error-desc {
+      color: var(--text-muted);
+      max-width: 38ch;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+    .error-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.4rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      text-decoration: none;
+      transition: background var(--transition);
+    }
+    .error-btn-primary:hover { background: var(--accent-hover); }
+    .error-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.4rem;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition);
+    }
+    .error-btn-secondary:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+    .error-suggestions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 640px;
+      margin-top: 1rem;
+    }
+    .error-suggestion-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .error-suggestion-link:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .error-divider {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="error-page">
+  <div class="error-code">404</div>
+  <h1 class="error-title">Página não encontrada</h1>
+  <p class="error-desc">O endereço que você tentou acessar não existe neste site. Pode ter sido movido, renomeado ou nunca ter existido.</p>
+
+  <div class="error-actions">
+    <a href="index.html" class="error-btn-primary">← Voltar ao início</a>
+    <a href="pages/fundamentos.html" class="error-btn-secondary">Começar pelo Módulo 1</a>
+  </div>
+
+  <p class="error-divider">ou acesse diretamente um módulo:</p>
+
+  <nav class="error-suggestions" aria-label="Módulos disponíveis">
+    <a href="pages/fundamentos.html"    class="error-suggestion-link">🌐 Fundamentos</a>
+    <a href="pages/modelos.html"        class="error-suggestion-link">🏛️ Modelos OSI/TCP</a>
+    <a href="pages/enderecamento.html"  class="error-suggestion-link">📍 Endereçamento</a>
+    <a href="pages/protocolos.html"     class="error-suggestion-link">🔌 Protocolos</a>
+    <a href="pages/acesso-site.html"    class="error-suggestion-link">🌍 Acesso a um Site</a>
+    <a href="pages/equipamentos.html"   class="error-suggestion-link">🖥️ Equipamentos</a>
+    <a href="pages/seguranca.html"      class="error-suggestion-link">🔒 Segurança</a>
+    <a href="pages/troubleshooting.html" class="error-suggestion-link">🔧 Troubleshooting</a>
+    <a href="pages/portas.html"         class="error-suggestion-link">🚪 Portas</a>
+  </nav>
+</div>
+
+<script>
+  const saved = localStorage.getItem('rw-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+</script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
+</body>
+</html>

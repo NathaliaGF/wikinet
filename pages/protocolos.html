@@ -4,27 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Protocolos Principais — RedesWiki</title>
+  <meta name="description" content="TCP, UDP, DNS, DHCP, HTTP/S, TLS e SSH: como cada protocolo funciona e para que serve.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/protocolos.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/protocolos.html">
+  <meta property="og:title" content="Protocolos Principais — RedesWiki">
+  <meta property="og:description" content="TCP, UDP, DNS, DHCP, HTTP/S, TLS e SSH: como cada protocolo funciona e para que serve.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
 <div class="app-layout">
   <nav class="sidebar" id="sidebar"></nav>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <div class="main-content">
     <div class="topbar">
       <div class="topbar-left">
-        <button class="hamburger" id="hamburger"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg></button>
         <div class="breadcrumbs" id="breadcrumbs"></div>
       </div>
-      <div class="topbar-right"><button class="theme-toggle"></button></div>
+      <div class="topbar-right"><button class="theme-toggle" aria-label="Alternar tema"></button></div>
     </div>
 
-    <main class="article-wrapper">
+    <main class="article-wrapper" id="main-content">
       <div class="page-header">
         <div class="page-tag">Módulo 04</div>
         <h1 class="page-title">Protocolos Principais</h1>
-        <p class="page-description">Os protocolos que você vai encontrar no dia a dia: TCP, UDP, DNS, DHCP, HTTP/S, TLS, FTP, SSH, SMTP e SIP.</p>
+        <p class="page-description">Aqui o objetivo é trocar uma lista cansativa de siglas por um mapa mental funcional: transporte, resolução de nomes, acesso a páginas e comunicação segura.</p>
+
+        <div class="lesson-map">
+          <div class="lesson-step">
+            <div class="lesson-step-num">1</div>
+            <h3>Entrega de dados</h3>
+            <p>TCP e UDP.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">2</div>
+            <h3>Encontrar destinos</h3>
+            <p>DNS e DHCP.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">3</div>
+            <h3>Trazer conteúdo</h3>
+            <p>HTTP e HTTPS.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">4</div>
+            <h3>Proteger a conversa</h3>
+            <p>TLS, SSH e risco real.</p>
+          </div>
+        </div>
       </div>
 
       <div class="module-progress">
@@ -32,222 +70,386 @@
         <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
       </div>
 
-      <!-- TCP vs UDP -->
       <div class="section" id="tcp-vs-udp">
         <div class="section-header">
-          <h2>TCP vs UDP</h2>
+          <h2>1. TCP vs UDP</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="prot-tcp" data-fav-title="TCP vs UDP" data-fav-page="Protocolos">☆</button>
             <label class="section-check" data-section="tcp-vs-udp"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">A pergunta aqui é simples: você prefere confiabilidade ou menos overhead? A escolha do protocolo nasce desse trade-off.</p>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p><strong>TCP (Transmission Control Protocol)</strong> e <strong>UDP (User Datagram Protocol)</strong> são os dois protocolos da camada de Transporte. Eles operam sobre o IP e entregam dados entre aplicações. A diferença fundamental está na <em>confiabilidade vs. velocidade</em>.</p>
+        <div class="ped-grid">
+          <div class="bloco-explicacao concept-card">
+            <div class="card-kicker">ConceptCard</div>
+            <h3 class="card-title">TCP prioriza entrega confiável. UDP prioriza rapidez.</h3>
+            <p>O <strong>TCP</strong> confirma recebimento, controla ordem e retransmite quando necessário. O <strong>UDP</strong> envia sem estabelecer essa camada extra de garantia.</p>
+          </div>
+
+          <div class="bloco-exemplo why-it-matters-card">
+            <div class="card-kicker">WhyItMattersCard</div>
+            <h3 class="card-title">Por que isso importa?</h3>
+            <p>Porque a aplicação precisa decidir o que dói mais: perder dados ou esperar demais. Um login bancário e uma videochamada não têm a mesma prioridade.</p>
+          </div>
+
+          <div class="bloco-analogia analogy-card">
+            <div class="card-kicker">AnalogyCard</div>
+            <h3 class="card-title">Ligação telefônica vs aviso em alto-falante</h3>
+            <p>TCP parece uma ligação em que você confirma se a outra pessoa ouviu. UDP parece um aviso por alto-falante: rápido, mas sem garantia de recepção perfeita.</p>
+          </div>
+
+          <div class="bloco-explicacao technical-view-card">
+            <div class="card-kicker">TechnicalViewCard</div>
+            <h3 class="card-title">Leitura prática do trade-off</h3>
+            <div class="comparison-strip">
+              <div class="comparison-chip">
+                <strong>TCP</strong>
+                <span>Web, SSH, e-mail, arquivos</span>
+              </div>
+              <div class="comparison-chip">
+                <strong>UDP</strong>
+                <span>DNS, VoIP, streaming, jogos</span>
+              </div>
+              <div class="comparison-chip">
+                <strong>Pergunta-chave</strong>
+                <span>Posso tolerar perda?</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bloco-erros common-mistake-card">
+            <div class="card-kicker">CommonMistakeCard</div>
+            <h3 class="card-title">Erro comum</h3>
+            <p><strong>"UDP é ruim porque não garante entrega."</strong> Não. Ele é apropriado quando baixa latência vale mais que retransmissão.</p>
+          </div>
+
+          <div class="bloco-resumo cyber-connection-card">
+            <div class="card-kicker">CyberConnectionCard</div>
+            <h3 class="card-title">Conexão com cyber</h3>
+            <p>Floods, scans e algumas técnicas de evasão dependem do comportamento desses protocolos. Entender o custo do handshake e da retransmissão ajuda a entender ataque e defesa.</p>
+          </div>
         </div>
 
-        <div class="table-wrapper">
-          <table>
-            <thead><tr><th>Característica</th><th>TCP</th><th>UDP</th></tr></thead>
-            <tbody>
-              <tr><td>Conexão</td><td>Orientado a conexão (three-way handshake)</td><td>Sem conexão (connectionless)</td></tr>
-              <tr><td>Confiabilidade</td><td>Garante entrega e ordem correta</td><td>Melhor esforço, sem garantias</td></tr>
-              <tr><td>Confirmação (ACK)</td><td>Sim — retransmite se não receber ACK</td><td>Não</td></tr>
-              <tr><td>Controle de fluxo</td><td>Sim (janela TCP)</td><td>Não</td></tr>
-              <tr><td>Velocidade</td><td>Mais lento (overhead do cabeçalho e ACKs)</td><td>Mais rápido (cabeçalho menor)</td></tr>
-              <tr><td>Uso típico</td><td>HTTP/S, SSH, FTP, e-mail, banco de dados</td><td>DNS, DHCP, streaming, VoIP, jogos</td></tr>
-              <tr><td>Cabeçalho</td><td>20–60 bytes</td><td>8 bytes</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="rw-diagram" role="img" aria-label="Diagrama do three-way handshake TCP entre cliente e servidor">
+          <span class="rw-diagram-label">Diagrama — Three-Way Handshake TCP</span>
+          <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--font-body)">
+            <!-- Columns -->
+            <rect x="20"  y="10" width="100" height="28" rx="6" fill="#141c2e" stroke="#4f8ef7" stroke-width="1.5"/>
+            <text x="70"  y="28" text-anchor="middle" font-size="12" fill="#93c5fd" font-weight="600">Cliente</text>
+            <rect x="360" y="10" width="100" height="28" rx="6" fill="#0f1c14" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="410" y="28" text-anchor="middle" font-size="12" fill="#86efac" font-weight="600">Servidor</text>
 
-        <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia</div>
-          <p><strong>TCP</strong> é como uma ligação telefônica: você estabelece a chamada, fala, confirma que o outro entendeu, e encerra formalmente. <strong>UDP</strong> é como gritar em um megafone na rua: você transmite sem saber se alguém ouviu, mas é muito rápido.</p>
-        </div>
+            <!-- Vertical lifelines -->
+            <line x1="70"  y1="38" x2="70"  y2="190" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="410" y1="38" x2="410" y2="190" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
 
-        <div class="bloco-memorizar">
-          <div class="bloco-header">⚡ Regra de ouro</div>
-          <p>Use <strong>TCP</strong> quando perder dados é inaceitável (transferência de arquivos, autenticação, transações). Use <strong>UDP</strong> quando velocidade e baixa latência importam mais que perfeição (streaming ao vivo, chamadas de voz, jogos online).</p>
+            <!-- SYN → -->
+            <line x1="70" y1="75" x2="400" y2="95" stroke="#4f8ef7" stroke-width="2" marker-end="url(#arr-b)"/>
+            <text x="235" y="73" text-anchor="middle" font-size="11" fill="#93c5fd" font-weight="600">SYN</text>
+            <text x="235" y="86" text-anchor="middle" font-size="9"  fill="var(--text-muted)">seq=x · quero conectar</text>
+
+            <!-- ← SYN-ACK -->
+            <line x1="410" y1="115" x2="80" y2="135" stroke="#22c55e" stroke-width="2" marker-end="url(#arr-g)"/>
+            <text x="245" y="115" text-anchor="middle" font-size="11" fill="#86efac" font-weight="600">SYN-ACK</text>
+            <text x="245" y="128" text-anchor="middle" font-size="9"  fill="var(--text-muted)">seq=y · ack=x+1 · aceito</text>
+
+            <!-- ACK → -->
+            <line x1="70" y1="155" x2="400" y2="170" stroke="#4f8ef7" stroke-width="2" marker-end="url(#arr-b)"/>
+            <text x="235" y="155" text-anchor="middle" font-size="11" fill="#93c5fd" font-weight="600">ACK</text>
+            <text x="235" y="168" text-anchor="middle" font-size="9"  fill="var(--text-muted)">ack=y+1 · conexão aberta!</text>
+
+            <!-- Arrowhead markers -->
+            <defs>
+              <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#4f8ef7"/>
+              </marker>
+              <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#22c55e"/>
+              </marker>
+            </defs>
+          </svg>
         </div>
       </div>
 
-      <!-- DNS -->
       <div class="section" id="dns">
         <div class="section-header">
-          <h2>DNS — Domain Name System</h2>
+          <h2>2. DNS e DHCP: descobrir para onde ir</h2>
           <div class="section-actions">
-            <button class="fav-btn" data-fav-id="prot-dns" data-fav-title="DNS" data-fav-page="Protocolos">☆</button>
+            <button class="fav-btn" data-fav-id="prot-dns" data-fav-title="DNS e DHCP" data-fav-page="Protocolos">☆</button>
             <label class="section-check" data-section="dns"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">Esses dois protocolos resolvem dúvidas fundamentais antes da comunicação principal começar: "qual é o IP?" e "qual IP eu devo usar?".</p>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p>O DNS é o sistema que traduz nomes de domínio legíveis por humanos (<code>google.com</code>) em endereços IP (<code>142.250.78.14</code>) que os computadores usam. Sem DNS, você precisaria memorizar IPs numéricos para cada site.</p>
-          <p><strong>Como funciona uma consulta DNS:</strong></p>
-          <ol>
-            <li>Você digita <code>google.com</code></li>
-            <li>O sistema operacional verifica o <strong>cache DNS local</strong> — já consultou antes?</li>
-            <li>Se não, consulta o <strong>servidor DNS recursivo</strong> do provedor (ou 8.8.8.8, 1.1.1.1)</li>
-            <li>O recursivo consulta um <strong>servidor raiz</strong> (root) — quem gerencia <code>.com</code>?</li>
-            <li>O raiz responde: "o servidor TLD do <code>.com</code> é X"</li>
-            <li>O recursivo consulta o <strong>servidor TLD</strong> — quem tem <code>google.com</code>?</li>
-            <li>O TLD responde: "o servidor autoritativo do Google é Y"</li>
-            <li>O recursivo consulta o <strong>servidor autoritativo</strong> do Google</li>
-            <li>Recebe: <code>google.com → 142.250.78.14</code></li>
-            <li>Salva no cache e repassa para você</li>
-          </ol>
-          <p>Todo esse processo leva tipicamente entre 20–200ms na primeira consulta e &lt;1ms nas seguintes (cache).</p>
+        <div class="ped-grid">
+          <div class="bloco-explicacao concept-card">
+            <div class="card-kicker">ConceptCard</div>
+            <h3 class="card-title">DNS traduz nomes. DHCP entrega configuração.</h3>
+            <p><strong>DNS</strong> converte nomes como <code>exemplo.com</code> em IPs. <strong>DHCP</strong> entrega IP, máscara, gateway e muitas vezes o servidor DNS para o cliente automaticamente.</p>
+          </div>
+
+          <div class="bloco-exemplo mental-flow-card">
+            <div class="card-kicker">MentalFlowCard</div>
+            <h3 class="card-title">Fluxo mental do DNS</h3>
+            <ol class="flow-list">
+              <li>
+                <span class="flow-step">1</span>
+                <div>
+                  <strong>Você digita um domínio</strong>
+                  <p>O sistema tenta evitar trabalho consultando cache local.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">2</span>
+                <div>
+                  <strong>O resolvedor pergunta ao DNS recursivo</strong>
+                  <p>Ele faz o trabalho pesado de buscar a resposta.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">3</span>
+                <div>
+                  <strong>O recursivo encontra a autoridade correta</strong>
+                  <p>Raiz, TLD e servidor autoritativo entram em cena.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">4</span>
+                <div>
+                  <strong>O IP volta ao cliente</strong>
+                  <p>Agora a conversa com o servidor pode começar.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="bloco-analogia analogy-card">
+            <div class="card-kicker">AnalogyCard</div>
+            <h3 class="card-title">Agenda telefônica + recepção do prédio</h3>
+            <p>O DNS funciona como uma agenda que transforma nome em número. O DHCP é como a recepção que entrega seu crachá e orientações ao entrar no prédio.</p>
+          </div>
+
+          <div class="bloco-erros common-mistake-card">
+            <div class="card-kicker">CommonMistakeCard</div>
+            <h3 class="card-title">Erros comuns</h3>
+            <p><strong>"Se o ping falha, a internet caiu."</strong> Pode ser só um problema de DNS.</p>
+            <p><strong>"DHCP só dá IP."</strong> Não. Ele costuma entregar outros parâmetros vitais da rede.</p>
+          </div>
+
+          <div class="bloco-resumo cyber-connection-card card-span-2">
+            <div class="card-kicker">CyberConnectionCard</div>
+            <h3 class="card-title">Relação com cibersegurança</h3>
+            <p>DNS é alvo frequente de spoofing, tunneling, exfiltração e bloqueio seletivo. DHCP mal protegido pode levar a ataques de rogue DHCP e desvio de gateway. Em defesa, logs desses protocolos entregam muito contexto sobre comportamento da rede.</p>
+          </div>
+
+          <div class="bloco-revisao quick-quiz-card card-span-2">
+            <div class="card-kicker">QuickQuizCard</div>
+            <h3 class="card-title">Teste rápido</h3>
+            <p>Se um computador recebeu IP por DHCP, mas o usuário não acessa domínios e consegue pingar um IP público diretamente, qual protocolo você investigaria primeiro?</p>
+          </div>
         </div>
 
-        <div class="bloco-exemplo">
-          <div class="bloco-header">🔍 Tipos de Registros DNS</div>
-          <div class="table-wrapper">
-            <table>
-              <thead><tr><th>Tipo</th><th>Função</th><th>Exemplo</th></tr></thead>
-              <tbody>
-                <tr><td><strong>A</strong></td><td>Mapeia nome → IPv4</td><td><code>google.com → 142.250.78.14</code></td></tr>
-                <tr><td><strong>AAAA</strong></td><td>Mapeia nome → IPv6</td><td><code>google.com → 2607:f8b0:4004::200e</code></td></tr>
-                <tr><td><strong>CNAME</strong></td><td>Apelido (alias) para outro nome</td><td><code>www.google.com → google.com</code></td></tr>
-                <tr><td><strong>MX</strong></td><td>Servidor de e-mail do domínio</td><td><code>gmail.com → gmail-smtp-in.l.google.com</code></td></tr>
-                <tr><td><strong>TXT</strong></td><td>Texto livre — SPF, DKIM, verificações</td><td><code>v=spf1 include:_spf.google.com ~all</code></td></tr>
-                <tr><td><strong>NS</strong></td><td>Servidores de nome do domínio</td><td><code>google.com → ns1.google.com</code></td></tr>
-                <tr><td><strong>PTR</strong></td><td>DNS reverso — IP → nome</td><td><code>14.78.250.142 → google.com</code></td></tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="rw-diagram" role="img" aria-label="Diagrama de resolução DNS em 4 etapas">
+          <span class="rw-diagram-label">Diagrama — Resolução DNS (exemplo.com)</span>
+          <svg viewBox="0 0 620 130" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--font-body)">
+            <!-- Nodes -->
+            <rect x="10"  y="40" width="100" height="40" rx="6" fill="#141c2e" stroke="#4f8ef7" stroke-width="1.5"/>
+            <text x="60"  y="57" text-anchor="middle" font-size="10" fill="#93c5fd" font-weight="600">Seu PC</text>
+            <text x="60"  y="72" text-anchor="middle" font-size="9"  fill="var(--text-muted)">cache local</text>
+
+            <rect x="160" y="40" width="110" height="40" rx="6" fill="#160e24" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="215" y="57" text-anchor="middle" font-size="10" fill="#c4b5fd" font-weight="600">DNS Recursivo</text>
+            <text x="215" y="72" text-anchor="middle" font-size="9"  fill="var(--text-muted)">ISP / 8.8.8.8</text>
+
+            <rect x="330" y="40" width="100" height="40" rx="6" fill="#1c1605" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="380" y="57" text-anchor="middle" font-size="10" fill="#fde68a" font-weight="600">Servidor Raiz</text>
+            <text x="380" y="72" text-anchor="middle" font-size="9"  fill="var(--text-muted)">"vá ao .com"</text>
+
+            <rect x="490" y="40" width="120" height="40" rx="6" fill="#0f1c14" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="550" y="57" text-anchor="middle" font-size="10" fill="#86efac" font-weight="600">Autoritativo</text>
+            <text x="550" y="72" text-anchor="middle" font-size="9"  fill="var(--text-muted)">exemplo.com</text>
+
+            <!-- Arrows: query flow (top) -->
+            <defs>
+              <marker id="dns-arr" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L7,3 z" fill="var(--text-muted)"/>
+              </marker>
+              <marker id="dns-ret" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L7,3 z" fill="#4f8ef7"/>
+              </marker>
+            </defs>
+            <!-- → query -->
+            <line x1="112" y1="52" x2="158" y2="52" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#dns-arr)"/>
+            <text x="135" y="46" text-anchor="middle" font-size="8" fill="var(--text-muted)">① query</text>
+            <line x1="272" y1="52" x2="328" y2="52" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#dns-arr)"/>
+            <text x="300" y="46" text-anchor="middle" font-size="8" fill="var(--text-muted)">② recursivo</text>
+            <line x1="432" y1="52" x2="488" y2="52" stroke="var(--text-muted)" stroke-width="1.5" marker-end="url(#dns-arr)"/>
+            <text x="460" y="46" text-anchor="middle" font-size="8" fill="var(--text-muted)">③ TLD → auth</text>
+            <!-- ← response -->
+            <line x1="488" y1="76" x2="272" y2="76" stroke="#4f8ef7" stroke-width="1.5" marker-end="url(#dns-ret)"/>
+            <text x="380" y="92" text-anchor="middle" font-size="8" fill="#4f8ef7">④ IP: 93.184.216.34</text>
+            <line x1="158" y1="76" x2="112" y2="76" stroke="#4f8ef7" stroke-width="1.5" marker-end="url(#dns-ret)"/>
+
+            <!-- Labels bottom -->
+            <text x="60"  y="108" text-anchor="middle" font-size="8" fill="var(--text-muted)">pergunta</text>
+            <text x="215" y="108" text-anchor="middle" font-size="8" fill="var(--text-muted)">busca na hierarquia</text>
+            <text x="380" y="108" text-anchor="middle" font-size="8" fill="var(--text-muted)">aponta o caminho</text>
+            <text x="550" y="108" text-anchor="middle" font-size="8" fill="var(--text-muted)">resposta definitiva</text>
+          </svg>
         </div>
       </div>
 
-      <!-- DHCP -->
-      <div class="section" id="dhcp">
-        <div class="section-header">
-          <h2>DHCP — Atribuição Automática de IP</h2>
-          <div class="section-actions">
-            <button class="fav-btn" data-fav-id="prot-dhcp" data-fav-title="DHCP" data-fav-page="Protocolos">☆</button>
-            <label class="section-check" data-section="dhcp"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
-          </div>
-        </div>
-
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p><strong>DHCP</strong> (Dynamic Host Configuration Protocol) é o protocolo responsável por <strong>atribuir automaticamente</strong> configurações de rede para dispositivos que se conectam. Sem ele, você precisaria configurar manualmente em cada dispositivo: IP, máscara, gateway e DNS.</p>
-          <p>O processo DORA:</p>
-          <ol>
-            <li><strong>D — Discover:</strong> o cliente envia broadcast "tem algum servidor DHCP aqui?"</li>
-            <li><strong>O — Offer:</strong> o servidor oferece um IP disponível</li>
-            <li><strong>R — Request:</strong> o cliente aceita a oferta</li>
-            <li><strong>A — Acknowledge:</strong> o servidor confirma e cede o IP por um <em>lease time</em> (tempo de aluguel)</li>
-          </ol>
-          <p>O DHCP usa as portas UDP 67 (servidor) e 68 (cliente).</p>
-        </div>
-      </div>
-
-      <!-- HTTP vs HTTPS -->
       <div class="section" id="http-https">
         <div class="section-header">
-          <h2>HTTP vs HTTPS</h2>
+          <h2>3. HTTP, HTTPS e TLS</h2>
           <div class="section-actions">
-            <button class="fav-btn" data-fav-id="prot-http" data-fav-title="HTTP vs HTTPS" data-fav-page="Protocolos">☆</button>
+            <button class="fav-btn" data-fav-id="prot-http" data-fav-title="HTTP, HTTPS e TLS" data-fav-page="Protocolos">☆</button>
             <label class="section-check" data-section="http-https"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">Aqui aparece a web que o usuário enxerga. Mas por baixo dela existem pedidos, respostas e um canal que precisa ser confiável e seguro.</p>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p><strong>HTTP</strong> (Hypertext Transfer Protocol) é o protocolo da web. Define como clientes fazem requisições e servidores respondem. Opera na camada de Aplicação, porta 80.</p>
-          <p><strong>HTTPS</strong> é o HTTP com uma camada TLS por baixo. O "S" significa Secure. Opera na porta 443. A diferença prática:</p>
-          <ul>
-            <li><strong>HTTP:</strong> dados em texto puro — qualquer intermediário pode ler. Se você fizer login via HTTP em um café, quem capturar o tráfego vê sua senha.</li>
-            <li><strong>HTTPS:</strong> dados criptografados — intermediários veem apenas bytes embaralhados. Sem a chave de sessão, é inútil.</li>
-          </ul>
-          <p>Métodos HTTP mais usados: <code>GET</code> (busca), <code>POST</code> (envia dados), <code>PUT</code>/<code>PATCH</code> (atualiza), <code>DELETE</code> (remove).</p>
-        </div>
-      </div>
+        <div class="ped-grid">
+          <div class="bloco-explicacao concept-card">
+            <div class="card-kicker">ConceptCard</div>
+            <h3 class="card-title">HTTP traz conteúdo. HTTPS é HTTP com proteção por TLS.</h3>
+            <p>O <strong>HTTP</strong> define como cliente e servidor trocam recursos como páginas, imagens e APIs. O <strong>HTTPS</strong> usa TLS para proteger essa conversa.</p>
+          </div>
 
-      <!-- TLS -->
-      <div class="section" id="tls">
-        <div class="section-header">
-          <h2>TLS — Transport Layer Security</h2>
-          <div class="section-actions">
-            <button class="fav-btn" data-fav-id="prot-tls" data-fav-title="TLS" data-fav-page="Protocolos">☆</button>
-            <label class="section-check" data-section="tls"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          <div class="bloco-explicacao technical-view-card">
+            <div class="card-kicker">TechnicalViewCard</div>
+            <h3 class="card-title">O TLS protege três coisas</h3>
+            <div class="comparison-strip">
+              <div class="comparison-chip">
+                <strong>Confidencialidade</strong>
+                <span>Evita leitura do conteúdo por terceiros</span>
+              </div>
+              <div class="comparison-chip">
+                <strong>Integridade</strong>
+                <span>Ajuda a detectar alteração no caminho</span>
+              </div>
+              <div class="comparison-chip">
+                <strong>Autenticação</strong>
+                <span>Ajuda a validar com quem você está falando</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bloco-exemplo mental-flow-card card-span-2">
+            <div class="card-kicker">MentalFlowCard</div>
+            <h3 class="card-title">Fluxo resumido ao acessar um site seguro</h3>
+            <ol class="flow-list">
+              <li>
+                <span class="flow-step">1</span>
+                <div>
+                  <strong>O navegador resolve o nome</strong>
+                  <p>Sem DNS, ele nem sabe para onde ir.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">2</span>
+                <div>
+                  <strong>Ele estabelece a conexão</strong>
+                  <p>Normalmente via TCP na porta <code>443</code>.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">3</span>
+                <div>
+                  <strong>O TLS negocia um canal seguro</strong>
+                  <p>Certificado, algoritmos e chaves entram aqui.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">4</span>
+                <div>
+                  <strong>O HTTP viaja por dentro desse túnel</strong>
+                  <p>Agora os pedidos e respostas seguem protegidos.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="bloco-analogia analogy-card">
+            <div class="card-kicker">AnalogyCard</div>
+            <h3 class="card-title">Envelope aberto vs envelope lacrado</h3>
+            <p>HTTP puro é uma carta aberta. HTTPS é a mesma carta dentro de um envelope lacrado com mecanismo para conferir autenticidade do remetente.</p>
+          </div>
+
+          <div class="bloco-erros common-mistake-card">
+            <div class="card-kicker">CommonMistakeCard</div>
+            <h3 class="card-title">Dois erros importantes</h3>
+            <p><strong>"HTTPS significa site confiável."</strong> Não. Significa canal protegido, não intenção legítima.</p>
+            <p><strong>"SSL e TLS são a mesma coisa hoje."</strong> Na prática, o nome popular ainda fala SSL, mas o protocolo moderno é TLS.</p>
           </div>
         </div>
-
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p>O TLS (sucessor do SSL) oferece três garantias fundamentais:</p>
-          <ul>
-            <li><strong>Confidencialidade:</strong> os dados são criptografados. Sem a chave, não se lê.</li>
-            <li><strong>Autenticação:</strong> o certificado digital prova que você está falando com quem pensa. Emitido por uma CA (Certificate Authority) confiável.</li>
-            <li><strong>Integridade:</strong> um HMAC (hash) verifica que os dados não foram alterados no caminho.</li>
-          </ul>
-          <p>No <strong>handshake TLS</strong>, cliente e servidor:</p>
-          <ol>
-            <li>Negociam a versão do protocolo e os algoritmos de criptografia</li>
-            <li>O servidor envia seu certificado digital</li>
-            <li>O cliente verifica a autenticidade do certificado com a CA</li>
-            <li>Ambos derivam uma chave de sessão usando criptografia assimétrica (sem nunca transmitir a chave)</li>
-            <li>A partir daqui, toda comunicação usa criptografia simétrica com a chave de sessão</li>
-          </ol>
-        </div>
-
-        <div class="bloco-memorizar">
-          <div class="bloco-header">⚡ TLS ≠ SSL</div>
-          <p>O SSL (Secure Sockets Layer) é o predecessor do TLS e está descontinuado por vulnerabilidades. Quando alguém diz "certificado SSL", na prática usa TLS 1.2 ou 1.3. TLS 1.3 (2018) é o padrão atual — mais rápido e seguro que versões anteriores.</p>
-        </div>
       </div>
 
-      <!-- Outros protocolos -->
       <div class="section" id="outros-protocolos">
         <div class="section-header">
-          <h2>FTP, SSH, SMTP, IMAP e POP3</h2>
+          <h2>4. SSH, FTP, e-mail e o olhar de cibersegurança</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="prot-outros" data-fav-title="Outros Protocolos" data-fav-page="Protocolos">☆</button>
             <label class="section-check" data-section="outros-protocolos"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">Nem tudo é web. Alguns protocolos aparecem o tempo inteiro em administração, suporte e investigação.</p>
 
-        <div class="table-wrapper">
-          <table>
-            <thead><tr><th>Protocolo</th><th>Porta</th><th>Função</th><th>Quando usar</th></tr></thead>
-            <tbody>
-              <tr><td><strong>FTP</strong></td><td>20/21 TCP</td><td>Transferência de arquivos</td><td>Upload para servidor web (evite sem criptografia)</td></tr>
-              <tr><td><strong>SFTP</strong></td><td>22 TCP</td><td>FTP seguro sobre SSH</td><td>Transferência de arquivos segura</td></tr>
-              <tr><td><strong>SSH</strong></td><td>22 TCP</td><td>Acesso remoto seguro ao terminal</td><td>Administrar servidores Linux/Unix</td></tr>
-              <tr><td><strong>Telnet</strong></td><td>23 TCP</td><td>Acesso remoto sem criptografia</td><td>Não use em produção — histórico apenas</td></tr>
-              <tr><td><strong>SMTP</strong></td><td>25, 587, 465</td><td>Envio de e-mail</td><td>Servidor → servidor (25), cliente → servidor (587)</td></tr>
-              <tr><td><strong>IMAP</strong></td><td>143, 993 (TLS)</td><td>Leitura de e-mail (sincronizado)</td><td>Leitura em múltiplos dispositivos</td></tr>
-              <tr><td><strong>POP3</strong></td><td>110, 995 (TLS)</td><td>Download de e-mail (remove do servidor)</td><td>Leitura em dispositivo único</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- SIP -->
-      <div class="section" id="sip">
-        <div class="section-header">
-          <h2>SIP — Session Initiation Protocol</h2>
-          <div class="section-actions">
-            <button class="fav-btn" data-fav-id="prot-sip" data-fav-title="SIP / VoIP" data-fav-page="Protocolos">☆</button>
-            <label class="section-check" data-section="sip"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+        <div class="ped-grid">
+          <div class="bloco-explicacao technical-view-card card-span-2">
+            <div class="card-kicker">TechnicalViewCard</div>
+            <h3 class="card-title">Tabela curta para memória de trabalho</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Protocolo</th><th>Uso principal</th><th>Observação prática</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>SSH</strong></td><td>Acesso remoto seguro</td><td>Essencial para administrar Linux e equipamentos</td></tr>
+                  <tr><td><strong>FTP</strong></td><td>Transferência de arquivos</td><td>Evite sem criptografia</td></tr>
+                  <tr><td><strong>SFTP</strong></td><td>Transferência segura via SSH</td><td>Preferível ao FTP clássico</td></tr>
+                  <tr><td><strong>SMTP</strong></td><td>Envio de e-mail</td><td>Base do tráfego de saída de e-mail</td></tr>
+                  <tr><td><strong>IMAP</strong></td><td>Leitura sincronizada de e-mail</td><td>Bom para vários dispositivos</td></tr>
+                  <tr><td><strong>POP3</strong></td><td>Leitura com download local</td><td>Mais limitado para uso moderno</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p>O <strong>SIP</strong> é o protocolo de <em>sinalização</em> usado em VoIP (Voice over IP) — a tecnologia por trás de ligações via internet (Skype, WhatsApp, Teams, sistemas PABX IP).</p>
-          <p>O SIP cuida de: iniciar a chamada, negociar codecs de áudio/vídeo, transferir chamadas e encerrar sessões. O áudio em si viaja em outro protocolo, o RTP (Real-Time Protocol).</p>
-          <p>Portas: <strong>5060</strong> (UDP/TCP não criptografado) e <strong>5061</strong> (TCP com TLS — SIP seguro).</p>
-          <p>Se você trabalha com telefonia, PABX virtual, ou call centers, vai encontrar SIP com frequência.</p>
-        </div>
+          <div class="bloco-exemplo why-it-matters-card">
+            <div class="card-kicker">WhyItMattersCard</div>
+            <h3 class="card-title">Onde isso aparece no mundo real?</h3>
+            <p>Suporte remoto, automação, envio de logs, backup, administração de servidores e análise de incidentes usam esses protocolos o tempo inteiro.</p>
+          </div>
 
-        <div class="bloco-erros">
-          <div class="bloco-header">⚠️ SIP na internet sem TLS</div>
-          <p>Sistemas SIP sem criptografia (porta 5060 exposta) são alvos comuns de ataques de escuta e desvio de chamadas. Sempre use SIP sobre TLS (5061) e autenticação forte em sistemas de produção.</p>
+          <div class="bloco-erros common-mistake-card">
+            <div class="card-kicker">CommonMistakeCard</div>
+            <h3 class="card-title">Atalhos perigosos</h3>
+            <p>Expor SSH à internet sem hardening, manter FTP legado e aceitar credenciais em texto claro são erros clássicos que abrem portas desnecessárias.</p>
+          </div>
+
+          <div class="bloco-resumo cyber-connection-card card-span-2">
+            <div class="card-kicker">CyberConnectionCard</div>
+            <h3 class="card-title">O que um iniciante em cyber precisa enxergar</h3>
+            <p>Cada protocolo exposto aumenta contexto operacional e superfície de ataque. O trabalho maduro não é "fechar tudo", e sim entender por que aquele protocolo existe, como deveria operar e o que foge do comportamento esperado.</p>
+          </div>
+
+          <div class="bloco-revisao final-review-card card-span-2">
+            <div class="card-kicker">FinalReviewCard</div>
+            <h3 class="card-title">Revisão final</h3>
+            <div class="review-chips">
+              <span class="review-chip">TCP entrega com garantia</span>
+              <span class="review-chip">UDP reduz overhead</span>
+              <span class="review-chip">DNS traduz nomes</span>
+              <span class="review-chip">DHCP distribui configuração</span>
+              <span class="review-chip">HTTP traz conteúdo</span>
+              <span class="review-chip">TLS protege o canal</span>
+              <span class="review-chip">SSH e SFTP são rotina operacional</span>
+            </div>
+            <div class="retrieval-box">
+              <span class="retrieval-label">Recuperação Ativa</span>
+              <p>Sem olhar para a página: descreva a sequência mínima para acessar um site seguro a partir do momento em que você digita o domínio no navegador.</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -269,10 +471,17 @@
   </div>
 </div>
 <button class="back-to-top" id="backToTop">↑</button>
-<script src="../data/content.js"></script>
-<script src="../js/progress.js"></script>
-<script src="../js/interactive.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/app.js"></script>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
 </body>
 </html>

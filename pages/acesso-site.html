@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>O que Acontece ao Acessar um Site — RedesWiki</title>
+  <meta name="description" content="Veja o que acontece nos bastidores quando você digita uma URL: DNS, TCP, TLS e HTTP passo a passo.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/acesso-site.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/acesso-site.html">
+  <meta property="og:title" content="O que Acontece ao Acessar um Site — RedesWiki">
+  <meta property="og:description" content="Veja o que acontece nos bastidores quando você digita uma URL: DNS, TCP, TLS e HTTP.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
 <div class="app-layout">
   <nav class="sidebar" id="sidebar"></nav>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -20,7 +35,7 @@
       <div class="topbar-right"><button class="theme-toggle"></button></div>
     </div>
 
-    <main class="article-wrapper">
+    <main class="article-wrapper" id="main-content">
       <div class="page-header">
         <div class="page-tag">Módulo 05</div>
         <h1 class="page-title">O que Acontece ao Acessar um Site?</h1>
@@ -318,10 +333,17 @@ Set-Cookie: _octo=GH1.xxx; SameSite=Strict
   </div>
 </div>
 <button class="back-to-top" id="backToTop">↑</button>
-<script src="../data/content.js"></script>
-<script src="../js/progress.js"></script>
-<script src="../js/interactive.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/app.js"></script>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
 </body>
 </html>

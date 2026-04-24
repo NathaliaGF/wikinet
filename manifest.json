@@ -1,0 +1,40 @@
+{
+  "name": "RedesWiki — Aprenda Redes do Zero",
+  "short_name": "RedesWiki",
+  "description": "Wiki interativa para aprender redes de computadores: IP, TCP/IP, DNS, HTTP, segurança e mais.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f1117",
+  "theme_color": "#4f8ef7",
+  "lang": "pt-BR",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Fundamentos",
+      "url": "./pages/fundamentos.html",
+      "description": "Módulo 1 — Fundamentos de Redes"
+    },
+    {
+      "name": "Simulado",
+      "url": "./pages/simulado.html",
+      "description": "Simulado de Certificação"
+    }
+  ]
+}

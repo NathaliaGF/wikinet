@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modelos de Camadas — RedesWiki</title>
+  <meta name="description" content="OSI e TCP/IP: por que existem, como funcionam e como usar para troubleshooting de redes.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/modelos.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/modelos.html">
+  <meta property="og:title" content="Modelos de Camadas — RedesWiki">
+  <meta property="og:description" content="OSI e TCP/IP: por que existem, como funcionam e como usar para troubleshooting.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
 <div class="app-layout">
   <nav class="sidebar" id="sidebar"></nav>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -19,14 +34,37 @@
         </button>
         <div class="breadcrumbs" id="breadcrumbs"></div>
       </div>
-      <div class="topbar-right"><button class="theme-toggle"></button></div>
+      <div class="topbar-right"><button class="theme-toggle" aria-label="Alternar tema"></button></div>
     </div>
 
-    <main class="article-wrapper">
+    <main class="article-wrapper" id="main-content">
       <div class="page-header">
         <div class="page-tag">Módulo 02</div>
         <h1 class="page-title">Modelos de Camadas</h1>
-        <p class="page-description">Por que dividir redes em camadas? Como funciona o OSI e o TCP/IP? Este módulo explica os dois modelos e como eles se relacionam.</p>
+        <p class="page-description">Nesta aula, você vai sair da decoração vazia do OSI e entender por que redes foram divididas em camadas, como OSI e TCP/IP se relacionam e por que isso ajuda diretamente em troubleshooting e segurança.</p>
+
+        <div class="lesson-map">
+          <div class="lesson-step">
+            <div class="lesson-step-num">1</div>
+            <h3>Por que camadas existem</h3>
+            <p>Separar complexidade.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">2</div>
+            <h3>Como ler o OSI</h3>
+            <p>Função de cada nível.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">3</div>
+            <h3>Como ele vira prática</h3>
+            <p>TCP/IP e encapsulamento.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">4</div>
+            <h3>Como usar em cyber</h3>
+            <p>Análise e defesa.</p>
+          </div>
+        </div>
       </div>
 
       <div class="module-progress">
@@ -34,166 +72,325 @@
         <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
       </div>
 
-      <!-- ─── Por que camadas? ───────────────────────────── -->
       <div class="section" id="por-que-camadas">
         <div class="section-header">
-          <h2>Por que dividir em camadas?</h2>
+          <h2>1. Por que dividir redes em camadas?</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="mod-pq" data-fav-title="Por que camadas?" data-fav-page="Modelos">☆</button>
             <label class="section-check" data-section="por-que-camadas"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">Essa é a pergunta que precisa vir antes das sete camadas. Sem ela, o OSI vira só um quadro para decorar.</p>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p>Comunicação em rede é extremamente complexa. Imagine que você precisa garantir: a transmissão física do sinal, o endereçamento dos dispositivos, o roteamento por múltiplas redes, a entrega confiável dos dados, e por fim a apresentação desses dados para o usuário.</p>
-          <p>Se tudo isso fosse um único sistema monolítico, seria impossível de desenvolver, testar, depurar ou atualizar — mexer em qualquer parte quebraria tudo.</p>
-          <p>A solução foi <strong>dividir em camadas</strong>, onde cada camada tem uma responsabilidade específica e se comunica apenas com as camadas imediatamente acima e abaixo dela. Isso permite que fabricantes e desenvolvedores trabalhem de forma independente em cada parte.</p>
-        </div>
+        <div class="ped-grid">
+          <div class="bloco-explicacao concept-card">
+            <div class="card-kicker">ConceptCard</div>
+            <h3 class="card-title">Camadas existem para dividir responsabilidades</h3>
+            <p>Enviar dados entre duas aplicações envolve muitos problemas diferentes: sinal elétrico, acesso ao meio, endereçamento, roteamento, entrega fim a fim e exibição para o usuário.</p>
+            <p>Separar isso em camadas permite trocar uma parte sem reconstruir tudo.</p>
+          </div>
 
-        <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia — Empresa com departamentos</div>
-          <p>Imagine uma empresa de logística. O departamento de vendas (camada de aplicação) não precisa saber como os caminhões são abastecidos. O departamento de rotas (camada de rede) não precisa saber como os motores funcionam. Cada departamento tem sua especialidade e se comunica com os demais por interfaces bem definidas.</p>
-          <p>Se a empresa decide trocar a frota de diesel para elétrica (mudar a tecnologia física), as outras camadas não precisam mudar nada — a interface entre elas permanece a mesma.</p>
+          <div class="bloco-exemplo why-it-matters-card">
+            <div class="card-kicker">WhyItMattersCard</div>
+            <h3 class="card-title">Por que isso importa para quem está aprendendo?</h3>
+            <p>Porque troubleshooting em rede quase sempre é isolamento de camada: o problema está no link físico, no IP, na porta, no protocolo de aplicação ou no conteúdo?</p>
+          </div>
+
+          <div class="bloco-analogia analogy-card">
+            <div class="card-kicker">AnalogyCard</div>
+            <h3 class="card-title">Empresa com departamentos</h3>
+            <p>Vendas não precisa saber como o caminhão foi montado. Logística não precisa saber como a nota fiscal foi emitida. Cada área cuida da sua função e entrega algo utilizável para a próxima.</p>
+          </div>
+
+          <div class="bloco-erros common-mistake-card">
+            <div class="card-kicker">CommonMistakeCard</div>
+            <h3 class="card-title">Erro comum</h3>
+            <p>Tratar camadas como "caixinhas separadas da realidade". Na prática, elas são um modelo mental. O tráfego real acontece junto, mas o modelo ajuda a explicar e diagnosticar.</p>
+          </div>
+
+          <div class="bloco-revisao quick-quiz-card card-span-2">
+            <div class="card-kicker">QuickQuizCard</div>
+            <h3 class="card-title">Pergunta de fixação</h3>
+            <p>Se trocar o cabo de cobre por fibra resolve um problema sem mudar o navegador nem o servidor, isso sugere atuação em qual parte do modelo?</p>
+          </div>
         </div>
       </div>
 
-      <!-- ─── Modelo OSI ─────────────────────────────────── -->
       <div class="section" id="modelo-osi">
         <div class="section-header">
-          <h2>Modelo OSI — As 7 Camadas</h2>
+          <h2>2. Modelo OSI: o que cada camada resolve</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="mod-osi" data-fav-title="Modelo OSI" data-fav-page="Modelos">☆</button>
             <label class="section-check" data-section="modelo-osi"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">Em vez de decorar nomes, leia o OSI como uma escada: do meio físico até a aplicação que o usuário enxerga.</p>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p>O modelo <strong>OSI</strong> (Open Systems Interconnection) foi criado pela ISO na década de 1980 como um modelo de referência para padronizar como sistemas de diferentes fabricantes se comunicam. Ele tem 7 camadas, enumeradas de baixo (física) para cima (aplicação).</p>
-        </div>
+        <div class="ped-grid">
+          <div class="bloco-explicacao technical-view-card card-span-2">
+            <div class="card-kicker">TechnicalViewCard</div>
+            <h3 class="card-title">Mapa funcional das 7 camadas</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Camada</th><th>Pergunta que resolve</th><th>Exemplos</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>7. Aplicação</strong></td><td>Que serviço o software quer usar?</td><td>HTTP, DNS, SMTP, SSH</td></tr>
+                  <tr><td><strong>6. Apresentação</strong></td><td>Como os dados serão representados?</td><td>Criptografia, compressão, codificação</td></tr>
+                  <tr><td><strong>5. Sessão</strong></td><td>Como a conversa é iniciada e mantida?</td><td>Controle de sessão, sincronização</td></tr>
+                  <tr><td><strong>4. Transporte</strong></td><td>Como os dados chegam de ponta a ponta?</td><td>TCP, UDP</td></tr>
+                  <tr><td><strong>3. Rede</strong></td><td>Como os pacotes encontram o destino?</td><td>IP, roteamento</td></tr>
+                  <tr><td><strong>2. Enlace</strong></td><td>Como dispositivos no mesmo enlace se entendem?</td><td>Ethernet, MAC, switches</td></tr>
+                  <tr><td><strong>1. Física</strong></td><td>Como os bits viram sinal?</td><td>Cabo, fibra, rádio, conectores</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-        <div class="osi-table">
-          <table>
-            <thead>
-              <tr><th>#</th><th>Camada</th><th>Função principal</th><th>Exemplos de protocolos</th><th>Unidade de dados</th></tr>
-            </thead>
-            <tbody>
-              <tr class="layer-app"><td><span class="layer-badge" style="background:rgba(79,142,247,0.2);color:#4f8ef7">7</span></td><td><strong>Aplicação</strong></td><td>Interface entre o software e a rede. Apresenta dados ao usuário.</td><td>HTTP, FTP, DNS, SMTP, SSH</td><td>Mensagem/Dado</td></tr>
-              <tr class="layer-pres"><td><span class="layer-badge" style="background:rgba(139,92,246,0.2);color:#8b5cf6">6</span></td><td><strong>Apresentação</strong></td><td>Traduz, codifica, comprime e criptografa dados.</td><td>SSL/TLS, JPEG, MPEG, ASCII</td><td>Mensagem</td></tr>
-              <tr class="layer-sess"><td><span class="layer-badge" style="background:rgba(236,72,153,0.2);color:#ec4899">5</span></td><td><strong>Sessão</strong></td><td>Gerencia sessões de comunicação (início, manutenção, encerramento).</td><td>NetBIOS, RPC, SIP</td><td>Dado</td></tr>
-              <tr class="layer-trans"><td><span class="layer-badge" style="background:rgba(16,185,129,0.2);color:#10b981">4</span></td><td><strong>Transporte</strong></td><td>Entrega fim-a-fim, controle de fluxo, garantia de entrega.</td><td>TCP, UDP</td><td>Segmento (TCP) / Datagrama (UDP)</td></tr>
-              <tr class="layer-net"><td><span class="layer-badge" style="background:rgba(245,158,11,0.2);color:#f59e0b">3</span></td><td><strong>Rede</strong></td><td>Roteamento de pacotes entre redes diferentes usando endereços IP.</td><td>IP, ICMP, OSPF, BGP</td><td>Pacote</td></tr>
-              <tr class="layer-data"><td><span class="layer-badge" style="background:rgba(239,68,68,0.2);color:#ef4444">2</span></td><td><strong>Enlace de Dados</strong></td><td>Transmissão confiável dentro da mesma rede (endereços MAC).</td><td>Ethernet, Wi-Fi (802.11), ARP</td><td>Quadro (Frame)</td></tr>
-              <tr class="layer-phys"><td><span class="layer-badge" style="background:rgba(107,114,128,0.2);color:#6b7280">1</span></td><td><strong>Física</strong></td><td>Transmissão dos bits brutos pelo meio físico (elétrico, óptico, rádio).</td><td>Ethernet físico, USB, fibra óptica, Wi-Fi (sinal)</td><td>Bit</td></tr>
-            </tbody>
-          </table>
-        </div>
+          <div class="bloco-analogia analogy-card">
+            <div class="card-kicker">AnalogyCard</div>
+            <h3 class="card-title">Subir do chão até a conversa</h3>
+            <p>Na camada 1 você tem o piso e a infraestrutura. Na 2 e 3 você organiza a circulação. Na 4 você garante entrega entre pontas. Nas 5, 6 e 7 você finalmente lida com a conversa útil para pessoas e aplicações.</p>
+          </div>
 
-        <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia — Enviar uma carta international</div>
-          <p><strong>Camada 7 (Aplicação):</strong> você escreve a carta em português. <strong>Camada 6 (Apresentação):</strong> um tradutor converte para inglês para que o destinatário entenda. <strong>Camada 5 (Sessão):</strong> você agenda uma conversa por carta — "responda dentro de 30 dias". <strong>Camada 4 (Transporte):</strong> os Correios garantem entrega com rastreamento (TCP) ou envio simples sem rastreio (UDP). <strong>Camada 3 (Rede):</strong> o sistema de roteamento internacional decide como a carta vai de SP para NY. <strong>Camada 2 (Enlace):</strong> o carteiro local entrega no bairro correto. <strong>Camada 1 (Física):</strong> a carta vai de avião (fibra óptica) ou navio (cabo de cobre).</p>
-        </div>
+          <div class="bloco-resumo why-it-matters-card">
+            <div class="card-kicker">WhyItMattersCard</div>
+            <h3 class="card-title">O que realmente importa guardar</h3>
+            <p>Nem sempre você vai usar todas as sete camadas literalmente, mas vai usar a lógica delas: identificar se o problema é físico, local, de roteamento, de transporte ou de aplicação.</p>
+          </div>
 
-        <div class="bloco-memorizar">
-          <div class="bloco-header">⚡ Memorize as camadas</div>
-          <p>De baixo para cima: <strong>Física → Enlace → Rede → Transporte → Sessão → Apresentação → Aplicação</strong></p>
-          <p>Mnemônico (camadas 1→7): <em>"<strong>F</strong>ísicos <strong>E</strong>ngenheiros <strong>N</strong>unca <strong>T</strong>omam <strong>S</strong>uco <strong>A</strong>ntes do <strong>A</strong>lmoço"</em></p>
-        </div>
-      </div>
-
-      <!-- ─── Modelo TCP/IP ──────────────────────────────── -->
-      <div class="section" id="modelo-tcpip">
-        <div class="section-header">
-          <h2>Modelo TCP/IP — As 4 Camadas</h2>
-          <div class="section-actions">
-            <button class="fav-btn" data-fav-id="mod-tcpip" data-fav-title="Modelo TCP/IP" data-fav-page="Modelos">☆</button>
-            <label class="section-check" data-section="modelo-tcpip"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          <div class="bloco-revisao explain-own-words-card card-span-2">
+            <div class="card-kicker">ExplainInYourOwnWordsCard</div>
+            <h3 class="card-title">Explique sem decorar</h3>
+            <p>Como você descreveria a diferença entre a camada de Rede e a camada de Transporte para alguém que só conhece navegador e Wi-Fi?</p>
           </div>
         </div>
 
-        <div class="bloco-explicacao">
-          <div class="bloco-header">📖 Explicação</div>
-          <p>O modelo <strong>TCP/IP</strong> é o modelo <em>real</em> que a internet usa. Ele surgiu antes do OSI, desenvolvido pelo DARPA para a ARPANET (precursora da internet). É mais prático e tem 4 camadas:</p>
-          <ul>
-            <li><strong>Acesso à Rede (Link):</strong> engloba o que o OSI chama de Física + Enlace. Lida com a transmissão física e endereçamento MAC na rede local.</li>
-            <li><strong>Internet:</strong> equivale à camada de Rede do OSI. Onde o protocolo IP opera, responsável pelo endereçamento e roteamento entre redes.</li>
-            <li><strong>Transporte:</strong> mesma função do OSI — TCP (confiável) e UDP (rápido).</li>
-            <li><strong>Aplicação:</strong> engloba as camadas de Sessão, Apresentação e Aplicação do OSI. HTTP, DNS, FTP, SMTP operam aqui.</li>
-          </ul>
-        </div>
+        <div class="rw-diagram" role="img" aria-label="Diagrama das 7 camadas OSI comparadas com o modelo TCP/IP">
+          <span class="rw-diagram-label">Diagrama — OSI vs TCP/IP</span>
+          <svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--font-body)">
+            <!-- OSI column -->
+            <text x="110" y="20" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text-secondary)">Modelo OSI</text>
+            <!-- layers top→bottom, colors by group -->
+            <rect x="20"  y="30" width="180" height="36" rx="6" fill="#160e24" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="110" y="53" text-anchor="middle" font-size="12" fill="#c4b5fd">7 · Aplicação</text>
+            <rect x="20"  y="70" width="180" height="36" rx="6" fill="#160e24" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="110" y="93" text-anchor="middle" font-size="12" fill="#c4b5fd">6 · Apresentação</text>
+            <rect x="20" y="110" width="180" height="36" rx="6" fill="#160e24" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="110" y="133" text-anchor="middle" font-size="12" fill="#c4b5fd">5 · Sessão</text>
+            <rect x="20" y="150" width="180" height="36" rx="6" fill="#141c2e" stroke="#4f8ef7" stroke-width="1.5"/>
+            <text x="110" y="173" text-anchor="middle" font-size="12" fill="#93c5fd">4 · Transporte</text>
+            <rect x="20" y="190" width="180" height="36" rx="6" fill="#0f1c14" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="110" y="213" text-anchor="middle" font-size="12" fill="#86efac">3 · Rede</text>
+            <rect x="20" y="230" width="180" height="36" rx="6" fill="#1c1605" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="110" y="253" text-anchor="middle" font-size="12" fill="#fde68a">2 · Enlace de Dados</text>
+            <rect x="20" y="270" width="180" height="36" rx="6" fill="#1c0d0d" stroke="#ef4444" stroke-width="1.5"/>
+            <text x="110" y="293" text-anchor="middle" font-size="12" fill="#fca5a5">1 · Física</text>
 
-        <div class="bloco-erros">
-          <div class="bloco-header">⚠️ Erros comuns de iniciantes</div>
-          <p><strong>Pensar que o OSI é usado na prática:</strong> o OSI é um modelo de referência para entender e discutir redes. O TCP/IP é o que realmente roda na internet. Você vai usar o OSI para estudar e o TCP/IP para construir coisas.</p>
-        </div>
-      </div>
+            <!-- TCP/IP column -->
+            <text x="510" y="20" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text-secondary)">TCP / IP</text>
+            <rect x="420" y="30" width="200" height="116" rx="6" fill="#160e24" stroke="#8b5cf6" stroke-width="1.5"/>
+            <text x="520" y="94" text-anchor="middle" font-size="12" fill="#c4b5fd">Aplicação</text>
+            <text x="520" y="112" text-anchor="middle" font-size="10" fill="#8b5cf6">(camadas 5, 6, 7 do OSI)</text>
+            <rect x="420" y="150" width="200" height="36" rx="6" fill="#141c2e" stroke="#4f8ef7" stroke-width="1.5"/>
+            <text x="520" y="173" text-anchor="middle" font-size="12" fill="#93c5fd">Transporte (TCP / UDP)</text>
+            <rect x="420" y="190" width="200" height="36" rx="6" fill="#0f1c14" stroke="#22c55e" stroke-width="1.5"/>
+            <text x="520" y="213" text-anchor="middle" font-size="12" fill="#86efac">Internet (IP)</text>
+            <rect x="420" y="230" width="200" height="76" rx="6" fill="#1c1605" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="520" y="275" text-anchor="middle" font-size="12" fill="#fde68a">Acesso à Rede</text>
+            <text x="520" y="293" text-anchor="middle" font-size="10" fill="#f59e0b">(camadas 1 e 2 do OSI)</text>
 
-      <!-- ─── Comparação ─────────────────────────────────── -->
-      <div class="section" id="comparacao-osi-tcpip">
-        <div class="section-header">
-          <h2>Comparação OSI vs TCP/IP</h2>
-          <div class="section-actions">
-            <button class="fav-btn" data-fav-id="mod-comp" data-fav-title="Comparação OSI vs TCP/IP" data-fav-page="Modelos">☆</button>
-            <label class="section-check" data-section="comparacao-osi-tcpip"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
-          </div>
-        </div>
+            <!-- Connector lines -->
+            <line x1="200" y1="88"  x2="420" y2="88"  stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="200" y1="168" x2="420" y2="168" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="200" y1="208" x2="420" y2="208" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="200" y1="248" x2="420" y2="248" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 3"/>
 
-        <div class="osi-table">
-          <table>
-            <thead>
-              <tr><th>OSI (7 camadas)</th><th>#</th><th>TCP/IP (4 camadas)</th><th>Exemplos práticos</th></tr>
-            </thead>
-            <tbody>
-              <tr class="layer-app"><td><strong>Aplicação</strong></td><td>7</td><td rowspan="3" style="vertical-align:middle;text-align:center;background:rgba(79,142,247,0.1);font-weight:600;color:var(--accent)">Aplicação</td><td>HTTP, HTTPS, FTP, DNS, SMTP</td></tr>
-              <tr class="layer-pres"><td><strong>Apresentação</strong></td><td>6</td><td>TLS/SSL, MIME, JSON</td></tr>
-              <tr class="layer-sess"><td><strong>Sessão</strong></td><td>5</td><td>Cookies de sessão, WebSockets</td></tr>
-              <tr class="layer-trans"><td><strong>Transporte</strong></td><td>4</td><td style="background:rgba(16,185,129,0.1);font-weight:600;color:#10b981">Transporte</td><td>TCP, UDP</td></tr>
-              <tr class="layer-net"><td><strong>Rede</strong></td><td>3</td><td style="background:rgba(245,158,11,0.1);font-weight:600;color:#f59e0b">Internet</td><td>IP, ICMP, ARP, OSPF</td></tr>
-              <tr class="layer-data"><td><strong>Enlace de Dados</strong></td><td>2</td><td rowspan="2" style="vertical-align:middle;text-align:center;background:rgba(239,68,68,0.1);font-weight:600;color:#ef4444">Acesso à Rede</td><td>Ethernet, Wi-Fi (802.11)</td></tr>
-              <tr class="layer-phys"><td><strong>Física</strong></td><td>1</td><td>Cabo, fibra, rádio, sinal elétrico</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="bloco-resumo">
-          <div class="bloco-header">📝 Resumo</div>
-          <ul>
-            <li><strong>OSI:</strong> 7 camadas, modelo teórico de referência, útil para estudar e descrever redes</li>
-            <li><strong>TCP/IP:</strong> 4 camadas, modelo prático que a internet usa de verdade</li>
-            <li>A camada de Aplicação do TCP/IP = camadas 5+6+7 do OSI</li>
-            <li>A camada de Acesso à Rede do TCP/IP = camadas 1+2 do OSI</li>
-          </ul>
+            <!-- Labels next to OSI -->
+            <text x="216" y="55"  font-size="10" fill="var(--text-muted)">HTTP, DNS</text>
+            <text x="216" y="95"  font-size="10" fill="var(--text-muted)">TLS, JSON</text>
+            <text x="216" y="135" font-size="10" fill="var(--text-muted)">sessão</text>
+            <text x="216" y="175" font-size="10" fill="var(--text-muted)">TCP, UDP</text>
+            <text x="216" y="215" font-size="10" fill="var(--text-muted)">IP, roteador</text>
+            <text x="216" y="253" font-size="10" fill="var(--text-muted)">MAC, switch</text>
+            <text x="216" y="293" font-size="10" fill="var(--text-muted)">cabo, Wi-Fi</text>
+          </svg>
         </div>
       </div>
 
-      <!-- ─── Mnemônico ──────────────────────────────────── -->
-      <div class="section" id="mnemonico">
+      <div class="section" id="tcpip-vs-osi">
         <div class="section-header">
-          <h2>Mnemônico para Decorar o OSI</h2>
+          <h2>3. OSI vs TCP/IP e encapsulamento</h2>
           <div class="section-actions">
-            <button class="fav-btn" data-fav-id="mod-mn" data-fav-title="Mnemônico OSI" data-fav-page="Modelos">☆</button>
-            <label class="section-check" data-section="mnemonico"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+            <button class="fav-btn" data-fav-id="mod-tcpip" data-fav-title="OSI vs TCP/IP" data-fav-page="Modelos">☆</button>
+            <label class="section-check" data-section="tcpip-vs-osi"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
           </div>
         </div>
+        <p class="section-intro">O OSI é ótimo para aprender. O TCP/IP é o que você encontra na prática do dia a dia.</p>
 
-        <div class="bloco-memorizar">
-          <div class="bloco-header">⚡ Mnemônicos para o OSI</div>
-          <p>De baixo para cima (camadas 1 a 7):</p>
-          <p><strong>"Físicos Engenheiros Nunca Tomam Shots Antes do Almoço"</strong><br>Física | Enlace | Rede | Transporte | Sessão | Apresentação | Aplicação</p>
-          <p>De cima para baixo (camadas 7 a 1):</p>
-          <p><strong>"Atravessando Perigosas Sessões, Transporto Redes Físicas Eletrizantes"</strong><br>Aplicação | Apresentação | Sessão | Transporte | Rede | Enlace | Física</p>
+        <div class="ped-grid">
+          <div class="bloco-explicacao concept-card">
+            <div class="card-kicker">ConceptCard</div>
+            <h3 class="card-title">O TCP/IP junta camadas do OSI</h3>
+            <p>No mundo real, normalmente falamos em quatro blocos: <strong>Acesso à Rede</strong>, <strong>Internet</strong>, <strong>Transporte</strong> e <strong>Aplicação</strong>.</p>
+            <p>As camadas de Sessão e Apresentação do OSI costumam ficar absorvidas na Aplicação, e Física + Enlace costumam aparecer juntas como Acesso à Rede.</p>
+          </div>
+
+          <div class="bloco-explicacao technical-view-card">
+            <div class="card-kicker">TechnicalViewCard</div>
+            <h3 class="card-title">Encapsulamento: uma camada empacota a outra</h3>
+            <p>Quando uma aplicação envia dados, cada camada adiciona seu próprio cabeçalho. No destino, o processo acontece ao contrário: cada camada lê o que é dela e remove aquela parte antes de passar adiante.</p>
+          </div>
+
+          <div class="bloco-exemplo mental-flow-card card-span-2">
+            <div class="card-kicker">MentalFlowCard</div>
+            <h3 class="card-title">Fluxo simples de encapsulamento</h3>
+            <ol class="flow-list">
+              <li>
+                <span class="flow-step">1</span>
+                <div>
+                  <strong>A aplicação gera dados</strong>
+                  <p>Exemplo: um pedido HTTP.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">2</span>
+                <div>
+                  <strong>O transporte adiciona contexto fim a fim</strong>
+                  <p>Portas e controle de entrega entram aqui.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">3</span>
+                <div>
+                  <strong>A camada de Internet adiciona IP</strong>
+                  <p>Agora o pacote sabe de onde sai e para onde vai.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">4</span>
+                <div>
+                  <strong>O acesso à rede prepara a transmissão</strong>
+                  <p>O dado vira algo transmitível no meio físico.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="bloco-erros common-mistake-card">
+            <div class="card-kicker">CommonMistakeCard</div>
+            <h3 class="card-title">Erro comum</h3>
+            <p>Achar que OSI e TCP/IP são rivais. Não são. Um é um modelo de referência detalhado; o outro descreve a pilha mais usada na internet real.</p>
+          </div>
+
+          <div class="rw-diagram card-span-2" role="img" aria-label="Diagrama de encapsulamento de dados descendo pelas camadas">
+            <span class="rw-diagram-label">Diagrama — Encapsulamento na transmissão</span>
+            <svg viewBox="0 0 600 90" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--font-body)">
+              <!-- Arrows left label -->
+              <text x="6" y="20"  font-size="9" fill="var(--text-muted)">Emissor</text>
+              <text x="6" y="32"  font-size="9" fill="var(--text-muted)">↓ add</text>
+              <text x="6" y="80"  font-size="9" fill="var(--text-muted)">↑ remove</text>
+              <text x="6" y="92"  font-size="9" fill="var(--text-muted)">Receptor</text>
+              <!-- L7 Application data -->
+              <rect x="50"  y="5"  width="500" height="20" rx="4" fill="#160e24" stroke="#8b5cf6" stroke-width="1.2"/>
+              <text x="300" y="19" text-anchor="middle" font-size="10" fill="#c4b5fd">L7 Aplicação · Dados HTTP</text>
+              <!-- L4 TCP segment -->
+              <rect x="50"  y="30" width="80"  height="20" rx="4" fill="#141c2e" stroke="#4f8ef7" stroke-width="1.2"/>
+              <text x="90"  y="44" text-anchor="middle" font-size="9" fill="#93c5fd">TCP hdr</text>
+              <rect x="130" y="30" width="420" height="20" rx="4" fill="#141c2e" stroke="#4f8ef7" stroke-width="1.2"/>
+              <text x="340" y="44" text-anchor="middle" font-size="10" fill="#93c5fd">Segmento · payload</text>
+              <!-- L3 IP packet -->
+              <rect x="50"  y="55" width="60"  height="20" rx="4" fill="#0f1c14" stroke="#22c55e" stroke-width="1.2"/>
+              <text x="80"  y="69" text-anchor="middle" font-size="9" fill="#86efac">IP hdr</text>
+              <rect x="110" y="55" width="440" height="20" rx="4" fill="#0f1c14" stroke="#22c55e" stroke-width="1.2"/>
+              <text x="330" y="69" text-anchor="middle" font-size="10" fill="#86efac">Pacote · payload</text>
+              <!-- Labels right -->
+              <text x="556" y="19"  font-size="9" fill="#8b5cf6">7</text>
+              <text x="556" y="44"  font-size="9" fill="#4f8ef7">4</text>
+              <text x="556" y="69"  font-size="9" fill="#22c55e">3</text>
+            </svg>
+          </div>
+
+          <div class="bloco-resumo cyber-connection-card">
+            <div class="card-kicker">CyberConnectionCard</div>
+            <h3 class="card-title">Relação com cibersegurança</h3>
+            <p>Entender encapsulamento ajuda a interpretar capturas no Wireshark, logs de firewall e regras de inspeção. Você passa a enxergar qual cabeçalho foi alterado, bloqueado ou explorado.</p>
+          </div>
         </div>
+      </div>
 
-        <div class="bloco-revisao">
-          <div class="bloco-header">✏️ Revisão Rápida</div>
-          <p>Sem olhar para cima, tente completar: Física (1) → _____ (2) → _____ (3) → _____ (4) → _____ (5) → _____ (6) → _____ (7)</p>
-          <p>Resposta: Enlace de Dados → Rede → Transporte → Sessão → Apresentação → Aplicação.</p>
+      <div class="section" id="troubleshooting-camadas">
+        <div class="section-header">
+          <h2>4. Como usar camadas para pensar melhor</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="mod-trbl" data-fav-title="Troubleshooting por Camadas" data-fav-page="Modelos">☆</button>
+            <label class="section-check" data-section="troubleshooting-camadas"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
+          </div>
+        </div>
+        <p class="section-intro">O verdadeiro ganho do modelo de camadas aparece quando você precisa investigar uma falha ou entender uma técnica de ataque.</p>
+
+        <div class="ped-grid">
+          <div class="bloco-exemplo mental-flow-card">
+            <div class="card-kicker">MentalFlowCard</div>
+            <h3 class="card-title">Roteiro de diagnóstico</h3>
+            <ol class="flow-list">
+              <li>
+                <span class="flow-step">1</span>
+                <div>
+                  <strong>Há link físico?</strong>
+                  <p>Cabo, Wi-Fi, interface ativa.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">2</span>
+                <div>
+                  <strong>Há conectividade local?</strong>
+                  <p>MAC, ARP, switch, mesma sub-rede.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">3</span>
+                <div>
+                  <strong>Há rota e IP válidos?</strong>
+                  <p>Gateway, máscara, roteamento.</p>
+                </div>
+              </li>
+              <li>
+                <span class="flow-step">4</span>
+                <div>
+                  <strong>O serviço responde?</strong>
+                  <p>Porta aberta, protocolo correto, aplicação funcional.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="bloco-resumo cyber-connection-card">
+            <div class="card-kicker">CyberConnectionCard</div>
+            <h3 class="card-title">Uso em cyber</h3>
+            <p>MITM, spoofing, pivoting, inspeção TLS, bloqueio por firewall e exploração de serviços podem ser entendidos como ações em camadas diferentes. Isso acelera muito a análise.</p>
+          </div>
+
+          <div class="bloco-revisao final-review-card card-span-2">
+            <div class="card-kicker">FinalReviewCard</div>
+            <h3 class="card-title">Revisão final</h3>
+            <div class="review-chips">
+              <span class="review-chip">Camadas reduzem complexidade</span>
+              <span class="review-chip">OSI explica com mais detalhe</span>
+              <span class="review-chip">TCP/IP representa a prática</span>
+              <span class="review-chip">Encapsulamento adiciona contexto em cada etapa</span>
+              <span class="review-chip">Diagnóstico por camadas evita chute</span>
+            </div>
+            <div class="retrieval-box">
+              <span class="retrieval-label">Recuperação Ativa</span>
+              <p>Sem olhar: se um usuário abre um site e recebe "host unreachable", em quais duas camadas você investigaria primeiro e por quê?</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="divider"></div>
-      <!-- Flashcards -->
       <div class="flashcard-section" data-flashcard-set="modelos">
         <div class="fc-header"><h3>🃏 Flashcards — Modelos de Camadas</h3><span class="fc-counter">1 / 7</span></div>
         <div class="fc-viewport">
@@ -209,7 +406,6 @@
         </div>
       </div>
 
-      <!-- Quiz -->
       <div class="quiz-section" data-quiz-set="modelos">
         <div class="quiz-header"><h3>📝 Quiz — Modelos de Camadas</h3><span class="quiz-score-badge"></span></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
@@ -221,10 +417,17 @@
   </div>
 </div>
 <button class="back-to-top" id="backToTop">↑</button>
-<script src="../data/content.js"></script>
-<script src="../js/progress.js"></script>
-<script src="../js/interactive.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/app.js"></script>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
 </body>
 </html>

@@ -8,7 +8,8 @@ const Navigation = (() => {
   function init() {
     collectSections();
     initScrollSpy();
-    buildSubNav();
+    syncCurrentModuleTopics();
+    bindCurrentModuleSubnav();
     highlightActive();
   }
 
@@ -48,46 +49,54 @@ const Navigation = (() => {
       const href = a.getAttribute('href');
       const id = href && href.startsWith('#') ? href.slice(1) : null;
       if (!id) return;
-      a.classList.toggle('active', id === current.id);
+      const active = id === current.id;
+      a.classList.toggle('active', active);
+      if (active) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
     });
   }
 
-  function buildSubNav() {
+  function syncCurrentModuleTopics() {
     const sidebar = document.getElementById('sidebar');
     if (!sidebar || sections.length === 0) return;
 
     const pageId = getCurrentPageIdNav();
-    const mod = typeof MODULES !== 'undefined' ? MODULES.find(m => m.id === pageId) : null;
-    if (!mod) return;
+    const topicLinks = sidebar.querySelectorAll(`a[data-module-topic="${pageId}"]`);
+    if (!topicLinks.length) return;
 
-    // Find the active nav link for this module and append sub-items
-    const activeLink = sidebar.querySelector(`a[data-module="${pageId}"]`);
-    if (!activeLink) return;
+    topicLinks.forEach((link, index) => {
+      const sec = sections[index];
+      if (!sec) return;
 
-    const navItem = activeLink.closest('.nav-item');
-    if (!navItem) return;
-
-    const ul = document.createElement('ul');
-    ul.className = 'nav-sub';
-
-    sections.forEach(sec => {
       const heading = sec.querySelector('h2, h3');
       const title = heading ? heading.textContent.replace(/[★⭐]/g, '').trim() : sec.id;
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="#${sec.id}">${title}</a>`;
-      ul.appendChild(li);
+      link.setAttribute('href', `#${sec.id}`);
+      link.dataset.topicId = sec.id;
+
+      const indexEl = link.querySelector('.nav-sub-index');
+      const labelEl = link.querySelector('.nav-sub-label');
+      if (indexEl) indexEl.textContent = `${index + 1}.`;
+      if (labelEl) labelEl.textContent = title;
+
+      const item = link.closest('[data-module-item]');
+      const wrap = item?.querySelector('.nav-sub-wrap');
+      const trigger = item?.querySelector('.nav-module-trigger');
+      if (item && wrap && trigger) {
+        item.classList.add('expanded', 'current');
+        wrap.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        link.closest('a')?.setAttribute('aria-current', 'location');
+      }
     });
+  }
 
-    navItem.appendChild(ul);
-
-    // Smooth scroll for sub-nav links
-    ul.querySelectorAll('a').forEach(a => {
+  function bindCurrentModuleSubnav() {
+    document.querySelectorAll('.nav-sub a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
         const target = document.getElementById(a.getAttribute('href').slice(1));
         if (target) {
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          // Close mobile sidebar
           document.getElementById('sidebar')?.classList.remove('open');
           document.getElementById('sidebarOverlay')?.classList.remove('visible');
         }
@@ -97,19 +106,20 @@ const Navigation = (() => {
 
   function highlightActive() {
     const pageId = getCurrentPageIdNav();
-    document.querySelectorAll('.nav-item a[data-module]').forEach(a => {
-      a.classList.toggle('active', a.dataset.module === pageId);
+    document.querySelectorAll('.nav-module-item').forEach(item => {
+      const isCurrent = item.dataset.moduleItem === pageId;
+      item.classList.toggle('current', isCurrent);
+      item.classList.toggle('expanded', isCurrent || item.classList.contains('expanded'));
+      const trigger = item.querySelector('.nav-module-trigger');
+      if (trigger) {
+        if (isCurrent) trigger.setAttribute('aria-current', 'page');
+        else trigger.removeAttribute('aria-current');
+      }
     });
   }
 
   function getCurrentPageIdNav() {
-    const path = window.location.pathname;
-    const match = path.match(/\/([^\/]+)\.html$/);
-    if (!match) return 'home';
-    const raw = decodeURIComponent(match[1]);
-    if (raw === 'endereçamento') return 'enderecamento';
-    if (raw === 'segurança')     return 'seguranca';
-    return raw;
+    return Progress.getCurrentPageId();
   }
 
   return { init };

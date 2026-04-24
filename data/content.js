@@ -9,7 +9,13 @@ const MODULES = [
     description: 'O que é uma rede, IP, portas, pacotes, latência e banda.',
     icon: '🌐',
     url: 'pages/fundamentos.html',
-    sections: ['oque-e-rede','cliente-servidor','endereço-ip','portas','pacotes','latencia-banda-jitter']
+    sections: ['oque-e-rede','cliente-servidor','pacotes','latencia-banda-jitter'],
+    navTopics: [
+      { id: 'oque-e-rede', title: '1. O que é uma rede?' },
+      { id: 'cliente-servidor', title: '2. Cliente, servidor, IP e porta' },
+      { id: 'pacotes', title: '3. Como os dados viajam: pacotes' },
+      { id: 'latencia-banda-jitter', title: '4. O que afeta a experiência: latência, banda e jitter' }
+    ]
   },
   {
     id: 'modelos',
@@ -18,7 +24,13 @@ const MODULES = [
     description: 'OSI (7 camadas) e TCP/IP (4 camadas) com comparação detalhada.',
     icon: '🏛️',
     url: 'pages/modelos.html',
-    sections: ['por-que-camadas','modelo-osi','modelo-tcpip','comparacao-osi-tcpip','mnemonico']
+    sections: ['por-que-camadas','modelo-osi','tcpip-vs-osi','troubleshooting-camadas'],
+    navTopics: [
+      { id: 'por-que-camadas', title: '1. Por que dividir redes em camadas?' },
+      { id: 'modelo-osi', title: '2. Modelo OSI: o que cada camada resolve' },
+      { id: 'tcpip-vs-osi', title: '3. OSI vs TCP/IP e encapsulamento' },
+      { id: 'troubleshooting-camadas', title: '4. Como usar camadas para pensar melhor' }
+    ]
   },
   {
     id: 'enderecamento',
@@ -26,8 +38,18 @@ const MODULES = [
     title: 'Endereçamento',
     description: 'IPv4, IPv6, sub-redes, CIDR, NAT, ARP e gateway.',
     icon: '📍',
-    url: 'pages/endere%C3%A7amento.html',
-    sections: ['ipv4','mascara-subrede','cidr','ipv6','gateway','nat','arp']
+    url: 'pages/enderecamento.html',
+    sections: ['ipv4','mascara-subrede','cidr','ipv6','gateway','nat','arp','calculadora-subrede'],
+    navTopics: [
+      { id: 'ipv4', title: '1. IPv4 — Formato e Classes' },
+      { id: 'mascara-subrede', title: '2. Máscara de Sub-rede' },
+      { id: 'cidr', title: '3. CIDR — Notação em Barra' },
+      { id: 'ipv6', title: '4. IPv6 — Por que ele existe?' },
+      { id: 'gateway', title: '5. Gateway Padrão' },
+      { id: 'nat', title: '6. NAT — Network Address Translation' },
+      { id: 'arp', title: '7. ARP — Address Resolution Protocol' },
+      { id: 'calculadora-subrede', title: '8. Calculadora de Sub-redes' }
+    ]
   },
   {
     id: 'protocolos',
@@ -36,7 +58,13 @@ const MODULES = [
     description: 'TCP, UDP, DNS, DHCP, HTTP/S, TLS, FTP, SSH, SMTP, SIP.',
     icon: '🔌',
     url: 'pages/protocolos.html',
-    sections: ['tcp-vs-udp','dns','dhcp','http-https','tls','outros-protocolos','sip']
+    sections: ['tcp-vs-udp','dns','http-https','outros-protocolos'],
+    navTopics: [
+      { id: 'tcp-vs-udp', title: '1. TCP vs UDP' },
+      { id: 'dns', title: '2. DNS e DHCP: descobrir para onde ir' },
+      { id: 'http-https', title: '3. HTTP, HTTPS e TLS' },
+      { id: 'outros-protocolos', title: '4. SSH, FTP, e-mail e o olhar de cibersegurança' }
+    ]
   },
   {
     id: 'acesso-site',
@@ -45,7 +73,15 @@ const MODULES = [
     description: 'Timeline completa: DNS → TCP → TLS → HTTP → renderização.',
     icon: '🌍',
     url: 'pages/acesso-site.html',
-    sections: ['visao-geral','dns-resolucao','tcp-handshake','tls-handshake','http-request','resposta-render']
+    sections: ['visao-geral','dns-resolucao','tcp-handshake','tls-handshake','http-request','resposta-render'],
+    navTopics: [
+      { id: 'visao-geral', title: '1. Visão Geral — Os 7 Passos' },
+      { id: 'dns-resolucao', title: '2. Resolução DNS — Passo a Passo' },
+      { id: 'tcp-handshake', title: '3. Three-Way Handshake TCP' },
+      { id: 'tls-handshake', title: '4. Handshake TLS' },
+      { id: 'http-request', title: '5. Requisição HTTP e Resposta' },
+      { id: 'resposta-render', title: '6. Renderização do Navegador' }
+    ]
   },
   {
     id: 'equipamentos',
@@ -54,7 +90,13 @@ const MODULES = [
     description: 'Roteadores, switches, firewalls e proxies — diferenças reais.',
     icon: '🖥️',
     url: 'pages/equipamentos.html',
-    sections: ['roteador','switch','firewall','proxy']
+    sections: ['roteador','switch','firewall','proxy'],
+    navTopics: [
+      { id: 'roteador', title: '1. Roteador' },
+      { id: 'switch', title: '2. Switch' },
+      { id: 'firewall', title: '3. Firewall' },
+      { id: 'proxy', title: '4. Proxy — Forward e Reverse' }
+    ]
   },
   {
     id: 'seguranca',
@@ -62,8 +104,13 @@ const MODULES = [
     title: 'Segurança Básica',
     description: 'Firewalls, MITM, DDoS, spoofing, phishing e VPN.',
     icon: '🔒',
-    url: 'pages/seguran%C3%A7a.html',
-    sections: ['firewall-tipos','ataques','vpn']
+    url: 'pages/seguranca.html',
+    sections: ['firewall-tipos','ataques','vpn'],
+    navTopics: [
+      { id: 'firewall-tipos', title: '1. Firewall: Stateful vs Stateless' },
+      { id: 'ataques', title: '2. Ataques Comuns' },
+      { id: 'vpn', title: '3. VPN — Virtual Private Network' }
+    ]
   },
   {
     id: 'troubleshooting',
@@ -72,7 +119,15 @@ const MODULES = [
     description: 'Como diagnosticar problemas de rede com ping, traceroute, nslookup.',
     icon: '🔧',
     url: 'pages/troubleshooting.html',
-    sections: ['metodologia','ping','traceroute','nslookup','netstat','fluxo-diagnostico']
+    sections: ['metodologia','ping','traceroute','nslookup','netstat','fluxo-diagnostico'],
+    navTopics: [
+      { id: 'metodologia', title: '1. A Metodologia — Como Pensar' },
+      { id: 'ping', title: '2. ping — Testando Conectividade' },
+      { id: 'traceroute', title: '3. traceroute / tracert — Rastreando o Caminho' },
+      { id: 'nslookup', title: '4. nslookup — Depurando DNS' },
+      { id: 'netstat', title: '5. netstat — Conexões Ativas' },
+      { id: 'fluxo-diagnostico', title: '6. Fluxograma de Diagnóstico' }
+    ]
   },
   {
     id: 'portas',
@@ -81,7 +136,12 @@ const MODULES = [
     description: 'Tabela completa das portas mais importantes e seus serviços.',
     icon: '🚪',
     url: 'pages/portas.html',
-    sections: ['o-que-sao-portas','tabela-portas','dicas']
+    sections: ['o-que-sao-portas','tabela-portas','dicas'],
+    navTopics: [
+      { id: 'o-que-sao-portas', title: '1. O que são Portas e por que Importam' },
+      { id: 'tabela-portas', title: '2. Tabela Completa de Portas' },
+      { id: 'dicas', title: '3. Dicas Práticas e Boas Práticas' }
+    ]
   }
 ];
 
@@ -94,6 +154,178 @@ const STUDY_PATH = [
   { step: 6, title: 'Equipamentos e Segurança (Módulos 6 e 7)', desc: 'Contextualize o hardware e as ameaças do mundo real.' },
   { step: 7, title: 'Troubleshooting + Portas (Módulos 8 e 9)', desc: 'Referência prática para o dia a dia.' }
 ];
+
+const MODULE_META = {
+  fundamentos: {
+    difficulty: 'Base',
+    estTime: '35-50 min',
+    prerequisites: [],
+    outcomes: [
+      'explicar o que é uma rede sem depender de jargão',
+      'distinguir IP de porta e cliente de servidor',
+      'descrever como pacotes viajam e por que latência importa'
+    ],
+    goalTags: ['iniciante', 'trilha-base', 'troubleshooting', 'certificacao'],
+    commonGaps: ['confundir IP com porta', 'achar que velocidade é igual a banda']
+  },
+  modelos: {
+    difficulty: 'Base',
+    estTime: '40-55 min',
+    prerequisites: ['fundamentos'],
+    outcomes: [
+      'mapear problemas por camada',
+      'comparar OSI e TCP/IP sem decorar cegamente',
+      'usar encapsulamento para entender o caminho dos dados'
+    ],
+    goalTags: ['iniciante', 'trilha-base', 'troubleshooting', 'certificacao'],
+    commonGaps: ['tentar decorar camadas sem entender o porquê', 'misturar função de camada e protocolo']
+  },
+  enderecamento: {
+    difficulty: 'Intermediário',
+    estTime: '45-65 min',
+    prerequisites: ['fundamentos', 'modelos'],
+    outcomes: [
+      'interpretar IPv4, CIDR e gateway com segurança',
+      'explicar NAT, ARP e diferença entre IP privado e público',
+      'identificar gargalos comuns de endereçamento em redes reais'
+    ],
+    goalTags: ['trilha-base', 'troubleshooting', 'certificacao', 'infra'],
+    commonGaps: ['decorar classe IPv4 sem entender máscara', 'não ligar gateway à saída da rede']
+  },
+  protocolos: {
+    difficulty: 'Intermediário',
+    estTime: '45-60 min',
+    prerequisites: ['fundamentos', 'modelos', 'enderecamento'],
+    outcomes: [
+      'distinguir quando TCP e UDP fazem sentido',
+      'explicar DNS, DHCP, HTTP/S e TLS no mundo real',
+      'relacionar protocolos a portas e riscos de exposição'
+    ],
+    goalTags: ['trilha-base', 'web', 'certificacao', 'cyber'],
+    commonGaps: ['confundir TLS com HTTPS', 'tratar DNS como detalhe irrelevante']
+  },
+  'acesso-site': {
+    difficulty: 'Integração',
+    estTime: '35-50 min',
+    prerequisites: ['fundamentos', 'modelos', 'enderecamento', 'protocolos'],
+    outcomes: [
+      'explicar passo a passo o acesso a um site',
+      'localizar falhas entre DNS, TCP, TLS e HTTP',
+      'unir teoria de redes em uma timeline única'
+    ],
+    goalTags: ['web', 'troubleshooting', 'cyber', 'certificacao'],
+    commonGaps: ['pular do clique para HTTP sem considerar DNS e TLS']
+  },
+  equipamentos: {
+    difficulty: 'Base aplicada',
+    estTime: '30-45 min',
+    prerequisites: ['modelos', 'enderecamento'],
+    outcomes: [
+      'distinguir switch, roteador, firewall e proxy',
+      'identificar em que camada cada equipamento opera',
+      'relacionar equipamento à superfície de ataque'
+    ],
+    goalTags: ['infra', 'cyber', 'troubleshooting'],
+    commonGaps: ['achar que firewall e roteador são a mesma coisa']
+  },
+  seguranca: {
+    difficulty: 'Base aplicada',
+    estTime: '30-45 min',
+    prerequisites: ['fundamentos', 'protocolos', 'equipamentos'],
+    outcomes: [
+      'explicar ameaças clássicas sobre tráfego de rede',
+      'entender o papel de firewall e VPN',
+      'ligar defesa de rede a conceitos já estudados'
+    ],
+    goalTags: ['cyber', 'certificacao', 'infra'],
+    commonGaps: ['ver ataques como lista isolada, sem fluxo de rede']
+  },
+  troubleshooting: {
+    difficulty: 'Prática',
+    estTime: '40-60 min',
+    prerequisites: ['fundamentos', 'modelos', 'enderecamento', 'protocolos'],
+    outcomes: [
+      'seguir uma ordem de diagnóstico em vez de testar no escuro',
+      'interpretar ping, traceroute, nslookup e netstat',
+      'formular hipótese, evidência e próximo passo'
+    ],
+    goalTags: ['troubleshooting', 'cyber', 'infra', 'pratica'],
+    commonGaps: ['pular para comando aleatório sem hipótese']
+  },
+  portas: {
+    difficulty: 'Referência',
+    estTime: '20-30 min',
+    prerequisites: ['fundamentos', 'protocolos'],
+    outcomes: [
+      'reconhecer portas conhecidas em contexto real',
+      'ligar serviço, protocolo e porta rapidamente',
+      'usar portas como pista em análise de exposição'
+    ],
+    goalTags: ['cyber', 'troubleshooting', 'certificacao', 'pratica'],
+    commonGaps: ['decorar números sem conectar a serviços']
+  }
+};
+
+const STUDY_GOALS = [
+  {
+    id: 'goal-iniciante',
+    title: 'Começar do zero',
+    description: 'Trilha linear para quem ainda não tem base estável em redes.',
+    modules: ['fundamentos', 'modelos', 'enderecamento', 'protocolos'],
+    nextAction: 'Comece por Fundamentos e só siga quando conseguir explicar IP, porta e pacote com suas palavras.'
+  },
+  {
+    id: 'goal-troubleshooting',
+    title: 'Aprender a diagnosticar rede',
+    description: 'Foco em raciocínio operacional, hipóteses e leitura de sintomas.',
+    modules: ['fundamentos', 'modelos', 'enderecamento', 'troubleshooting', 'portas'],
+    nextAction: 'Depois da base, pratique os exercícios e use as páginas como mapa mental de diagnóstico.'
+  },
+  {
+    id: 'goal-cyber',
+    title: 'Conectar redes com cibersegurança',
+    description: 'Usa o conteúdo para entender superfície de ataque, tráfego e defesas.',
+    modules: ['fundamentos', 'protocolos', 'equipamentos', 'seguranca', 'portas'],
+    nextAction: 'Priorize protocolos, equipamentos e segurança para enxergar ataques como conversas em rede.'
+  },
+  {
+    id: 'goal-cert',
+    title: 'Revisar para certificação',
+    description: 'Trilha de revisão transversal para Network+, CCNA introdutório e fundamentos de SOC.',
+    modules: ['fundamentos', 'modelos', 'enderecamento', 'protocolos', 'acesso-site', 'seguranca', 'portas'],
+    nextAction: 'Use o simulado para mapear lacunas por tema e volte aos módulos com score mais baixo.'
+  }
+];
+
+const TOOL_PAGES = {
+  revisao: {
+    title: 'Central de Revisão',
+    description: 'Fila consolidada de revisão, lacunas, auditoria de consistência e próximos passos.',
+    relatedModules: ['fundamentos', 'modelos', 'enderecamento', 'protocolos', 'acesso-site', 'equipamentos', 'seguranca', 'troubleshooting', 'portas']
+  },
+  simulado: {
+    title: 'Simulado de Certificação',
+    description: 'Questões mistas para diagnóstico de lacunas e revisão.',
+    relatedModules: ['fundamentos', 'modelos', 'enderecamento', 'protocolos', 'acesso-site', 'equipamentos', 'seguranca', 'troubleshooting', 'portas']
+  },
+  exercicios: {
+    title: 'Exercícios Práticos',
+    description: 'Cenários guiados para treinar troubleshooting e interpretação de sinais.',
+    relatedModules: ['fundamentos', 'enderecamento', 'protocolos', 'troubleshooting', 'portas']
+  }
+};
+
+const THEME_TO_MODULE = {
+  Fundamentos: 'fundamentos',
+  Modelos: 'modelos',
+  'Endereçamento': 'enderecamento',
+  Protocolos: 'protocolos',
+  'Acesso a Site': 'acesso-site',
+  Equipamentos: 'equipamentos',
+  Segurança: 'seguranca',
+  Troubleshooting: 'troubleshooting',
+  Portas: 'portas'
+};
 
 /* ── Flashcards ──────────────────────────────────────── */
 const FLASHCARDS = {

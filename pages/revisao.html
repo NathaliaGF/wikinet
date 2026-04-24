@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Central de Revisão — RedesWiki</title>
+  <meta name="description" content="Central de revisão com flashcards SM-2, fila de itens pendentes, temas fracos e auditoria de consistência.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/revisao.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/revisao.html">
+  <meta property="og:title" content="Central de Revisão — RedesWiki">
+  <meta property="og:description" content="Central de revisão com flashcards SM-2, fila de revisão, temas fracos e auditoria de consistência.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle" aria-label="Alternar tema"></button></div>
+    </div>
+
+    <main class="article-wrapper" id="reviewHub">
+      <div class="page-header">
+        <div class="page-tag">Ferramenta de Revisão</div>
+        <h1 class="page-title">Central de Revisão</h1>
+        <p class="page-description">Aqui ficam reunidos os pontos que mais importam para consolidar o estudo: seções marcadas para revisar, flashcards vencidos, temas fracos do simulado, exercícios pendentes e uma auditoria básica de consistência do conteúdo.</p>
+      </div>
+
+      <section class="section">
+        <div class="section-header"><h2>Fila de revisão</h2></div>
+        <div class="learning-dashboard-grid" id="reviewQueueCards"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><h2>Temas mais fracos</h2></div>
+        <div class="learning-dashboard-grid" id="weakThemeCards"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><h2>Objetivos e prontidão</h2></div>
+        <div class="learning-dashboard-grid" id="goalReviewCards"></div>
+        <div class="learning-dashboard-grid" id="readinessPanel"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><h2>Simulado e exercícios</h2></div>
+        <div class="learning-dashboard-grid" id="simuladoPanel"></div>
+        <div class="learning-dashboard-grid" id="exercisePanel"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><h2>Auditoria de consistência</h2></div>
+        <p class="section-intro">Esta checagem compara as seções reais do HTML com os IDs e metadados declarados em <code>data/content.js</code>. Serve para evitar drift entre sidebar, progresso e conteúdo.</p>
+        <div class="learning-dashboard-grid" id="consistencyAudit"></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop">↑</button>
+
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<script defer src="../js/review.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
+</body>
+</html>

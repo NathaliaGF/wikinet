@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado de Certificação — RedesWiki</title>
+  <meta name="description" content="Simulado de certificação de redes com 30 questões em 30 minutos e breakdown detalhado por tema.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/simulado.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/simulado.html">
+  <meta property="og:title" content="Simulado de Certificação — RedesWiki">
+  <meta property="og:description" content="Simulado de certificação com 30 questões em 30 minutos cobrindo todos os módulos de redes.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle" aria-label="Alternar tema"></button></div>
+    </div>
+
+    <main class="article-wrapper" id="main-content">
+      <div class="page-header">
+        <div class="page-tag">Ferramenta de Estudo</div>
+        <h1 class="page-title">Simulado de Certificação</h1>
+        <p class="page-description">Teste sua base de fundamentos de redes com uma prova mista cobrindo IP, camadas, protocolos, equipamentos, segurança, troubleshooting e portas. A proposta aqui é diagnóstico real do que revisar, não só pontuação.</p>
+      </div>
+
+      <div class="simulado-header">
+        <div class="sim-info">
+          <div class="sim-stat">
+            <div class="sim-stat-num" id="simQuestionCount">30</div>
+            <div class="sim-stat-label">Questões</div>
+          </div>
+          <div class="sim-stat">
+            <div class="sim-stat-num">9</div>
+            <div class="sim-stat-label">Temas</div>
+          </div>
+          <div class="sim-stat">
+            <div class="sim-stat-num">30 min</div>
+            <div class="sim-stat-label">Tempo sugerido</div>
+          </div>
+        </div>
+        <div class="timer-display" id="simTimer">30:00</div>
+        <div class="sim-progress-bar" style="width:100%">
+          <div class="sim-progress-fill" id="simProgressFill"></div>
+        </div>
+      </div>
+
+      <div class="bloco-explicacao">
+        <div class="bloco-header">📖 Como usar este simulado</div>
+        <p>Você verá uma questão por vez. Responda, avance e no final veja seu resultado geral e o breakdown por tema. Se errar, use a explicação para descobrir a lacuna conceitual específica.</p>
+        <ul>
+          <li>Tempo recomendado: <strong>30 minutos</strong></li>
+          <li>Formato: <strong>30 questões objetivas</strong></li>
+          <li>Critério de revisão: abaixo de <strong>70%</strong> no tema = revisar o módulo</li>
+        </ul>
+        <div class="sim-mode-bar">
+          <label class="sim-mode-field">
+            <span>Modo</span>
+            <select id="simModeSelect">
+              <option value="mixed">Misto</option>
+              <option value="weak">Reforçar fraquezas</option>
+              <option value="theme">Filtrar por tema</option>
+              <option value="wrong">Refazer só erros</option>
+            </select>
+          </label>
+          <label class="sim-mode-field">
+            <span>Tema</span>
+            <select id="simThemeSelect">
+              <option value="">Todos os temas</option>
+            </select>
+          </label>
+          <button class="quiz-retry" id="simApplyModeBtn" type="button">Gerar prova</button>
+        </div>
+      </div>
+
+      <section class="quiz-section" id="simuladoApp">
+        <div class="quiz-header">
+          <h3>📝 Prova</h3>
+          <span class="quiz-score-badge" id="simScoreBadge"></span>
+        </div>
+
+        <div class="sim-question-wrap" id="simQuestionWrap">
+          <div class="sim-q-meta">
+            <span class="sim-q-tema" id="simTema"></span>
+            <span class="sim-q-num" id="simQNum"></span>
+          </div>
+          <div class="quiz-q-text" id="simQText"></div>
+          <div class="quiz-options" id="simOptions"></div>
+          <div class="quiz-feedback" id="simFeedback"></div>
+          <div class="quiz-nav">
+            <span id="simNavHint"></span>
+            <button class="quiz-next-btn" id="simNextBtn">Próxima →</button>
+          </div>
+        </div>
+
+        <div class="sim-result" id="simResult">
+          <div class="sim-result-score" id="simResultScore"></div>
+          <div class="quiz-result-msg" id="simResultMsg"></div>
+          <div class="sim-recommendations" id="simRecommendations"></div>
+          <div class="sim-breakdown" id="simBreakdown"></div>
+          <div class="sim-history-panel" id="simHistory"></div>
+          <button class="quiz-retry" id="simRetryBtn">Gerar novo simulado</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop">↑</button>
+
+<script defer src="../data/content.js"></script>
+<script defer src="../data/certification-quiz.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<script defer src="../js/simulado.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
+</body>
+</html>

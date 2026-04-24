@@ -5,10 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RedesWiki — Aprenda redes do zero</title>
   <meta name="description" content="Wiki interativa para aprender redes de computadores do zero: IPv4, TCP/IP, DNS, HTTP, segurança e muito mais.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/">
+  <meta property="og:title" content="RedesWiki — Aprenda Redes do Zero">
+  <meta property="og:description" content="9 módulos com explicações diretas, analogias do mundo real, quizzes e flashcards. Aprenda redes de computadores do absoluto zero.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
 <div class="app-layout">
 
   <!-- Sidebar -->
@@ -29,12 +45,13 @@
         <div class="breadcrumbs" id="breadcrumbs"></div>
       </div>
       <div class="topbar-right">
+        <button class="pwa-install" id="pwaInstall" style="display:none" aria-label="Instalar app">⬇️ Instalar</button>
         <button class="theme-toggle" aria-label="Alternar tema"></button>
       </div>
     </div>
 
     <!-- Hero -->
-    <section class="hero">
+    <section class="hero" id="main-content">
       <div class="hero-badge">✦ Wiki gratuita & open-source</div>
       <h1>Aprenda <span>Redes de Computadores</span><br>do absoluto zero.</h1>
       <p class="hero-subtitle">9 módulos com explicações diretas, analogias do mundo real, quizzes e flashcards. Sem enrolação, sem lorem ipsum.</p>
@@ -42,9 +59,9 @@
 
       <div class="stats-bar">
         <div class="stat"><span class="stat-num">9</span><span class="stat-label">Módulos</span></div>
-        <div class="stat"><span class="stat-num">60+</span><span class="stat-label">Flashcards</span></div>
-        <div class="stat"><span class="stat-num">27+</span><span class="stat-label">Questões de quiz</span></div>
-        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Conteúdo real</span></div>
+        <div class="stat"><span class="stat-num">60+</span><span class="stat-label">Flashcards SM-2</span></div>
+        <div class="stat"><span class="stat-num">57+</span><span class="stat-label">Questões</span></div>
+        <div class="stat"><span class="stat-num">offline</span><span class="stat-label">PWA disponível</span></div>
       </div>
     </section>
 
@@ -68,7 +85,7 @@
           <p>OSI e TCP/IP: por que existem e como funcionam.</p>
           <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-modelos"></div></div><span class="mc-pct" id="mc-pct-modelos">0%</span></div>
         </a>
-        <a href="pages/endereçamento.html" class="module-card">
+        <a href="pages/enderecamento.html" class="module-card">
           <div class="module-card-icon">📍</div>
           <div class="module-card-num">Módulo 03</div>
           <h3>Endereçamento</h3>
@@ -96,7 +113,7 @@
           <p>Roteadores, switches, firewalls e proxies.</p>
           <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-equipamentos"></div></div><span class="mc-pct" id="mc-pct-equipamentos">0%</span></div>
         </a>
-        <a href="pages/segurança.html" class="module-card">
+        <a href="pages/seguranca.html" class="module-card">
           <div class="module-card-icon">🔒</div>
           <div class="module-card-num">Módulo 07</div>
           <h3>Segurança Básica</h3>
@@ -116,6 +133,35 @@
           <h3>Portas Conhecidas</h3>
           <p>Tabela completa das portas e serviços mais importantes.</p>
           <div class="module-card-footer"><div class="mc-progress-bar"><div class="mc-progress-fill" id="mc-fill-portas"></div></div><span class="mc-pct" id="mc-pct-portas">0%</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Ferramentas de estudo -->
+    <section class="home-section" id="ferramentas">
+      <h2>Ferramentas de Estudo</h2>
+      <p style="color:var(--text-muted);margin-bottom:0.5rem;">Teste seus conhecimentos e pratique com comandos reais.</p>
+      <div class="module-grid">
+        <a href="pages/revisao.html" class="module-card">
+          <div class="module-card-icon">🧠</div>
+          <div class="module-card-num">Revisão</div>
+          <h3>Central de Revisão</h3>
+          <p>Fila consolidada com seções para revisar, flashcards vencidos, temas fracos e auditoria de consistência.</p>
+          <div class="module-card-footer" style="color:var(--accent);font-weight:600;">Abrir central →</div>
+        </a>
+        <a href="pages/simulado.html" class="module-card" style="border-color: var(--accent);">
+          <div class="module-card-icon">🎓</div>
+          <div class="module-card-num" style="color:var(--accent)">Prova</div>
+          <h3>Simulado de Certificação</h3>
+          <p>30 questões em 30 minutos cobrindo todos os módulos. Resultado com breakdown por tema.</p>
+          <div class="module-card-footer" style="color:var(--accent);font-weight:600;">Iniciar simulado →</div>
+        </a>
+        <a href="pages/exercicios.html" class="module-card">
+          <div class="module-card-icon">💻</div>
+          <div class="module-card-num">Lab</div>
+          <h3>Exercícios Práticos</h3>
+          <p>Cenários de diagnóstico com comandos reais para Windows e Linux. Soluções comentadas.</p>
+          <div class="module-card-footer" style="color:var(--accent);font-weight:600;">Ver exercícios →</div>
         </a>
       </div>
     </section>
@@ -142,7 +188,7 @@
         <div class="study-step">
           <div class="step-num">3</div>
           <div class="step-content">
-            <h4><a href="pages/endereçamento.html">Endereçamento (Módulo 3)</a></h4>
+            <h4><a href="pages/enderecamento.html">Endereçamento (Módulo 3)</a></h4>
             <p>IPv4, máscara de sub-rede e NAT aparecem em absolutamente todo lugar. Invista tempo aqui.</p>
           </div>
         </div>
@@ -247,10 +293,20 @@
 
 <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">↑</button>
 
-<script src="data/content.js"></script>
-<script src="js/progress.js"></script>
-<script src="js/interactive.js"></script>
-<script src="js/navigation.js"></script>
-<script src="js/app.js"></script>
+<script defer src="data/content.js"></script>
+<script defer src="data/glossary-terms.js"></script>
+<script defer src="js/progress.js"></script>
+<script defer src="js/spaced-repetition.js"></script>
+<script defer src="js/interactive.js"></script>
+<script defer src="js/glossary.js"></script>
+<script defer src="js/navigation.js"></script>
+<script defer src="js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
 </body>
 </html>

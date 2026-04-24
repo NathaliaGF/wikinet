@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercícios Práticos — RedesWiki</title>
+  <meta name="description" content="Cenários reais de diagnóstico de rede com comandos para Windows e Linux e soluções comentadas.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/exercicios.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/exercicios.html">
+  <meta property="og:title" content="Exercícios Práticos — RedesWiki">
+  <meta property="og:description" content="Cenários reais de diagnóstico com comandos para Windows e Linux e soluções comentadas.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right"><button class="theme-toggle" aria-label="Alternar tema"></button></div>
+    </div>
+
+    <main class="article-wrapper" id="main-content">
+      <div class="page-header">
+        <div class="page-tag">Laboratório Guiado</div>
+        <h1 class="page-title">Exercícios Práticos</h1>
+        <p class="page-description">Aqui a meta é pensar como alguém que diagnostica rede no mundo real. Cada exercício traz um cenário, comandos úteis para Windows e Linux e uma solução comentada para você comparar seu raciocínio.</p>
+      </div>
+
+      <div class="bloco-explicacao">
+        <div class="bloco-header">📖 Como estudar estes exercícios</div>
+        <p>Leia o cenário, tente formular sua hipótese, só depois expanda a solução. O valor aqui não está em decorar comandos isolados, e sim em aprender a ordem mental de investigação.</p>
+        <ul>
+          <li>Se possível, rode os comandos em uma máquina real</li>
+          <li>Compare saídas e pense no que cada comando confirma ou elimina</li>
+          <li>Se errar a hipótese, ótimo: isso mostra onde seu modelo mental ainda está incompleto</li>
+        </ul>
+      </div>
+
+      <div class="exercise-card">
+        <div class="ex-header">
+          <div class="ex-title">1. Ping para IP funciona, mas domínio não abre</div>
+          <div class="ex-tags"><span class="ex-tag win">Windows</span><span class="ex-tag linux">Linux</span></div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-objective">Cenário: o usuário consegue <code>ping 8.8.8.8</code>, mas <code>ping google.com</code> falha e o navegador não abre sites por nome.</p>
+          <div class="ex-cmd">
+            <div class="ex-cmd-label">Comandos úteis</div>
+            <pre><code>nslookup google.com
+ipconfig /all
+cat /etc/resolv.conf
+ping 8.8.8.8
+ping google.com</code></pre>
+          </div>
+          <button class="ex-show-btn">Mostrar solução comentada</button>
+          <div class="ex-solution">
+            O problema mais provável é <strong>DNS</strong>, não conectividade IP. O host alcança IPs diretamente, então a pilha TCP/IP e a rota básica estão funcionando. O próximo passo é checar qual servidor DNS está configurado, se responde e se retorna IPs válidos. Se necessário, teste temporariamente com <code>8.8.8.8</code> ou <code>1.1.1.1</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="ex-header">
+          <div class="ex-title">2. Site não carrega, mas outros funcionam</div>
+          <div class="ex-tags"><span class="ex-tag win">Windows</span><span class="ex-tag linux">Linux</span></div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-objective">Cenário: o usuário abre vários sites normalmente, mas um domínio específico sempre falha.</p>
+          <div class="ex-cmd">
+            <div class="ex-cmd-label">Comandos úteis</div>
+            <pre><code>nslookup api.empresa.com
+curl -I https://api.empresa.com
+tracert api.empresa.com
+traceroute api.empresa.com</code></pre>
+          </div>
+          <button class="ex-show-btn">Mostrar solução comentada</button>
+          <div class="ex-solution">
+            Esse cenário costuma apontar para <strong>problema localizado no serviço, no DNS daquele domínio ou em bloqueio específico</strong>. Se o domínio resolve mas <code>curl</code> retorna timeout ou <code>connection refused</code>, o DNS pode estar correto e o problema passa a ser porta, firewall, serviço fora do ar ou balanceador mal configurado.
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="ex-header">
+          <div class="ex-title">3. Conexão local funciona, internet não</div>
+          <div class="ex-tags"><span class="ex-tag win">Windows</span><span class="ex-tag linux">Linux</span></div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-objective">Cenário: o notebook pinga o gateway normalmente, mas não alcança nenhum IP externo.</p>
+          <div class="ex-cmd">
+            <div class="ex-cmd-label">Comandos úteis</div>
+            <pre><code>ipconfig
+route print
+ip route
+ping 192.168.1.1
+ping 8.8.8.8</code></pre>
+          </div>
+          <button class="ex-show-btn">Mostrar solução comentada</button>
+          <div class="ex-solution">
+            A rede local está viva, então a suspeita principal recai sobre <strong>gateway, rota padrão, NAT do roteador ou link WAN do provedor</strong>. Se o cliente chega no gateway, mas nada sai para fora, o defeito provavelmente está além da máquina do usuário.
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="ex-header">
+          <div class="ex-title">4. Porta do serviço parece fechada</div>
+          <div class="ex-tags"><span class="ex-tag win">Windows</span><span class="ex-tag linux">Linux</span></div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-objective">Cenário: um sistema web interno deveria responder em <code>10.0.0.20:443</code>, mas o acesso falha.</p>
+          <div class="ex-cmd">
+            <div class="ex-cmd-label">Comandos úteis</div>
+            <pre><code>curl -I https://10.0.0.20
+netstat -ano
+ss -tulpn
+telnet 10.0.0.20 443</code></pre>
+          </div>
+          <button class="ex-show-btn">Mostrar solução comentada</button>
+          <div class="ex-solution">
+            Aqui a pergunta não é só "tem rede?", e sim <strong>existe processo ouvindo na porta certa?</strong> Se a conexão é recusada, o host existe mas o serviço não está escutando ou um firewall local está devolvendo reset. Se há timeout, pense em ACL, firewall de rede ou rota quebrada.
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="ex-header">
+          <div class="ex-title">5. Latência alta só depois de alguns hops</div>
+          <div class="ex-tags"><span class="ex-tag linux">Análise</span></div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-objective">Cenário: o ping local é excelente, mas usuários reclamam de lentidão em um serviço hospedado fora da empresa.</p>
+          <div class="ex-cmd">
+            <div class="ex-cmd-label">Comandos úteis</div>
+            <pre><code>ping 8.8.8.8
+traceroute servico.externo.com
+tracert servico.externo.com</code></pre>
+          </div>
+          <button class="ex-show-btn">Mostrar solução comentada</button>
+          <div class="ex-solution">
+            Se os primeiros saltos estão rápidos e a latência explode mais à frente, a causa provável está em <strong>trânsito externo, link de longa distância ou congestionamento fora da LAN</strong>. Isso ajuda a evitar o erro clássico de culpar Wi-Fi ou switch local sem evidência.
+          </div>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="ex-header">
+          <div class="ex-title">6. Suspeita de DNS interno errado em ambiente corporativo</div>
+          <div class="ex-tags"><span class="ex-tag win">Windows</span><span class="ex-tag linux">Linux</span></div>
+        </div>
+        <div class="ex-body">
+          <p class="ex-objective">Cenário: o sistema interno abre em algumas máquinas, mas em outras resolve para IP diferente ou desatualizado.</p>
+          <div class="ex-cmd">
+            <div class="ex-cmd-label">Comandos úteis</div>
+            <pre><code>nslookup intranet.empresa.local
+nslookup intranet.empresa.local 8.8.8.8
+ipconfig /flushdns
+resolvectl status</code></pre>
+          </div>
+          <button class="ex-show-btn">Mostrar solução comentada</button>
+          <div class="ex-solution">
+            Pense em <strong>cache DNS local, DNS interno autoritativo, split-horizon DNS ou registro desatualizado</strong>. Quando máquinas diferentes recebem respostas diferentes, o problema costuma estar menos no navegador e mais na cadeia de resolução.
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop">↑</button>
+
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<script defer src="../js/exercicios.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
+</body>
+</html>

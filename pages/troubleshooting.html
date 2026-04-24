@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Troubleshooting — RedesWiki</title>
+  <meta name="description" content="ping, traceroute, nslookup, netstat: como diagnosticar e resolver problemas de rede na prática.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/troubleshooting.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/troubleshooting.html">
+  <meta property="og:title" content="Troubleshooting — RedesWiki">
+  <meta property="og:description" content="ping, traceroute, nslookup, netstat: como diagnosticar problemas de rede na prática.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/components.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
 <div class="app-layout">
   <nav class="sidebar" id="sidebar"></nav>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -20,7 +35,7 @@
       <div class="topbar-right"><button class="theme-toggle"></button></div>
     </div>
 
-    <main class="article-wrapper">
+    <main class="article-wrapper" id="main-content">
       <div class="page-header">
         <div class="page-tag">Módulo 08</div>
         <h1 class="page-title">Troubleshooting de Redes</h1>
@@ -108,6 +123,29 @@ round-trip min/avg/max/stddev = 11.9/12.4/13.1/0.4 ms</code></pre>
             <li><code>ping google.com</code> — testa DNS. Se falhar aqui mas IP funcionar, problema de DNS.</li>
           </ol>
         </div>
+
+        <div class="ops-grid">
+          <div class="ops-card">
+            <div class="ops-kicker">Sintomas típicos</div>
+            <ul>
+              <li>site lento ou indisponível</li>
+              <li>VPN conecta mas fica instável</li>
+              <li>perda intermitente em chamadas</li>
+            </ul>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que o ping prova</div>
+            <p>Prova que existe retorno ICMP naquele caminho e permite medir latência/perda básica.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que ele não prova</div>
+            <p>Não prova que a aplicação está saudável. Um host pode responder ao ping e ainda falhar em HTTPS, SSH ou DNS.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">Decisão seguinte</div>
+            <p>Se o IP responde mas o serviço não, avance para porta, DNS ou aplicação. Se nem o gateway responde, volte para a rede local.</p>
+          </div>
+        </div>
       </div>
 
       <!-- traceroute -->
@@ -146,6 +184,29 @@ tracert google.com</code></pre>
             <li><strong>"* * *":</strong> não significa que a rota parou — muitos roteadores bloqueiam ICMP. Se o destino final responde, a rota está ok.</li>
             <li><strong>Rota para quando a latência aumenta abruptamente:</strong> indica congestionamento ou problema naquele segmento.</li>
           </ul>
+        </div>
+
+        <div class="ops-grid">
+          <div class="ops-card">
+            <div class="ops-kicker">Sintomas típicos</div>
+            <ul>
+              <li>lentidão só para destinos externos</li>
+              <li>tráfego degradado após certos horários</li>
+              <li>suspeita de gargalo fora da LAN</li>
+            </ul>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que o traceroute prova</div>
+            <p>Prova por onde o pacote passou e em que salto a latência mudou de padrão.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que ele não prova</div>
+            <p>Não prova que o hop marcado com `* * *` esteja quebrado. Muitos roteadores só deixam de responder ICMP.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">Decisão seguinte</div>
+            <p>Se a degradação começa fora da empresa, pare de culpar o Wi-Fi local e compare com outro destino ou outro provedor.</p>
+          </div>
         </div>
       </div>
 
@@ -189,6 +250,29 @@ Address: 142.250.78.14  ← IP resolvido</code></pre>
             <li><strong>NXDOMAIN:</strong> o domínio não existe.</li>
           </ul>
         </div>
+
+        <div class="ops-grid">
+          <div class="ops-card">
+            <div class="ops-kicker">Sintomas típicos</div>
+            <ul>
+              <li>IP funciona, nome falha</li>
+              <li>algumas máquinas resolvem certo e outras não</li>
+              <li>site abre por IP, mas não por domínio</li>
+            </ul>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que o nslookup prova</div>
+            <p>Prova qual servidor DNS respondeu e qual IP ou erro foi devolvido para aquele nome.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que ele não prova</div>
+            <p>Não prova que a aplicação final esteja boa. DNS pode resolver certo e o serviço ainda falhar por porta, TLS ou rota.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">Decisão seguinte</div>
+            <p>Se o nome resolve errado, teste outro DNS e cache. Se resolve certo, avance para `curl`, navegador ou teste de porta.</p>
+          </div>
+        </div>
       </div>
 
       <!-- netstat -->
@@ -219,6 +303,29 @@ ss -tlnp | grep :80  # Linux moderno</code></pre>
             <li><strong>SYN_SENT:</strong> tentando estabelecer conexão</li>
           </ul>
           <p><strong>Use netstat para:</strong> verificar se um serviço está realmente escutando na porta esperada, ver conexões suspeitas (processo desconhecido com conexão externa), diagnosticar "port in use" ao subir um serviço.</p>
+        </div>
+
+        <div class="ops-grid">
+          <div class="ops-card">
+            <div class="ops-kicker">Sintomas típicos</div>
+            <ul>
+              <li>porta parece fechada</li>
+              <li>serviço não sobe porque a porta já está em uso</li>
+              <li>conexões estranhas saindo da máquina</li>
+            </ul>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que o netstat prova</div>
+            <p>Prova que existe um processo escutando ou que houve uma conexão TCP em determinado estado.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">O que ele não prova</div>
+            <p>Não prova que clientes externos conseguem chegar ali. A porta pode estar em LISTEN e ainda ser bloqueada por firewall ou ACL.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-kicker">Decisão seguinte</div>
+            <p>Se a porta está em LISTEN, teste a conectividade do ponto de vista do cliente. Se não está, o problema é processo ou configuração local.</p>
+          </div>
         </div>
       </div>
 
@@ -298,10 +405,17 @@ ss -tlnp | grep :80  # Linux moderno</code></pre>
   </div>
 </div>
 <button class="back-to-top" id="backToTop">↑</button>
-<script src="../data/content.js"></script>
-<script src="../js/progress.js"></script>
-<script src="../js/interactive.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/app.js"></script>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes, flashcards e rastreamento de progresso.</p>
+    <p style="margin-top:0.75rem;">Ative o JavaScript no seu navegador para continuar.</p>
+  </div>
+</noscript>
 </body>
 </html>
