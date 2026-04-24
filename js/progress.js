@@ -2,6 +2,7 @@
 'use strict';
 
 const StorageHub = window.StorageHub || (() => {
+  const SCHEMA_VERSION = 2;
   const KEYS = {
     progress: 'rw-progress',
     favorites: 'rw-favorites',
@@ -13,8 +14,32 @@ const StorageHub = window.StorageHub || (() => {
     quizHistory: 'rw-quiz-history',
     sm2: 'rw-sm2',
     theme: 'rw-theme',
-    notes: 'rw-notes'
+    notes: 'rw-notes',
+    schemaVersion: 'rw-schema-version'
   };
+
+  function migrate() {
+    const current = Number(localStorage.getItem(KEYS.schemaVersion) || 0);
+    if (current >= SCHEMA_VERSION) return;
+
+    try {
+      const favorites = JSON.parse(localStorage.getItem(KEYS.favorites) || '[]');
+      if (!Array.isArray(favorites)) localStorage.setItem(KEYS.favorites, JSON.stringify([]));
+    } catch {
+      localStorage.setItem(KEYS.favorites, JSON.stringify([]));
+    }
+
+    try {
+      const progress = JSON.parse(localStorage.getItem(KEYS.progress) || '{}');
+      if (!progress || typeof progress !== 'object' || Array.isArray(progress)) {
+        localStorage.setItem(KEYS.progress, JSON.stringify({}));
+      }
+    } catch {
+      localStorage.setItem(KEYS.progress, JSON.stringify({}));
+    }
+
+    localStorage.setItem(KEYS.schemaVersion, String(SCHEMA_VERSION));
+  }
 
   function loadJson(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key)) || fallback; }
@@ -29,7 +54,9 @@ const StorageHub = window.StorageHub || (() => {
     localStorage.removeItem(key);
   }
 
-  return { KEYS, loadJson, saveJson, remove };
+  migrate();
+
+  return { KEYS, loadJson, saveJson, remove, migrate, SCHEMA_VERSION };
 })();
 
 window.StorageHub = StorageHub;

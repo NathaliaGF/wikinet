@@ -97,6 +97,49 @@ function showNetToast(msg, icon, warm, timeout = 4000) {
   }, timeout);
 }
 
+function showActionToast(msg, actions = [], options = {}) {
+  document.querySelectorAll('.rw-toast--action').forEach(node => node.remove());
+  const toast = document.createElement('div');
+  toast.className = 'rw-toast rw-toast--action';
+  toast.style.cssText = options.warm === false
+    ? '--toast-bg:#1c0d0d'
+    : '--toast-bg:var(--bg-secondary)';
+
+  const content = document.createElement('div');
+  content.className = 'rw-toast-action-copy';
+  content.innerHTML = msg;
+  toast.appendChild(content);
+
+  if (actions.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'rw-toast-actions';
+    actions.forEach(action => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'rw-toast-action-btn';
+      btn.textContent = action.label;
+      btn.addEventListener('click', () => {
+        toast.remove();
+        action.onClick();
+      });
+      wrap.appendChild(btn);
+    });
+    toast.appendChild(wrap);
+  }
+
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('rw-toast--show'));
+
+  if (!options.sticky) {
+    setTimeout(() => {
+      toast.classList.remove('rw-toast--show');
+      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, options.timeout || 5000);
+  }
+
+  return toast;
+}
+
 /* ── Online / Offline indicator ──────────────────────── */
 function initOnlineStatus() {
   window.addEventListener('offline', () =>
@@ -259,11 +302,14 @@ function prefetchNextModule() {
 
 /* ── Load Pomodoro dynamically ───────────────────────── */
 function loadPomodoro() {
+  if (document.querySelector('script[src$="js/pomodoro.js"], script[src$="/js/pomodoro.js"]')) return;
   const base = window.location.pathname.includes('/pages/') ? '../' : './';
   const s = document.createElement('script');
   s.src = `${base}js/pomodoro.js`;
   s.defer = true;
-  document.head.appendChild(s);
+  const load = () => document.head.appendChild(s);
+  if ('requestIdleCallback' in window) window.requestIdleCallback(load, { timeout: 2500 });
+  else setTimeout(load, 1200);
 }
 
 function registerSW() {
@@ -271,12 +317,34 @@ function registerSW() {
   const swPath = window.location.pathname.includes('/pages/')
     ? '../service-worker.js'
     : './service-worker.js';
-  navigator.serviceWorker.register(swPath).catch(() => {});
+  navigator.serviceWorker.register(swPath).then(registration => {
+    function wireInstalling(worker) {
+      if (!worker) return;
+      worker.addEventListener('statechange', () => {
+        if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+          showActionToast('Nova versão encontrada. Atualizar agora?', [
+            { label: 'Atualizar', onClick: () => forceRefreshApp() },
+            { label: 'Depois', onClick: () => {} }
+          ], { sticky: true });
+        }
+      });
+    }
+
+    wireInstalling(registration.installing);
+    registration.addEventListener('updatefound', () => wireInstalling(registration.installing));
+  }).catch(() => {});
 }
 
 async function forceRefreshApp(button) {
-  if (button) button.disabled = true;
-  showNetToast('Cache limpo. Atualizando...', '↻', true, 2200);
+  if (button) {
+    button.disabled = true;
+    button.dataset.prevText = button.textContent;
+    button.textContent = 'Limpando...';
+  }
+
+  showActionToast('Seus dados locais serão preservados: progresso, favoritos, histórico e flashcards continuam salvos.', [], {
+    timeout: 2200
+  });
 
   if ('caches' in window) {
     try {
@@ -292,6 +360,9 @@ async function forceRefreshApp(button) {
     } catch {}
   }
 
+  if (button) button.textContent = 'Atualizando...';
+  showNetToast('Cache limpo. Atualizando...', '↻', true, 2200);
+
   const url = new URL(window.location.href);
   url.searchParams.set('rw-refresh', Date.now().toString());
   window.location.replace(url.toString());
@@ -305,6 +376,7 @@ function initCacheRefreshControl() {
   button.className = 'rw-cache-refresh';
   button.type = 'button';
   button.textContent = 'Problemas após atualização? Limpar cache';
+  button.title = 'Limpa caches e service worker, mas preserva seus dados locais';
   button.addEventListener('click', () => forceRefreshApp(button));
 
   const footer = document.querySelector('footer');
@@ -434,6 +506,7 @@ function buildSidebar() {
         </div>
         <div class="sp-bar"><div class="sp-fill" id="spFill"></div></div>
       </div>
+      <button class="sidebar-cache-link" id="sidebarCacheRefresh" type="button">Limpar cache / atualizar app</button>
     </div>
   `;
 
@@ -441,6 +514,7 @@ function buildSidebar() {
 
   initSidebarSections(sidebar);
   initSidebarModules(sidebar);
+  sidebar.querySelector('#sidebarCacheRefresh')?.addEventListener('click', () => forceRefreshApp(sidebar.querySelector('#sidebarCacheRefresh')));
 
   // Hamburger
   const ham = document.getElementById('hamburger');

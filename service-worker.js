@@ -1,7 +1,7 @@
 /* ── RedesWiki Service Worker — Offline First ────────── */
 'use strict';
 
-const CACHE_NAME = 'redeswiki-v6';
+const CACHE_NAME = 'redeswiki-v7';
 
 const ASSETS = [
   './',
@@ -12,31 +12,13 @@ const ASSETS = [
   './js/navigation.js',
   './js/progress.js',
   './js/interactive.js',
-  './js/spaced-repetition.js',
   './js/glossary.js',
   './js/subnet-calc.js',
   './data/content.js',
   './data/glossary-terms.js',
   './data/certification-quiz.js',
-  './pages/fundamentos.html',
-  './pages/modelos.html',
-  './pages/enderecamento.html',
-  './pages/protocolos.html',
-  './pages/acesso-site.html',
-  './pages/equipamentos.html',
-  './pages/seguranca.html',
-  './pages/troubleshooting.html',
-  './pages/portas.html',
-  './pages/simulado.html',
-  './pages/exercicios.html',
-  './pages/revisao.html',
-  './pages/interativo.html',
-  './pages/resumos.html',
-  './js/interativo.js',
-  './js/heatmap.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './404.html',
   './icons/og-cover.png'
 ];
 
@@ -66,6 +48,10 @@ function isHtmlRequest(request) {
 
 function isStaticAsset(requestUrl) {
   return /\.(?:css|js|png|jpg|jpeg|svg|webp|ico|json)$/i.test(requestUrl.pathname);
+}
+
+function isImageAsset(requestUrl) {
+  return /\.(?:png|jpg|jpeg|svg|webp|ico)$/i.test(requestUrl.pathname);
 }
 
 /* ── Fetch: HTML network-first, assets cache-first ───── */
@@ -101,6 +87,23 @@ self.addEventListener('fetch', e => {
         return response;
       }).catch(() =>
         caches.match(e.request).then(cached => cached || caches.match('./index.html'))
+      )
+    );
+    return;
+  }
+
+  if (isImageAsset(url)) {
+    e.respondWith(
+      caches.open(CACHE_NAME).then(cache =>
+        cache.match(e.request).then(cached => {
+          const networkFetch = fetch(e.request).then(response => {
+            if (response && response.status === 200 && response.type !== 'opaque') {
+              cache.put(e.request, response.clone());
+            }
+            return response;
+          }).catch(() => cached);
+          return cached || networkFetch;
+        })
       )
     );
     return;

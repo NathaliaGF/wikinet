@@ -2382,6 +2382,7 @@ const Lab = (() => {
       hoverNodeId: null,
       tooltipNodeId: null,
       hoverTimer: null,
+      editingNodeId: null,
       editingEdgeId: null,
       toastTimer: null,
       simEdgeIds: new Set()
@@ -2869,9 +2870,7 @@ const Lab = (() => {
     }
 
     function renderTooltip() {
-      refs.overlayLayer.querySelectorAll('.topo-tooltip, .topo-edge-editor').forEach(node => {
-        if (!node.classList.contains('topo-edge-editor')) node.remove();
-      });
+      refs.overlayLayer.querySelectorAll('.topo-tooltip').forEach(node => node.remove());
       if (!state.tooltipNodeId) return;
       const node = getNodeById(state.tooltipNodeId);
       if (!node) return;
@@ -2882,6 +2881,36 @@ const Lab = (() => {
       tooltip.style.left = `${center.x}px`;
       tooltip.style.top = `${center.y - 56}px`;
       refs.overlayLayer.appendChild(tooltip);
+    }
+
+    function renderNodeEditor() {
+      refs.overlayLayer.querySelectorAll('.topo-node-editor').forEach(node => node.remove());
+      if (!state.editingNodeId) return;
+      const node = getNodeById(state.editingNodeId);
+      if (!node) return;
+      const center = getNodeCenter(node.id);
+      const input = document.createElement('input');
+      input.className = 'topo-node-editor';
+      input.value = node.label || '';
+      input.style.left = `${center.x}px`;
+      input.style.top = `${center.y + 2}px`;
+      refs.overlayLayer.appendChild(input);
+      input.focus();
+      input.select();
+      const save = () => {
+        node.label = input.value.trim().slice(0, 28) || DEVICES[node.type].label;
+        state.editingNodeId = null;
+        persist(false);
+        render();
+      };
+      input.addEventListener('keydown', event => {
+        if (event.key === 'Enter') save();
+        if (event.key === 'Escape') {
+          state.editingNodeId = null;
+          render();
+        }
+      });
+      input.addEventListener('blur', save, { once: true });
     }
 
     function renderEdgeEditor() {
@@ -3098,6 +3127,7 @@ const Lab = (() => {
       renderNodes();
       updateInspector();
       renderTooltip();
+      renderNodeEditor();
       renderEdgeEditor();
     }
 
@@ -3180,11 +3210,38 @@ const Lab = (() => {
     function organizeNodes() {
       if (!state.nodes.length) return;
       pushHistory();
-      [...state.nodes].sort((a, b) => a.type.localeCompare(b.type, 'pt-BR') || a.label.localeCompare(b.label, 'pt-BR'))
-        .forEach((node, index) => {
-          node.col = index % GRID_COLS;
-          node.row = Math.floor(index / GRID_COLS);
-        });
+      const adjacency = buildAdjacency();
+      const groups = {
+        left: ['pc', 'laptop', 'attacker'],
+        center: ['switch', 'router', 'firewall'],
+        right: ['server', 'internet']
+      };
+      const columns = {
+        left: [1, 2, 3],
+        center: [6, 7, 8],
+        right: [11, 12, 13]
+      };
+      const buckets = { left: [], center: [], right: [] };
+
+      state.nodes.forEach(node => {
+        const degree = (adjacency.get(node.id) || []).length;
+        const bucket = groups.left.includes(node.type)
+          ? 'left'
+          : groups.right.includes(node.type)
+            ? 'right'
+            : 'center';
+        buckets[bucket].push({ node, degree });
+      });
+
+      Object.entries(buckets).forEach(([bucket, items]) => {
+        items
+          .sort((a, b) => b.degree - a.degree || a.node.label.localeCompare(b.node.label, 'pt-BR'))
+          .forEach((item, index) => {
+            const colPool = columns[bucket];
+            item.node.col = colPool[index % colPool.length];
+            item.node.row = 1 + Math.floor(index / colPool.length) * 2;
+          });
+      });
       persist(false);
       render();
     }
@@ -3700,6 +3757,13 @@ const Lab = (() => {
           event.stopPropagation();
           handleNodeClick(nodeId);
         });
+        nodeEl.addEventListener('dblclick', event => {
+          if (event.target.closest('.topo-connector')) return;
+          event.preventDefault();
+          event.stopPropagation();
+          state.editingNodeId = nodeId;
+          render();
+        });
         nodeEl.addEventListener('mousedown', event => {
           if (event.button !== 0 || event.target.closest('.topo-connector')) return;
           event.preventDefault();
@@ -3791,6 +3855,8 @@ const Lab = (() => {
         state.connectFrom = null;
         if (state.mode === 'connect') state.mode = 'idle';
         state.edgeDrag = null;
+        state.editingNodeId = null;
+        state.editingEdgeId = null;
         render();
       }
       if ((event.key === 'Delete' || event.key === 'Backspace') && state.selectedNodeId && !event.target.matches('input, textarea')) {

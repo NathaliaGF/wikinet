@@ -1911,6 +1911,18 @@
   color: var(--text-primary);
   pointer-events: auto;
 }
+.topo-workspace--v3 .topo-node-editor {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 132px;
+  padding: 0.3rem 0.45rem;
+  border-radius: 10px;
+  border: 1px solid #4f8ef7;
+  background: #11141c;
+  color: var(--text-primary);
+  pointer-events: auto;
+  z-index: 8;
+}
 .topo-workspace--v3 .topo-drag-ghost,
 .topo-workspace--v3 .topo-drag-proxy {
   position: absolute;
