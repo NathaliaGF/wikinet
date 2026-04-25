@@ -1,7 +1,7 @@
 /* ── RedesWiki Service Worker — Offline First ────────── */
 'use strict';
 
-const CACHE_NAME = 'redeswiki-v13';
+const CACHE_NAME = 'redeswiki-v14';
 
 const ASSETS = [
   './',
@@ -21,8 +21,7 @@ const ASSETS = [
   './icons/icon-512.png',
   './icons/og-cover.png',
   './pages/ipv6.html',
-  './pages/certificacoes.html',
-  './css/cert.css'
+  './pages/certificacoes.html'
 ];
 
 /* ── Install: pre-cache all assets ──────────────────── */

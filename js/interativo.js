@@ -4118,29 +4118,29 @@ const Lab = (() => {
     container.insertAdjacentHTML('beforeend', `
       <div class="subnet-wrap">
         <div class="subnet-modes">
-          <button class="subnet-mode-btn active" data-mode="normal">CIDR → Info</button>
-          <button class="subnet-mode-btn" data-mode="inverse">Hosts → Máscara</button>
-          <button class="subnet-mode-btn" data-mode="divide">Dividir Rede</button>
+          <button class="btn-lab subnet-mode-btn active" data-mode="normal">CIDR → Info</button>
+          <button class="btn-lab btn-lab--ghost subnet-mode-btn" data-mode="inverse">Hosts → Máscara</button>
+          <button class="btn-lab btn-lab--ghost subnet-mode-btn" data-mode="divide">Dividir Rede</button>
         </div>
         <div class="subnet-mode" id="subnetNormal">
-          <div class="subnet-input-row">
-            <input type="text" id="subnetCidr" class="subnet-input" placeholder="Ex: 192.168.1.0/24" />
-            <button class="subnet-calc-btn" id="subnetCalcBtn">Calcular</button>
+          <div class="dns-input-row">
+            <input type="text" id="subnetCidr" class="lab-input" placeholder="Ex: 192.168.1.0/24" spellcheck="false" />
+            <button class="btn-lab" id="subnetCalcBtn">Calcular</button>
           </div>
           <div id="subnetResult" class="subnet-result" hidden></div>
         </div>
         <div class="subnet-mode" id="subnetInverse" hidden>
-          <div class="subnet-input-row">
-            <input type="number" id="subnetHosts" class="subnet-input" placeholder="Número de hosts necessários" min="1" />
-            <button class="subnet-calc-btn" id="subnetInverseBtn">Calcular</button>
+          <div class="dns-input-row">
+            <input type="number" id="subnetHosts" class="lab-input" placeholder="Número de hosts necessários" min="1" />
+            <button class="btn-lab" id="subnetInverseBtn">Calcular</button>
           </div>
           <div id="subnetInverseResult" class="subnet-result" hidden></div>
         </div>
         <div class="subnet-mode" id="subnetDivide" hidden>
-          <div class="subnet-input-row">
-            <input type="text" id="subnetDivCidr" class="subnet-input" placeholder="Rede base (ex: 10.0.0.0/8)" />
-            <input type="number" id="subnetDivN" class="subnet-input subnet-input-sm" placeholder="N sub-redes" min="2" max="256" />
-            <button class="subnet-calc-btn" id="subnetDivBtn">Dividir</button>
+          <div class="dns-input-row">
+            <input type="text" id="subnetDivCidr" class="lab-input" placeholder="Rede base (ex: 10.0.0.0/8)" spellcheck="false" />
+            <input type="number" id="subnetDivN" class="lab-input subnet-n-input" placeholder="N sub-redes" min="2" max="256" />
+            <button class="btn-lab" id="subnetDivBtn">Dividir</button>
           </div>
           <div id="subnetDivResult" class="subnet-result" hidden></div>
         </div>
@@ -4149,8 +4149,12 @@ const Lab = (() => {
 
     container.querySelectorAll('.subnet-mode-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        container.querySelectorAll('.subnet-mode-btn').forEach(b => b.classList.remove('active'));
+        container.querySelectorAll('.subnet-mode-btn').forEach(b => {
+          b.classList.remove('active');
+          b.classList.add('btn-lab--ghost');
+        });
         btn.classList.add('active');
+        btn.classList.remove('btn-lab--ghost');
         const mode = btn.dataset.mode;
         document.getElementById('subnetNormal').hidden = mode !== 'normal';
         document.getElementById('subnetInverse').hidden = mode !== 'inverse';
@@ -4306,10 +4310,10 @@ const Lab = (() => {
 
     container.insertAdjacentHTML('beforeend', `
       <div class="hs-wrap">
-        <div class="hs-controls">
-          <button class="hs-btn" id="hsBtnPlay">▶ Auto-Play</button>
-          <button class="hs-btn" id="hsBtnStep">Próximo Passo</button>
-          <button class="hs-btn hs-btn-reset" id="hsBtnReset">↺ Reiniciar</button>
+        <div class="pkt-controls">
+          <button class="btn-lab" id="hsBtnPlay">▶ Auto-Play</button>
+          <button class="btn-lab" id="hsBtnStep">Próximo Passo</button>
+          <button class="btn-lab btn-lab--ghost" id="hsBtnReset">↺ Reiniciar</button>
         </div>
         <div class="hs-stage">
           <div class="hs-actor">
@@ -4408,14 +4412,14 @@ const Lab = (() => {
     container.insertAdjacentHTML('beforeend', `
       <div class="arp-wrap">
         <div class="arp-controls">
-          <label>Origem: <select id="arpSrc" class="arp-select">
+          <label class="arp-label">Origem: <select id="arpSrc" class="lab-select">
             ${HOSTS.map(h => `<option value="${h.id}">${h.label} (${h.ip})</option>`).join('')}
           </select></label>
-          <label>IP destino: <input type="text" id="arpTarget" class="arp-input" value="192.168.1.20" /></label>
-          <div class="arp-btns">
-            <button class="arp-btn" id="arpBtnPlay">▶ Simular ARP</button>
-            <button class="arp-btn arp-btn-spoof" id="arpBtnSpoof">☠ ARP Spoofing</button>
-            <button class="arp-btn arp-btn-reset" id="arpBtnReset">↺ Limpar</button>
+          <label class="arp-label">IP destino: <input type="text" id="arpTarget" class="lab-input" value="192.168.1.20" spellcheck="false" /></label>
+          <div class="pkt-controls">
+            <button class="btn-lab" id="arpBtnPlay">▶ Simular ARP</button>
+            <button class="btn-lab btn-lab--danger" id="arpBtnSpoof">☠ ARP Spoofing</button>
+            <button class="btn-lab btn-lab--ghost" id="arpBtnReset">↺ Limpar</button>
           </div>
         </div>
         <div class="arp-stage">
@@ -4542,12 +4546,12 @@ const Lab = (() => {
 
     container.insertAdjacentHTML('beforeend', `
       <div class="tls-wrap">
-        <div class="tls-input-row">
-          <input type="text" id="tlsDomain" class="tls-input" placeholder="Ex: github.com" value="github.com" />
-          <button class="tls-btn" id="tlsBtnFetch">🔍 Inspecionar</button>
+        <div class="dns-input-row">
+          <input type="text" id="tlsDomain" class="lab-input" placeholder="Ex: github.com" value="github.com" spellcheck="false" />
+          <button class="btn-lab" id="tlsBtnFetch">🔍 Inspecionar</button>
         </div>
         <div id="tlsResult" class="tls-result" hidden></div>
-        <p class="tls-note">Dados via <a href="https://crt.sh" target="_blank" rel="noopener">crt.sh</a> — registros públicos de certificados emitidos por CAs.</p>
+        <p class="dns-step-desc" style="margin-top:.5rem">Dados via <a href="https://crt.sh" target="_blank" rel="noopener">crt.sh</a> — registros públicos de certificados emitidos por CAs.</p>
       </div>
     `);
 
@@ -4556,12 +4560,26 @@ const Lab = (() => {
       result.innerHTML = '<p class="tls-loading">⏳ Consultando crt.sh…</p>';
       result.hidden = false;
       try {
-        const url = `https://crt.sh/?q=${encodeURIComponent(domain)}&output=json`;
-        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-        const res = await fetch(proxy);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const wrapper = await res.json();
-        const data = JSON.parse(wrapper.contents);
+        const crtUrl = `https://crt.sh/?q=${encodeURIComponent(domain)}&output=json`;
+        let data;
+        // Try direct fetch first (crt.sh supports CORS on JSON endpoint)
+        try {
+          const direct = await fetch(crtUrl, { headers: { 'Accept': 'application/json' } });
+          if (direct.ok) {
+            const text = await direct.text();
+            if (text.trim().startsWith('[')) { data = JSON.parse(text); }
+          }
+        } catch (_) { /* fall through to proxy */ }
+        // Proxy fallback
+        if (!data) {
+          const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(crtUrl)}`;
+          const res = await fetch(proxy);
+          if (!res.ok) throw new Error('Proxy HTTP ' + res.status);
+          const wrapper = await res.json();
+          const contents = wrapper.contents || '';
+          if (!contents.trim().startsWith('[')) throw new Error('crt.sh retornou HTML em vez de JSON. Tente novamente em alguns segundos.');
+          data = JSON.parse(contents);
+        }
         if (!Array.isArray(data) || !data.length) {
           result.innerHTML = '<p class="tls-empty">Nenhum certificado encontrado para este domínio.</p>';
           return;
@@ -4627,12 +4645,12 @@ const Lab = (() => {
 
     container.insertAdjacentHTML('beforeend', `
       <div class="ipasn-wrap">
-        <div class="ipasn-input-row">
-          <input type="text" id="ipasnTarget" class="ipasn-input" placeholder="Ex: 8.8.8.8 ou 1.1.1.1" value="8.8.8.8" />
-          <button class="ipasn-btn" id="ipasnBtnFetch">🔍 Consultar</button>
+        <div class="dns-input-row">
+          <input type="text" id="ipasnTarget" class="lab-input" placeholder="Ex: 8.8.8.8 ou 1.1.1.1" value="8.8.8.8" spellcheck="false" />
+          <button class="btn-lab" id="ipasnBtnFetch">🔍 Consultar</button>
         </div>
         <div id="ipasnResult" class="ipasn-result" hidden></div>
-        <p class="ipasn-note">Dados via <a href="https://ip-api.com" target="_blank" rel="noopener">ip-api.com</a> e <a href="https://rdap.org" target="_blank" rel="noopener">rdap.org</a>.</p>
+        <p class="dns-step-desc" style="margin-top:.5rem">Dados via <a href="https://ip-api.com" target="_blank" rel="noopener">ip-api.com</a> e <a href="https://rdap.org" target="_blank" rel="noopener">rdap.org</a>.</p>
       </div>
     `);
 
