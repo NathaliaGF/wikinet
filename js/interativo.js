@@ -2777,7 +2777,7 @@ const Lab = (() => {
 
     function updateZoom() {
       refs.canvas.style.transform = `scale(${state.zoom})`;
-      refs.viewport.style.width = `${CANVAS_WIDTH * state.zoom}px`;
+      refs.viewport.style.minWidth = `${CANVAS_WIDTH * state.zoom}px`;
       refs.viewport.style.height = `${CANVAS_HEIGHT * state.zoom}px`;
       refs.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
     }

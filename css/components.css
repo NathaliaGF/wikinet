@@ -1197,7 +1197,7 @@
 ════════════════════════════════════════════════════════ */
 
 /* ── Page layout ─────────────────────────────────────── */
-.lab-main { padding: 1.5rem 2rem 4rem; max-width: 1100px; margin: 0 auto; }
+.lab-main { padding: 1.5rem 2rem 4rem; width: 100%; }
 .lab-page-header { margin-bottom: 1.5rem; }
 .lab-page-title { font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
 .lab-page-desc { color: var(--text-muted); font-size: 0.9rem; }
@@ -1458,7 +1458,7 @@
    7. TOPOLOGY BUILDER
 ════════════════════════════════════════════════════════ */
 .topo-workspace {
-  display: flex; flex-direction: column; gap: 1rem;
+  display: flex; flex-direction: column; gap: 1rem; width: 100%;
 }
 .topo-toolbar {
   display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem;
@@ -1495,10 +1495,10 @@
   padding: 0.44rem 0.65rem; font-size: 0.75rem; min-width: 180px;
 }
 .topo-main {
-  display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1rem;
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1rem; width: 100%;
 }
 .topo-stage {
-  display: flex; flex-direction: column; gap: 0.75rem;
+  display: flex; flex-direction: column; gap: 0.75rem; width: 100%; min-width: 0;
 }
 .topo-stage-topbar {
   display: flex; justify-content: space-between; gap: 0.75rem; align-items: center;
@@ -1514,7 +1514,7 @@
   color: var(--text-primary); padding: 0.35rem 0.45rem;
 }
 .topo-canvas-scroll {
-  max-height: 600px; overflow: auto; background: #0f1117; border: 1px solid var(--border);
+  width: 100%; min-height: 70vh; overflow: auto; background: #0f1117; border: 1px solid var(--border);
   border-radius: var(--radius); padding: 0.75rem;
 }
 .topo-canvas-wrap {
@@ -1728,19 +1728,22 @@
   align-items: start;
 }
 .topo-workspace--v3 .topo-stage { min-width: 0; }
-.topo-workspace--v3 .topo-canvas-shell { position: relative; }
+.topo-workspace--v3 .topo-canvas-shell { position: relative; width: 100%; }
 .topo-workspace--v3 .topo-canvas-scroll {
-  max-height: 550px;
+  width: 100%;
+  min-height: 70vh;
   padding: 0.75rem;
   overflow: auto;
 }
 .topo-workspace--v3 .topo-canvas-viewport {
   position: relative;
-  width: 1400px;
+  width: 100%;
+  min-width: 1400px;
   height: 800px;
 }
 .topo-workspace--v3 .topo-canvas-wrap {
-  width: 1400px;
+  width: 100%;
+  min-width: 1400px;
   height: 800px;
   transform-origin: top left;
   background:
