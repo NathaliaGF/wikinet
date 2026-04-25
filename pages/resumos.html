@@ -46,6 +46,9 @@
         <h1 class="page-title">📋 Cheat Sheets</h1>
         <p class="page-description">Referências rápidas para consulta e impressão. Clique em 🖨️ Imprimir para exportar como PDF.</p>
       </div>
+      <div class="cs-search-wrap">
+        <input id="csSearch" type="search" class="cs-search" placeholder="🔍 Filtrar tabelas e glossário…" autocomplete="off">
+      </div>
 
       <!-- ── Seção 1: Portas ── -->
       <section class="cs-section" id="cs-portas">
@@ -237,6 +240,142 @@
         </table>
       </section>
 
+      <!-- ── Seção 8: Status HTTP ── -->
+      <section class="cs-section" id="cs-http-status">
+        <h2 class="cs-title">Códigos de Status HTTP</h2>
+        <table class="cs-table">
+          <thead><tr><th>Código</th><th>Nome</th><th>Significado</th><th>Quando ocorre</th></tr></thead>
+          <tbody>
+            <tr class="cs-status-2xx"><td>100</td><td>Continue</td><td>Continue enviando</td><td>Servidor recebeu cabeçalhos e pede que o cliente continue</td></tr>
+            <tr class="cs-status-2xx"><td>200</td><td>OK</td><td>Sucesso</td><td>Requisição bem-sucedida; corpo contém o resultado</td></tr>
+            <tr class="cs-status-2xx"><td>201</td><td>Created</td><td>Recurso criado</td><td>POST criou um novo recurso; Location indica onde está</td></tr>
+            <tr class="cs-status-2xx"><td>204</td><td>No Content</td><td>Sem conteúdo</td><td>Sucesso mas sem corpo na resposta (ex: DELETE)</td></tr>
+            <tr class="cs-status-3xx"><td>301</td><td>Moved Permanently</td><td>Redirecionamento permanente</td><td>URL mudou para sempre; navegador atualiza os favoritos</td></tr>
+            <tr class="cs-status-3xx"><td>302</td><td>Found</td><td>Redirecionamento temporário</td><td>URL mudou temporariamente; use a original nas próximas vezes</td></tr>
+            <tr class="cs-status-3xx"><td>304</td><td>Not Modified</td><td>Cache válido</td><td>Conteúdo não mudou desde If-Modified-Since / ETag; use o cache</td></tr>
+            <tr class="cs-status-4xx"><td>400</td><td>Bad Request</td><td>Requisição inválida</td><td>Sintaxe errada, parâmetros ausentes ou inválidos</td></tr>
+            <tr class="cs-status-4xx"><td>401</td><td>Unauthorized</td><td>Não autenticado</td><td>Credenciais ausentes ou inválidas — precisa fazer login</td></tr>
+            <tr class="cs-status-4xx"><td>403</td><td>Forbidden</td><td>Acesso negado</td><td>Autenticado mas sem permissão para esse recurso</td></tr>
+            <tr class="cs-status-4xx"><td>404</td><td>Not Found</td><td>Não encontrado</td><td>Recurso não existe nessa URL</td></tr>
+            <tr class="cs-status-4xx"><td>405</td><td>Method Not Allowed</td><td>Método não permitido</td><td>O endpoint existe mas não aceita esse verbo HTTP</td></tr>
+            <tr class="cs-status-4xx"><td>408</td><td>Request Timeout</td><td>Tempo esgotado</td><td>Cliente demorou demais para enviar a requisição completa</td></tr>
+            <tr class="cs-status-4xx"><td>409</td><td>Conflict</td><td>Conflito</td><td>Estado atual impede a operação (ex: criação duplicada)</td></tr>
+            <tr class="cs-status-4xx"><td>429</td><td>Too Many Requests</td><td>Rate limit atingido</td><td>Muitas requisições em pouco tempo; aguarde Retry-After</td></tr>
+            <tr class="cs-status-5xx"><td>500</td><td>Internal Server Error</td><td>Erro interno</td><td>Exceção não tratada no servidor; cheque os logs</td></tr>
+            <tr class="cs-status-5xx"><td>502</td><td>Bad Gateway</td><td>Gateway inválido</td><td>Proxy/balanceador recebeu resposta inválida do backend</td></tr>
+            <tr class="cs-status-5xx"><td>503</td><td>Service Unavailable</td><td>Serviço indisponível</td><td>Servidor sobrecarregado ou em manutenção</td></tr>
+            <tr class="cs-status-5xx"><td>504</td><td>Gateway Timeout</td><td>Timeout do gateway</td><td>Proxy não recebeu resposta do backend a tempo</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 9: Segurança / Algoritmos ── -->
+      <section class="cs-section" id="cs-security-algos">
+        <h2 class="cs-title">Algoritmos e Conceitos de Segurança</h2>
+        <table class="cs-table">
+          <thead><tr><th>Algoritmo</th><th>Tipo</th><th>Uso Principal</th><th>Status Atual</th></tr></thead>
+          <tbody>
+            <tr><td><code>MD5</code></td>          <td>Hash</td>            <td>Checksums, fingerprint de arquivo</td>             <td>⚠️ Inseguro (colisões conhecidas)</td></tr>
+            <tr><td><code>SHA-1</code></td>         <td>Hash</td>            <td>Git commit IDs, legado TLS</td>                   <td>⚠️ Depreciado (colisões)</td></tr>
+            <tr><td><code>SHA-256</code></td>        <td>Hash</td>            <td>TLS 1.2/1.3, Bitcoin, verificação de integridade</td><td>✅ Seguro e padrão</td></tr>
+            <tr><td><code>SHA-3</code></td>          <td>Hash</td>            <td>Padrão NIST alternativo ao SHA-2</td>            <td>✅ Seguro (design diferente do SHA-2)</td></tr>
+            <tr><td><code>AES-128</code></td>        <td>Simétrico</td>       <td>Criptografia de disco, VPN, TLS</td>             <td>✅ Seguro</td></tr>
+            <tr><td><code>AES-256</code></td>        <td>Simétrico</td>       <td>Padrão de segurança máxima, post-quantum</td>    <td>✅ Padrão recomendado</td></tr>
+            <tr><td><code>RSA-2048</code></td>       <td>Assimétrico</td>     <td>Certificados TLS, assinatura digital</td>        <td>✅ Seguro (mínimo aceito)</td></tr>
+            <tr><td><code>RSA-4096</code></td>       <td>Assimétrico</td>     <td>CAs raiz, alta segurança de longo prazo</td>     <td>✅ Forte (mais lento)</td></tr>
+            <tr><td><code>ECDSA</code></td>          <td>Assimétrico</td>     <td>TLS 1.3, SSH, certificados modernos</td>         <td>✅ Padrão moderno (chaves menores)</td></tr>
+            <tr><td><code>ChaCha20</code></td>       <td>Simétrico (stream)</td><td>TLS 1.3 em mobile, WireGuard</td>             <td>✅ Rápido sem AES-NI de hardware</td></tr>
+            <tr><td><code>bcrypt</code></td>         <td>KDF / Hash de senha</td><td>Hash de senhas em aplicações web</td>         <td>✅ Padrão para senhas</td></tr>
+            <tr><td><code>Argon2</code></td>         <td>KDF / Hash de senha</td><td>Vencedor PHC — resistente a GPU</td>          <td>✅ Melhor escolha atual para senhas</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 10: Glossário ── -->
+      <section class="cs-section" id="cs-glossario">
+        <h2 class="cs-title">Glossário de Redes</h2>
+        <nav class="cs-glossary-nav" aria-label="Navegar pelo glossário">
+          <a href="#gl-A">A</a><a href="#gl-B">B</a><a href="#gl-C">C</a><a href="#gl-D">D</a>
+          <a href="#gl-E">E</a><a href="#gl-F">F</a><a href="#gl-G">G</a><a href="#gl-H">H</a>
+          <a href="#gl-I">I</a><a href="#gl-J">J</a><a href="#gl-L">L</a><a href="#gl-M">M</a>
+          <a href="#gl-N">N</a><a href="#gl-O">O</a><a href="#gl-P">P</a><a href="#gl-Q">Q</a>
+          <a href="#gl-R">R</a><a href="#gl-S">S</a><a href="#gl-T">T</a><a href="#gl-U">U</a>
+          <a href="#gl-V">V</a><a href="#gl-W">W</a>
+        </nav>
+        <div class="cs-glossary-letter" id="gl-A">A</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">ACK</div><div class="cs-glossary-term-def">Acknowledgment. Bit de controle do TCP que confirma a recepção de dados. Quando um lado envia ACK=N, diz ao emissor "recebi tudo até o byte N, pode continuar". Sem ACK, o TCP retransmite o segmento.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">ARP — Address Resolution Protocol</div><div class="cs-glossary-term-def">Protocolo da camada 2 que descobre o endereço MAC correspondente a um IP na mesma rede local. Funciona via broadcast: "Quem tem o IP X.X.X.X?" O dono responde com seu MAC. O resultado fica no cache ARP por alguns minutos.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">AS — Autonomous System</div><div class="cs-glossary-term-def">Conjunto de redes sob controle de uma única organização com política de roteamento unificada. Identificado por um ASN (número de 16 ou 32 bits). A internet é a interconexão de milhares de ASes via BGP.</div></div>
+        <div class="cs-glossary-letter" id="gl-B">B</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">BGP — Border Gateway Protocol</div><div class="cs-glossary-term-def">Protocolo de roteamento entre sistemas autônomos (inter-AS). É o "protocolo da internet" que mantém a tabela global de rotas, conectando ISPs e datacenters. Altamente político — operadores escolhem rotas por acordos comerciais.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Broadcast</div><div class="cs-glossary-term-def">Comunicação enviada a todos os dispositivos de uma rede. Em IPv4, o endereço de broadcast é o último da sub-rede (ex: 192.168.1.255). IPv6 não usa broadcast — substitui por multicast para eficiência.</div></div>
+        <div class="cs-glossary-letter" id="gl-C">C</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">CIDR — Classless Inter-Domain Routing</div><div class="cs-glossary-term-def">Notação que expressa endereço IP + máscara em formato /n (ex: 192.168.1.0/24). Elimina as classes rígidas A/B/C do IPv4 clássico, permitindo alocação eficiente de qualquer tamanho de bloco.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Collision Domain</div><div class="cs-glossary-term-def">Segmento de rede onde dois dispositivos transmitindo simultaneamente causam colisão de pacotes. Hubs ampliam o domínio de colisão; switches criam um domínio separado por porta, eliminando colisões em redes modernas.</div></div>
+        <div class="cs-glossary-letter" id="gl-D">D</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">DHCP — Dynamic Host Configuration Protocol</div><div class="cs-glossary-term-def">Protocolo que distribui automaticamente configurações de rede (IP, máscara, gateway, DNS) aos dispositivos ao se conectarem. Usa portas UDP 67 (servidor) e 68 (cliente). Sem DHCP, cada máquina precisaria de IP configurado manualmente.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">DNS — Domain Name System</div><div class="cs-glossary-term-def">Sistema hierárquico que converte nomes legíveis (google.com) em endereços IP. Funciona como a agenda telefônica da internet, com servidores raiz (13 clusters), TLD (.com, .br) e autoritativos por domínio.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">DNAT — Destination NAT</div><div class="cs-glossary-term-def">Tipo de NAT que modifica o IP de destino de um pacote. Usado para redirecionar tráfego externo a servidores internos (port forwarding). Ex: tráfego na porta 443 do IP público vai para 192.168.1.10:443 interno.</div></div>
+        <div class="cs-glossary-letter" id="gl-E">E</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Encapsulamento</div><div class="cs-glossary-term-def">Processo pelo qual cada camada do modelo OSI/TCP-IP adiciona seu cabeçalho ao dado da camada superior: dados → segmento (TCP) → pacote (IP) → frame (Ethernet) → bits. Na recepção ocorre o processo inverso (decapsulamento).</div></div>
+        <div class="cs-glossary-letter" id="gl-F">F</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Firewall</div><div class="cs-glossary-term-def">Sistema que filtra tráfego de rede baseado em regras (IP, porta, protocolo, estado da conexão). Stateful rastreia o estado das conexões; stateless analisa cada pacote isoladamente sem contexto de sessão.</div></div>
+        <div class="cs-glossary-letter" id="gl-G">G</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Gateway</div><div class="cs-glossary-term-def">Dispositivo que conecta redes com protocolos diferentes ou serve como ponto de saída da rede local para a internet. O "default gateway" é o roteador para onde vão pacotes com destino não coberto pela tabela de rotas local.</div></div>
+        <div class="cs-glossary-letter" id="gl-H">H</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">HTTP — HyperText Transfer Protocol</div><div class="cs-glossary-term-def">Protocolo de camada de aplicação para transferência de dados na web. Opera na porta 80, sem criptografia. Usa verbos (GET, POST, PUT, DELETE, HEAD) e códigos de status (200, 404, 500). HTTP/2 e HTTP/3 adicionam multiplexação.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">HTTPS</div><div class="cs-glossary-term-def">HTTP sobre TLS/SSL. Versão segura do HTTP que cifra todo o tráfego entre cliente e servidor. Opera na porta 443. Garante confidencialidade, integridade e autenticidade via certificado digital emitido por uma CA.</div></div>
+        <div class="cs-glossary-letter" id="gl-I">I</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">ICMP — Internet Control Message Protocol</div><div class="cs-glossary-term-def">Protocolo de diagnóstico do IP, sem porta. Usado pelo ping (echo request/reply) e traceroute (TTL exceeded). Roteadores usam ICMP para reportar erros: host unreachable, port unreachable, TTL exceeded.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">IP — Internet Protocol</div><div class="cs-glossary-term-def">Protocolo de camada 3 responsável pelo endereçamento e roteamento de pacotes. Connectionless — não garante entrega, ordem ou ausência de duplicatas (isso é papel do TCP). IPv4 usa 32 bits; IPv6 usa 128 bits.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">IPSec</div><div class="cs-glossary-term-def">Suite de protocolos para cifrar e autenticar pacotes IP. Usado em VPNs site-a-site. Modo Transport cifra apenas o payload; modo Tunnel cifra o pacote inteiro (incluindo cabeçalho original) e adiciona novo cabeçalho IP.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">ISP — Internet Service Provider</div><div class="cs-glossary-term-def">Empresa que fornece acesso à internet a usuários e organizações. Possui sua própria infraestrutura de rede (AS) e se interconecta com outros ISPs via BGP em pontos de troca (IXPs — Internet Exchange Points).</div></div>
+        <div class="cs-glossary-letter" id="gl-J">J</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Jitter</div><div class="cs-glossary-term-def">Variação no atraso de chegada de pacotes consecutivos. Em VoIP e streaming, causa oscilação e cortes. Medido em ms. Buffers de jitter compensam armazenando alguns pacotes antes de reproduzi-los.</div></div>
+        <div class="cs-glossary-letter" id="gl-L">L</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Latência</div><div class="cs-glossary-term-def">Tempo que um pacote leva para ir de A a B (one-way) ou A→B→A (RTT). Afetada por distância física, velocidade de propagação no meio, processamento em roteadores e congestionamento. Medida em milissegundos.</div></div>
+        <div class="cs-glossary-letter" id="gl-M">M</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">MAC Address</div><div class="cs-glossary-term-def">Endereço de 48 bits (ex: AA:BB:CC:DD:EE:FF) gravado na NIC pelo fabricante. Identifica dispositivos na camada 2 (enlace). Os primeiros 24 bits identificam o fabricante (OUI). Não é roteável — só válido na rede local.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">MTU — Maximum Transmission Unit</div><div class="cs-glossary-term-def">Tamanho máximo de um pacote sem fragmentação em um enlace. Ethernet padrão: 1500 bytes. Pacotes maiores são fragmentados no IPv4 ou descartados com ICMP "Fragmentation Needed" no IPv6 (exige Path MTU Discovery).</div></div>
+        <div class="cs-glossary-letter" id="gl-N">N</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">NAT — Network Address Translation</div><div class="cs-glossary-term-def">Tradução de endereços IP privados para públicos em roteadores. Permite que múltiplos dispositivos compartilhem um único IP público (PAT/masquerading). Resolve o esgotamento do IPv4, mas quebra a conectividade ponta-a-ponta.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">NetMask — Máscara de Rede</div><div class="cs-glossary-term-def">Número de 32 bits (ex: 255.255.255.0 = /24) usado em AND lógico com o IP para separar parte de rede da parte de host. Determina quais endereços estão na mesma rede local e quais precisam de roteamento.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">NIC — Network Interface Card</div><div class="cs-glossary-term-def">Placa de interface de rede. Componente físico ou virtual que conecta o dispositivo à rede. Possui endereço MAC único, opera na camada 2 e implementa o protocolo físico (Ethernet, Wi-Fi, etc.).</div></div>
+        <div class="cs-glossary-letter" id="gl-O">O</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">OSI — Open Systems Interconnection</div><div class="cs-glossary-term-def">Modelo de referência com 7 camadas criado pela ISO para padronizar comunicação entre sistemas heterogêneos. Da física à aplicação: Física, Enlace, Rede, Transporte, Sessão, Apresentação, Aplicação. Mais didático que o TCP/IP de 4 camadas.</div></div>
+        <div class="cs-glossary-letter" id="gl-P">P</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Pacote</div><div class="cs-glossary-term-def">Unidade de dados da camada 3 (Rede). Contém cabeçalho IP (IPs origem/destino, TTL, protocolo) mais payload. Resultado do encapsulamento de um segmento TCP/UDP. Cada pacote é roteado independentemente.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Ping</div><div class="cs-glossary-term-def">Ferramenta de diagnóstico que envia pacotes ICMP Echo Request e espera Echo Reply. Mede latência (RTT) e verifica alcançabilidade de um host. Um timeout indica que o host está inativo, bloqueado por firewall ou inacessível.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Porta</div><div class="cs-glossary-term-def">Número de 16 bits (0–65535) que identifica um serviço em um host. Portas 0–1023: well-known (HTTP=80, HTTPS=443, SSH=22). 1024–49151: registradas. 49152–65535: dinâmicas/efêmeras usadas pelo sistema operacional.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Proxy</div><div class="cs-glossary-term-def">Intermediário que faz requisições em nome de outro. Forward proxy oculta clientes da internet (filtragem, cache). Reverse proxy protege servidores internos (balanceamento de carga, terminação TLS, CDN).</div></div>
+        <div class="cs-glossary-letter" id="gl-Q">Q</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">QoS — Quality of Service</div><div class="cs-glossary-term-def">Mecanismo que prioriza certos tipos de tráfego (VoIP, vídeo) sobre outros em redes congestionadas. Define filas, limites de banda e marcação de pacotes via DSCP (campo no cabeçalho IP).</div></div>
+        <div class="cs-glossary-letter" id="gl-R">R</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">RFC — Request for Comments</div><div class="cs-glossary-term-def">Documentos técnicos publicados pela IETF que definem padrões da internet. RFC 791 (IP), RFC 793 (TCP), RFC 2616 (HTTP/1.1), RFC 7540 (HTTP/2). Todo protocolo padronizado tem um RFC como referência normativa.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Roteamento</div><div class="cs-glossary-term-def">Processo de determinar o caminho que um pacote deve seguir entre redes. Roteadores trocam informações via protocolos (OSPF dentro de um AS, BGP entre ASes) e mantêm tabelas de roteamento com métricas de custo.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">RTT — Round-Trip Time</div><div class="cs-glossary-term-def">Tempo total de ida e volta de um pacote: RTT = latência de ida + latência de volta. Medido pelo ping. Afeta diretamente a performance do TCP, que precisa de ACK antes de enviar mais dados além da janela de congestionamento.</div></div>
+        <div class="cs-glossary-letter" id="gl-S">S</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">SNAT — Source NAT</div><div class="cs-glossary-term-def">NAT que modifica o IP de origem dos pacotes. Usado quando dispositivos internos acessam a internet: o roteador troca o IP privado pelo IP público e rastreia a conexão para mapear as respostas de volta ao cliente original.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Socket</div><div class="cs-glossary-term-def">Combinação de IP + Porta que identifica um endpoint de comunicação. Uma conexão TCP é definida por 4 valores: (IP origem, Porta origem, IP destino, Porta destino). É a abstração do SO para comunicação de rede.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Spoofing</div><div class="cs-glossary-term-def">Falsificação de identidade em redes. IP spoofing: pacotes com IP de origem falso. ARP spoofing: envenenamento da tabela ARP para MITM. DNS spoofing: respostas DNS falsas redirecionando domínios para IPs maliciosos.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">SSH — Secure Shell</div><div class="cs-glossary-term-def">Protocolo de acesso remoto seguro na porta 22. Usa criptografia assimétrica para autenticação (chave pública/privada) e simétrica para a sessão. Substitui o Telnet inseguro. Também faz port forwarding e transferência de arquivos (SCP/SFTP).</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">SSL/TLS</div><div class="cs-glossary-term-def">Protocolo criptográfico que protege comunicações na rede. SSL está obsoleto; TLS 1.2 e 1.3 são os padrões atuais. Garante autenticidade (certificado X.509), confidencialidade (criptografia simétrica) e integridade (HMAC).</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Subnet — Sub-rede</div><div class="cs-glossary-term-def">Divisão lógica de uma rede IP em redes menores. Permite organização hierárquica, isolamento de tráfego e uso eficiente de endereços. Definida por endereço de rede + máscara. Dispositivos em subnets diferentes precisam de roteamento.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Switch</div><div class="cs-glossary-term-def">Dispositivo de camada 2 que conecta dispositivos em uma LAN. Usa tabela MAC para encaminhar frames apenas para a porta de destino. Ao contrário do hub (broadcast), cria domínios de colisão separados e elimina colisões.</div></div>
+        <div class="cs-glossary-letter" id="gl-T">T</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">TCP — Transmission Control Protocol</div><div class="cs-glossary-term-def">Protocolo de transporte orientado a conexão. Garante entrega ordenada e sem erros via three-way handshake, ACKs, retransmissão e controle de fluxo/congestionamento. Mais lento que UDP mas confiável. Usado por HTTP, SSH, SMTP.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Throughput</div><div class="cs-glossary-term-def">Taxa efetiva de dados transferidos com sucesso por segundo. Diferente da largura de banda (capacidade máxima): o throughput é menor devido a overhead de protocolos, retransmissões, latência e controle de congestionamento.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Traceroute / Tracert</div><div class="cs-glossary-term-def">Ferramenta que mapeia os saltos entre origem e destino enviando pacotes com TTL crescente (1, 2, 3…). Cada roteador que descarta por TTL=0 responde com ICMP Time Exceeded, revelando seu IP e RTT. Útil para localizar onde a rota falha.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">TTL — Time to Live</div><div class="cs-glossary-term-def">Campo de 8 bits no cabeçalho IP que limita saltos de um pacote. Cada roteador decrementa em 1; ao chegar a 0, descarta e envia ICMP Time Exceeded. Evita loops de roteamento. Em DNS, indica por quantos segundos um registro pode ser cacheado.</div></div>
+        <div class="cs-glossary-letter" id="gl-U">U</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">UDP — User Datagram Protocol</div><div class="cs-glossary-term-def">Protocolo de transporte sem conexão e sem garantia de entrega. Mais rápido que TCP — sem handshake, sem ACK, sem reordenação. Usado em DNS, VoIP, streaming e jogos onde velocidade importa mais que confiabilidade.</div></div>
+        <div class="cs-glossary-letter" id="gl-V">V</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">VLAN — Virtual LAN</div><div class="cs-glossary-term-def">Segmentação lógica de uma rede física em múltiplas redes separadas via switches (IEEE 802.1Q). Isola tráfego sem hardware dedicado — um switch físico pode hospedar dezenas de VLANs. VLANs diferentes precisam de roteamento para se comunicar.</div></div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">VPN — Virtual Private Network</div><div class="cs-glossary-term-def">Cria um túnel criptografado sobre uma rede pública (internet) para conectar redes remotas com segurança ou anonimizar tráfego. Protocolos: OpenVPN, WireGuard (moderno, eficiente), IPSec/L2TP, SSL/TLS.</div></div>
+        <div class="cs-glossary-letter" id="gl-W">W</div>
+        <div class="cs-glossary-term"><div class="cs-glossary-term-title">Wildcard Mask</div><div class="cs-glossary-term-def">Inverso da máscara de sub-rede (255.255.255.255 XOR máscara). Usada em ACLs de roteadores Cisco e em configurações OSPF para indicar quais bits do IP são relevantes. Ex: máscara /24 = wildcard 0.0.0.255 (os últimos 8 bits não importam).</div></div>
+      </section>
+
     </main>
   </div>
 </div>
@@ -247,6 +386,7 @@
 <script defer src="../js/navigation.js"></script>
 <script defer src="../js/heatmap.js"></script>
 <script defer src="../js/app.js"></script>
+<script defer src="../js/resumos.js"></script>
 <noscript>
   <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
     <h2>JavaScript necessário</h2>

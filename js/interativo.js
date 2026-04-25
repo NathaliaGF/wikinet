@@ -250,6 +250,13 @@ const Lab = (() => {
         <button class="btn-lab btn-lab--sm" id="dnsPrev" disabled>← Anterior</button>
         <span class="dns-step-lbl" id="dnsStepLbl">–</span>
         <button class="btn-lab btn-lab--sm" id="dnsNext" disabled>Próximo →</button>
+      </div>
+      <div class="dns-real-panel" id="dnsRealPanel" hidden>
+        <div class="dns-real-header">
+          <span class="dns-real-title">📡 Dados DNS Reais</span>
+          <span class="dns-real-timing" id="dnsRealTiming"></span>
+        </div>
+        <div id="dnsRealRecords"></div>
       </div>`;
 
     const domainInput = container.querySelector('#dnsDomain');
@@ -353,11 +360,62 @@ const Lab = (() => {
       stepLbl.textContent = '–';
       btnPrev.disabled = true;
       btnNext.disabled = true;
+      const panel = container.querySelector('#dnsRealPanel');
+      if (panel) { panel.hidden = true; container.querySelector('#dnsRealRecords').innerHTML = ''; }
+    }
+
+    const DNS_REC_TYPES = [
+      { type: 'A',    emoji: '📍', label: 'Registros A — IPv4',     help: 'Mapeia o domínio para um endereço IPv4. É o registro mais comum — quando você acessa um site, o navegador busca o tipo A.' },
+      { type: 'AAAA', emoji: '🌐', label: 'Registros AAAA — IPv6',  help: 'Mapeia o domínio para um endereço IPv6. Cada vez mais comum conforme o espaço IPv4 se esgota.' },
+      { type: 'MX',   emoji: '📧', label: 'MX — Mail Exchange',     help: 'Define quais servidores recebem e-mails do domínio. O número à esquerda é a prioridade: menor = mais preferido.' },
+      { type: 'NS',   emoji: '🏷️', label: 'NS — Name Servers',     help: 'Servidores DNS autoritativos do domínio — são eles que respondem definitivamente sobre ele.' },
+      { type: 'TXT',  emoji: '📝', label: 'TXT — Texto',           help: 'Registros de texto livres. Usados para SPF (anti-spam), DKIM (assinatura de e-mail) e verificações de propriedade de domínio.' }
+    ];
+
+    function renderDnsBlock(rtype, answers, errorMsg) {
+      const body = (answers && answers.length)
+        ? answers.map(a => `<div class="dns-rr-row"><code>${escapeHtml(a.data)}</code><span class="dns-rr-ttl">TTL ${a.TTL}s</span></div>`).join('')
+        : `<div class="dns-rr-empty">${escapeHtml(errorMsg)}</div>`;
+      return `
+        <details class="dns-rr-block" open>
+          <summary class="dns-rr-summary">
+            <span>${rtype.emoji} ${rtype.label}</span>
+            <span class="dns-rr-tip" title="${escapeAttr(rtype.help)}">❓</span>
+          </summary>
+          <div class="dns-rr-body">${body}</div>
+        </details>`;
+    }
+
+    async function fetchRealDNS(domain) {
+      const panel = container.querySelector('#dnsRealPanel');
+      const recordsEl = container.querySelector('#dnsRealRecords');
+      const timingEl = container.querySelector('#dnsRealTiming');
+      panel.hidden = false;
+      recordsEl.innerHTML = '<div class="dns-rr-loading">Consultando DNS real via DoH (Google)…</div>';
+      timingEl.textContent = '';
+      const t0 = performance.now();
+      const results = await Promise.allSettled(
+        DNS_REC_TYPES.map(t =>
+          fetch(`https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=${encodeURIComponent(t.type)}`)
+            .then(r => r.json())
+        )
+      );
+      timingEl.textContent = `${Math.round(performance.now() - t0)}ms`;
+      recordsEl.innerHTML = DNS_REC_TYPES.map((rtype, i) => {
+        const res = results[i];
+        if (res.status === 'rejected') return renderDnsBlock(rtype, null, 'Erro de rede ao consultar — verifique sua conexão');
+        const d = res.value;
+        if (d.Status === 3) return renderDnsBlock(rtype, null, 'Domínio não encontrado (NXDOMAIN)');
+        if (d.Status !== 0) return renderDnsBlock(rtype, null, `Sem registros (código DoH ${d.Status})`);
+        return renderDnsBlock(rtype, d.Answer?.length ? d.Answer : null, 'Sem registros deste tipo');
+      }).join('');
     }
 
     btnStart.addEventListener('click', () => {
+      const domain = domainInput.value.trim() || 'google.com';
       buildStage();
       showStep(0);
+      fetchRealDNS(domain);
     });
     btnNext.addEventListener('click', () => {
       if (currentStep < DNS_STEPS.length - 1) showStep(currentStep + 1);
@@ -368,8 +426,10 @@ const Lab = (() => {
     btnReset.addEventListener('click', reset);
     domainInput.addEventListener('keydown', event => {
       if (event.key === 'Enter') {
+        const domain = domainInput.value.trim() || 'google.com';
         buildStage();
         showStep(0);
+        fetchRealDNS(domain);
       }
     });
   }
@@ -595,6 +655,15 @@ const Lab = (() => {
           <pre id="httpRaw" class="http-raw"></pre>
           <button class="btn-lab btn-lab--sm btn-lab--ghost" id="httpCopy">📋 Copiar</button>
         </div>
+      </div>
+      <div class="http-inspector">
+        <div class="http-insp-header">🔬 Inspecionar Headers de Resposta Reais</div>
+        <p class="http-insp-desc">Digite uma URL e veja os headers HTTP que o servidor retorna de verdade.</p>
+        <div class="http-insp-row">
+          <input type="url" id="httpInspUrl" class="lab-input" placeholder="https://example.com" value="https://example.com" spellcheck="false">
+          <button class="btn-lab" id="httpInspBtn">Inspecionar</button>
+        </div>
+        <div id="httpInspResult"></div>
       </div>`;
 
     const methodEl = container.querySelector('#httpMethod');
@@ -685,6 +754,113 @@ const Lab = (() => {
     });
 
     update();
+
+    /* ── HTTP Inspector ──────────────────────────────── */
+    const HDR_CATS = [
+      { label: '🔒 Segurança',  keys: ['strict-transport-security','x-frame-options','content-security-policy','x-xss-protection','x-content-type-options','referrer-policy','permissions-policy'] },
+      { label: '📦 Cache',      keys: ['cache-control','etag','last-modified','expires','age','vary'] },
+      { label: '🖥️ Servidor',  keys: ['server','x-powered-by','via','x-served-by','x-cache'] },
+      { label: '📄 Conteúdo',  keys: ['content-type','content-length','content-encoding','content-language','transfer-encoding'] }
+    ];
+
+    const HDR_HINTS = {
+      'cache-control':              'Define como e por quanto tempo o recurso pode ser armazenado em cache.',
+      'content-type':               'Tipo MIME do conteúdo retornado (ex: text/html, application/json).',
+      'strict-transport-security':  'Força HTTPS pelo período max-age. Protege contra downgrade para HTTP.',
+      'x-frame-options':            'Controla se a página pode ser embutida em <iframe>. Previne clickjacking.',
+      'content-security-policy':    'Política que restringe origens de scripts e recursos. Mitiga ataques XSS.',
+      'x-xss-protection':           'Header legado que ativava filtro anti-XSS do navegador (obsoleto no Chrome).',
+      'x-content-type-options':     'Impede que o browser adivinhe o tipo MIME (MIME sniffing). Sempre "nosniff".',
+      'referrer-policy':            'Controla quais informações de referer são enviadas com as requisições.',
+      'etag':                       'Hash do conteúdo usado para cache condicional — o browser envia If-None-Match e recebe 304 se não mudou.',
+      'last-modified':              'Data da última modificação. Usada com If-Modified-Since para cache condicional.',
+      'server':                     'Identifica o software do servidor (ex: nginx/1.18). Às vezes omitido por segurança.',
+      'x-powered-by':               'Tecnologia backend (ex: PHP/8.1). Frequentemente removido por segurança.',
+      'transfer-encoding':          'Como o corpo é transmitido. "chunked" = em pedaços sem Content-Length conhecido.',
+      'content-encoding':           'Compressão aplicada ao conteúdo (gzip, br=Brotli). O browser descomprime automaticamente.',
+      'vary':                       'Indica ao cache quais headers de request afetam a resposta (ex: Vary: Accept-Encoding).'
+    };
+
+    const HTTP_STATUS_DESC = {
+      200:'OK',201:'Created',204:'No Content',301:'Moved Permanently',302:'Found',
+      304:'Not Modified',400:'Bad Request',401:'Unauthorized',403:'Forbidden',
+      404:'Not Found',408:'Request Timeout',429:'Too Many Requests',
+      500:'Internal Server Error',502:'Bad Gateway',503:'Service Unavailable',504:'Gateway Timeout'
+    };
+
+    async function inspectUrl(rawUrl) {
+      const resultEl = container.querySelector('#httpInspResult');
+      let url;
+      try { url = new URL(rawUrl); } catch {
+        resultEl.innerHTML = '<div class="http-insp-error">URL inválida. Use o formato https://example.com</div>';
+        return;
+      }
+      resultEl.innerHTML = '<div class="http-insp-loading">Consultando…</div>';
+      const t0 = performance.now();
+      let status = null, headers = {}, corsBlocked = false, failed = false;
+      try {
+        const resp = await fetch(url.href, { method: 'HEAD' });
+        status = resp.status;
+        resp.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
+      } catch {
+        corsBlocked = true;
+        try {
+          const proxyResp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url.href)}`);
+          const data = await proxyResp.json();
+          status = data.status?.http_code;
+          if (data.status?.content_type) headers['content-type'] = data.status.content_type;
+        } catch { failed = true; }
+      }
+      const elapsed = Math.round(performance.now() - t0);
+      if (failed && !status) {
+        resultEl.innerHTML = `<div class="http-insp-error">Não foi possível alcançar <strong>${escapeHtml(url.hostname)}</strong>. Verifique a URL e sua conexão.</div>`;
+        return;
+      }
+      const statusClass = !status ? 'err' : status < 300 ? 'ok' : status < 400 ? 'redir' : 'err';
+      const statusColors = { ok:'#4ade80', redir:'#fbbf24', err:'#f87171' };
+      let html = `<div class="http-insp-meta">`;
+      if (status) {
+        const stText = HTTP_STATUS_DESC[status] || '';
+        html += `<span class="http-insp-status" style="color:${statusColors[statusClass]}">${status}${stText ? ' ' + stText : ''}</span>`;
+      }
+      html += `<span class="http-insp-time">⏱ ${elapsed}ms</span>`;
+      if (corsBlocked) html += `<span class="http-insp-cors-badge" title="HEAD bloqueado por CORS — dados via proxy, limitados">⚠️ CORS</span>`;
+      html += `</div>`;
+      if (corsBlocked) {
+        html += `<div class="http-insp-cors-note">Este servidor bloqueou a inspeção direta (política CORS). Isso é uma medida de segurança — o servidor decide quais origens podem ler seus cabeçalhos via JS. Dados limitados obtidos via proxy.</div>`;
+      }
+      const allKeys = Object.keys(headers);
+      if (!allKeys.length) {
+        html += '<div class="http-insp-no-hdr">Nenhum header disponível para exibição.</div>';
+      } else {
+        const usedKeys = new Set();
+        HDR_CATS.forEach(cat => {
+          const present = cat.keys.filter(k => headers[k]);
+          if (!present.length) return;
+          html += `<div class="http-cat-block"><div class="http-cat-title">${cat.label}</div>`;
+          present.forEach(k => {
+            usedKeys.add(k);
+            const hint = HDR_HINTS[k] || '';
+            html += `<div class="http-hdr-row"><span class="http-hdr-key">${escapeHtml(k)}</span><span class="http-hdr-val">${escapeHtml(headers[k])}</span>${hint ? `<span class="http-hdr-hint" title="${escapeAttr(hint)}">❓</span>` : ''}</div>`;
+          });
+          html += `</div>`;
+        });
+        const extras = allKeys.filter(k => !usedKeys.has(k));
+        if (extras.length) {
+          html += `<div class="http-cat-block"><div class="http-cat-title">📋 Outros</div>`;
+          extras.forEach(k => {
+            html += `<div class="http-hdr-row"><span class="http-hdr-key">${escapeHtml(k)}</span><span class="http-hdr-val">${escapeHtml(headers[k])}</span></div>`;
+          });
+          html += `</div>`;
+        }
+      }
+      resultEl.innerHTML = html;
+    }
+
+    const inspBtn = container.querySelector('#httpInspBtn');
+    const inspUrlEl = container.querySelector('#httpInspUrl');
+    inspBtn.addEventListener('click', () => inspectUrl(inspUrlEl.value.trim()));
+    inspUrlEl.addEventListener('keydown', e => { if (e.key === 'Enter') inspectUrl(inspUrlEl.value.trim()); });
   }
 
   /* ══════════════════════════════════════════════════════

@@ -1198,6 +1198,74 @@
 .ex-module-link:hover { opacity: 0.75; text-decoration: underline; }
 
 /* ════════════════════════════════════════════════════════
+   DNS REAL PANEL
+════════════════════════════════════════════════════════ */
+.dns-real-panel { margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); overflow: visible; }
+.dns-real-header { display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 1rem; background: var(--bg-secondary); border-bottom: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; }
+.dns-real-title { font-size: 0.82rem; font-weight: 700; color: var(--text-primary); }
+.dns-real-timing { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); }
+.dns-rr-block { border-bottom: 1px solid var(--border); }
+.dns-rr-block:last-child { border-bottom: none; }
+.dns-rr-summary { display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 1rem; cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text-primary); list-style: none; background: var(--bg-secondary); user-select: none; }
+.dns-rr-summary::-webkit-details-marker { display: none; }
+.dns-rr-summary:hover { background: var(--bg-tertiary); }
+.dns-rr-tip { cursor: help; font-size: 0.7rem; opacity: 0.55; flex-shrink: 0; }
+.dns-rr-body { padding: 0.4rem 1rem 0.5rem; }
+.dns-rr-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; padding: 0.2rem 0; font-size: 0.79rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.dns-rr-row:last-child { border-bottom: none; }
+.dns-rr-row code { font-family: var(--font-mono); color: var(--accent); word-break: break-all; }
+.dns-rr-ttl { font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+.dns-rr-empty { font-size: 0.79rem; color: var(--text-muted); padding: 0.15rem 0; }
+.dns-rr-loading { padding: 0.65rem 1rem; font-size: 0.8rem; color: var(--text-muted); }
+
+/* ════════════════════════════════════════════════════════
+   HTTP INSPECTOR
+════════════════════════════════════════════════════════ */
+.http-inspector { margin-top: 1.5rem; border-top: 2px solid var(--border); padding-top: 1.25rem; }
+.http-insp-header { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+.http-insp-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+.http-insp-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+.http-insp-row .lab-input { flex: 1; min-width: 200px; }
+.http-insp-loading { font-size: 0.8rem; color: var(--text-muted); padding: 0.4rem 0; }
+.http-insp-error { font-size: 0.82rem; color: var(--error-txt, #f87171); padding: 0.4rem 0; }
+.http-insp-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem; flex-wrap: wrap; }
+.http-insp-status { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700; }
+.http-insp-time { font-size: 0.77rem; color: var(--text-muted); font-family: var(--font-mono); }
+.http-insp-cors-badge { font-size: 0.7rem; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; border-radius: 999px; padding: 0.1rem 0.5rem; cursor: help; }
+.http-insp-cors-note { font-size: 0.79rem; color: var(--text-secondary); background: var(--bg-secondary); border: 1px solid var(--border); border-left: 3px solid #fbbf24; border-radius: var(--radius-xs); padding: 0.55rem 0.8rem; margin-bottom: 0.75rem; line-height: 1.5; }
+.http-insp-no-hdr { font-size: 0.8rem; color: var(--text-muted); }
+.http-cat-block { margin-bottom: 1rem; }
+.http-cat-title { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
+.http-hdr-row { display: flex; align-items: flex-start; gap: 0.4rem; padding: 0.18rem 0; font-size: 0.79rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.http-hdr-row:last-child { border-bottom: none; }
+.http-hdr-key { font-family: var(--font-mono); color: var(--accent); white-space: nowrap; min-width: 160px; max-width: 200px; flex-shrink: 0; word-break: break-all; }
+.http-hdr-val { color: var(--text-secondary); word-break: break-all; flex: 1; }
+.http-hdr-hint { cursor: help; font-size: 0.7rem; opacity: 0.55; flex-shrink: 0; margin-top: 0.05rem; }
+
+/* ════════════════════════════════════════════════════════
+   CHEAT SHEET — BUSCA, COPIAR, GLOSSÁRIO
+════════════════════════════════════════════════════════ */
+.cs-search-wrap { margin-bottom: 1.5rem; }
+.cs-search { width: 100%; padding: 0.6rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary); font-size: 0.9rem; font-family: var(--font-body); box-sizing: border-box; transition: border-color var(--transition); }
+.cs-search:focus { outline: none; border-color: var(--accent); }
+.cs-hidden { display: none !important; }
+.cs-no-results { text-align: center; color: var(--text-muted); padding: 2rem 0; font-size: 0.9rem; }
+.cs-copy-btn { float: right; margin-left: 0.5rem; appearance: none; background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); color: var(--text-muted); font-size: 0.7rem; padding: 0.15rem 0.45rem; cursor: pointer; transition: all var(--transition); font-family: var(--font-body); }
+.cs-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+.cs-status-2xx td:first-child { color: #4ade80; font-weight: 600; }
+.cs-status-3xx td:first-child { color: #fbbf24; font-weight: 600; }
+.cs-status-4xx td:first-child { color: #f87171; font-weight: 600; }
+.cs-status-5xx td:first-child { color: #fb7185; font-weight: 600; }
+.cs-glossary-nav { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; }
+.cs-glossary-nav a { display: inline-block; padding: 0.15rem 0.45rem; border-radius: var(--radius-xs); background: var(--bg-secondary); border: 1px solid var(--border); font-size: 0.75rem; color: var(--text-secondary); text-decoration: none; transition: all var(--transition); }
+.cs-glossary-nav a:hover { border-color: var(--accent); color: var(--accent); }
+.cs-glossary-letter { font-size: 1.05rem; font-weight: 700; color: var(--accent); margin: 1.5rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2rem; }
+.cs-glossary-letter:first-child { margin-top: 0; }
+.cs-glossary-term { margin-bottom: 0.6rem; padding: 0.6rem 0.85rem; background: var(--bg-secondary); border-radius: var(--radius-xs); border: 1px solid var(--border); }
+.cs-glossary-term-title { font-size: 0.84rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem; }
+.cs-glossary-term-def { font-size: 0.79rem; color: var(--text-secondary); line-height: 1.55; }
+
+/* ════════════════════════════════════════════════════════
    LABORATÓRIO INTERATIVO
 ════════════════════════════════════════════════════════ */
 
