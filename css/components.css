@@ -1312,7 +1312,7 @@
 .dns-input-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .dns-stage {
   position: relative; background: var(--bg-secondary); border: 1px solid var(--border);
-  border-radius: var(--radius); height: 200px; margin-bottom: 0.75rem; overflow: hidden;
+  border-radius: var(--radius); height: 240px; margin-bottom: 0.75rem; overflow: visible;
 }
 .dns-node {
   position: absolute; display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
@@ -1343,7 +1343,7 @@
 .mitm-stage {
   display: flex; align-items: center; justify-content: space-between; gap: 0.25rem;
   background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 1.5rem 1rem; margin-bottom: 0.75rem; flex-wrap: nowrap; overflow-x: auto;
+  padding: 4.5rem 1rem 1.5rem; margin-bottom: 0.75rem; flex-wrap: nowrap; overflow-x: auto;
 }
 .mitm-actor { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; min-width: 70px; }
 .mitm-actor-icon { font-size: 1.8rem; }
