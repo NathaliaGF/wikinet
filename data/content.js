@@ -142,6 +142,39 @@ const MODULES = [
       { id: 'tabela-portas', title: '2. Tabela Completa de Portas' },
       { id: 'dicas', title: '3. Dicas Práticas e Boas Práticas' }
     ]
+  },
+  {
+    id: 'ipv6',
+    num: 10,
+    title: 'IPv6',
+    description: 'O protocolo do futuro: endereçamento 128-bit, tipos de endereço, autoconfiguração e migração do IPv4.',
+    icon: '🌐',
+    url: 'pages/ipv6.html',
+    sections: ['por-que-ipv6','formato-endereco','tipos-endereco','header-ipv6','autoconfig','migracao'],
+    navTopics: [
+      { id: 'por-que-ipv6',     title: '1. Por que o IPv6 existe?' },
+      { id: 'formato-endereco', title: '2. Formato do Endereço IPv6' },
+      { id: 'tipos-endereco',   title: '3. Tipos de Endereço IPv6' },
+      { id: 'header-ipv6',      title: '4. Header IPv6' },
+      { id: 'autoconfig',       title: '5. Autoconfiguração (SLAAC/DHCPv6)' },
+      { id: 'migracao',         title: '6. Convivência e Migração' }
+    ]
+  },
+  {
+    id: 'certificacoes',
+    num: 11,
+    title: 'Certificações',
+    description: 'Guia para Network+ N10-009 e CCNA 200-301: domínios, cobertura e cronograma de estudo.',
+    icon: '🏆',
+    url: 'pages/certificacoes.html',
+    sections: ['comparativo','network-plus','ccna','cronograma','gaps'],
+    navTopics: [
+      { id: 'comparativo',   title: '1. Comparativo N+ vs CCNA' },
+      { id: 'network-plus',  title: '2. Network+ N10-009' },
+      { id: 'ccna',          title: '3. CCNA 200-301' },
+      { id: 'cronograma',    title: '4. Cronograma de Estudo' },
+      { id: 'gaps',          title: '5. Cobertura e Gaps' }
+    ]
   }
 ];
 

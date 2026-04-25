@@ -57,6 +57,11 @@
           <button class="lab-tab" data-tab="labHTTP"    role="tab">🔧 Requisição HTTP</button>
           <button class="lab-tab" data-tab="labTCP"     role="tab">📋 Cabeçalho TCP/IP</button>
           <button class="lab-tab" data-tab="labTopo"    role="tab">🗺️ Topologia de Rede</button>
+          <button class="lab-tab" data-tab="labSubnet"  role="tab">🧮 Sub-redes</button>
+          <button class="lab-tab" data-tab="labHandshake" role="tab">🤝 Handshake TCP</button>
+          <button class="lab-tab" data-tab="labARP"     role="tab">📡 ARP</button>
+          <button class="lab-tab" data-tab="labTLS"     role="tab">🔒 TLS/Cert</button>
+          <button class="lab-tab" data-tab="labIPASN"   role="tab">🌐 IP/ASN</button>
         </div>
         <button class="lab-tabs-nav lab-tabs-nav--right" id="labTabsNext" type="button" aria-label="Ver próximas abas" hidden>&gt;</button>
       </div>
@@ -118,6 +123,46 @@
           <div class="lab-panel-intro">
             <h2>Montador de Topologia de Rede</h2>
             <p>Arraste dispositivos para o canvas e conecte-os. Use "Conectar" para desenhar enlaces. Dê duplo clique nos labels para renomear.</p>
+          </div>
+        </section>
+
+        <!-- 8. Subnet Calculator -->
+        <section class="lab-panel" id="labSubnet" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Calculadora de Sub-redes</h2>
+            <p>Calcule informações de rede a partir de um endereço CIDR, descubra a máscara a partir do número de hosts, ou divida uma rede em sub-redes iguais.</p>
+          </div>
+        </section>
+
+        <!-- 9. TCP Handshake -->
+        <section class="lab-panel" id="labHandshake" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Three-Way Handshake TCP</h2>
+            <p>Visualize o estabelecimento de conexão TCP: SYN → SYN-ACK → ACK, com os números de sequência e estados FSM em cada passo.</p>
+          </div>
+        </section>
+
+        <!-- 10. ARP Simulator -->
+        <section class="lab-panel" id="labARP" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Simulador ARP</h2>
+            <p>Veja o protocolo ARP em ação: broadcast "quem tem IP X?", resposta unicast e construção da tabela ARP. Opcional: demonstração de ARP Spoofing.</p>
+          </div>
+        </section>
+
+        <!-- 11. TLS Cert Inspector -->
+        <section class="lab-panel" id="labTLS" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Inspetor de Certificado TLS</h2>
+            <p>Digite um domínio para consultar seu histórico de certificados via crt.sh: CN, SANs, emissor, validade e dias restantes.</p>
+          </div>
+        </section>
+
+        <!-- 12. IP/ASN Lookup -->
+        <section class="lab-panel" id="labIPASN" role="tabpanel">
+          <div class="lab-panel-intro">
+            <h2>Lookup IP / ASN / BGP</h2>
+            <p>Consulte informações sobre um endereço IP: ASN, prefixo BGP, país, organização e dados RDAP de domínio.</p>
           </div>
         </section>
 

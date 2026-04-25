@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPv6 — RedesWiki</title>
+  <meta name="description" content="IPv6 completo: endereçamento, prefixos, tipos de endereço, migração, diferenças com IPv4 e por que o mundo está adotando.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/ipv6.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IPv6 — RedesWiki">
+  <meta property="og:description" content="Endereçamento IPv6, tipos de endereço, prefixos especiais e migração de IPv4.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" aria-label="Alternar tema"></button>
+      </div>
+    </div>
+
+    <main id="main-content">
+
+      <section class="module-hero">
+        <div class="module-hero-icon">🌐</div>
+        <h1>IPv6 — O Protocolo do Futuro</h1>
+        <p class="module-hero-desc">O IPv4 está esgotado. O IPv6 resolve isso com um espaço de endereços praticamente infinito — e traz mudanças arquiteturais importantes que todo profissional de redes precisa conhecer.</p>
+        <div class="module-hero-meta">
+          <span>🕐 ~35 min</span>
+          <span>📚 6 seções</span>
+          <span>🎯 Módulo 10</span>
+        </div>
+      </section>
+
+      <!-- ── SEÇÃO 1 ── -->
+      <section class="content-section" id="por-que-ipv6">
+        <h2>1. Por que o IPv6 existe?</h2>
+        <p>O IPv4 usa endereços de 32 bits, permitindo cerca de <strong>4,3 bilhões</strong> de endereços únicos. Quando o protocolo foi criado nos anos 1970, isso parecia mais do que suficiente. Hoje, com bilhões de smartphones, servidores, câmeras, IoT e carros conectados, os blocos acabaram.</p>
+
+        <div class="info-box info-box--warning">
+          <strong>Esgotamento do IPv4:</strong> A IANA (autoridade global) distribuiu o último bloco /8 em <strong>fevereiro de 2011</strong>. As regiões usam NAT em larga escala para esticar o IPv4, mas isso cria complexidade, latência e impede conexões ponto a ponto reais.
+        </div>
+
+        <p>O IPv6 resolve isso usando endereços de <strong>128 bits</strong>, o que dá <strong>340 undecilhões</strong> de endereços (3,4 × 10³⁸). Dá para atribuir bilhões de endereços para cada ser humano, cada sensor e cada dispositivo já fabricado — e ainda sobraria.</p>
+
+        <div class="concept-grid">
+          <div class="concept-card">
+            <h4>IPv4</h4>
+            <ul>
+              <li>32 bits</li>
+              <li>~4,3 bilhões de endereços</li>
+              <li>Notação decimal com pontos</li>
+              <li>Requer NAT em redes privadas</li>
+              <li>Header complexo (variável)</li>
+            </ul>
+          </div>
+          <div class="concept-card">
+            <h4>IPv6</h4>
+            <ul>
+              <li>128 bits</li>
+              <li>340 undecilhões de endereços</li>
+              <li>Notação hexadecimal com dois-pontos</li>
+              <li>Endereços públicos para todos</li>
+              <li>Header fixo (40 bytes) + extensões</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SEÇÃO 2 ── -->
+      <section class="content-section" id="formato-endereco">
+        <h2>2. Formato do Endereço IPv6</h2>
+        <p>Um endereço IPv6 tem <strong>128 bits</strong>, representados como oito grupos de quatro dígitos hexadecimais separados por dois-pontos:</p>
+
+        <div class="code-block">
+          <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>
+        </div>
+
+        <h3>Regras de abreviação</h3>
+        <p>Dois atalhos são permitidos para encurtar endereços:</p>
+        <ol>
+          <li><strong>Zeros à esquerda em cada grupo podem ser omitidos:</strong><br>
+            <code>2001:0db8:0001:0000:0000:0000:0000:0001</code><br>
+            vira: <code>2001:db8:1:0:0:0:0:1</code>
+          </li>
+          <li><strong>Grupos consecutivos de zeros podem ser substituídos por <code>::</code> (apenas uma vez):</strong><br>
+            <code>2001:db8:1:0:0:0:0:1</code><br>
+            vira: <code>2001:db8:1::1</code>
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>Regra do <code>::</code>:</strong> Ele pode ser usado <em>apenas uma vez</em> no endereço. Se usado duas vezes, fica ambíguo — o computador não saberia quantos zeros substituir em cada lado.
+        </div>
+
+        <h3>Exemplos de abreviação</h3>
+        <div class="table-wrap">
+          <table class="content-table">
+            <thead><tr><th>Completo</th><th>Abreviado</th></tr></thead>
+            <tbody>
+              <tr><td><code>2001:0db8:0000:0000:0000:0000:0000:0001</code></td><td><code>2001:db8::1</code></td></tr>
+              <tr><td><code>fe80:0000:0000:0000:02aa:00ff:fe3c:1234</code></td><td><code>fe80::2aa:ff:fe3c:1234</code></td></tr>
+              <tr><td><code>0000:0000:0000:0000:0000:0000:0000:0001</code></td><td><code>::1</code> (loopback)</td></tr>
+              <tr><td><code>0000:0000:0000:0000:0000:0000:0000:0000</code></td><td><code>::</code> (não especificado)</td></tr>
+              <tr><td><code>ff02:0000:0000:0000:0000:0000:0000:0001</code></td><td><code>ff02::1</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Prefixo e interface ID</h3>
+        <p>Assim como o IPv4 usa máscara de sub-rede, o IPv6 usa notação CIDR. Os primeiros bits formam o <strong>prefixo de rede</strong>; os demais identificam a interface:</p>
+        <div class="code-block"><code>2001:db8:abcd:0012 | 0000:0000:0000:0001/64
+                 ↑ prefixo (64 bits)  ↑ Interface ID (64 bits)</code></div>
+        <p>O <code>/64</code> é o prefixo mais comum em redes locais. O Interface ID de 64 bits pode ser gerado aleatoriamente (RFC 4941) ou derivado do MAC via EUI-64.</p>
+      </section>
+
+      <!-- ── SEÇÃO 3 ── -->
+      <section class="content-section" id="tipos-endereco">
+        <h2>3. Tipos de Endereço IPv6</h2>
+        <p>IPv6 elimina o conceito de <em>broadcast</em>. Em vez disso, usa três categorias:</p>
+
+        <div class="concept-grid">
+          <div class="concept-card">
+            <h4>Unicast</h4>
+            <p>Identifica uma única interface. O pacote vai de um emissor para um receptor.</p>
+          </div>
+          <div class="concept-card">
+            <h4>Multicast</h4>
+            <p>Identifica um grupo de interfaces. O pacote é entregue a todas do grupo. Prefixo: <code>ff00::/8</code>.</p>
+          </div>
+          <div class="concept-card">
+            <h4>Anycast</h4>
+            <p>Atribuído a várias interfaces; o pacote é entregue à mais próxima (topologicamente). Usado em DNS raiz, CDNs.</p>
+          </div>
+        </div>
+
+        <h3>Endereços Unicast importantes</h3>
+        <div class="table-wrap">
+          <table class="content-table">
+            <thead><tr><th>Tipo</th><th>Prefixo</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td>Global Unicast</td><td><code>2000::/3</code></td><td>Equivalente a IPs públicos IPv4. Roteável na Internet.</td></tr>
+              <tr><td>Link-Local</td><td><code>fe80::/10</code></td><td>Automático em toda interface. Só válido no link local (não é roteado).</td></tr>
+              <tr><td>Unique Local</td><td><code>fc00::/7</code></td><td>Equivalente ao <code>192.168.x.x</code>. Uso privado, não roteável na Internet.</td></tr>
+              <tr><td>Loopback</td><td><code>::1/128</code></td><td>Equivalente ao <code>127.0.0.1</code> do IPv4.</td></tr>
+              <tr><td>Não especificado</td><td><code>::/128</code></td><td>Equivalente ao <code>0.0.0.0</code>. Indica "sem endereço".</td></tr>
+              <tr><td>IPv4-mapeado</td><td><code>::ffff:0:0/96</code></td><td>Representa endereços IPv4 dentro do espaço IPv6.</td></tr>
+              <tr><td>6to4</td><td><code>2002::/16</code></td><td>Encapsulamento automático de IPv6 em IPv4 (legacy).</td></tr>
+              <tr><td>Teredo</td><td><code>2001::/32</code></td><td>Tunelamento IPv6 sobre UDP/IPv4 para NAT traversal (legacy).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── SEÇÃO 4 ── -->
+      <section class="content-section" id="header-ipv6">
+        <h2>4. Header IPv6 — Mais Simples que o IPv4</h2>
+        <p>O header IPv6 tem <strong>tamanho fixo de 40 bytes</strong>, com apenas 8 campos (o IPv4 tem 14 campos de tamanho variável). Isso facilita o processamento nos roteadores.</p>
+
+        <div class="table-wrap">
+          <table class="content-table">
+            <thead><tr><th>Campo</th><th>Bits</th><th>Descrição</th></tr></thead>
+            <tbody>
+              <tr><td>Version</td><td>4</td><td>Sempre <code>6</code> para IPv6.</td></tr>
+              <tr><td>Traffic Class</td><td>8</td><td>Equivalente ao DSCP/ToS do IPv4. Qualidade de serviço.</td></tr>
+              <tr><td>Flow Label</td><td>20</td><td>Identifica fluxos de pacotes para QoS. Novo no IPv6.</td></tr>
+              <tr><td>Payload Length</td><td>16</td><td>Tamanho dos dados (sem contar o header fixo).</td></tr>
+              <tr><td>Next Header</td><td>8</td><td>Tipo do próximo header (TCP=6, UDP=17, ICMPv6=58) ou header de extensão.</td></tr>
+              <tr><td>Hop Limit</td><td>8</td><td>Equivalente ao TTL do IPv4. Decrementado a cada roteador.</td></tr>
+              <tr><td>Source Address</td><td>128</td><td>Endereço IPv6 de origem.</td></tr>
+              <tr><td>Destination Address</td><td>128</td><td>Endereço IPv6 de destino.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box">
+          <strong>O que foi removido em relação ao IPv4:</strong> checksum do header (TCP/UDP já têm seus próprios), fragmentação no roteador (feita pela origem via Path MTU Discovery), e opções inline (movidas para Extension Headers).
+        </div>
+
+        <h3>Extension Headers</h3>
+        <p>O IPv6 usa headers de extensão encadeados para funcionalidades opcionais: fragmentação, roteamento de origem, autenticação (IPsec AH), encriptação (IPsec ESP) e hop-by-hop options. Só são processados pelos nós que precisam, não por todos os roteadores no caminho.</p>
+      </section>
+
+      <!-- ── SEÇÃO 5 ── -->
+      <section class="content-section" id="autoconfig">
+        <h2>5. Autoconfiguração — SLAAC e DHCPv6</h2>
+        <p>Uma das grandes vantagens do IPv6 é que os dispositivos podem se configurar <strong>automaticamente</strong>, sem precisar de um servidor DHCP.</p>
+
+        <h3>SLAAC — Stateless Address Autoconfiguration (RFC 4862)</h3>
+        <p>Processo automático em 4 etapas:</p>
+        <ol>
+          <li><strong>Link-Local automático:</strong> A interface gera um endereço <code>fe80::/10</code> usando EUI-64 ou aleatório.</li>
+          <li><strong>DAD (Duplicate Address Detection):</strong> Envia um Neighbor Solicitation para confirmar que o endereço não está em uso.</li>
+          <li><strong>Router Solicitation:</strong> Pergunta aos roteadores do link quais prefixos estão disponíveis.</li>
+          <li><strong>Router Advertisement:</strong> O roteador responde com o prefixo da rede (ex: <code>2001:db8::/64</code>). O host concatena o prefixo com seu Interface ID gerado localmente.</li>
+        </ol>
+
+        <div class="info-box info-box--tip">
+          <strong>Dica:</strong> Com SLAAC puro, o host sabe seu IP e o gateway, mas <em>não</em> o servidor DNS. Para isso, usa-se <strong>RDNSS</strong> (DNS no Router Advertisement, RFC 8106) ou <strong>DHCPv6 stateless</strong> apenas para fornecer o DNS.
+        </div>
+
+        <h3>DHCPv6</h3>
+        <p>Funciona de forma parecida com o DHCP do IPv4, mas em IPv6 o roteador pode sinalizar no Router Advertisement se o host deve usar SLAAC, DHCPv6, ou ambos (flags M e O). O DHCPv6 <em>stateful</em> atribui endereços centralmente; o <em>stateless</em> apenas fornece configurações extras como DNS.</p>
+      </section>
+
+      <!-- ── SEÇÃO 6 ── -->
+      <section class="content-section" id="migracao">
+        <h2>6. Convivência e Migração IPv4/IPv6</h2>
+        <p>Como o IPv4 não vai desaparecer do dia para a noite, há mecanismos de transição:</p>
+
+        <h3>Dual Stack</h3>
+        <p>O método mais simples e recomendado: o dispositivo roda IPv4 e IPv6 <strong>simultaneamente</strong>. Quando o destino suporta ambos, prefere-se IPv6. A maioria dos sistemas operacionais modernos já é dual stack por padrão.</p>
+
+        <h3>Tunneling</h3>
+        <p>Pacotes IPv6 são encapsulados dentro de pacotes IPv4 para atravessar redes que ainda são só IPv4. Exemplos: 6in4, 6to4 (2002::/16), Teredo (2001::/32), ISATAP. Hoje são considerados legados e devem ser evitados em novas implantações.</p>
+
+        <h3>NAT64 + DNS64</h3>
+        <p>Permite que hosts IPv6-only se comuniquem com servidores IPv4-only. O DNS64 sintetiza registros AAAA falsos para IPs IPv4 e o NAT64 faz a tradução de protocolo na borda da rede. Usado por operadoras móveis que já são IPv6-only.</p>
+
+        <div class="table-wrap">
+          <table class="content-table">
+            <thead><tr><th>Mecanismo</th><th>Quando usar</th><th>Complexidade</th></tr></thead>
+            <tbody>
+              <tr><td>Dual Stack</td><td>Sempre que possível — padrão recomendado</td><td>Baixa</td></tr>
+              <tr><td>6in4 / GRE</td><td>Conectar ilhas IPv6 via backbone IPv4</td><td>Média</td></tr>
+              <tr><td>Teredo / 6to4</td><td>Legacy — evitar em novas redes</td><td>Alta (instável)</td></tr>
+              <tr><td>NAT64 + DNS64</td><td>Redes só-IPv6 que precisam alcançar IPv4</td><td>Média-Alta</td></tr>
+              <tr><td>464XLAT</td><td>Dispositivos legados em redes IPv6-only</td><td>Alta</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box info-box--tip">
+          <strong>Adoção atual:</strong> Em 2024, mais de 40% do tráfego do Google já é servido via IPv6. Brasil e Índia lideram a adoção em países emergentes. Provedores de nuvem como AWS, GCP e Azure suportam IPv6 nativamente.
+        </div>
+      </section>
+
+      <div class="module-nav-bottom">
+        <a href="enderecamento.html" class="module-nav-btn">← Módulo 3: Endereçamento</a>
+        <a href="certificacoes.html" class="module-nav-btn module-nav-btn--primary">Certificações →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/heatmap.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação, quizzes e rastreamento de progresso.</p>
+  </div>
+</noscript>
+</body>
+</html>

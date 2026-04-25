@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificações de Redes — RedesWiki</title>
+  <meta name="description" content="Guia de certificações Network+ N10-009 e CCNA 200-301: domínios cobrados, dicas de estudo, informações do exame e como o RedesWiki cobre cada tema.">
+  <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/certificacoes.html">
+  <meta name="theme-color" content="#4f8ef7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Certificações de Redes — RedesWiki">
+  <meta property="og:description" content="Network+ N10-009 e CCNA 200-301: domínios, cobertura e dicas de estudo.">
+  <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/cert.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Ir para o conteúdo</a>
+<div class="app-layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
+          </svg>
+        </button>
+        <div class="breadcrumbs" id="breadcrumbs"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" aria-label="Alternar tema"></button>
+      </div>
+    </div>
+
+    <main id="main-content">
+
+      <section class="module-hero">
+        <div class="module-hero-icon">🏆</div>
+        <h1>Certificações de Redes</h1>
+        <p class="module-hero-desc">Guia prático para as duas principais certificações entry-level de redes: <strong>CompTIA Network+ N10-009</strong> e <strong>Cisco CCNA 200-301</strong>. Veja o que cada exame cobre e como o RedesWiki prepara você para cada domínio.</p>
+      </section>
+
+      <!-- ── COMPARATIVO ── -->
+      <section class="content-section" id="comparativo">
+        <h2>Comparativo Rápido</h2>
+        <div class="cert-cards">
+
+          <div class="cert-card cert-card--netplus">
+            <div class="cert-card-logo">N+</div>
+            <h3>CompTIA Network+</h3>
+            <div class="cert-card-code">N10-009</div>
+            <ul class="cert-card-facts">
+              <li>⏱ 90 minutos</li>
+              <li>❓ Até 90 questões (múltipla escolha + PBQ)</li>
+              <li>✅ Aprovação: 720/900</li>
+              <li>💰 ~USD 349 (voucher)</li>
+              <li>🔄 Válido por 3 anos (CEU ou re-prova)</li>
+              <li>📋 Vendor-neutral</li>
+            </ul>
+            <a href="https://www.comptia.org/certifications/network" target="_blank" rel="noopener" class="cert-card-link">Site oficial →</a>
+          </div>
+
+          <div class="cert-card cert-card--ccna">
+            <div class="cert-card-logo">CCNA</div>
+            <h3>Cisco CCNA</h3>
+            <div class="cert-card-code">200-301</div>
+            <ul class="cert-card-facts">
+              <li>⏱ 120 minutos</li>
+              <li>❓ ~100 questões (mix de formatos)</li>
+              <li>✅ Aprovação: ~825/1000 (não divulgado)</li>
+              <li>💰 ~USD 330</li>
+              <li>🔄 Válido por 3 anos (recertificação ou higher)</li>
+              <li>📋 Cisco-focused (mas cobre fundamentos gerais)</li>
+            </ul>
+            <a href="https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html" target="_blank" rel="noopener" class="cert-card-link">Site oficial →</a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── NETWORK+ ── -->
+      <section class="content-section" id="network-plus">
+        <h2>Network+ N10-009 — Domínios e Cobertura</h2>
+        <p>O exame N10-009 tem <strong>5 domínios</strong>. Veja o peso de cada um e como o RedesWiki cobre o conteúdo:</p>
+
+        <div class="cert-domain-list">
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">1</span>
+              <span class="cert-domain-title">Networking Concepts</span>
+              <span class="cert-domain-pct cert-pct-high">23%</span>
+            </div>
+            <p>OSI model, TCP/IP, portas e protocolos, tipos de rede (LAN/WAN/MAN/PAN), cloud, virtualização e conceitos de datacenter.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="modelos.html">Modelos de Camadas</a>
+              <a href="protocolos.html">Protocolos</a>
+              <a href="portas.html">Portas</a>
+              <a href="fundamentos.html">Fundamentos</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:85%">85%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">2</span>
+              <span class="cert-domain-title">Network Implementation</span>
+              <span class="cert-domain-pct cert-pct-high">20%</span>
+            </div>
+            <p>Roteamento, switching (VLANs, STP), wireless (802.11), IPv4/IPv6, sub-redes, NAT/PAT e tipos de cabos/conectores.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="enderecamento.html">Endereçamento</a>
+              <a href="ipv6.html">IPv6</a>
+              <a href="equipamentos.html">Equipamentos</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:70%">70%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">3</span>
+              <span class="cert-domain-title">Network Operations</span>
+              <span class="cert-domain-pct cert-pct-mid">19%</span>
+            </div>
+            <p>Monitoramento, documentação, baselines, gerenciamento de configuração, políticas de backup, gerenciamento de licenças.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="troubleshooting.html">Troubleshooting</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill cert-cov-partial" style="width:40%">40%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">4</span>
+              <span class="cert-domain-title">Network Security</span>
+              <span class="cert-domain-pct cert-pct-high">19%</span>
+            </div>
+            <p>Ataques (MITM, DDoS, phishing), firewalls, IDS/IPS, VPN, AAA, hardening de dispositivos, segurança wireless.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="seguranca.html">Segurança Básica</a>
+              <a href="interativo.html">Lab MITM</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:75%">75%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">5</span>
+              <span class="cert-domain-title">Network Troubleshooting</span>
+              <span class="cert-domain-pct cert-pct-high">19%</span>
+            </div>
+            <p>Metodologia de troubleshooting, ferramentas (ping, traceroute, nslookup, netstat, Wireshark), problemas de cabo, wireless e switching.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="troubleshooting.html">Troubleshooting</a>
+              <a href="interativo.html">Laboratório</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:80%">80%</div></div>
+          </div>
+
+        </div>
+
+        <div class="info-box info-box--tip">
+          <strong>Dica N10-009:</strong> O exame inclui questões de desempenho (PBQs — Performance-Based Questions) onde você precisa configurar dispositivos virtuais ou resolver problemas num simulador. Pratique com o Laboratório Interativo do RedesWiki e com os laboratórios gratuitos do Packet Tracer.
+        </div>
+      </section>
+
+      <!-- ── CCNA ── -->
+      <section class="content-section" id="ccna">
+        <h2>CCNA 200-301 — Domínios e Cobertura</h2>
+        <p>O CCNA é mais técnico e focado em implementação Cisco. Tem <strong>6 domínios</strong>:</p>
+
+        <div class="cert-domain-list">
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">1</span>
+              <span class="cert-domain-title">Network Fundamentals</span>
+              <span class="cert-domain-pct cert-pct-high">20%</span>
+            </div>
+            <p>Interfaces e cabos, OSI e TCP/IP, IPv4 e IPv6, sub-redes, wireless (2.4 GHz vs 5 GHz), virtualização e cloud.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="fundamentos.html">Fundamentos</a>
+              <a href="modelos.html">Modelos</a>
+              <a href="enderecamento.html">Endereçamento</a>
+              <a href="ipv6.html">IPv6</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:80%">80%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">2</span>
+              <span class="cert-domain-title">Network Access</span>
+              <span class="cert-domain-pct cert-pct-mid">20%</span>
+            </div>
+            <p>VLANs, trunking (802.1Q), STP/RSTP, EtherChannel, WLAN (WPA2/3, 802.11), configuração de access points.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="equipamentos.html">Equipamentos</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill cert-cov-partial" style="width:30%">30%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">3</span>
+              <span class="cert-domain-title">IP Connectivity</span>
+              <span class="cert-domain-pct cert-pct-high">25%</span>
+            </div>
+            <p>Roteamento estático, OSPFv2, IPv6 routing, primeiro salto (FHRP), troubleshooting de rotas.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="enderecamento.html">Endereçamento</a>
+              <a href="acesso-site.html">Acesso a um Site</a>
+              <a href="interativo.html">Laboratório</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill cert-cov-partial" style="width:50%">50%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">4</span>
+              <span class="cert-domain-title">IP Services</span>
+              <span class="cert-domain-pct cert-pct-mid">10%</span>
+            </div>
+            <p>NAT, NTP, DHCP, DNS, SNMP, Syslog, QoS (DSCP, queuing), SSH vs Telnet.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="protocolos.html">Protocolos</a>
+              <a href="enderecamento.html">NAT</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:60%">60%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">5</span>
+              <span class="cert-domain-title">Security Fundamentals</span>
+              <span class="cert-domain-pct cert-pct-mid">15%</span>
+            </div>
+            <p>Threats, ACLs, port security, DHCP snooping, DAI, VPNs (site-to-site, remote access), AAA com RADIUS.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <a href="seguranca.html">Segurança</a>
+              <a href="interativo.html">Lab MITM + ARP</a>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:65%">65%</div></div>
+          </div>
+
+          <div class="cert-domain">
+            <div class="cert-domain-head">
+              <span class="cert-domain-num">6</span>
+              <span class="cert-domain-title">Automation and Programmability</span>
+              <span class="cert-domain-pct cert-pct-low">10%</span>
+            </div>
+            <p>SDN, controller-based networking, REST APIs, Cisco DNA Center, Ansible/Puppet conceitos, JSON/YAML.</p>
+            <div class="cert-domain-links">
+              <span>Módulos cobertos:</span>
+              <em style="color:var(--text-muted)">Fora do escopo atual do RedesWiki</em>
+            </div>
+            <div class="cert-coverage-bar"><div class="cert-coverage-fill cert-cov-none" style="width:10%">10%</div></div>
+          </div>
+
+        </div>
+
+        <div class="info-box info-box--warning">
+          <strong>Atenção CCNA:</strong> O exame cobra configuração real de IOS Cisco (linha de comando). Use o <strong>Cisco Packet Tracer</strong> (gratuito, requer cadastro) ou o <strong>GNS3</strong> para praticar CLI. O RedesWiki cobre os conceitos; a prática em CLI é indispensável à parte.
+        </div>
+      </section>
+
+      <!-- ── CRONOGRAMA ── -->
+      <section class="content-section" id="cronograma">
+        <h2>Cronograma de Estudo Sugerido</h2>
+
+        <h3>Network+ — 8 semanas</h3>
+        <div class="cert-schedule">
+          <div class="cert-week"><span class="cert-week-num">S1</span><div><strong>Fundamentos + Modelos</strong> — OSI, TCP/IP, cabos, topologias</div></div>
+          <div class="cert-week"><span class="cert-week-num">S2</span><div><strong>Endereçamento</strong> — IPv4, sub-redes, CIDR, NAT, IPv6</div></div>
+          <div class="cert-week"><span class="cert-week-num">S3</span><div><strong>Protocolos + Portas</strong> — DNS, DHCP, HTTP, TCP/UDP, portas comuns</div></div>
+          <div class="cert-week"><span class="cert-week-num">S4</span><div><strong>Equipamentos + Switching</strong> — Switch, roteador, firewall, VLANs, STP</div></div>
+          <div class="cert-week"><span class="cert-week-num">S5</span><div><strong>Segurança</strong> — Ataques, VPN, firewalls, AAA, hardening</div></div>
+          <div class="cert-week"><span class="cert-week-num">S6</span><div><strong>Wireless + Cloud</strong> — 802.11, WPA3, virtualização, IaaS/PaaS/SaaS</div></div>
+          <div class="cert-week"><span class="cert-week-num">S7</span><div><strong>Troubleshooting</strong> — Metodologia, ferramentas, simulados de falha</div></div>
+          <div class="cert-week"><span class="cert-week-num">S8</span><div><strong>Revisão + Simulados</strong> — Exames práticos, PBQs, pontos fracos</div></div>
+        </div>
+
+        <h3>CCNA — 16 semanas</h3>
+        <div class="cert-schedule">
+          <div class="cert-week"><span class="cert-week-num">S1–2</span><div><strong>Fundamentos + Binário</strong> — IP, sub-redes, conversão binário/hex</div></div>
+          <div class="cert-week"><span class="cert-week-num">S3–4</span><div><strong>Switching</strong> — VLANs, trunking, STP, EtherChannel, configuração IOS</div></div>
+          <div class="cert-week"><span class="cert-week-num">S5–6</span><div><strong>Roteamento</strong> — Rotas estáticas, OSPF, troubleshooting de rotas</div></div>
+          <div class="cert-week"><span class="cert-week-num">S7–8</span><div><strong>IPv6</strong> — Formato, tipos, SLAAC, roteamento OSPFv3</div></div>
+          <div class="cert-week"><span class="cert-week-num">S9–10</span><div><strong>IP Services</strong> — NAT, DHCP, NTP, SNMP, QoS</div></div>
+          <div class="cert-week"><span class="cert-week-num">S11–12</span><div><strong>Segurança</strong> — ACLs, port security, DAI, DHCP snooping, VPN</div></div>
+          <div class="cert-week"><span class="cert-week-num">S13–14</span><div><strong>Wireless + Automation</strong> — 802.11, WLC, SDN, REST API</div></div>
+          <div class="cert-week"><span class="cert-week-num">S15–16</span><div><strong>Revisão + Simulados</strong> — Simulados completos, revisão de CLI, pontos fracos</div></div>
+        </div>
+      </section>
+
+      <!-- ── GAPS ── -->
+      <section class="content-section" id="gaps">
+        <h2>O que o RedesWiki cobre — e o que estudar além</h2>
+
+        <div class="cert-gap-grid">
+          <div class="cert-gap-box cert-gap-covered">
+            <h4>✅ Coberto no RedesWiki</h4>
+            <ul>
+              <li>Fundamentos: IP, porta, pacote, latência</li>
+              <li>Modelos OSI e TCP/IP</li>
+              <li>IPv4 completo: classes, CIDR, sub-redes, NAT</li>
+              <li>IPv6: formato, tipos, autoconfiguração</li>
+              <li>Protocolos: DNS, DHCP, HTTP/S, TLS, SSH, FTP</li>
+              <li>Portas conhecidas (22 protocolos)</li>
+              <li>Equipamentos: switch, roteador, firewall, proxy</li>
+              <li>Segurança: ataques, VPN, firewalls</li>
+              <li>Troubleshooting: ping, traceroute, nslookup, netstat</li>
+              <li>Lab: simuladores DNS, MITM, OSI, TCP, ARP, TLS</li>
+            </ul>
+          </div>
+          <div class="cert-gap-box cert-gap-missing">
+            <h4>📚 Estudar além do RedesWiki</h4>
+            <ul>
+              <li>VLANs e STP — configuração prática</li>
+              <li>OSPF / EIGRP — protocolos de roteamento dinâmico</li>
+              <li>CLI Cisco IOS — comandos de configuração</li>
+              <li>Wireless avançado — WLC, roaming, 802.11ax</li>
+              <li>SDN e automação — REST API, Ansible, DNA Center</li>
+              <li>QoS — DSCP, queuing, shaping</li>
+              <li>Cloud networking — VPC, inter-region, peering</li>
+              <li>Cabeamento físico — categorias, padrões TIA</li>
+              <li>SNMP, NetFlow, Syslog</li>
+              <li>RADIUS / TACACS+</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-box info-box--tip">
+          <strong>Recursos gratuitos recomendados:</strong>
+          <ul style="margin:.5rem 0 0 1rem">
+            <li><strong>Packet Tracer</strong> (Cisco) — simulador de rede gratuito</li>
+            <li><strong>Professor Messer</strong> (professormesser.com) — vídeo-aulas gratuitas para N+</li>
+            <li><strong>Jeremy's IT Lab</strong> (YouTube) — CCNA do zero, muito didático</li>
+            <li><strong>CBT Nuggets / Udemy</strong> — cursos pagos com laboratórios</li>
+            <li><strong>Examtopics</strong> — banco de questões de provas reais</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="module-nav-bottom">
+        <a href="ipv6.html" class="module-nav-btn">← IPv6</a>
+        <a href="../index.html" class="module-nav-btn module-nav-btn--primary">Início →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+<button class="back-to-top" id="backToTop">↑</button>
+<script defer src="../data/content.js"></script>
+<script defer src="../js/progress.js"></script>
+<script defer src="../js/interactive.js"></script>
+<script defer src="../js/navigation.js"></script>
+<script defer src="../js/heatmap.js"></script>
+<script defer src="../js/app.js"></script>
+<noscript>
+  <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">
+    <h2 style="margin-bottom:1rem;">JavaScript necessário</h2>
+    <p>O RedesWiki usa JavaScript para navegação e rastreamento de progresso.</p>
+  </div>
+</noscript>
+</body>
+</html>

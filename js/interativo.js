@@ -4108,6 +4108,592 @@ const Lab = (() => {
     render();
   }
 
+  /* ══════════════════════════════════════════════════════
+     8. SUBNET CALCULATOR
+  ══════════════════════════════════════════════════════ */
+  function initSubnetCalc() {
+    const container = document.getElementById('labSubnet');
+    if (!container) return;
+
+    container.insertAdjacentHTML('beforeend', `
+      <div class="subnet-wrap">
+        <div class="subnet-modes">
+          <button class="subnet-mode-btn active" data-mode="normal">CIDR → Info</button>
+          <button class="subnet-mode-btn" data-mode="inverse">Hosts → Máscara</button>
+          <button class="subnet-mode-btn" data-mode="divide">Dividir Rede</button>
+        </div>
+        <div class="subnet-mode" id="subnetNormal">
+          <div class="subnet-input-row">
+            <input type="text" id="subnetCidr" class="subnet-input" placeholder="Ex: 192.168.1.0/24" />
+            <button class="subnet-calc-btn" id="subnetCalcBtn">Calcular</button>
+          </div>
+          <div id="subnetResult" class="subnet-result" hidden></div>
+        </div>
+        <div class="subnet-mode" id="subnetInverse" hidden>
+          <div class="subnet-input-row">
+            <input type="number" id="subnetHosts" class="subnet-input" placeholder="Número de hosts necessários" min="1" />
+            <button class="subnet-calc-btn" id="subnetInverseBtn">Calcular</button>
+          </div>
+          <div id="subnetInverseResult" class="subnet-result" hidden></div>
+        </div>
+        <div class="subnet-mode" id="subnetDivide" hidden>
+          <div class="subnet-input-row">
+            <input type="text" id="subnetDivCidr" class="subnet-input" placeholder="Rede base (ex: 10.0.0.0/8)" />
+            <input type="number" id="subnetDivN" class="subnet-input subnet-input-sm" placeholder="N sub-redes" min="2" max="256" />
+            <button class="subnet-calc-btn" id="subnetDivBtn">Dividir</button>
+          </div>
+          <div id="subnetDivResult" class="subnet-result" hidden></div>
+        </div>
+      </div>
+    `);
+
+    container.querySelectorAll('.subnet-mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.subnet-mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const mode = btn.dataset.mode;
+        document.getElementById('subnetNormal').hidden = mode !== 'normal';
+        document.getElementById('subnetInverse').hidden = mode !== 'inverse';
+        document.getElementById('subnetDivide').hidden = mode !== 'divide';
+      });
+    });
+
+    function ipToNum(ip) {
+      return ip.split('.').reduce((acc, oct) => (acc << 8) + parseInt(oct, 10), 0) >>> 0;
+    }
+    function numToIp(num) {
+      return [(num >>> 24) & 255, (num >>> 16) & 255, (num >>> 8) & 255, num & 255].join('.');
+    }
+    function prefixToMask(prefix) {
+      return prefix === 0 ? 0 : (0xFFFFFFFF << (32 - prefix)) >>> 0;
+    }
+
+    function calcSubnet(cidr) {
+      const m = cidr.trim().match(/^(\d{1,3}(?:\.\d{1,3}){3})\/(\d{1,2})$/);
+      if (!m) return null;
+      const [, ip, prefixStr] = m;
+      const prefix = parseInt(prefixStr, 10);
+      if (prefix < 0 || prefix > 32) return null;
+      if (ip.split('.').map(Number).some(o => o > 255)) return null;
+      const mask = prefixToMask(prefix);
+      const ipNum = ipToNum(ip);
+      const networkNum = (ipNum & mask) >>> 0;
+      const broadcast = (networkNum | (~mask >>> 0)) >>> 0;
+      const hostBits = 32 - prefix;
+      const totalHosts = hostBits >= 2 ? Math.pow(2, hostBits) - 2 : (hostBits === 1 ? 0 : 1);
+      return {
+        ip, prefix,
+        network: numToIp(networkNum),
+        broadcast: numToIp(broadcast),
+        mask: numToIp(mask),
+        wildcardMask: numToIp(~mask >>> 0),
+        firstHost: prefix < 31 ? numToIp(networkNum + 1) : numToIp(networkNum),
+        lastHost: prefix < 31 ? numToIp(broadcast - 1) : numToIp(broadcast),
+        totalAddresses: Math.pow(2, hostBits),
+        totalHosts: Math.max(0, totalHosts),
+        networkNum
+      };
+    }
+
+    document.getElementById('subnetCalcBtn').addEventListener('click', () => {
+      const info = calcSubnet(document.getElementById('subnetCidr').value);
+      const result = document.getElementById('subnetResult');
+      if (!info) {
+        result.innerHTML = '<p class="subnet-error">CIDR inválido. Use o formato 192.168.1.0/24</p>';
+        result.hidden = false;
+        return;
+      }
+      result.innerHTML = `
+        <table class="subnet-table">
+          <tr><th>Campo</th><th>Valor</th></tr>
+          <tr><td>Endereço IP</td><td><code>${escapeHtml(info.ip)}</code></td></tr>
+          <tr><td>Prefixo</td><td><code>/${info.prefix}</code></td></tr>
+          <tr><td>Máscara de sub-rede</td><td><code>${info.mask}</code></td></tr>
+          <tr><td>Wildcard Mask</td><td><code>${info.wildcardMask}</code></td></tr>
+          <tr class="subnet-highlight"><td>Endereço de rede</td><td><code>${info.network}</code></td></tr>
+          <tr><td>Primeiro host</td><td><code>${info.firstHost}</code></td></tr>
+          <tr><td>Último host</td><td><code>${info.lastHost}</code></td></tr>
+          <tr class="subnet-highlight"><td>Broadcast</td><td><code>${info.broadcast}</code></td></tr>
+          <tr><td>Total de endereços</td><td><strong>${info.totalAddresses.toLocaleString('pt-BR')}</strong></td></tr>
+          <tr><td>Hosts utilizáveis</td><td><strong>${info.totalHosts.toLocaleString('pt-BR')}</strong></td></tr>
+        </table>`;
+      result.hidden = false;
+    });
+
+    document.getElementById('subnetCidr').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('subnetCalcBtn').click();
+    });
+
+    document.getElementById('subnetInverseBtn').addEventListener('click', () => {
+      const hosts = parseInt(document.getElementById('subnetHosts').value, 10);
+      const result = document.getElementById('subnetInverseResult');
+      if (!hosts || hosts < 1) {
+        result.innerHTML = '<p class="subnet-error">Informe um número de hosts válido.</p>';
+        result.hidden = false;
+        return;
+      }
+      let prefix = 32, hostBits = 0;
+      for (let bits = 1; bits <= 32; bits++) {
+        if (Math.pow(2, bits) - 2 >= hosts) { prefix = 32 - bits; hostBits = bits; break; }
+      }
+      const mask = prefixToMask(prefix);
+      result.innerHTML = `
+        <table class="subnet-table">
+          <tr><th>Campo</th><th>Valor</th></tr>
+          <tr><td>Hosts necessários</td><td><strong>${hosts.toLocaleString('pt-BR')}</strong></td></tr>
+          <tr class="subnet-highlight"><td>Prefixo recomendado</td><td><code>/${prefix}</code></td></tr>
+          <tr><td>Máscara</td><td><code>${numToIp(mask)}</code></td></tr>
+          <tr><td>Hosts utilizáveis</td><td><strong>${(Math.pow(2, hostBits) - 2).toLocaleString('pt-BR')}</strong></td></tr>
+          <tr><td>Total de endereços</td><td><strong>${Math.pow(2, hostBits).toLocaleString('pt-BR')}</strong></td></tr>
+        </table>`;
+      result.hidden = false;
+    });
+
+    document.getElementById('subnetDivBtn').addEventListener('click', () => {
+      const cidr = document.getElementById('subnetDivCidr').value;
+      const n = parseInt(document.getElementById('subnetDivN').value, 10);
+      const result = document.getElementById('subnetDivResult');
+      const base = calcSubnet(cidr);
+      if (!base || n < 2 || n > 256) {
+        result.innerHTML = '<p class="subnet-error">CIDR inválido ou N inválido (2–256).</p>';
+        result.hidden = false;
+        return;
+      }
+      const bitsNeeded = Math.ceil(Math.log2(n));
+      const newPrefix = base.prefix + bitsNeeded;
+      if (newPrefix > 30) {
+        result.innerHTML = '<p class="subnet-error">Sub-rede resultante muito pequena (prefixo > /30).</p>';
+        result.hidden = false;
+        return;
+      }
+      const subSize = Math.pow(2, 32 - newPrefix);
+      const rows = [];
+      for (let i = 0; i < n; i++) {
+        const sNet = (base.networkNum + i * subSize) >>> 0;
+        const sBcast = (sNet + subSize - 1) >>> 0;
+        rows.push(`<tr>
+          <td>${i + 1}</td>
+          <td><code>${numToIp(sNet)}/${newPrefix}</code></td>
+          <td><code>${numToIp(sNet + 1)}</code> – <code>${numToIp(sBcast - 1)}</code></td>
+          <td><code>${numToIp(sBcast)}</code></td>
+          <td>${(subSize - 2).toLocaleString('pt-BR')}</td>
+        </tr>`);
+      }
+      result.innerHTML = `
+        <p class="subnet-div-summary">Dividindo <code>${escapeHtml(base.network)}/${base.prefix}</code> em ${n} sub-redes → <code>/${newPrefix}</code></p>
+        <div class="subnet-div-scroll">
+          <table class="subnet-table">
+            <thead><tr><th>#</th><th>Sub-rede CIDR</th><th>Faixa de Hosts</th><th>Broadcast</th><th>Hosts</th></tr></thead>
+            <tbody>${rows.join('')}</tbody>
+          </table>
+        </div>`;
+      result.hidden = false;
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════
+     9. TCP THREE-WAY HANDSHAKE
+  ══════════════════════════════════════════════════════ */
+  function initHandshake() {
+    const container = document.getElementById('labHandshake');
+    if (!container) return;
+
+    const STEPS = [
+      { phase: 'SYN', from: 'client', label: 'SYN', seqAck: 'SEQ=1000, ACK=—', clientState: 'SYN_SENT', serverState: 'LISTEN', desc: 'O cliente envia SYN com seu número de sequência inicial (ISN=1000). Indica que quer iniciar uma conexão.', flags: ['SYN'] },
+      { phase: 'SYN-ACK', from: 'server', label: 'SYN-ACK', seqAck: 'SEQ=5000, ACK=1001', clientState: 'SYN_SENT', serverState: 'SYN_RECEIVED', desc: 'O servidor confirma o SEQ do cliente (ACK=1001) e envia seu próprio ISN (SEQ=5000). Dois handshakes em um.', flags: ['SYN', 'ACK'] },
+      { phase: 'ACK', from: 'client', label: 'ACK', seqAck: 'SEQ=1001, ACK=5001', clientState: 'ESTABLISHED', serverState: 'ESTABLISHED', desc: 'O cliente confirma o SEQ do servidor (ACK=5001). Conexão estabelecida — os dois lados estão sincronizados.', flags: ['ACK'] }
+    ];
+
+    container.insertAdjacentHTML('beforeend', `
+      <div class="hs-wrap">
+        <div class="hs-controls">
+          <button class="hs-btn" id="hsBtnPlay">▶ Auto-Play</button>
+          <button class="hs-btn" id="hsBtnStep">Próximo Passo</button>
+          <button class="hs-btn hs-btn-reset" id="hsBtnReset">↺ Reiniciar</button>
+        </div>
+        <div class="hs-stage">
+          <div class="hs-actor">
+            <div class="hs-actor-icon">🖥️</div>
+            <div class="hs-actor-name">Cliente</div>
+            <div class="hs-state" id="hsClientState">CLOSED</div>
+          </div>
+          <div class="hs-middle" id="hsTimeline"><div class="hs-vline"></div></div>
+          <div class="hs-actor">
+            <div class="hs-actor-icon">🖥️</div>
+            <div class="hs-actor-name">Servidor</div>
+            <div class="hs-state" id="hsServerState">LISTEN</div>
+          </div>
+        </div>
+        <div class="hs-info" id="hsInfo">
+          <p>Clique em <strong>Próximo Passo</strong> ou em <strong>Auto-Play</strong> para ver o handshake.</p>
+        </div>
+      </div>
+    `);
+
+    let step = -1, playing = false, playTimer = null;
+    const timeline = document.getElementById('hsTimeline');
+    const clientStateEl = document.getElementById('hsClientState');
+    const serverStateEl = document.getElementById('hsServerState');
+    const info = document.getElementById('hsInfo');
+
+    function renderArrow(s) {
+      const dir = s.from === 'client' ? 'right' : 'left';
+      const el = document.createElement('div');
+      el.className = `hs-arrow hs-arrow-${dir}`;
+      el.innerHTML = `<div class="hs-arrow-label">
+        <span class="hs-arrow-name">${escapeHtml(s.label)}</span>
+        <span class="hs-arrow-seq">${escapeHtml(s.seqAck)}</span>
+        <span class="hs-arrow-flags">${s.flags.map(f => `<em>${escapeHtml(f)}</em>`).join(' ')}</span>
+      </div>
+      <div class="hs-arrow-line"><div class="hs-arrow-head hs-head-${dir}"></div></div>`;
+      timeline.appendChild(el);
+    }
+
+    function advance() {
+      step++;
+      if (step >= STEPS.length) {
+        clientStateEl.className = 'hs-state hs-state-ok';
+        serverStateEl.className = 'hs-state hs-state-ok';
+        info.innerHTML = '<p class="hs-done">✅ Conexão estabelecida! Dados podem fluir nos dois sentidos.</p>';
+        stopPlay(); return;
+      }
+      const s = STEPS[step];
+      renderArrow(s);
+      clientStateEl.textContent = s.clientState;
+      serverStateEl.textContent = s.serverState;
+      clientStateEl.className = 'hs-state' + (s.clientState === 'ESTABLISHED' ? ' hs-state-ok' : '');
+      serverStateEl.className = 'hs-state' + (s.serverState === 'ESTABLISHED' ? ' hs-state-ok' : '');
+      info.innerHTML = `<p><strong>${escapeHtml(s.label)}:</strong> ${escapeHtml(s.desc)}</p>`;
+    }
+
+    function reset() {
+      step = -1; stopPlay();
+      timeline.querySelectorAll('.hs-arrow').forEach(a => a.remove());
+      clientStateEl.textContent = 'CLOSED'; clientStateEl.className = 'hs-state';
+      serverStateEl.textContent = 'LISTEN'; serverStateEl.className = 'hs-state';
+      info.innerHTML = '<p>Clique em <strong>Próximo Passo</strong> ou em <strong>Auto-Play</strong> para ver o handshake.</p>';
+    }
+
+    function stopPlay() {
+      playing = false; clearInterval(playTimer);
+      document.getElementById('hsBtnPlay').textContent = '▶ Auto-Play';
+    }
+
+    document.getElementById('hsBtnStep').addEventListener('click', () => { stopPlay(); advance(); });
+    document.getElementById('hsBtnReset').addEventListener('click', reset);
+    document.getElementById('hsBtnPlay').addEventListener('click', () => {
+      if (playing) { stopPlay(); return; }
+      if (step >= STEPS.length) reset();
+      playing = true;
+      document.getElementById('hsBtnPlay').textContent = '⏸ Pausar';
+      advance();
+      playTimer = setInterval(() => { if (step >= STEPS.length) { stopPlay(); return; } advance(); }, 1800);
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════
+     10. ARP SIMULATOR
+  ══════════════════════════════════════════════════════ */
+  function initARP() {
+    const container = document.getElementById('labARP');
+    if (!container) return;
+
+    const HOSTS = [
+      { id: 'A',  label: 'Host A',  ip: '192.168.1.10', mac: 'AA:BB:CC:11:22:33', icon: '🖥️' },
+      { id: 'B',  label: 'Host B',  ip: '192.168.1.20', mac: 'AA:BB:CC:44:55:66', icon: '💻' },
+      { id: 'C',  label: 'Host C',  ip: '192.168.1.30', mac: 'AA:BB:CC:77:88:99', icon: '🖨️' },
+      { id: 'GW', label: 'Gateway', ip: '192.168.1.1',  mac: 'AA:BB:CC:00:FF:FF', icon: '🔀' }
+    ];
+
+    container.insertAdjacentHTML('beforeend', `
+      <div class="arp-wrap">
+        <div class="arp-controls">
+          <label>Origem: <select id="arpSrc" class="arp-select">
+            ${HOSTS.map(h => `<option value="${h.id}">${h.label} (${h.ip})</option>`).join('')}
+          </select></label>
+          <label>IP destino: <input type="text" id="arpTarget" class="arp-input" value="192.168.1.20" /></label>
+          <div class="arp-btns">
+            <button class="arp-btn" id="arpBtnPlay">▶ Simular ARP</button>
+            <button class="arp-btn arp-btn-spoof" id="arpBtnSpoof">☠ ARP Spoofing</button>
+            <button class="arp-btn arp-btn-reset" id="arpBtnReset">↺ Limpar</button>
+          </div>
+        </div>
+        <div class="arp-stage">
+          ${HOSTS.map(h => `
+            <div class="arp-host" id="arpHost${h.id}">
+              <div class="arp-host-icon">${h.icon}</div>
+              <div class="arp-host-name">${h.label}</div>
+              <div class="arp-host-ip">${h.ip}</div>
+              <div class="arp-host-mac">${h.mac}</div>
+            </div>`).join('')}
+          <div class="arp-sw">🔀<br><small>Switch</small></div>
+          <div class="arp-msg" id="arpMsg" hidden></div>
+        </div>
+        <div class="arp-log" id="arpLog"><em>Sem eventos ainda.</em></div>
+        <h3 class="arp-cache-title">📋 Tabela ARP — Host A</h3>
+        <table class="arp-cache-table">
+          <thead><tr><th>IP</th><th>MAC</th><th>Tipo</th></tr></thead>
+          <tbody id="arpCacheBody"><tr><td colspan="3" class="arp-empty">Tabela vazia</td></tr></tbody>
+        </table>
+      </div>
+    `);
+
+    let arpCache = {}, arpRunning = false;
+
+    function arpLog(msg, cls) {
+      const el = document.getElementById('arpLog');
+      if (el.querySelector('em')) el.innerHTML = '';
+      const d = document.createElement('div');
+      d.className = 'arp-log-entry' + (cls ? ' ' + cls : '');
+      d.innerHTML = msg;
+      el.prepend(d);
+    }
+
+    function updateCache(ip, mac, type) {
+      arpCache[ip] = { mac, type };
+      const tbody = document.getElementById('arpCacheBody');
+      tbody.innerHTML = Object.entries(arpCache).map(([ip, {mac, type}]) =>
+        `<tr${type === 'poisoned' ? ' class="arp-row-poisoned"' : ''}><td>${escapeHtml(ip)}</td><td><code>${escapeHtml(mac)}</code></td><td>${escapeHtml(type)}</td></tr>`
+      ).join('') || '<tr><td colspan="3" class="arp-empty">Tabela vazia</td></tr>';
+    }
+
+    function showArpMsg(text, cls) {
+      const msg = document.getElementById('arpMsg');
+      msg.className = 'arp-msg' + (cls ? ' ' + cls : '');
+      msg.textContent = text;
+      msg.hidden = false;
+      setTimeout(() => { msg.hidden = true; }, 2800);
+    }
+
+    async function simulate() {
+      if (arpRunning) return;
+      arpRunning = true;
+      document.getElementById('arpBtnPlay').disabled = true;
+      const srcId = document.getElementById('arpSrc').value;
+      const targetIp = document.getElementById('arpTarget').value.trim();
+      const src = HOSTS.find(h => h.id === srcId);
+      const target = HOSTS.find(h => h.ip === targetIp);
+
+      arpLog(`🔍 <strong>${escapeHtml(src.label)}</strong> quer comunicar com <strong>${escapeHtml(targetIp)}</strong>…`);
+      await delay(600);
+
+      if (arpCache[targetIp]) {
+        arpLog(`✅ Cache hit! MAC de ${escapeHtml(targetIp)} já conhecido: <code>${escapeHtml(arpCache[targetIp].mac)}</code>`, 'arp-ok');
+        arpRunning = false; document.getElementById('arpBtnPlay').disabled = false; return;
+      }
+
+      arpLog(`📢 <strong>ARP Request</strong> (broadcast): "Quem tem ${escapeHtml(targetIp)}? Me diga ${escapeHtml(src.ip)}"`, 'arp-broadcast');
+      showArpMsg('ARP Request → FF:FF:FF:FF:FF:FF', 'arp-msg-bcast');
+      HOSTS.forEach(h => document.getElementById('arpHost' + h.id)?.classList.add('arp-recv'));
+      await delay(1100);
+      HOSTS.forEach(h => document.getElementById('arpHost' + h.id)?.classList.remove('arp-recv'));
+
+      if (!target) {
+        arpLog(`❌ Nenhum host respondeu. IP ${escapeHtml(targetIp)} não encontrado na rede.`, 'arp-error');
+        arpRunning = false; document.getElementById('arpBtnPlay').disabled = false; return;
+      }
+
+      await delay(400);
+      arpLog(`📨 <strong>ARP Reply</strong> (unicast → ${escapeHtml(src.mac)}): "${escapeHtml(target.ip)} está em <code>${escapeHtml(target.mac)}</code>"`, 'arp-reply');
+      showArpMsg(`ARP Reply ← ${target.label}`, 'arp-msg-reply');
+      document.getElementById('arpHost' + target.id)?.classList.add('arp-reply-hi');
+      await delay(800);
+      document.getElementById('arpHost' + target.id)?.classList.remove('arp-reply-hi');
+      updateCache(targetIp, target.mac, 'dynamic');
+      arpLog(`💾 Tabela ARP atualizada: ${escapeHtml(targetIp)} → <code>${escapeHtml(target.mac)}</code>`, 'arp-ok');
+      arpRunning = false; document.getElementById('arpBtnPlay').disabled = false;
+    }
+
+    async function simulateSpoof() {
+      if (arpRunning) return;
+      arpRunning = true;
+      document.getElementById('arpBtnPlay').disabled = true;
+      document.getElementById('arpBtnSpoof').disabled = true;
+      arpLog('⚠️ <strong>ARP Spoofing!</strong> Atacante envia ARP Reply falso…', 'arp-error');
+      await delay(700);
+      arpLog('☠ "192.168.1.1 está em <code>DE:AD:BE:EF:00:01</code>" (MAC do atacante, não do gateway!)', 'arp-error');
+      await delay(600);
+      updateCache('192.168.1.1', 'DE:AD:BE:EF:00:01 (ATACANTE)', 'poisoned');
+      await delay(400);
+      arpLog('🔀 Tráfego do Host A para o gateway agora passa pelo atacante (MITM!)', 'arp-error');
+      await delay(500);
+      arpLog('🛡️ Defesa: DAI (Dynamic ARP Inspection), monitoramento de tabela ARP, VPN.', 'arp-ok');
+      arpRunning = false;
+      document.getElementById('arpBtnPlay').disabled = false;
+      document.getElementById('arpBtnSpoof').disabled = false;
+    }
+
+    document.getElementById('arpBtnPlay').addEventListener('click', simulate);
+    document.getElementById('arpBtnSpoof').addEventListener('click', simulateSpoof);
+    document.getElementById('arpBtnReset').addEventListener('click', () => {
+      arpCache = {};
+      document.getElementById('arpCacheBody').innerHTML = '<tr><td colspan="3" class="arp-empty">Tabela vazia</td></tr>';
+      document.getElementById('arpLog').innerHTML = '<em>Sem eventos ainda.</em>';
+      document.getElementById('arpMsg').hidden = true;
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════
+     11. TLS CERT INSPECTOR
+  ══════════════════════════════════════════════════════ */
+  function initTLSCert() {
+    const container = document.getElementById('labTLS');
+    if (!container) return;
+
+    container.insertAdjacentHTML('beforeend', `
+      <div class="tls-wrap">
+        <div class="tls-input-row">
+          <input type="text" id="tlsDomain" class="tls-input" placeholder="Ex: github.com" value="github.com" />
+          <button class="tls-btn" id="tlsBtnFetch">🔍 Inspecionar</button>
+        </div>
+        <div id="tlsResult" class="tls-result" hidden></div>
+        <p class="tls-note">Dados via <a href="https://crt.sh" target="_blank" rel="noopener">crt.sh</a> — registros públicos de certificados emitidos por CAs.</p>
+      </div>
+    `);
+
+    async function fetchCerts(domain) {
+      const result = document.getElementById('tlsResult');
+      result.innerHTML = '<p class="tls-loading">⏳ Consultando crt.sh…</p>';
+      result.hidden = false;
+      try {
+        const url = `https://crt.sh/?q=${encodeURIComponent(domain)}&output=json`;
+        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+        const res = await fetch(proxy);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const wrapper = await res.json();
+        const data = JSON.parse(wrapper.contents);
+        if (!Array.isArray(data) || !data.length) {
+          result.innerHTML = '<p class="tls-empty">Nenhum certificado encontrado para este domínio.</p>';
+          return;
+        }
+        const sorted = data.sort((a, b) => new Date(b.not_before) - new Date(a.not_before));
+        const latest = sorted[0];
+        const now = Date.now();
+        const expiry = new Date(latest.not_after);
+        const daysLeft = Math.ceil((expiry - now) / 86400000);
+        const expired = daysLeft < 0;
+        const sanList = (latest.name_value || '').split('\n').filter(Boolean);
+        const badgeClass = expired ? 'tls-expired' : daysLeft < 30 ? 'tls-expiring' : 'tls-valid';
+        const badgeText = expired ? `❌ Expirado (${Math.abs(daysLeft)}d atrás)` : `✅ ${daysLeft} dias restantes`;
+        result.innerHTML = `
+          <div class="tls-card">
+            <div class="tls-card-head">
+              <span class="tls-badge ${escapeAttr(badgeClass)}">${badgeText}</span>
+              <span class="tls-cn">${escapeHtml(latest.common_name || domain)}</span>
+            </div>
+            <table class="tls-table">
+              <tr><th>Emissor</th><td>${escapeHtml(latest.issuer_name || '—')}</td></tr>
+              <tr><th>Válido de</th><td>${escapeHtml(latest.not_before?.slice(0, 10) || '—')}</td></tr>
+              <tr><th>Válido até</th><td>${escapeHtml(latest.not_after?.slice(0, 10) || '—')}</td></tr>
+              <tr><th>Serial</th><td><code>${escapeHtml(String(latest.serial_number || '—'))}</code></td></tr>
+              <tr><th>SANs (${sanList.length})</th><td class="tls-sans">${sanList.map(s => `<code>${escapeHtml(s)}</code>`).join(' ')}</td></tr>
+            </table>
+          </div>
+          <h4 class="tls-hist-title">Histórico (${Math.min(sorted.length, 20)} mais recentes)</h4>
+          <div class="tls-hist-scroll">
+            <table class="tls-table">
+              <thead><tr><th>Emitido</th><th>Expira</th><th>CN</th><th>Emissor</th></tr></thead>
+              <tbody>${sorted.slice(0, 20).map(c => {
+                const dl = Math.ceil((new Date(c.not_after) - now) / 86400000);
+                return `<tr${dl < 0 ? ' class="tls-row-expired"' : ''}>
+                  <td>${escapeHtml(c.not_before?.slice(0, 10) || '—')}</td>
+                  <td>${escapeHtml(c.not_after?.slice(0, 10) || '—')}</td>
+                  <td>${escapeHtml(c.common_name || '—')}</td>
+                  <td>${escapeHtml((c.issuer_name || '').replace(/.*CN=/i, '') || '—')}</td>
+                </tr>`;
+              }).join('')}</tbody>
+            </table>
+          </div>`;
+      } catch (err) {
+        result.innerHTML = `<p class="tls-error">Erro: ${escapeHtml(err.message)}</p>`;
+      }
+    }
+
+    document.getElementById('tlsBtnFetch').addEventListener('click', () => {
+      const raw = document.getElementById('tlsDomain').value.trim().replace(/^https?:\/\//, '').split('/')[0];
+      if (raw) fetchCerts(raw);
+    });
+    document.getElementById('tlsDomain').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('tlsBtnFetch').click();
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════
+     12. IP / ASN LOOKUP
+  ══════════════════════════════════════════════════════ */
+  function initIPASN() {
+    const container = document.getElementById('labIPASN');
+    if (!container) return;
+
+    container.insertAdjacentHTML('beforeend', `
+      <div class="ipasn-wrap">
+        <div class="ipasn-input-row">
+          <input type="text" id="ipasnTarget" class="ipasn-input" placeholder="Ex: 8.8.8.8 ou 1.1.1.1" value="8.8.8.8" />
+          <button class="ipasn-btn" id="ipasnBtnFetch">🔍 Consultar</button>
+        </div>
+        <div id="ipasnResult" class="ipasn-result" hidden></div>
+        <p class="ipasn-note">Dados via <a href="https://ip-api.com" target="_blank" rel="noopener">ip-api.com</a> e <a href="https://rdap.org" target="_blank" rel="noopener">rdap.org</a>.</p>
+      </div>
+    `);
+
+    async function fetchIPInfo(target) {
+      const result = document.getElementById('ipasnResult');
+      result.innerHTML = '<p class="ipasn-loading">⏳ Consultando…</p>';
+      result.hidden = false;
+
+      const [ipApiRes, rdapRes] = await Promise.allSettled([
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`http://ip-api.com/json/${encodeURIComponent(target)}?fields=status,message,country,countryCode,regionName,city,isp,org,as,asname,query`)}`)
+          .then(r => r.json()).then(w => JSON.parse(w.contents)),
+        fetch(`https://rdap.org/ip/${encodeURIComponent(target)}`).then(r => r.ok ? r.json() : null).catch(() => null)
+      ]);
+
+      const ip = ipApiRes.status === 'fulfilled' && ipApiRes.value?.status === 'success' ? ipApiRes.value : null;
+      const rdap = rdapRes.status === 'fulfilled' ? rdapRes.value : null;
+
+      if (!ip && !rdap) {
+        result.innerHTML = '<p class="ipasn-error">Não foi possível obter informações. Verifique o endereço IP.</p>';
+        return;
+      }
+
+      let html = '<div class="ipasn-card">';
+      if (ip) {
+        html += `
+          <table class="ipasn-table">
+            <tr><th>IP consultado</th><td><code>${escapeHtml(ip.query || target)}</code></td></tr>
+            <tr><th>País</th><td>${escapeHtml(ip.country || '—')}${ip.countryCode ? ` <span class="ipasn-cc">(${escapeHtml(ip.countryCode)})</span>` : ''}</td></tr>
+            <tr><th>Região / Cidade</th><td>${escapeHtml([ip.regionName, ip.city].filter(Boolean).join(', ') || '—')}</td></tr>
+            <tr><th>ISP</th><td>${escapeHtml(ip.isp || '—')}</td></tr>
+            <tr><th>Organização</th><td>${escapeHtml(ip.org || '—')}</td></tr>
+            <tr><th>ASN</th><td><code>${escapeHtml(ip.as || '—')}</code></td></tr>
+            <tr><th>Nome do AS</th><td>${escapeHtml(ip.asname || '—')}</td></tr>
+          </table>`;
+      }
+      if (rdap) {
+        const events = (rdap.events || []).reduce((a, e) => { a[e.eventAction] = e.eventDate; return a; }, {});
+        html += `
+          <h4 class="ipasn-rdap-title">Dados RDAP</h4>
+          <table class="ipasn-table">
+            <tr><th>Prefixo / Handle</th><td><code>${escapeHtml(rdap.handle || rdap.name || '—')}</code></td></tr>
+            <tr><th>Nome</th><td>${escapeHtml(rdap.name || '—')}</td></tr>
+            <tr><th>País</th><td>${escapeHtml(rdap.country || '—')}</td></tr>
+            ${events.registration ? `<tr><th>Registrado</th><td>${escapeHtml(events.registration.slice(0, 10))}</td></tr>` : ''}
+            ${events['last changed'] ? `<tr><th>Última alteração</th><td>${escapeHtml(events['last changed'].slice(0, 10))}</td></tr>` : ''}
+          </table>`;
+      }
+      html += '</div>';
+      result.innerHTML = html;
+      result.hidden = false;
+    }
+
+    document.getElementById('ipasnBtnFetch').addEventListener('click', () => {
+      const t = document.getElementById('ipasnTarget').value.trim();
+      if (t) fetchIPInfo(t);
+    });
+    document.getElementById('ipasnTarget').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('ipasnBtnFetch').click();
+    });
+  }
+
   /* ── Utility ─────────────────────────────────────────── */
   function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -4136,6 +4722,11 @@ const Lab = (() => {
     initHTTPBuilder();
     initTCPHeader();
     initTopology();
+    initSubnetCalc();
+    initHandshake();
+    initARP();
+    initTLSCert();
+    initIPASN();
   }
 
   return { init };
