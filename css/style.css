@@ -168,23 +168,38 @@ ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
 li { margin-bottom: 0.4rem; color: var(--text-secondary); }
 
 /* ── Layout ──────────────────────────────────────────── */
-.app-layout { display: flex; min-height: 100vh; }
+.app-layout { display: flex; flex-direction: row; height: 100vh; overflow: hidden; }
 
 /* ── Sidebar ─────────────────────────────────────────── */
 .sidebar {
   width: var(--sidebar-width);
+  flex-shrink: 0;
   height: 100vh;
-  position: fixed;
-  left: 0; top: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   background:
     linear-gradient(180deg, rgba(79,142,247,0.08) 0%, rgba(79,142,247,0) 180px),
     var(--bg-secondary);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  z-index: 100;
-  transition: transform var(--transition-slow), background-color var(--transition-slow);
+  transition: width var(--transition-slow), transform var(--transition-slow), background-color var(--transition-slow);
+}
+.sidebar--collapsed {
+  width: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+#sidebarToggle {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-track { background: transparent; }
@@ -539,10 +554,10 @@ li { margin-bottom: 0.4rem; color: var(--text-secondary); }
 
 /* ── Main Content ────────────────────────────────────── */
 .main-content {
-  flex: 1;
+  flex: 1 1 0;
   min-width: 0;
+  overflow-y: auto;
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
 /* ── Top Bar ─────────────────────────────────────────── */
@@ -1213,11 +1228,10 @@ mark.search-hl {
 
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
+  .sidebar { position: fixed; left: 0; top: 0; z-index: 100; transform: translateX(-100%); }
   .sidebar.open { transform: translateX(0); }
   .sidebar-overlay { display: block; }
   .sidebar-overlay.visible { opacity: 1; pointer-events: all; }
-  .main-content { margin-left: 0; width: 100%; }
   .hamburger { display: flex; }
   .article-wrapper { padding: 1.5rem 1.25rem 3rem; }
   .topbar { padding: 0.7rem 1.25rem; }

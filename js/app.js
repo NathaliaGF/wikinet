@@ -529,6 +529,14 @@ function buildSidebar() {
       overlay.classList.remove('visible');
     });
   }
+
+  // Desktop sidebar toggle
+  const toggleBtn = document.getElementById('sidebarToggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('sidebar--collapsed');
+    });
+  }
 }
 
 function buildModuleNavItem(module, currentPage) {
