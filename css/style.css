@@ -1551,6 +1551,15 @@ body.is-offline .offline-badge { display: flex; }
   background: rgba(79,142,247,0.08);
 }
 
+/* ── Site footer (cache button host) ─────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.25rem 1rem 2rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
 /* ── Progress animations ─────────────────────────────── */
 @keyframes sectionCheckPop {
   0%   { transform: scale(1); }

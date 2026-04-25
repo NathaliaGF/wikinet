@@ -103,7 +103,7 @@ const MODULES = [
     num: 7,
     title: 'Segurança Básica',
     description: 'Firewalls, MITM, DDoS, spoofing, phishing e VPN.',
-    icon: '🔒',
+    icon: '🛡️',
     url: 'pages/seguranca.html',
     sections: ['firewall-tipos','ataques','vpn'],
     navTopics: [

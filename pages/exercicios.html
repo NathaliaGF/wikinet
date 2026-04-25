@@ -76,6 +76,7 @@ ping google.com</code></pre>
           <div class="ex-solution">
             O problema mais provável é <strong>DNS</strong>, não conectividade IP. O host alcança IPs diretamente, então a pilha TCP/IP e a rota básica estão funcionando. O próximo passo é checar qual servidor DNS está configurado, se responde e se retorna IPs válidos. Se necessário, teste temporariamente com <code>8.8.8.8</code> ou <code>1.1.1.1</code>.
           </div>
+          <a class="ex-module-link" href="protocolos.html">📖 Ver no Módulo 04 — Protocolos →</a>
         </div>
       </div>
 
@@ -97,6 +98,7 @@ traceroute api.empresa.com</code></pre>
           <div class="ex-solution">
             Esse cenário costuma apontar para <strong>problema localizado no serviço, no DNS daquele domínio ou em bloqueio específico</strong>. Se o domínio resolve mas <code>curl</code> retorna timeout ou <code>connection refused</code>, o DNS pode estar correto e o problema passa a ser porta, firewall, serviço fora do ar ou balanceador mal configurado.
           </div>
+          <a class="ex-module-link" href="troubleshooting.html">📖 Ver no Módulo 08 — Troubleshooting →</a>
         </div>
       </div>
 
@@ -119,6 +121,7 @@ ping 8.8.8.8</code></pre>
           <div class="ex-solution">
             A rede local está viva, então a suspeita principal recai sobre <strong>gateway, rota padrão, NAT do roteador ou link WAN do provedor</strong>. Se o cliente chega no gateway, mas nada sai para fora, o defeito provavelmente está além da máquina do usuário.
           </div>
+          <a class="ex-module-link" href="fundamentos.html">📖 Ver no Módulo 01 — Fundamentos →</a>
         </div>
       </div>
 
@@ -140,6 +143,7 @@ telnet 10.0.0.20 443</code></pre>
           <div class="ex-solution">
             Aqui a pergunta não é só "tem rede?", e sim <strong>existe processo ouvindo na porta certa?</strong> Se a conexão é recusada, o host existe mas o serviço não está escutando ou um firewall local está devolvendo reset. Se há timeout, pense em ACL, firewall de rede ou rota quebrada.
           </div>
+          <a class="ex-module-link" href="portas.html">📖 Ver no Módulo 09 — Portas e Serviços →</a>
         </div>
       </div>
 
@@ -160,6 +164,7 @@ tracert servico.externo.com</code></pre>
           <div class="ex-solution">
             Se os primeiros saltos estão rápidos e a latência explode mais à frente, a causa provável está em <strong>trânsito externo, link de longa distância ou congestionamento fora da LAN</strong>. Isso ajuda a evitar o erro clássico de culpar Wi-Fi ou switch local sem evidência.
           </div>
+          <a class="ex-module-link" href="troubleshooting.html">📖 Ver no Módulo 08 — Troubleshooting →</a>
         </div>
       </div>
 
@@ -181,6 +186,7 @@ resolvectl status</code></pre>
           <div class="ex-solution">
             Pense em <strong>cache DNS local, DNS interno autoritativo, split-horizon DNS ou registro desatualizado</strong>. Quando máquinas diferentes recebem respostas diferentes, o problema costuma estar menos no navegador e mais na cadeia de resolução.
           </div>
+          <a class="ex-module-link" href="protocolos.html">📖 Ver no Módulo 04 — Protocolos →</a>
         </div>
       </div>
     </main>

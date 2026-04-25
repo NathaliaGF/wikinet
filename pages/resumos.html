@@ -108,9 +108,9 @@
         <table class="cs-table">
           <thead><tr><th>#</th><th>OSI</th><th>TCP/IP</th><th>Função</th><th>PDU</th><th>Exemplos</th></tr></thead>
           <tbody>
-            <tr><td>7</td><td>Aplicação</td>   <td rowspan="3" style="vertical-align:middle;text-align:center">Aplicação</td><td>Interface com o usuário/software</td><td>Dados</td><td>HTTP, FTP, DNS, SMTP</td></tr>
-            <tr><td>6</td><td>Apresentação</td><td>Formato, compressão, criptografia</td><td>Dados</td><td>SSL/TLS, MIME, ASCII</td></tr>
-            <tr><td>5</td><td>Sessão</td>      <td>Controle de diálogos, tokens</td><td>Dados</td><td>NetBIOS, RPC</td></tr>
+            <tr><td>7</td><td>Aplicação</td>   <td>Aplicação</td><td>Interface com o usuário/software</td><td>Dados</td><td>HTTP, FTP, DNS, SMTP</td></tr>
+            <tr><td>6</td><td>Apresentação</td><td>Aplicação</td><td>Formato, compressão, criptografia</td><td>Dados</td><td>SSL/TLS, MIME, ASCII</td></tr>
+            <tr><td>5</td><td>Sessão</td>      <td>Aplicação</td><td>Controle de diálogos, tokens</td><td>Dados</td><td>NetBIOS, RPC</td></tr>
             <tr><td>4</td><td>Transporte</td>  <td>Transporte</td><td>Entrega fim-a-fim, controle de fluxo</td><td>Segmento</td><td>TCP, UDP, SCTP</td></tr>
             <tr><td>3</td><td>Rede</td>        <td>Internet</td><td>Endereçamento lógico, roteamento</td><td>Pacote</td><td>IP, ICMP, OSPF, BGP</td></tr>
             <tr><td>2</td><td>Enlace</td>      <td rowspan="2" style="vertical-align:middle;text-align:center">Acesso à Rede</td><td>Endereçamento físico, acesso ao meio</td><td>Quadro</td><td>Ethernet, Wi-Fi, PPP</td></tr>
@@ -189,7 +189,37 @@
         </div>
       </section>
 
-      <!-- ── Seção 6: IPs Reservados ── -->
+      <!-- ── Seção 6: IPv6 ── -->
+      <section class="cs-section" id="cs-ipv6">
+        <h2 class="cs-title">IPv6 — Endereços Especiais</h2>
+        <table class="cs-table">
+          <thead><tr><th>Prefixo</th><th>Descrição</th></tr></thead>
+          <tbody>
+            <tr><td><code>::1/128</code></td>          <td>Loopback (equivalente ao 127.0.0.1)</td></tr>
+            <tr><td><code>::/128</code></td>           <td>Endereço não especificado</td></tr>
+            <tr><td><code>::ffff:0:0/96</code></td>    <td>IPv4-mapeado em IPv6</td></tr>
+            <tr><td><code>fe80::/10</code></td>        <td>Link-local — não roteável (equivalente ao 169.254.x.x)</td></tr>
+            <tr><td><code>fc00::/7</code></td>         <td>Unique Local — equivalente ao privado do IPv4</td></tr>
+            <tr><td><code>ff00::/8</code></td>         <td>Multicast</td></tr>
+            <tr><td><code>2000::/3</code></td>         <td>Endereços globais unicast (internet pública)</td></tr>
+            <tr><td><code>2001:db8::/32</code></td>    <td>Documentação/exemplos — não usar em produção</td></tr>
+          </tbody>
+        </table>
+        <h3 class="cs-subtitle" style="margin-top:1rem">IPv4 vs IPv6 — Diferenças Rápidas</h3>
+        <table class="cs-table">
+          <thead><tr><th>Característica</th><th>IPv4</th><th>IPv6</th></tr></thead>
+          <tbody>
+            <tr><td>Tamanho</td>        <td>32 bits</td>                 <td>128 bits</td></tr>
+            <tr><td>Notação</td>        <td>Decimal pontuado</td>        <td>Hexadecimal com <code>:</code></td></tr>
+            <tr><td>Broadcast</td>      <td>Sim</td>                     <td>Não (usa multicast)</td></tr>
+            <tr><td>Header</td>         <td>Variável</td>                <td>Fixo 40 bytes</td></tr>
+            <tr><td>Auto-config</td>    <td>DHCP</td>                    <td>SLAAC nativo</td></tr>
+            <tr><td>NAT obrigatório</td><td>Sim (escassez de IPs)</td>   <td>Não</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Seção 7: IPs Reservados ── -->
       <section class="cs-section" id="cs-reserved">
         <h2 class="cs-title">Faixas de IP Reservadas (RFC 1918 + especiais)</h2>
         <table class="cs-table">

@@ -379,20 +379,18 @@ function initCacheRefreshControl() {
   button.title = 'Limpa caches e service worker, mas preserva seus dados locais';
   button.addEventListener('click', () => forceRefreshApp(button));
 
-  const footer = document.querySelector('footer');
-  if (footer) {
-    const wrap = document.createElement('div');
-    wrap.className = 'rw-cache-refresh-wrap';
-    wrap.appendChild(button);
-    footer.appendChild(wrap);
-    return;
+  let footer = document.querySelector('footer');
+  if (!footer) {
+    footer = document.createElement('footer');
+    footer.className = 'site-footer';
+    const host = document.querySelector('.main-content') || document.querySelector('main') || document.body;
+    host.appendChild(footer);
   }
 
-  const host = document.querySelector('main') || document.querySelector('.content') || document.body;
   const wrap = document.createElement('div');
-  wrap.className = 'rw-cache-refresh-standalone';
+  wrap.className = 'rw-cache-refresh-wrap';
   wrap.appendChild(button);
-  host.appendChild(wrap);
+  footer.appendChild(wrap);
 }
 
 /* ── Theme ───────────────────────────────────────────── */

@@ -1,7 +1,7 @@
 /* ── RedesWiki Service Worker — Offline First ────────── */
 'use strict';
 
-const CACHE_NAME = 'redeswiki-v10';
+const CACHE_NAME = 'redeswiki-v11';
 
 const ASSETS = [
   './',
