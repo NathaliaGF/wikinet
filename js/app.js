@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSectionAnchors();
   prefetchNextModule();
   loadPomodoro();
+  initCoffeeModal();
 });
 
 function stripRefreshParam() {
@@ -814,6 +815,50 @@ function renderGoalNextAction(goal) {
   if (!progress || !progress.remaining.length) return `${goal.nextAction} Trilha pronta para revisão e prática.`;
   const next = progress.remaining[0];
   return `${goal.nextAction} Próximo foco: ${next.num}. ${next.title}.`;
+}
+
+/* ── Coffee / Pix modal ──────────────────────────────── */
+function initCoffeeModal() {
+  const PIX_KEY = '7df5585a-0e74-497f-b6ed-143fab35c9e0';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'coffee-overlay';
+  overlay.id = 'coffeeOverlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', 'Pagar um café');
+  overlay.innerHTML = `
+    <div class="coffee-card" id="coffeeCard">
+      <button class="coffee-close" id="coffeeClose" aria-label="Fechar">✕</button>
+      <div class="coffee-emoji">☕</div>
+      <div class="coffee-title">Pagar um café?</div>
+      <p class="coffee-sub">Se o RedesWiki te ajudou, um café já garante muitas horas de conteúdo novo. Obrigada de verdade! ♡</p>
+      <div class="coffee-pix-label">Chave Pix</div>
+      <div class="coffee-pix-box">
+        <span class="coffee-pix-key" id="coffeePixKey">${PIX_KEY}</span>
+        <button class="coffee-copy-btn" id="coffeeCopyBtn" title="Copiar chave">📋</button>
+      </div>
+      <p class="coffee-steps">Abra o app do banco → Pix → Pagar → Chave → Cole e confirme</p>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  function open() { overlay.classList.add('open'); }
+  function close() { overlay.classList.remove('open'); }
+
+  document.getElementById('btnCoffee')?.addEventListener('click', open);
+  document.getElementById('coffeeClose').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
+
+  document.getElementById('coffeeCopyBtn').addEventListener('click', () => {
+    navigator.clipboard?.writeText(PIX_KEY).then(() => {
+      const btn = document.getElementById('coffeeCopyBtn');
+      btn.textContent = '✓';
+      setTimeout(() => { btn.textContent = '📋'; }, 2000);
+      showNetToast('Chave Pix copiada!', '☕', true, 2500);
+    }).catch(() => {});
+  });
 }
 
 function decorateModulePage() {
