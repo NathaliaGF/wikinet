@@ -436,6 +436,11 @@ function buildSidebar() {
   const isModulePage = MODULES.some(m => m.id === currentPage);
   const savedModulesOpen = localStorage.getItem('rw-sidebar-modules-open');
   const modulesOpen = isModulePage || savedModulesOpen === 'true';
+
+  // Ferramentas section: respect saved preference, default OPEN
+  // Only stays closed if user explicitly collapsed it
+  const savedToolsOpen = localStorage.getItem('rw-sidebar-tools-open');
+  const toolsOpen = savedToolsOpen !== 'false';
   const moduleItems = MODULES.map(m => buildModuleNavItem(m, currentPage)).join('');
 
   const html = `
@@ -472,8 +477,8 @@ function buildSidebar() {
           ${moduleItems}
         </ul>
       </div>
-      <div class="nav-section" id="navSectionTools">
-        <button class="nav-section-header nav-section-toggle" type="button" aria-expanded="true" aria-controls="navToolsList">
+      <div class="nav-section ${toolsOpen ? '' : 'collapsed'}" id="navSectionTools">
+        <button class="nav-section-header nav-section-toggle" type="button" aria-expanded="${toolsOpen ? 'true' : 'false'}" aria-controls="navToolsList">
           <span class="nav-section-title">Ferramentas</span>
           <i class="nav-chevron">▾</i>
         </button>
@@ -596,9 +601,11 @@ function initSidebarSections(sidebar) {
       const section = btn.closest('.nav-section');
       const isCollapsed = section.classList.toggle('collapsed');
       btn.setAttribute('aria-expanded', String(!isCollapsed));
-      // Persist the user's manual Módulos preference
+      // Persist manual toggle for both sections independently
       if (section.id === 'navSectionModules') {
         localStorage.setItem('rw-sidebar-modules-open', isCollapsed ? 'false' : 'true');
+      } else if (section.id === 'navSectionTools') {
+        localStorage.setItem('rw-sidebar-tools-open', isCollapsed ? 'false' : 'true');
       }
     });
   });
