@@ -117,8 +117,9 @@ const Interactive = (() => {
 
     if (typeof MODULES !== 'undefined') {
       MODULES.forEach(module => {
-        const haystack = `${module.title} ${module.description} ${(module.navTopics || []).map(topic => topic.title).join(' ')}`.toLowerCase();
-        if (haystack.includes(normalized)) {
+        const keywordsStr = (module.keywords || []).join(' ');
+        const moduleHaystack = `${module.title} ${module.description} ${(module.navTopics || []).map(topic => topic.title).join(' ')} ${keywordsStr}`.toLowerCase();
+        if (moduleHaystack.includes(normalized)) {
           results.push({
             type: 'module',
             label: module.title,
@@ -193,19 +194,22 @@ const Interactive = (() => {
       seen.add(key);
       unique.push(result);
     });
-    return unique.slice(0, 8);
+    return unique.slice(0, 20);
   }
 
   function renderSearchResults(results, term = '') {
     const panel = document.getElementById('searchResultsPanel');
     if (!panel) return;
-    if (!results.length || !term) {
+    if (!term) {
       panel.classList.remove('visible');
       panel.innerHTML = '';
       return;
     }
-
     panel.classList.add('visible');
+    if (!results.length) {
+      panel.innerHTML = `<div class="search-empty-state">Nenhum resultado para "<strong>${term}</strong>"</div>`;
+      return;
+    }
     panel.innerHTML = results.map(result => `
       <button type="button" class="search-result-item" data-href="${result.href}" data-glossary-term="${result.glossaryTerm || ''}">
         <span class="search-result-type">${searchTypeLabel(result.type)}</span>
