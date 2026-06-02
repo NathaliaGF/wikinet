@@ -1600,31 +1600,106 @@
   font-family: var(--font-body); transition: all var(--transition);
 }
 .mitm-mode-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+/* Step indicator bar */
+.mitm-steps-bar {
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem;
+}
+.mitm-step-pill {
+  display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 20px; font-size: 0.78rem; color: var(--text-muted); transition: all 0.25s;
+}
+.mitm-step-num {
+  width: 18px; height: 18px; border-radius: 50%; background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; font-weight: 700; flex-shrink: 0; transition: all 0.25s;
+}
+.mitm-step-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.mitm-step-pill.active .mitm-step-num { background: var(--accent); color: #fff; }
+.mitm-step-pill.done { opacity: 0.45; }
+.mitm-step-sep { color: var(--text-muted); font-size: 0.8rem; }
+
+/* Stage */
 .mitm-stage {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.25rem;
+  display: flex; align-items: center; gap: 0;
   background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 4.5rem 1rem 1.5rem; margin-bottom: 0.75rem; flex-wrap: nowrap; overflow-x: auto;
+  padding: 4rem 1.25rem 1.25rem; margin-bottom: 0.75rem;
+  overflow: visible; position: relative;
 }
-.mitm-actor { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; min-width: 70px; }
-.mitm-actor-icon { font-size: 1.8rem; }
-.mitm-actor-name { font-size: 0.72rem; color: var(--text-muted); }
-.mitm-attacker { position: relative; }
-.mitm-attacker-sees {
-  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
-  background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-xs);
-  padding: 0.3rem 0.5rem; font-size: 0.65rem; font-family: var(--font-mono); white-space: pre;
-  text-align: center; color: var(--text-muted); min-width: 120px;
+
+/* Nodes */
+.mitm-node {
+  display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  min-width: 75px; z-index: 2; position: relative; flex-shrink: 0;
 }
-.mitm-caught .mitm-attacker-sees { border-color: var(--error-bdr); color: var(--error-txt); background: #2d1515; }
-.mitm-channel { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 60px; }
-.mitm-data-flow {
-  font-size: 0.65rem; font-family: var(--font-mono); color: var(--text-muted);
-  margin-bottom: 0.2rem; text-align: center; white-space: nowrap; overflow: hidden;
-  max-width: 100px; text-overflow: ellipsis; transition: color 0.3s, opacity 0.3s;
+.mitm-node-icon { font-size: 2rem; transition: all 0.3s; }
+.mitm-node-label { font-size: 0.73rem; color: var(--text-muted); font-weight: 500; }
+.mitm-node--active .mitm-node-icon {
+  filter: drop-shadow(0 0 8px var(--accent)); transform: scale(1.15);
 }
-.mitm-flow-active { color: var(--accent); }
-.mitm-arrow { width: 60px; height: 20px; color: var(--border); }
-.mitm-explain { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; padding: 0.75rem 1rem; background: var(--bg-secondary); border-radius: var(--radius-xs); border-left: 3px solid var(--accent); }
+.mitm-node--danger .mitm-node-icon {
+  filter: drop-shadow(0 0 14px #ef4444); transform: scale(1.2);
+  animation: mitm-pulse 0.45s ease infinite;
+}
+.mitm-node--success .mitm-node-icon {
+  filter: drop-shadow(0 0 8px #22c55e); transform: scale(1.15);
+}
+@keyframes mitm-pulse { 0%,100% { transform: scale(1.2); } 50% { transform: scale(1.38); } }
+
+/* Attacker "sees" bubble */
+.mitm-node--evil { position: relative; }
+.mitm-sees-bubble {
+  position: absolute; top: -95px; left: 50%; transform: translateX(-50%);
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: var(--radius-xs); padding: 0.4rem 0.65rem;
+  font-size: 0.68rem; font-family: monospace; text-align: center;
+  white-space: pre; min-width: 150px; max-width: 210px; color: var(--text-muted);
+  transition: all 0.35s; z-index: 3;
+}
+.mitm-sees-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 0.2rem; opacity: 0.7; font-family: var(--font-body);
+  white-space: nowrap; display: block;
+}
+.mitm-sees-data { white-space: pre; }
+.mitm-sees--http {
+  border-color: #ef4444; background: #2d1515; color: #fca5a5;
+  box-shadow: 0 0 20px rgba(239,68,68,0.4);
+}
+.mitm-sees--https {
+  border-color: #22c55e; background: #0f1c14; color: #86efac;
+  box-shadow: 0 0 14px rgba(34,197,94,0.2);
+}
+
+/* Links / channels */
+.mitm-link {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  min-width: 70px; padding: 0 0.25rem;
+}
+.mitm-link-track {
+  width: 100%; height: 9px; background: var(--border-subtle);
+  border-radius: 5px; position: relative; overflow: hidden;
+}
+.mitm-link-fill {
+  position: absolute; left: 0; top: 0; height: 100%; width: 0; border-radius: 5px;
+}
+.mitm-fill-http { background: linear-gradient(90deg, #dc2626, #f87171); box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+.mitm-fill-https { background: linear-gradient(90deg, #1d4ed8, #4f8ef7); box-shadow: 0 0 8px rgba(79,142,247,0.5); }
+.mitm-link-dir { font-size: 1.1rem; color: var(--text-muted); }
+
+/* Explain box */
+.mitm-explain {
+  font-size: 0.85rem; margin-bottom: 1rem; padding: 0.75rem 1rem;
+  border-radius: var(--radius-xs); color: var(--text-muted);
+  background: var(--bg-secondary); border-left: 3px solid var(--accent);
+}
+.mitm-explain--danger { border-left-color: #ef4444; color: #fca5a5; background: #1c0d0d; }
+.mitm-explain--safe { border-left-color: #22c55e; color: #86efac; background: #0f1c14; }
+
+/* IP/ASN extras */
+.ipasn-section-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin: 0.75rem 0 0.4rem; }
+.ipasn-tip { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.6rem; padding: 0.5rem 0.75rem; background: var(--bg-secondary); border-radius: var(--radius-xs); border-left: 2px solid var(--accent); }
 
 /* ════════════════════════════════════════════════════════
    4. OSI ENCAPSULATION

@@ -441,81 +441,143 @@ const Lab = (() => {
     const container = document.getElementById('labMITM');
     if (!container) return;
 
+    const MODES = {
+      http: {
+        fillClass: 'mitm-fill-http',
+        attackerData: 'GET /conta HTTP/1.1\nSenha: minhasenha123',
+        attackerLabel: '👁️ Interceptou tudo!',
+        seesClass: 'mitm-sees--http',
+        explain: 'Em HTTP puro, o atacante lê tudo em texto claro: senhas, cookies e tokens. Não existe proteção alguma.',
+        explainClass: 'mitm-explain--danger'
+      },
+      https: {
+        fillClass: 'mitm-fill-https',
+        attackerData: '■■■■■■■■■■■■■■■\n■■■■■■■■■■',
+        attackerLabel: '🔒 Dados cifrados',
+        seesClass: 'mitm-sees--https',
+        explain: 'Com TLS (HTTPS), o atacante só enxerga dados cifrados. Sem a chave privada do servidor, é completamente inútil.',
+        explainClass: 'mitm-explain--safe'
+      }
+    };
+
     container.innerHTML = `
       <div class="mitm-toggle-row">
         <button class="mitm-mode-btn active" data-mode="http">🔓 Sem TLS (HTTP)</button>
         <button class="mitm-mode-btn" data-mode="https">🔒 Com TLS (HTTPS)</button>
       </div>
+      <div class="mitm-steps-bar" id="mitmStepsBar">
+        <div class="mitm-step-pill" data-step="1"><span class="mitm-step-num">1</span><span>Alice envia</span></div>
+        <span class="mitm-step-sep">→</span>
+        <div class="mitm-step-pill" data-step="2"><span class="mitm-step-num">2</span><span>Atacante intercepta</span></div>
+        <span class="mitm-step-sep">→</span>
+        <div class="mitm-step-pill" data-step="3"><span class="mitm-step-num">3</span><span>Chega ao servidor</span></div>
+      </div>
       <div class="mitm-stage" id="mitmStage"></div>
       <div class="mitm-explain" id="mitmExplain"></div>
       <button class="btn-lab" id="mitmAnimate">▶ Animar ataque</button>`;
 
+    const stepsBar = container.querySelector('#mitmStepsBar');
     const stage = container.querySelector('#mitmStage');
     const explain = container.querySelector('#mitmExplain');
     const btnAnim = container.querySelector('#mitmAnimate');
     let mode = 'http';
     let animating = false;
 
-    const MODES = {
-      http: {
-        data: 'GET /conta HTTP/1.1\nSenha: minhasenha123',
-        attacker: '👁️ Interceptado!\nSENHA: minhasenha123',
-        explain: 'Em HTTP puro, o atacante vê tudo em texto claro: senhas, tokens e cookies.'
-      },
-      https: {
-        data: 'TLS 1.3 Handshake\n[dados cifrados: ☒☒☒☒☒☒]',
-        attacker: '❓ Dados ilegíveis\n☒☒☒☒☒☒☒☒☒☒',
-        explain: 'Com TLS, o atacante vê apenas dados cifrados. Sem a chave privada do servidor, é inútil.'
-      }
-    };
+    function setActiveStep(n) {
+      stepsBar.querySelectorAll('.mitm-step-pill').forEach(p => {
+        const s = parseInt(p.dataset.step);
+        p.classList.toggle('active', s === n);
+        p.classList.toggle('done', s < n);
+      });
+    }
 
     function buildStage() {
-      const current = MODES[mode];
+      const cur = MODES[mode];
       stage.innerHTML = `
-        <div class="mitm-actor">
-          <div class="mitm-actor-icon">👩</div>
-          <div class="mitm-actor-name">Alice</div>
+        <div class="mitm-node" id="mitmNodeAlice">
+          <div class="mitm-node-icon">👩</div>
+          <div class="mitm-node-label">Alice</div>
         </div>
-        <div class="mitm-channel">
-          <div class="mitm-data-flow" id="mitm-data1">${mode === 'http' ? current.data.split('\n')[0] : '🔒 cifrado'}</div>
-          <svg class="mitm-arrow" viewBox="0 0 60 20"><path d="M0,10 L50,10" stroke="currentColor" stroke-width="2" marker-end="url(#arr)"></path><defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"></path></marker></defs></svg>
+        <div class="mitm-link">
+          <div class="mitm-link-track"><div class="${cur.fillClass} mitm-link-fill" id="mitmFill1"></div></div>
+          <div class="mitm-link-dir">→</div>
         </div>
-        <div class="mitm-actor mitm-attacker">
-          <div class="mitm-actor-icon">😈</div>
-          <div class="mitm-actor-name">Atacante</div>
-          <div class="mitm-attacker-sees" id="mitm-sees">${current.attacker}</div>
+        <div class="mitm-node mitm-node--evil" id="mitmNodeAttacker">
+          <div class="mitm-sees-bubble" id="mitmSeesBubble">
+            <div class="mitm-sees-label" id="mitmSeesLabel">Atacante vê:</div>
+            <div class="mitm-sees-data" id="mitmSeesData">—</div>
+          </div>
+          <div class="mitm-node-icon">😈</div>
+          <div class="mitm-node-label">Atacante</div>
         </div>
-        <div class="mitm-channel">
-          <div class="mitm-data-flow" id="mitm-data2">${mode === 'http' ? current.data.split('\n')[0] : '🔒 cifrado'}</div>
-          <svg class="mitm-arrow" viewBox="0 0 60 20"><path d="M0,10 L50,10" stroke="currentColor" stroke-width="2" marker-end="url(#arr2)"></path><defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"></path></marker></defs></svg>
+        <div class="mitm-link">
+          <div class="mitm-link-track"><div class="${cur.fillClass} mitm-link-fill" id="mitmFill2"></div></div>
+          <div class="mitm-link-dir">→</div>
         </div>
-        <div class="mitm-actor">
-          <div class="mitm-actor-icon">🖥️</div>
-          <div class="mitm-actor-name">Servidor</div>
+        <div class="mitm-node" id="mitmNodeServer">
+          <div class="mitm-node-icon">🖥️</div>
+          <div class="mitm-node-label">Servidor</div>
         </div>`;
 
-      explain.textContent = current.explain;
+      explain.textContent = cur.explain;
+      explain.className = `mitm-explain ${cur.explainClass}`;
+      setActiveStep(0);
     }
 
     async function animate() {
       if (animating) return;
       animating = true;
       btnAnim.disabled = true;
+      btnAnim.textContent = '⏳ Animando…';
 
-      const data1 = container.querySelector('#mitm-data1');
-      const data2 = container.querySelector('#mitm-data2');
-      const attacker = container.querySelector('.mitm-attacker');
+      const nodeAlice = container.querySelector('#mitmNodeAlice');
+      const nodeAttacker = container.querySelector('#mitmNodeAttacker');
+      const nodeServer = container.querySelector('#mitmNodeServer');
+      const fill1 = container.querySelector('#mitmFill1');
+      const fill2 = container.querySelector('#mitmFill2');
+      const seesBubble = container.querySelector('#mitmSeesBubble');
+      const seesLabel = container.querySelector('#mitmSeesLabel');
+      const seesData = container.querySelector('#mitmSeesData');
+      const cur = MODES[mode];
 
-      await delay(250);
-      data1.classList.add('mitm-flow-active');
-      await delay(850);
-      data1.classList.remove('mitm-flow-active');
-      attacker.classList.toggle('mitm-caught', mode === 'http');
-      data2.classList.add('mitm-flow-active');
-      await delay(850);
-      data2.classList.remove('mitm-flow-active');
+      // Reset
+      [fill1, fill2].forEach(f => { f.style.transition = 'none'; f.style.width = '0'; });
+      seesData.textContent = '—';
+      seesLabel.textContent = 'Atacante vê:';
+      seesBubble.className = 'mitm-sees-bubble';
+      [nodeAlice, nodeAttacker, nodeServer].forEach(n =>
+        n.classList.remove('mitm-node--active', 'mitm-node--danger', 'mitm-node--success'));
+      await delay(50);
+
+      // Step 1: Alice sends
+      setActiveStep(1);
+      nodeAlice.classList.add('mitm-node--active');
+      fill1.style.transition = 'width 1.3s ease';
+      fill1.style.width = '100%';
+      await delay(1600);
+      nodeAlice.classList.remove('mitm-node--active');
+
+      // Step 2: Attacker intercepts
+      setActiveStep(2);
+      nodeAttacker.classList.add(mode === 'http' ? 'mitm-node--danger' : 'mitm-node--active');
+      seesLabel.textContent = cur.attackerLabel;
+      seesData.textContent = cur.attackerData;
+      seesBubble.className = `mitm-sees-bubble ${cur.seesClass}`;
+      await delay(2200);
+      nodeAttacker.classList.remove('mitm-node--danger', 'mitm-node--active');
+
+      // Step 3: Forward to server
+      setActiveStep(3);
+      fill2.style.transition = 'width 1.3s ease';
+      fill2.style.width = '100%';
+      await delay(1600);
+      nodeServer.classList.add(mode === 'http' ? 'mitm-node--active' : 'mitm-node--success');
+      await delay(900);
+      nodeServer.classList.remove('mitm-node--active', 'mitm-node--success');
+      setActiveStep(0);
 
       btnAnim.disabled = false;
+      btnAnim.textContent = '▶ Animar novamente';
       animating = false;
     }
 
@@ -795,20 +857,25 @@ const Lab = (() => {
         resultEl.innerHTML = '<div class="http-insp-error">URL inválida. Use o formato https://example.com</div>';
         return;
       }
-      resultEl.innerHTML = '<div class="http-insp-loading">Consultando…</div>';
+      resultEl.innerHTML = '<div class="http-insp-loading">Consultando… (pode demorar até 10s)</div>';
       const t0 = performance.now();
       let status = null, headers = {}, corsBlocked = false, failed = false;
       try {
-        const resp = await fetch(url.href, { method: 'HEAD' });
+        const ctrl = new AbortController();
+        const tmo = setTimeout(() => ctrl.abort(), 8000);
+        const resp = await fetch(url.href, { method: 'HEAD', signal: ctrl.signal });
+        clearTimeout(tmo);
         status = resp.status;
         resp.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
       } catch {
         corsBlocked = true;
         try {
-          const proxyResp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url.href)}`);
-          const data = await proxyResp.json();
-          status = data.status?.http_code;
-          if (data.status?.content_type) headers['content-type'] = data.status.content_type;
+          const pCtrl = new AbortController();
+          const pTmo = setTimeout(() => pCtrl.abort(), 10000);
+          const proxyResp = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(url.href)}`, { method: 'HEAD', signal: pCtrl.signal });
+          clearTimeout(pTmo);
+          status = proxyResp.status;
+          proxyResp.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
         } catch { failed = true; }
       }
       const elapsed = Math.round(performance.now() - t0);
@@ -4557,29 +4624,36 @@ const Lab = (() => {
 
     async function fetchCerts(domain) {
       const result = document.getElementById('tlsResult');
-      result.innerHTML = '<p class="tls-loading">⏳ Consultando crt.sh…</p>';
+      result.innerHTML = '<p class="tls-loading">⏳ Consultando crt.sh… (pode levar alguns segundos)</p>';
       result.hidden = false;
       try {
         const crtUrl = `https://crt.sh/?q=${encodeURIComponent(domain)}&output=json`;
         let data;
-        // Try direct fetch first (crt.sh supports CORS on JSON endpoint)
+        // Try direct fetch with timeout
         try {
-          const direct = await fetch(crtUrl, { headers: { 'Accept': 'application/json' } });
+          const ctrl = new AbortController();
+          const tmo = setTimeout(() => ctrl.abort(), 12000);
+          const direct = await fetch(crtUrl, { headers: { 'Accept': 'application/json' }, signal: ctrl.signal });
+          clearTimeout(tmo);
           if (direct.ok) {
             const text = await direct.text();
             if (text.trim().startsWith('[')) { data = JSON.parse(text); }
           }
         } catch (_) { /* fall through to proxy */ }
-        // Proxy fallback
+        // Proxy fallback (corsproxy.io)
         if (!data) {
-          const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(crtUrl)}`;
-          const res = await fetch(proxy);
-          if (!res.ok) throw new Error('Proxy HTTP ' + res.status);
-          const wrapper = await res.json();
-          const contents = wrapper.contents || '';
-          if (!contents.trim().startsWith('[')) throw new Error('crt.sh retornou HTML em vez de JSON. Tente novamente em alguns segundos.');
-          data = JSON.parse(contents);
+          const pCtrl = new AbortController();
+          const pTmo = setTimeout(() => pCtrl.abort(), 15000);
+          try {
+            const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(crtUrl)}`, { signal: pCtrl.signal });
+            clearTimeout(pTmo);
+            if (res.ok) {
+              const text = await res.text();
+              if (text.trim().startsWith('[')) data = JSON.parse(text);
+            }
+          } catch (_) { clearTimeout(pTmo); }
         }
+        if (!data) throw new Error('crt.sh não respondeu. Verifique sua conexão e tente novamente.');
         if (!Array.isArray(data) || !data.length) {
           result.innerHTML = '<p class="tls-empty">Nenhum certificado encontrado para este domínio.</p>';
           return;
@@ -4659,44 +4733,54 @@ const Lab = (() => {
       result.innerHTML = '<p class="ipasn-loading">⏳ Consultando…</p>';
       result.hidden = false;
 
-      const [ipApiRes, rdapRes] = await Promise.allSettled([
-        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`http://ip-api.com/json/${encodeURIComponent(target)}?fields=status,message,country,countryCode,regionName,city,isp,org,as,asname,query`)}`)
-          .then(r => r.json()).then(w => JSON.parse(w.contents)),
-        fetch(`https://rdap.org/ip/${encodeURIComponent(target)}`).then(r => r.ok ? r.json() : null).catch(() => null)
-      ]);
+      const ctrl = new AbortController();
+      const tmo = setTimeout(() => ctrl.abort(), 12000);
 
-      const ip = ipApiRes.status === 'fulfilled' && ipApiRes.value?.status === 'success' ? ipApiRes.value : null;
+      const [ipapiRes, rdapRes] = await Promise.allSettled([
+        fetch(`https://ipapi.co/${encodeURIComponent(target)}/json/`, { signal: ctrl.signal })
+          .then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(`https://rdap.org/ip/${encodeURIComponent(target)}`, { signal: ctrl.signal })
+          .then(r => r.ok ? r.json() : null).catch(() => null)
+      ]);
+      clearTimeout(tmo);
+
+      const ip = ipapiRes.status === 'fulfilled' && ipapiRes.value && !ipapiRes.value.error ? ipapiRes.value : null;
       const rdap = rdapRes.status === 'fulfilled' ? rdapRes.value : null;
 
       if (!ip && !rdap) {
-        result.innerHTML = '<p class="ipasn-error">Não foi possível obter informações. Verifique o endereço IP.</p>';
+        result.innerHTML = '<p class="ipasn-error">Não foi possível obter informações. Verifique o endereço IP e sua conexão.</p>';
         return;
       }
 
       let html = '<div class="ipasn-card">';
       if (ip) {
         html += `
+          <div class="ipasn-section-title">Localização e Rede</div>
           <table class="ipasn-table">
-            <tr><th>IP consultado</th><td><code>${escapeHtml(ip.query || target)}</code></td></tr>
-            <tr><th>País</th><td>${escapeHtml(ip.country || '—')}${ip.countryCode ? ` <span class="ipasn-cc">(${escapeHtml(ip.countryCode)})</span>` : ''}</td></tr>
-            <tr><th>Região / Cidade</th><td>${escapeHtml([ip.regionName, ip.city].filter(Boolean).join(', ') || '—')}</td></tr>
-            <tr><th>ISP</th><td>${escapeHtml(ip.isp || '—')}</td></tr>
-            <tr><th>Organização</th><td>${escapeHtml(ip.org || '—')}</td></tr>
-            <tr><th>ASN</th><td><code>${escapeHtml(ip.as || '—')}</code></td></tr>
-            <tr><th>Nome do AS</th><td>${escapeHtml(ip.asname || '—')}</td></tr>
-          </table>`;
+            <tr><th>IP consultado</th><td><code>${escapeHtml(ip.ip || target)}</code></td></tr>
+            <tr><th>País</th><td>${ip.country_name ? escapeHtml(ip.country_name) + (ip.country_code ? ` <span class="ipasn-cc">(${escapeHtml(ip.country_code)})</span>` : '') : '—'}</td></tr>
+            <tr><th>Região / Cidade</th><td>${escapeHtml([ip.region, ip.city].filter(Boolean).join(', ') || '—')}</td></tr>
+            <tr><th>ISP / Operadora</th><td>${escapeHtml(ip.org || '—')}</td></tr>
+            <tr><th title="Autonomous System Number: identificador único de uma rede autônoma na Internet. Cada ISP ou grande empresa tem o seu.">ASN ⓘ</th><td><code>${escapeHtml(ip.asn || '—')}</code></td></tr>
+            <tr><th>Fuso horário</th><td>${escapeHtml(ip.timezone || '—')}</td></tr>
+          </table>
+          <p class="ipasn-tip">💡 <strong>O que é ASN?</strong> Autonomous System Number — identifica uma rede autônoma na internet. Ex: Google tem AS15169, Cloudflare tem AS13335.</p>`;
       }
       if (rdap) {
         const events = (rdap.events || []).reduce((a, e) => { a[e.eventAction] = e.eventDate; return a; }, {});
+        const rdapName = rdap.name || rdap.handle || '';
+        const rdapCountry = rdap.country || '';
+        const entities = (rdap.entities || []).map(e => (e.vcardArray?.[1] || []).find(f => f[0] === 'fn')?.[3] || '').filter(Boolean);
         html += `
-          <h4 class="ipasn-rdap-title">Dados RDAP</h4>
+          <div class="ipasn-section-title">Registro do Bloco IP (RDAP)</div>
           <table class="ipasn-table">
-            <tr><th>Prefixo / Handle</th><td><code>${escapeHtml(rdap.handle || rdap.name || '—')}</code></td></tr>
-            <tr><th>Nome</th><td>${escapeHtml(rdap.name || '—')}</td></tr>
-            <tr><th>País</th><td>${escapeHtml(rdap.country || '—')}</td></tr>
-            ${events.registration ? `<tr><th>Registrado</th><td>${escapeHtml(events.registration.slice(0, 10))}</td></tr>` : ''}
-            ${events['last changed'] ? `<tr><th>Última alteração</th><td>${escapeHtml(events['last changed'].slice(0, 10))}</td></tr>` : ''}
-          </table>`;
+            ${rdapName ? `<tr><th>Bloco / Rede</th><td><code>${escapeHtml(rdapName)}</code></td></tr>` : ''}
+            ${rdapCountry ? `<tr><th>País registrado</th><td>${escapeHtml(rdapCountry)}</td></tr>` : ''}
+            ${entities.length ? `<tr><th>Responsável</th><td>${escapeHtml(entities[0])}</td></tr>` : ''}
+            ${events.registration ? `<tr><th>Registrado em</th><td>${escapeHtml(events.registration.slice(0, 10))}</td></tr>` : ''}
+            ${events['last changed'] ? `<tr><th>Última atualização</th><td>${escapeHtml(events['last changed'].slice(0, 10))}</td></tr>` : ''}
+          </table>
+          <p class="ipasn-tip">💡 <strong>RDAP</strong> (Registration Data Access Protocol) é o banco de dados oficial de alocação de blocos IP — mostra quem registrou aquele bloco de endereços.</p>`;
       }
       html += '</div>';
       result.innerHTML = html;
