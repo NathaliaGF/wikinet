@@ -10,6 +10,7 @@ const MODULES = [
     icon: '🌐',
     url: 'pages/fundamentos.html',
     sections: ['oque-e-rede','cliente-servidor','pacotes','latencia-banda-jitter'],
+    keywords: ['rede','internet','protocolo','ip','porta','pacote','dados','transmissão','latência','banda','jitter','throughput','cliente','servidor','lan','wan','topologia','internet','bits','bytes','velocidade','conexão','dispositivo','nó','host'],
     navTopics: [
       { id: 'oque-e-rede', title: '1. O que é uma rede?' },
       { id: 'cliente-servidor', title: '2. Cliente, servidor, IP e porta' },
@@ -25,6 +26,7 @@ const MODULES = [
     icon: '🏛️',
     url: 'pages/modelos.html',
     sections: ['por-que-camadas','modelo-osi','tcpip-vs-osi','troubleshooting-camadas'],
+    keywords: ['osi','tcp/ip','camadas','modelo','encapsulamento','pdu','frame','datagrama','segmento','físico','enlace','rede','transporte','sessão','apresentação','aplicação','sete camadas','four layers','stack','pilha','layer'],
     navTopics: [
       { id: 'por-que-camadas', title: '1. Por que dividir redes em camadas?' },
       { id: 'modelo-osi', title: '2. Modelo OSI: o que cada camada resolve' },
@@ -40,6 +42,7 @@ const MODULES = [
     icon: '📍',
     url: 'pages/enderecamento.html',
     sections: ['ipv4','mascara-subrede','cidr','ipv6','gateway','nat','arp','calculadora-subrede'],
+    keywords: ['ipv4','endereço','endereçamento','sub-rede','subnet','subnetting','máscara','máscara de rede','cidr','nat','arp','gateway','dhcp','classe a','classe b','classe c','broadcast','multicast','unicast','loopback','127.0.0.1','192.168','10.0.0.0','172.16','ip privado','ip público','roteamento','mac address','endereço mac','port forwarding','redirecionamento de porta'],
     navTopics: [
       { id: 'ipv4', title: '1. IPv4 — Formato e Classes' },
       { id: 'mascara-subrede', title: '2. Máscara de Sub-rede' },
@@ -59,6 +62,7 @@ const MODULES = [
     icon: '🔌',
     url: 'pages/protocolos.html',
     sections: ['tcp-vs-udp','dns','http-https','outros-protocolos'],
+    keywords: ['tcp','udp','dns','dhcp','http','https','tls','ssl','ftp','ssh','smtp','sip','imap','pop3','protocolo','conexão','handshake','criptografia','certificado','porta 80','porta 443','porta 22','porta 25','porta 21','servidor web','acesso remoto','linux','servidor linux','email','correio','transferência de arquivo'],
     navTopics: [
       { id: 'tcp-vs-udp', title: '1. TCP vs UDP' },
       { id: 'dns', title: '2. DNS e DHCP: descobrir para onde ir' },
@@ -74,6 +78,7 @@ const MODULES = [
     icon: '🌍',
     url: 'pages/acesso-site.html',
     sections: ['visao-geral','dns-resolucao','tcp-handshake','tls-handshake','http-request','resposta-render'],
+    keywords: ['site','navegador','browser','chrome','firefox','safari','dns','tcp','tls','http','https','handshake','renderização','url','domínio','requisição','resposta','cache','web','internet','servidor web','html','css','javascript','carregar página','abrir site','certificado ssl','syn','syn-ack','ack'],
     navTopics: [
       { id: 'visao-geral', title: '1. Visão Geral — Os 7 Passos' },
       { id: 'dns-resolucao', title: '2. Resolução DNS — Passo a Passo' },
@@ -91,6 +96,7 @@ const MODULES = [
     icon: '🖥️',
     url: 'pages/equipamentos.html',
     sections: ['roteador','switch','firewall','proxy'],
+    keywords: ['roteador','router','switch','firewall','proxy','hub','bridge','ap','access point','wap','wi-fi','wireless','wifi','rede','hardware','equipamento','layer 2','layer 3','camada 2','camada 3','vlan','spanning tree','stp','qos','nat','dmz','ids','ips','utm','ngfw','balanceador de carga','load balancer','cisco','netgear','mikrotik'],
     navTopics: [
       { id: 'roteador', title: '1. Roteador' },
       { id: 'switch', title: '2. Switch' },
@@ -106,6 +112,7 @@ const MODULES = [
     icon: '🛡️',
     url: 'pages/seguranca.html',
     sections: ['firewall-tipos','ataques','vpn'],
+    keywords: ['segurança','security','firewall','mitm','man-in-the-middle','ddos','spoofing','phishing','vpn','ataque','cibersegurança','cybersecurity','criptografia','senha','vulnerabilidade','hacker','intruso','malware','ransomware','arp poisoning','arp spoofing','dns spoofing','acl','ipsec','openvpn','wireguard','defesa','proteção','monitoramento','ids','ips','pentest','exploit'],
     navTopics: [
       { id: 'firewall-tipos', title: '1. Firewall: Stateful vs Stateless' },
       { id: 'ataques', title: '2. Ataques Comuns' },
@@ -120,6 +127,7 @@ const MODULES = [
     icon: '🔧',
     url: 'pages/troubleshooting.html',
     sections: ['metodologia','ping','traceroute','nslookup','netstat','fluxo-diagnostico'],
+    keywords: ['troubleshooting','diagnóstico','debug','problema','falha','ping','traceroute','tracert','nslookup','netstat','linux','ubuntu','debian','centos','windows','terminal','comando','shell','bash','cmd','powershell','ttl','timeout','conexão recusada','connection refused','erro','latência','perda de pacote','packet loss','hop','salto','rota','roteamento','tcpdump','wireshark','ss','ip route','ifconfig','ipconfig','arp -a','dig','host','curl'],
     navTopics: [
       { id: 'metodologia', title: '1. A Metodologia — Como Pensar' },
       { id: 'ping', title: '2. ping — Testando Conectividade' },
@@ -137,6 +145,7 @@ const MODULES = [
     icon: '🚪',
     url: 'pages/portas.html',
     sections: ['o-que-sao-portas','tabela-portas','dicas'],
+    keywords: ['porta','port','tcp','udp','serviço','80','443','22','21','25','53','3306','3389','8080','110','143','3000','8443','27017','5432','6379','25565','1433','23','telnet','ftp','ssh','smtp','dns','http','https','rdp','mysql','postgresql','redis','mongodb','well-known','efêmera','registered','serviços conhecidos','número de porta'],
     navTopics: [
       { id: 'o-que-sao-portas', title: '1. O que são Portas e por que Importam' },
       { id: 'tabela-portas', title: '2. Tabela Completa de Portas' },
@@ -151,6 +160,7 @@ const MODULES = [
     icon: '🌐',
     url: 'pages/ipv6.html',
     sections: ['por-que-ipv6','formato-endereco','tipos-endereco','header-ipv6','autoconfig','migracao'],
+    keywords: ['ipv6','endereço','128 bits','hexadecimal','autoconfiguração','slaac','dhcpv6','migração','dual-stack','tunnel','tunelamento','nat64','prefixo','global unicast','link-local','::1','loopback ipv6','fe80','2001:db8','esgotamento','ipv4 esgotado','próxima geração','next generation','stateless','stateful','nd','neighbor discovery','icmpv6'],
     navTopics: [
       { id: 'por-que-ipv6',     title: '1. Por que o IPv6 existe?' },
       { id: 'formato-endereco', title: '2. Formato do Endereço IPv6' },
@@ -168,6 +178,7 @@ const MODULES = [
     icon: '🏆',
     url: 'pages/certificacoes.html',
     sections: ['comparativo','network-plus','ccna','cronograma','gaps'],
+    keywords: ['certificação','network+','ccna','comptia','cisco','exame','estudo','prova','carreira','profissional','n10-009','200-301','cert','concurso','mercado de trabalho','currículo','emprego','ti','tecnologia','fundamentos certificação','voucher','simulado','questões','prep','exam prep','soc','analista de redes'],
     navTopics: [
       { id: 'comparativo',   title: '1. Comparativo N+ vs CCNA' },
       { id: 'network-plus',  title: '2. Network+ N10-009' },
