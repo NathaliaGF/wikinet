@@ -38,7 +38,7 @@ const Interactive = (() => {
       setTimeout(() => {
         performSearch(q);
         clearSearchParam();
-      }, 120);
+      }, 350);
     }
   }
 

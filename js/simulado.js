@@ -197,6 +197,17 @@
         showResult(els);
       }
     }, 1000);
+
+    document.removeEventListener('visibilitychange', state._visHandler);
+    state._visHandler = () => {
+      if (document.hidden) {
+        clearInterval(state.timerId);
+        state.timerId = null;
+      } else if (state.remaining > 0 && !state.timerId) {
+        startTimer(els);
+      }
+    };
+    document.addEventListener('visibilitychange', state._visHandler);
   }
 
   function renderTimer(els) {

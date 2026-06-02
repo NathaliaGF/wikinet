@@ -460,6 +460,26 @@ const FLASHCARDS = {
     { q: 'Qual porta usa o DNS?', a: 'Porta 53 (UDP e TCP): Domain Name System: resolução de nomes.' },
     { q: 'Qual porta usa o RDP?', a: 'Porta 3389 (TCP): Remote Desktop Protocol: acesso remoto gráfico ao Windows.' },
     { q: 'Qual porta usa o MySQL?', a: 'Porta 3306 (TCP): banco de dados MySQL/MariaDB.' }
+  ],
+  ipv6: [
+    { q: 'Por que o IPv6 foi criado?', a: 'O IPv4 possui apenas cerca de 4,3 bilhões de endereços possíveis, que se esgotaram com o crescimento explosivo da internet e dos dispositivos móveis. O IPv6 foi criado para resolver esse problema com um espaço de endereçamento astronomicamente maior.' },
+    { q: 'Qual é o formato de um endereço IPv6?', a: 'São 128 bits escritos em 8 grupos de 4 dígitos hexadecimais separados por dois-pontos. Ex.: 2001:0db8:85a3:0000:0000:8a2e:0370:7334. Grupos consecutivos de zeros podem ser abreviados com "::".' },
+    { q: 'Quais são os principais tipos de endereço IPv6?', a: 'Global Unicast (2000::/3): equivalente ao IP público, roteável na internet. Link-Local (fe80::/10): válido apenas no segmento de rede local, configurado automaticamente. Loopback (::1): equivalente ao 127.0.0.1 do IPv4, usado para teste local.' },
+    { q: 'O que é SLAAC?', a: 'Stateless Address Autoconfiguration (RFC 4862): mecanismo em que o dispositivo configura seu próprio endereço IPv6 sem precisar de servidor, combinando o prefixo anunciado pelo roteador com um identificador derivado do seu MAC address (EUI-64) ou gerado aleatoriamente.' },
+    { q: 'Qual a diferença entre SLAAC e DHCPv6?', a: 'SLAAC é sem estado: o dispositivo se autoconfigura usando anúncios do roteador (RA), sem servidor central. DHCPv6 é com estado: um servidor atribui e controla os endereços, útil quando é necessário registro centralizado de qual IP foi dado a qual host.' },
+    { q: 'O que é dual-stack?', a: 'Estratégia de transição em que um dispositivo ou rede opera IPv4 e IPv6 simultaneamente. O dispositivo possui um endereço de cada versão e escolhe qual usar dependendo do destino, garantindo compatibilidade durante a migração.' },
+    { q: 'O que é NAT64?', a: 'Mecanismo de transição que permite que dispositivos IPv6-only se comuniquem com servidores IPv4-only. O gateway NAT64 traduz os pacotes entre os dois protocolos, evitando a necessidade de dual-stack em todo o caminho.' },
+    { q: 'Como o cabeçalho IPv6 se compara ao do IPv4?', a: 'O cabeçalho IPv6 foi simplificado: tem tamanho fixo de 40 bytes (contra o variável do IPv4), eliminou campos como checksum e fragmentação inline, e moveu opcionais para "Extension Headers" encadeados. Isso agiliza o processamento nos roteadores.' }
+  ],
+  certificacoes: [
+    { q: 'Quais são os domínios do exame CompTIA Network+ N10-009?', a: 'O N10-009 cobre cinco domínios: Networking Concepts (23%), Network Implementation (19%), Network Operations (17%), Network Security (20%) e Network Troubleshooting (21%). O foco está em conceitos amplos de redes, sem amarração a um fabricante específico.' },
+    { q: 'Quais tópicos são cobrados no CCNA 200-301?', a: 'O CCNA 200-301 abrange fundamentos de rede, acesso à rede (VLANs, STP, EtherChannel), conectividade IP (roteamento OSPF, IPv6), serviços IP (DHCP, DNS, NAT), segurança, automação e programabilidade, e gerenciamento de redes. É focado no ecossistema Cisco.' },
+    { q: 'Qual a diferença prática entre o Network+ e o CCNA?', a: 'O Network+ é vendor-neutral: valida conhecimento geral de redes e é voltado para suporte técnico e administração de sistemas. O CCNA é da Cisco e aprofunda configuração real em equipamentos Cisco via CLI, sendo mais valorizado para cargos de infraestrutura e NOC.' },
+    { q: 'Quanto tempo levar para se preparar para o Network+ e para o CCNA?', a: 'Para o Network+, a maioria das pessoas com alguma experiência em TI se prepara em 4 a 8 semanas de estudo focado. Para o CCNA, o tempo típico é de 3 a 6 meses, pois exige prática intensa de configuração em laboratório (Packet Tracer ou GNS3).' },
+    { q: 'Qual exame é mais difícil: Network+ ou CCNA?', a: 'O CCNA é geralmente considerado mais difícil: ele vai além da teoria e cobra configuração prática, troubleshooting em CLI Cisco e conceitos mais aprofundados como OSPF e STP. O Network+ tem dificuldade moderada e cobre mais largura do que profundidade.' },
+    { q: 'Como são as questões desses exames?', a: 'O Network+ mistura múltipla escolha, arrastar-e-soltar, correspondência e simulações de cenário (PBQs). O CCNA também usa múltipla escolha e simulações, incluindo questões onde você precisa analisar saídas de comandos como "show ip route" e identificar o problema.' },
+    { q: 'Quais são as notas de aprovação do Network+ e do CCNA?', a: 'O Network+ N10-009 exige pontuação mínima de 720 em uma escala de 100–900. O CCNA 200-301 exige 825 em uma escala de 300–1000. Nenhum dos dois divulga o número exato de questões necessárias, pois usam pontuação adaptativa.' },
+    { q: 'Qual é o valor de carreira do Network+ e do CCNA?', a: 'O Network+ é amplamente reconhecido por empregadores de TI generalistas, aparece em requisitos do governo americano (DoD 8570) e é ótima porta de entrada. O CCNA tem alto valor em empresas com infraestrutura Cisco, abre portas para cargos de engenharia de redes e costuma ter salários iniciais mais elevados.' }
   ]
 };
 
