@@ -429,6 +429,13 @@ function buildSidebar() {
   if (!sidebar || typeof MODULES === 'undefined') return;
 
   const currentPage = getCurrentPageId();
+
+  // Determine initial Módulos section state:
+  // - Module pages: always open (sub-nav needs to be visible)
+  // - Tool/home pages: respect user's saved preference, default CLOSED
+  const isModulePage = MODULES.some(m => m.id === currentPage);
+  const savedModulesOpen = localStorage.getItem('rw-sidebar-modules-open');
+  const modulesOpen = isModulePage || savedModulesOpen === 'true';
   const moduleItems = MODULES.map(m => buildModuleNavItem(m, currentPage)).join('');
 
   const html = `
@@ -456,8 +463,8 @@ function buildSidebar() {
           </li>
         </ul>
       </div>
-      <div class="nav-section" id="navSectionModules">
-        <button class="nav-section-header nav-section-toggle" type="button" aria-expanded="true" aria-controls="navModulesList">
+      <div class="nav-section ${modulesOpen ? '' : 'collapsed'}" id="navSectionModules">
+        <button class="nav-section-header nav-section-toggle" type="button" aria-expanded="${modulesOpen ? 'true' : 'false'}" aria-controls="navModulesList">
           <span class="nav-section-title">Módulos</span>
           <i class="nav-chevron">▾</i>
         </button>
@@ -589,6 +596,10 @@ function initSidebarSections(sidebar) {
       const section = btn.closest('.nav-section');
       const isCollapsed = section.classList.toggle('collapsed');
       btn.setAttribute('aria-expanded', String(!isCollapsed));
+      // Persist the user's manual Módulos preference
+      if (section.id === 'navSectionModules') {
+        localStorage.setItem('rw-sidebar-modules-open', isCollapsed ? 'false' : 'true');
+      }
     });
   });
 }
