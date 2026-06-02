@@ -1919,6 +1919,35 @@ h2:focus-within .rw-anchor-link { opacity: 1; }
   .rw-notes-hint { display: none !important; }
 }
 
+/* ── Page transitions ────────────────────────────────── */
+@keyframes rw-page-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.main-content {
+  animation: rw-page-in 0.38s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes rw-page-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-10px); }
+}
+.rw-exiting .main-content {
+  animation: rw-page-out 0.22s ease forwards;
+  pointer-events: none;
+}
+
+/* ── Site footer ─────────────────────────────────────── */
+.site-footer-home {
+  text-align: center;
+  padding: 2.5rem clamp(1.5rem, 2vw, 2.5rem);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+  background: linear-gradient(180deg, transparent, rgba(79,142,247,0.03));
+}
+.site-footer-home strong { color: var(--text-secondary); }
+
 /* ── Coffee / Pix button & modal ─────────────────────── */
 .btn-coffee {
   width: 36px; height: 36px;

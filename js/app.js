@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   prefetchNextModule();
   loadPomodoro();
   initCoffeeModal();
+  initPageTransitions();
+  initScrollReveal();
 });
 
 function stripRefreshParam() {
@@ -815,6 +817,35 @@ function renderGoalNextAction(goal) {
   if (!progress || !progress.remaining.length) return `${goal.nextAction} Trilha pronta para revisão e prática.`;
   const next = progress.remaining[0];
   return `${goal.nextAction} Próximo foco: ${next.num}. ${next.title}.`;
+}
+
+/* ── Page transitions ────────────────────────────────── */
+function initPageTransitions() {
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.hasAttribute('target') || e.metaKey || e.ctrlKey) return;
+    e.preventDefault();
+    document.documentElement.classList.add('rw-exiting');
+    setTimeout(() => { window.location.href = href; }, 200);
+  });
+}
+
+/* ── Scroll reveal ───────────────────────────────────── */
+function initScrollReveal() {
+  const sections = document.querySelectorAll('.home-section');
+  if (!sections.length) return;
+  sections.forEach(s => s.classList.add('will-reveal'));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+  sections.forEach(s => obs.observe(s));
 }
 
 /* ── Coffee / Pix modal ──────────────────────────────── */
