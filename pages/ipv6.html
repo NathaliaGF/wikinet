@@ -12,6 +12,7 @@
   <meta property="og:description" content="Endereçamento IPv6, tipos de endereço, prefixos especiais e migração de IPv4.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,6 @@
   <div class="main-content">
     <div class="topbar">
       <div class="topbar-left">
-        <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
@@ -41,23 +41,61 @@
       </div>
     </div>
 
-    <main id="main-content">
+    <main class="article-wrapper" id="main-content">
+      <div class="page-header">
+        <div class="page-tag">Módulo 10</div>
+        <h1 class="page-title">IPv6 — O Protocolo do Futuro</h1>
+        <p class="page-description">O IPv4 está esgotado. O IPv6 resolve isso com um espaço de endereços praticamente infinito — e traz mudanças arquiteturais importantes que todo profissional de redes precisa conhecer.</p>
 
-      <section class="module-hero">
-        <div class="module-hero-icon">🌐</div>
-        <h1>IPv6 — O Protocolo do Futuro</h1>
-        <p class="module-hero-desc">O IPv4 está esgotado. O IPv6 resolve isso com um espaço de endereços praticamente infinito — e traz mudanças arquiteturais importantes que todo profissional de redes precisa conhecer.</p>
-        <div class="module-hero-meta">
-          <span>🕐 ~35 min</span>
-          <span>📚 6 seções</span>
-          <span>🎯 Módulo 10</span>
+        <div class="lesson-map">
+          <div class="lesson-step">
+            <div class="lesson-step-num">1</div>
+            <h3>Por que IPv6?</h3>
+            <p>Esgotamento do IPv4.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">2</div>
+            <h3>Formato</h3>
+            <p>128 bits, notação hex.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">3</div>
+            <h3>Tipos de endereço</h3>
+            <p>Unicast, multicast, anycast.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">4</div>
+            <h3>Header + SLAAC</h3>
+            <p>Estrutura e autoconfig.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">5</div>
+            <h3>Migração</h3>
+            <p>Dual stack, tunneling.</p>
+          </div>
         </div>
-      </section>
+      </div>
+
+      <div class="module-progress">
+        <div class="mp-header">
+          <span class="mp-label">Progresso deste módulo</span>
+          <span class="mp-pct" id="mpPct">0%</span>
+        </div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
 
       <!-- ── SEÇÃO 1 ── -->
-      <section class="content-section" id="por-que-ipv6">
-        <h2>1. Por que o IPv6 existe?</h2>
-        <p>O IPv4 usa endereços de 32 bits, permitindo cerca de <strong>4,3 bilhões</strong> de endereços únicos. Quando o protocolo foi criado nos anos 1970, isso parecia mais do que suficiente. Hoje, com bilhões de smartphones, servidores, câmeras, IoT e carros conectados, os blocos acabaram.</p>
+      <div class="section" id="por-que-ipv6">
+        <div class="section-header">
+          <h2>1. Por que o IPv6 existe?</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ipv6-porque" data-fav-title="Por que o IPv6 existe" data-fav-page="IPv6">☆</button>
+            <label class="section-check" data-section="por-que-ipv6">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">O IPv4 usa endereços de 32 bits, permitindo cerca de <strong>4,3 bilhões</strong> de endereços únicos. Quando o protocolo foi criado nos anos 1970, isso parecia mais do que suficiente. Hoje, com bilhões de smartphones, servidores, câmeras, IoT e carros conectados, os blocos acabaram.</p>
 
         <div class="info-box info-box--warning">
           <strong>Esgotamento do IPv4:</strong> A IANA (autoridade global) distribuiu o último bloco /8 em <strong>fevereiro de 2011</strong>. As regiões usam NAT em larga escala para esticar o IPv4, mas isso cria complexidade, latência e impede conexões ponto a ponto reais.
@@ -87,12 +125,20 @@
             </ul>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- ── SEÇÃO 2 ── -->
-      <section class="content-section" id="formato-endereco">
-        <h2>2. Formato do Endereço IPv6</h2>
-        <p>Um endereço IPv6 tem <strong>128 bits</strong>, representados como oito grupos de quatro dígitos hexadecimais separados por dois-pontos:</p>
+      <div class="section" id="formato-endereco">
+        <div class="section-header">
+          <h2>2. Formato do Endereço IPv6</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ipv6-formato" data-fav-title="Formato do Endereço IPv6" data-fav-page="IPv6">☆</button>
+            <label class="section-check" data-section="formato-endereco">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">Um endereço IPv6 tem <strong>128 bits</strong>, representados como oito grupos de quatro dígitos hexadecimais separados por dois-pontos:</p>
 
         <div class="code-block">
           <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>
@@ -132,14 +178,22 @@
         <h3>Prefixo e interface ID</h3>
         <p>Assim como o IPv4 usa máscara de sub-rede, o IPv6 usa notação CIDR. Os primeiros bits formam o <strong>prefixo de rede</strong>; os demais identificam a interface:</p>
         <div class="code-block"><code>2001:db8:abcd:0012 | 0000:0000:0000:0001/64
-                 ↑ prefixo (64 bits)  ↑ Interface ID (64 bits)</code></div>
+         ↑ prefixo (64 bits)    ↑ Interface ID (64 bits)</code></div>
         <p>O <code>/64</code> é o prefixo mais comum em redes locais. O Interface ID de 64 bits pode ser gerado aleatoriamente (RFC 4941) ou derivado do MAC via EUI-64.</p>
-      </section>
+      </div>
 
       <!-- ── SEÇÃO 3 ── -->
-      <section class="content-section" id="tipos-endereco">
-        <h2>3. Tipos de Endereço IPv6</h2>
-        <p>IPv6 elimina o conceito de <em>broadcast</em>. Em vez disso, usa três categorias:</p>
+      <div class="section" id="tipos-endereco">
+        <div class="section-header">
+          <h2>3. Tipos de Endereço IPv6</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ipv6-tipos" data-fav-title="Tipos de Endereço IPv6" data-fav-page="IPv6">☆</button>
+            <label class="section-check" data-section="tipos-endereco">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">IPv6 elimina o conceito de <em>broadcast</em>. Em vez disso, usa três categorias:</p>
 
         <div class="concept-grid">
           <div class="concept-card">
@@ -172,12 +226,20 @@
             </tbody>
           </table>
         </div>
-      </section>
+      </div>
 
       <!-- ── SEÇÃO 4 ── -->
-      <section class="content-section" id="header-ipv6">
-        <h2>4. Header IPv6 — Mais Simples que o IPv4</h2>
-        <p>O header IPv6 tem <strong>tamanho fixo de 40 bytes</strong>, com apenas 8 campos (o IPv4 tem 14 campos de tamanho variável). Isso facilita o processamento nos roteadores.</p>
+      <div class="section" id="header-ipv6">
+        <div class="section-header">
+          <h2>4. Header IPv6 — Mais Simples que o IPv4</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ipv6-header" data-fav-title="Header IPv6" data-fav-page="IPv6">☆</button>
+            <label class="section-check" data-section="header-ipv6">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">O header IPv6 tem <strong>tamanho fixo de 40 bytes</strong>, com apenas 8 campos (o IPv4 tem 14 campos de tamanho variável). Isso facilita o processamento nos roteadores.</p>
 
         <div class="table-wrap">
           <table class="content-table">
@@ -201,12 +263,20 @@
 
         <h3>Extension Headers</h3>
         <p>O IPv6 usa headers de extensão encadeados para funcionalidades opcionais: fragmentação, roteamento de origem, autenticação (IPsec AH), encriptação (IPsec ESP) e hop-by-hop options. Só são processados pelos nós que precisam, não por todos os roteadores no caminho.</p>
-      </section>
+      </div>
 
       <!-- ── SEÇÃO 5 ── -->
-      <section class="content-section" id="autoconfig">
-        <h2>5. Autoconfiguração — SLAAC e DHCPv6</h2>
-        <p>Uma das grandes vantagens do IPv6 é que os dispositivos podem se configurar <strong>automaticamente</strong>, sem precisar de um servidor DHCP.</p>
+      <div class="section" id="autoconfig">
+        <div class="section-header">
+          <h2>5. Autoconfiguração — SLAAC e DHCPv6</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ipv6-slaac" data-fav-title="Autoconfiguração SLAAC e DHCPv6" data-fav-page="IPv6">☆</button>
+            <label class="section-check" data-section="autoconfig">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">Uma das grandes vantagens do IPv6 é que os dispositivos podem se configurar <strong>automaticamente</strong>, sem precisar de um servidor DHCP.</p>
 
         <h3>SLAAC — Stateless Address Autoconfiguration (RFC 4862)</h3>
         <p>Processo automático em 4 etapas:</p>
@@ -223,12 +293,20 @@
 
         <h3>DHCPv6</h3>
         <p>Funciona de forma parecida com o DHCP do IPv4, mas em IPv6 o roteador pode sinalizar no Router Advertisement se o host deve usar SLAAC, DHCPv6, ou ambos (flags M e O). O DHCPv6 <em>stateful</em> atribui endereços centralmente; o <em>stateless</em> apenas fornece configurações extras como DNS.</p>
-      </section>
+      </div>
 
       <!-- ── SEÇÃO 6 ── -->
-      <section class="content-section" id="migracao">
-        <h2>6. Convivência e Migração IPv4/IPv6</h2>
-        <p>Como o IPv4 não vai desaparecer do dia para a noite, há mecanismos de transição:</p>
+      <div class="section" id="migracao">
+        <div class="section-header">
+          <h2>6. Convivência e Migração IPv4/IPv6</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="ipv6-migracao" data-fav-title="Migração IPv4/IPv6" data-fav-page="IPv6">☆</button>
+            <label class="section-check" data-section="migracao">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">Como o IPv4 não vai desaparecer do dia para a noite, há mecanismos de transição:</p>
 
         <h3>Dual Stack</h3>
         <p>O método mais simples e recomendado: o dispositivo roda IPv4 e IPv6 <strong>simultaneamente</strong>. Quando o destino suporta ambos, prefere-se IPv6. A maioria dos sistemas operacionais modernos já é dual stack por padrão.</p>
@@ -255,22 +333,38 @@
         <div class="info-box info-box--tip">
           <strong>Adoção atual:</strong> Em 2024, mais de 40% do tráfego do Google já é servido via IPv6. Brasil e Índia lideram a adoção em países emergentes. Provedores de nuvem como AWS, GCP e Azure suportam IPv6 nativamente.
         </div>
-      </section>
-
-      <div class="module-nav-bottom">
-        <a href="enderecamento.html" class="module-nav-btn">← Módulo 3: Endereçamento</a>
-        <a href="certificacoes.html" class="module-nav-btn module-nav-btn--primary">Certificações →</a>
       </div>
 
     </main>
   </div>
 </div>
 <button class="back-to-top" id="backToTop">↑</button>
+<div class="coffee-overlay" id="coffeeOverlay">
+  <div class="coffee-card" role="dialog" aria-modal="true" aria-label="Pagar um café">
+    <button class="coffee-close" id="coffeeClose" aria-label="Fechar">✕</button>
+    <div class="coffee-emoji">☕</div>
+    <h2 class="coffee-title">Pagar um café</h2>
+    <p class="coffee-sub">Se o RedesWiki te ajudou, considere um café via PIX. Qualquer valor é muito bem-vindo!</p>
+    <p class="coffee-pix-label">Chave PIX (aleatória)</p>
+    <div class="coffee-pix-box">
+      <span class="coffee-pix-key" id="coffeePixKey">7df5585a-0e74-497f-b6ed-143fab35c9e0</span>
+      <button class="coffee-copy-btn" id="coffeeCopyBtn" aria-label="Copiar chave PIX">📋</button>
+    </div>
+    <ol class="coffee-steps">
+      <li>Abra o app do seu banco</li>
+      <li>Acesse a área PIX → Transferir</li>
+      <li>Cole a chave acima e confirme</li>
+    </ol>
+  </div>
+</div>
 <script defer src="../data/content.js"></script>
+<script defer src="../data/glossary-terms.js"></script>
 <script defer src="../js/progress.js"></script>
 <script defer src="../js/interactive.js"></script>
 <script defer src="../js/navigation.js"></script>
 <script defer src="../js/heatmap.js"></script>
+<script defer src="../js/glossary.js"></script>
+<script defer src="../js/spaced-repetition.js"></script>
 <script defer src="../js/app.js"></script>
 <noscript>
   <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">

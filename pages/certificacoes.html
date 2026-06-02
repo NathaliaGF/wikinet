@@ -12,6 +12,7 @@
   <meta property="og:description" content="Network+ N10-009 e CCNA 200-301: domínios, cobertura e dicas de estudo.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="../manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,6 @@
   <div class="main-content">
     <div class="topbar">
       <div class="topbar-left">
-        <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
@@ -41,19 +41,63 @@
       </div>
     </div>
 
-    <main id="main-content">
+    <main class="article-wrapper" id="main-content">
+      <div class="page-header">
+        <div class="page-tag">Módulo 11</div>
+        <h1 class="page-title">Certificações de Redes</h1>
+        <p class="page-description">Guia prático para as duas principais certificações entry-level de redes: <strong>CompTIA Network+ N10-009</strong> e <strong>Cisco CCNA 200-301</strong>. Veja o que cada exame cobre e como o RedesWiki prepara você para cada domínio.</p>
 
-      <section class="module-hero">
-        <div class="module-hero-icon">🏆</div>
-        <h1>Certificações de Redes</h1>
-        <p class="module-hero-desc">Guia prático para as duas principais certificações entry-level de redes: <strong>CompTIA Network+ N10-009</strong> e <strong>Cisco CCNA 200-301</strong>. Veja o que cada exame cobre e como o RedesWiki prepara você para cada domínio.</p>
-      </section>
+        <div class="lesson-map">
+          <div class="lesson-step">
+            <div class="lesson-step-num">1</div>
+            <h3>Comparativo</h3>
+            <p>Network+ vs CCNA.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">2</div>
+            <h3>Network+</h3>
+            <p>5 domínios N10-009.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">3</div>
+            <h3>CCNA</h3>
+            <p>6 domínios 200-301.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">4</div>
+            <h3>Cronograma</h3>
+            <p>Plano de estudos.</p>
+          </div>
+          <div class="lesson-step">
+            <div class="lesson-step-num">5</div>
+            <h3>Gaps</h3>
+            <p>O que estudar além.</p>
+          </div>
+        </div>
+      </div>
 
-      <!-- ── COMPARATIVO ── -->
-      <section class="content-section" id="comparativo">
-        <h2>Comparativo Rápido</h2>
+      <div class="module-progress">
+        <div class="mp-header">
+          <span class="mp-label">Progresso deste módulo</span>
+          <span class="mp-pct" id="mpPct">0%</span>
+        </div>
+        <div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div>
+      </div>
+
+      <!-- ── SEÇÃO 1: COMPARATIVO ── -->
+      <div class="section" id="comparativo">
+        <div class="section-header">
+          <h2>1. Comparativo Rápido</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="cert-comparativo" data-fav-title="Comparativo Network+ vs CCNA" data-fav-page="Certificações">☆</button>
+            <label class="section-check" data-section="comparativo">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">Duas certificações dominam o mercado de redes entry-level: a <strong>CompTIA Network+</strong>, vendor-neutral e amplamente reconhecida, e a <strong>Cisco CCNA</strong>, mais técnica e focada em implementação.</p>
+
         <div class="cert-cards">
-
           <div class="cert-card cert-card--netplus">
             <div class="cert-card-logo">N+</div>
             <h3>CompTIA Network+</h3>
@@ -83,17 +127,23 @@
             </ul>
             <a href="https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html" target="_blank" rel="noopener" class="cert-card-link">Site oficial →</a>
           </div>
-
         </div>
-      </section>
+      </div>
 
-      <!-- ── NETWORK+ ── -->
-      <section class="content-section" id="network-plus">
-        <h2>Network+ N10-009 — Domínios e Cobertura</h2>
-        <p>O exame N10-009 tem <strong>5 domínios</strong>. Veja o peso de cada um e como o RedesWiki cobre o conteúdo:</p>
+      <!-- ── SEÇÃO 2: NETWORK+ ── -->
+      <div class="section" id="network-plus">
+        <div class="section-header">
+          <h2>2. Network+ N10-009 — Domínios e Cobertura</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="cert-netplus" data-fav-title="Network+ N10-009 Domínios" data-fav-page="Certificações">☆</button>
+            <label class="section-check" data-section="network-plus">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">O exame N10-009 tem <strong>5 domínios</strong>. Veja o peso de cada um e como o RedesWiki cobre o conteúdo:</p>
 
         <div class="cert-domain-list">
-
           <div class="cert-domain">
             <div class="cert-domain-head">
               <span class="cert-domain-num">1</span>
@@ -170,21 +220,27 @@
             </div>
             <div class="cert-coverage-bar"><div class="cert-coverage-fill" style="width:80%">80%</div></div>
           </div>
-
         </div>
 
         <div class="info-box info-box--tip">
           <strong>Dica N10-009:</strong> O exame inclui questões de desempenho (PBQs — Performance-Based Questions) onde você precisa configurar dispositivos virtuais ou resolver problemas num simulador. Pratique com o Laboratório Interativo do RedesWiki e com os laboratórios gratuitos do Packet Tracer.
         </div>
-      </section>
+      </div>
 
-      <!-- ── CCNA ── -->
-      <section class="content-section" id="ccna">
-        <h2>CCNA 200-301 — Domínios e Cobertura</h2>
-        <p>O CCNA é mais técnico e focado em implementação Cisco. Tem <strong>6 domínios</strong>:</p>
+      <!-- ── SEÇÃO 3: CCNA ── -->
+      <div class="section" id="ccna">
+        <div class="section-header">
+          <h2>3. CCNA 200-301 — Domínios e Cobertura</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="cert-ccna" data-fav-title="CCNA 200-301 Domínios" data-fav-page="Certificações">☆</button>
+            <label class="section-check" data-section="ccna">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">O CCNA é mais técnico e focado em implementação Cisco. Tem <strong>6 domínios</strong>:</p>
 
         <div class="cert-domain-list">
-
           <div class="cert-domain">
             <div class="cert-domain-head">
               <span class="cert-domain-num">1</span>
@@ -275,17 +331,25 @@
             </div>
             <div class="cert-coverage-bar"><div class="cert-coverage-fill cert-cov-none" style="width:10%">10%</div></div>
           </div>
-
         </div>
 
         <div class="info-box info-box--warning">
           <strong>Atenção CCNA:</strong> O exame cobra configuração real de IOS Cisco (linha de comando). Use o <strong>Cisco Packet Tracer</strong> (gratuito, requer cadastro) ou o <strong>GNS3</strong> para praticar CLI. O RedesWiki cobre os conceitos; a prática em CLI é indispensável à parte.
         </div>
-      </section>
+      </div>
 
-      <!-- ── CRONOGRAMA ── -->
-      <section class="content-section" id="cronograma">
-        <h2>Cronograma de Estudo Sugerido</h2>
+      <!-- ── SEÇÃO 4: CRONOGRAMA ── -->
+      <div class="section" id="cronograma">
+        <div class="section-header">
+          <h2>4. Cronograma de Estudo Sugerido</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="cert-cronograma" data-fav-title="Cronograma de Estudo" data-fav-page="Certificações">☆</button>
+            <label class="section-check" data-section="cronograma">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">Plano de estudos realista para quem parte do zero, distribuído em semanas focadas.</p>
 
         <h3>Network+ — 8 semanas</h3>
         <div class="cert-schedule">
@@ -310,11 +374,20 @@
           <div class="cert-week"><span class="cert-week-num">S13–14</span><div><strong>Wireless + Automation</strong> — 802.11, WLC, SDN, REST API</div></div>
           <div class="cert-week"><span class="cert-week-num">S15–16</span><div><strong>Revisão + Simulados</strong> — Simulados completos, revisão de CLI, pontos fracos</div></div>
         </div>
-      </section>
+      </div>
 
-      <!-- ── GAPS ── -->
-      <section class="content-section" id="gaps">
-        <h2>O que o RedesWiki cobre — e o que estudar além</h2>
+      <!-- ── SEÇÃO 5: GAPS ── -->
+      <div class="section" id="gaps">
+        <div class="section-header">
+          <h2>5. O que o RedesWiki cobre — e o que estudar além</h2>
+          <div class="section-actions">
+            <button class="fav-btn" data-fav-id="cert-gaps" data-fav-title="Gaps do RedesWiki" data-fav-page="Certificações">☆</button>
+            <label class="section-check" data-section="gaps">
+              <input type="checkbox"><span class="check-text">Marcar como estudado</span>
+            </label>
+          </div>
+        </div>
+        <p class="section-intro">O RedesWiki cobre os conceitos fundamentais que sustentam ambas as certificações. Aqui está um mapa honesto do que você encontra aqui — e o que buscar em outros recursos.</p>
 
         <div class="cert-gap-grid">
           <div class="cert-gap-box cert-gap-covered">
@@ -359,22 +432,38 @@
             <li><strong>Examtopics</strong> — banco de questões de provas reais</li>
           </ul>
         </div>
-      </section>
-
-      <div class="module-nav-bottom">
-        <a href="ipv6.html" class="module-nav-btn">← IPv6</a>
-        <a href="../index.html" class="module-nav-btn module-nav-btn--primary">Início →</a>
       </div>
 
     </main>
   </div>
 </div>
 <button class="back-to-top" id="backToTop">↑</button>
+<div class="coffee-overlay" id="coffeeOverlay">
+  <div class="coffee-card" role="dialog" aria-modal="true" aria-label="Pagar um café">
+    <button class="coffee-close" id="coffeeClose" aria-label="Fechar">✕</button>
+    <div class="coffee-emoji">☕</div>
+    <h2 class="coffee-title">Pagar um café</h2>
+    <p class="coffee-sub">Se o RedesWiki te ajudou, considere um café via PIX. Qualquer valor é muito bem-vindo!</p>
+    <p class="coffee-pix-label">Chave PIX (aleatória)</p>
+    <div class="coffee-pix-box">
+      <span class="coffee-pix-key" id="coffeePixKey">7df5585a-0e74-497f-b6ed-143fab35c9e0</span>
+      <button class="coffee-copy-btn" id="coffeeCopyBtn" aria-label="Copiar chave PIX">📋</button>
+    </div>
+    <ol class="coffee-steps">
+      <li>Abra o app do seu banco</li>
+      <li>Acesse a área PIX → Transferir</li>
+      <li>Cole a chave acima e confirme</li>
+    </ol>
+  </div>
+</div>
 <script defer src="../data/content.js"></script>
+<script defer src="../data/glossary-terms.js"></script>
 <script defer src="../js/progress.js"></script>
 <script defer src="../js/interactive.js"></script>
 <script defer src="../js/navigation.js"></script>
 <script defer src="../js/heatmap.js"></script>
+<script defer src="../js/glossary.js"></script>
+<script defer src="../js/spaced-repetition.js"></script>
 <script defer src="../js/app.js"></script>
 <noscript>
   <div style="font-family:system-ui,sans-serif;max-width:600px;margin:4rem auto;padding:2rem;text-align:center;border:1px solid #ccc;border-radius:8px;">

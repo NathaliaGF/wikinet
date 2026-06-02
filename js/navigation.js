@@ -19,7 +19,8 @@ const Navigation = (() => {
 
   function initScrollSpy() {
     if (sections.length === 0) return;
-    window.addEventListener('scroll', onScroll, { passive: true });
+    const scroller = document.querySelector('.main-content') || window;
+    scroller.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
@@ -33,11 +34,12 @@ const Navigation = (() => {
   }
 
   function updateActiveSection() {
-    const scrollY = window.scrollY + 120;
+    const threshold = 140;
     let current = sections[0];
 
     for (const sec of sections) {
-      if (sec.offsetTop <= scrollY) {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= threshold) {
         current = sec;
       }
     }
