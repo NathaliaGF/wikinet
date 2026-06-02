@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Endereçamento — RedesWiki</title>
+  <title>Endereçamento: RedesWiki</title>
   <meta name="description" content="IPv4, IPv6, CIDR, NAT, ARP e gateway explicados do zero com analogias e calculadora de sub-redes.">
   <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/enderecamento.html">
   <meta name="theme-color" content="#4f8ef7">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/enderecamento.html">
-  <meta property="og:title" content="Endereçamento — RedesWiki">
+  <meta property="og:title" content="Endereçamento: RedesWiki">
   <meta property="og:description" content="IPv4, IPv6, CIDR, NAT, ARP e gateway explicados do zero com analogias práticas.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -61,7 +61,7 @@
       <div class="page-header">
         <div class="page-tag">Módulo 03</div>
         <h1 class="page-title">Endereçamento</h1>
-        <p class="page-description">IPv4, IPv6, máscaras de sub-rede, CIDR, NAT e ARP — os mecanismos que identificam e localizam cada dispositivo na rede.</p>
+        <p class="page-description">IPv4, IPv6, máscaras de sub-rede, CIDR, NAT e ARP: os mecanismos que identificam e localizam cada dispositivo na rede.</p>
       </div>
 
       <div class="module-progress">
@@ -72,7 +72,7 @@
       <!-- IPv4 -->
       <div class="section" id="ipv4">
         <div class="section-header">
-          <h2>IPv4 — Formato e Classes</h2>
+          <h2>IPv4: Formato e Classes</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="end-ipv4" data-fav-title="IPv4" data-fav-page="Endereçamento">☆</button>
             <label class="section-check" data-section="ipv4"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -85,18 +85,18 @@
           <p>O endereço IPv4 tem duas partes: a <strong>parte de rede</strong> (identifica qual rede) e a <strong>parte de host</strong> (identifica qual dispositivo dentro dessa rede). A máscara de sub-rede determina onde termina uma e começa a outra.</p>
           <p>As classes históricas de IPv4 (A, B, C) determinavam o tamanho padrão da rede, mas foram substituídas pelo CIDR (veremos a seguir):</p>
           <ul>
-            <li><strong>Classe A:</strong> 10.x.x.x — grandes redes (8 bits de rede, 24 de host)</li>
-            <li><strong>Classe B:</strong> 172.16.x.x a 172.31.x.x — redes médias (16 bits de rede)</li>
-            <li><strong>Classe C:</strong> 192.168.x.x — redes pequenas (24 bits de rede, 8 de host)</li>
+            <li><strong>Classe A:</strong> 10.x.x.x: grandes redes (8 bits de rede, 24 de host)</li>
+            <li><strong>Classe B:</strong> 172.16.x.x a 172.31.x.x: redes médias (16 bits de rede)</li>
+            <li><strong>Classe C:</strong> 192.168.x.x: redes pequenas (24 bits de rede, 8 de host)</li>
           </ul>
         </div>
 
         <div class="bloco-memorizar">
           <div class="bloco-header">⚡ Faixas de IP privado (RFC 1918)</div>
           <ul>
-            <li><code>10.0.0.0/8</code> — de 10.0.0.0 a 10.255.255.255 (16 milhões de hosts)</li>
-            <li><code>172.16.0.0/12</code> — de 172.16.0.0 a 172.31.255.255 (1 milhão de hosts)</li>
-            <li><code>192.168.0.0/16</code> — de 192.168.0.0 a 192.168.255.255 (65.536 hosts)</li>
+            <li><code>10.0.0.0/8</code>: de 10.0.0.0 a 10.255.255.255 (16 milhões de hosts)</li>
+            <li><code>172.16.0.0/12</code>: de 172.16.0.0 a 172.31.255.255 (1 milhão de hosts)</li>
+            <li><code>192.168.0.0/16</code>: de 192.168.0.0 a 192.168.255.255 (65.536 hosts)</li>
           </ul>
           <p>Esses endereços <strong>nunca aparecem diretamente na internet</strong>. Eles são usados em redes internas (casa, empresa) e o NAT faz a tradução.</p>
         </div>
@@ -127,15 +127,15 @@
         </div>
 
         <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia — CEP</div>
-          <p>O CEP funciona como a máscara. "01310-100" — os primeiros dígitos identificam o bairro/cidade (rede), os últimos identificam o logradouro (host). A máscara diz até onde vai o "bairro" e onde começa a identificação individual da casa.</p>
+          <div class="bloco-header">💡 Analogia: CEP</div>
+          <p>O CEP funciona como a máscara. "01310-100": os primeiros dígitos identificam o bairro/cidade (rede), os últimos identificam o logradouro (host). A máscara diz até onde vai o "bairro" e onde começa a identificação individual da casa.</p>
         </div>
       </div>
 
       <!-- CIDR -->
       <div class="section" id="cidr">
         <div class="section-header">
-          <h2>CIDR — Notação em Barra</h2>
+          <h2>CIDR: Notação em Barra</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="end-cidr" data-fav-title="CIDR" data-fav-page="Endereçamento">☆</button>
             <label class="section-check" data-section="cidr"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -174,7 +174,7 @@
       <!-- IPv6 -->
       <div class="section" id="ipv6">
         <div class="section-header">
-          <h2>IPv6 — Por que ele existe?</h2>
+          <h2>IPv6: Por que ele existe?</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="end-ipv6" data-fav-title="IPv6" data-fav-page="Endereçamento">☆</button>
             <label class="section-check" data-section="ipv6"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -183,15 +183,15 @@
 
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Explicação</div>
-          <p>O IPv4 suporta ~4,3 bilhões de endereços. Com a explosão de dispositivos conectados (celulares, IoT, servidores cloud), esses endereços acabaram. A solução foi o IPv6, com 128 bits que permitem <strong>340 undecilhões</strong> de endereços — praticamente infinito.</p>
+          <p>O IPv4 suporta ~4,3 bilhões de endereços. Com a explosão de dispositivos conectados (celulares, IoT, servidores cloud), esses endereços acabaram. A solução foi o IPv6, com 128 bits que permitem <strong>340 undecilhões</strong> de endereços: praticamente infinito.</p>
           <p>Formato IPv6: <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code></p>
           <p>Com abreviação (zeros à esquerda omitidos, sequências de zeros substituídas por <code>::</code>): <code>2001:db8:85a3::8a2e:370:7334</code></p>
           <p><strong>Diferenças práticas importantes do IPv6:</strong></p>
           <ul>
-            <li>Sem broadcast — usa multicast e anycast</li>
+            <li>Sem broadcast: usa multicast e anycast</li>
             <li>Autoconfiguração sem DHCP (SLAAC)</li>
             <li>IPSec é nativo (não opcional como no IPv4)</li>
-            <li>Sem necessidade de NAT — cada dispositivo pode ter IP público único</li>
+            <li>Sem necessidade de NAT: cada dispositivo pode ter IP público único</li>
           </ul>
         </div>
 
@@ -218,7 +218,7 @@
         </div>
 
         <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia — Portão do condomínio</div>
+          <div class="bloco-header">💡 Analogia: Portão do condomínio</div>
           <p>Dentro do condomínio (rede local), os moradores (dispositivos) se comunicam diretamente entre si. Para sair do condomínio (acessar a internet), todos passam pelo portão (gateway). O porteiro (roteador) sabe as rotas para fora.</p>
         </div>
       </div>
@@ -226,7 +226,7 @@
       <!-- NAT -->
       <div class="section" id="nat">
         <div class="section-header">
-          <h2>NAT — Network Address Translation</h2>
+          <h2>NAT: Network Address Translation</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="end-nat" data-fav-title="NAT" data-fav-page="Endereçamento">☆</button>
             <label class="section-check" data-section="nat"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -236,11 +236,11 @@
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Explicação</div>
           <p><strong>Problema:</strong> os IPs privados (192.168.x.x, 10.x.x.x) não são roteáveis na internet pública. Se você tentar acessar google.com com IP 192.168.1.5, a resposta não vai saber como voltar para você.</p>
-          <p><strong>Solução:</strong> o roteador usa <strong>NAT</strong>. Ele substitui o IP privado de origem pelo seu IP público antes de enviar o pacote para a internet. Quando a resposta chega, ele faz o caminho inverso — substitui o IP público pelo IP privado do dispositivo correto e entrega internamente.</p>
+          <p><strong>Solução:</strong> o roteador usa <strong>NAT</strong>. Ele substitui o IP privado de origem pelo seu IP público antes de enviar o pacote para a internet. Quando a resposta chega, ele faz o caminho inverso: substitui o IP público pelo IP privado do dispositivo correto e entrega internamente.</p>
         </div>
 
         <div class="diagram-nat">
-          <h4>Diagrama NAT — Rede interna → Roteador → Internet</h4>
+          <h4>Diagrama NAT: Rede interna → Roteador → Internet</h4>
           <div class="nat-row">
             <div class="nat-hosts-col">
               <div class="nat-box">
@@ -283,7 +283,7 @@
       <!-- ARP -->
       <div class="section" id="arp">
         <div class="section-header">
-          <h2>ARP — Address Resolution Protocol</h2>
+          <h2>ARP: Address Resolution Protocol</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="end-arp" data-fav-title="ARP" data-fav-page="Endereçamento">☆</button>
             <label class="section-check" data-section="arp"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -292,7 +292,7 @@
 
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Explicação</div>
-          <p>Para enviar dados na rede local (camada 2 Ethernet), os dispositivos precisam do <strong>endereço MAC</strong> do destinatário — não só do IP. O problema é: como descobrir o MAC a partir de um IP?</p>
+          <p>Para enviar dados na rede local (camada 2 Ethernet), os dispositivos precisam do <strong>endereço MAC</strong> do destinatário: não só do IP. O problema é: como descobrir o MAC a partir de um IP?</p>
           <p>Resposta: <strong>ARP</strong>. O processo é:</p>
           <ol>
             <li>Seu computador precisa falar com <code>192.168.1.5</code></li>
@@ -305,7 +305,7 @@
         </div>
 
         <div class="bloco-erros">
-          <div class="bloco-header">⚠️ ARP Spoofing — Vulnerabilidade conhecida</div>
+          <div class="bloco-header">⚠️ ARP Spoofing: Vulnerabilidade conhecida</div>
           <p>O ARP não tem autenticação. Um atacante pode enviar respostas ARP falsas, se passando por outro dispositivo (como o gateway). Isso é um ataque MITM clássico em redes locais. Switches modernos com "Dynamic ARP Inspection" mitigam isso.</p>
         </div>
       </div>
@@ -345,13 +345,13 @@
 
       <div class="divider"></div>
       <div class="flashcard-section" data-flashcard-set="enderecamento">
-        <div class="fc-header"><h3>🃏 Flashcards — Endereçamento</h3><span class="fc-counter">1 / 7</span></div>
+        <div class="fc-header"><h3>🃏 Flashcards: Endereçamento</h3><span class="fc-counter">1 / 7</span></div>
         <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
         <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
       </div>
 
       <div class="quiz-section" data-quiz-set="enderecamento">
-        <div class="quiz-header"><h3>📝 Quiz — Endereçamento</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-header"><h3>📝 Quiz: Endereçamento</h3><span class="quiz-score-badge"></span></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>

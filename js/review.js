@@ -1,4 +1,4 @@
-/* ── RedesWiki — Central de revisão ─────────────────── */
+/* ── RedesWiki: Central de revisão ─────────────────── */
 'use strict';
 
 (() => {

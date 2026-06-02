@@ -1,4 +1,4 @@
-/* ── RedesWiki — Glossário com tooltips ──────────────── */
+/* ── RedesWiki: Glossário com tooltips ──────────────── */
 'use strict';
 
 const Glossary = (() => {
@@ -19,7 +19,7 @@ const Glossary = (() => {
   }
 
   function injectTooltips(root, terms) {
-    // Walk only text nodes inside p, li, td — skip code, pre, h1-h6, .bloco-header
+    // Walk only text nodes inside p, li, td: skip code, pre, h1-h6, .bloco-header
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         const p = node.parentElement;

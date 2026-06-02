@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Segurança Básica — RedesWiki</title>
+  <title>Segurança Básica: RedesWiki</title>
   <meta name="description" content="MITM, DDoS, spoofing, phishing e VPN. Ataques reais de rede e como se defender deles.">
   <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/seguranca.html">
   <meta name="theme-color" content="#4f8ef7">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/seguranca.html">
-  <meta property="og:title" content="Segurança Básica — RedesWiki">
+  <meta property="og:title" content="Segurança Básica: RedesWiki">
   <meta property="og:description" content="MITM, DDoS, spoofing, phishing e VPN. Ataques reais e como a rede responde a eles.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -61,7 +61,7 @@
       <div class="page-header">
         <div class="page-tag">Módulo 07</div>
         <h1 class="page-title">Segurança Básica de Redes</h1>
-        <p class="page-description">Os ataques mais comuns que você precisa conhecer — não para realizá-los, mas para entender como se defender e por que certas boas práticas existem.</p>
+        <p class="page-description">Os ataques mais comuns que você precisa conhecer: não para realizá-los, mas para entender como se defender e por que certas boas práticas existem.</p>
       </div>
 
       <div class="module-progress">
@@ -82,7 +82,7 @@
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Diferença fundamental</div>
           <p><strong>Firewall Stateless (sem estado):</strong> analisa cada pacote individualmente, sem contexto. Uma regra simples como "bloquear TCP de qualquer IP na porta 80 para dentro" é verificada pacote a pacote. É rápido, mas não sabe se um pacote TCP faz parte de uma conexão legítima ou é um ataque.</p>
-          <p><strong>Exemplo de problema stateless:</strong> se você libera TCP na porta 80 para entrada, um atacante pode enviar pacotes TCP com flag ACK sem nunca ter estabelecido a conexão — e o firewall stateless deixa passar, pois a porta está liberada.</p>
+          <p><strong>Exemplo de problema stateless:</strong> se você libera TCP na porta 80 para entrada, um atacante pode enviar pacotes TCP com flag ACK sem nunca ter estabelecido a conexão: e o firewall stateless deixa passar, pois a porta está liberada.</p>
           <p><strong>Firewall Stateful (com estado):</strong> mantém uma tabela de conexões ativas. Quando você abre uma conexão TCP (SYN), o firewall registra. Quando chega um pacote ACK, ele verifica: "existe uma conexão com esse SYN registrado?". Se não existe, bloqueia.</p>
           <p>Na prática, virtualmente todos os firewalls modernos são stateful. O stateless ainda aparece em ACLs de roteadores e regras simples de filtragem em alta performance.</p>
         </div>
@@ -110,7 +110,7 @@
         <h3>Man-in-the-Middle (MITM)</h3>
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Como funciona</div>
-          <p>No ataque MITM, o atacante se posiciona entre dois comunicadores — A e B — fazendo com que ambos pensem estar falando diretamente um com o outro, quando na verdade toda a comunicação passa pelo atacante.</p>
+          <p>No ataque MITM, o atacante se posiciona entre dois comunicadores: A e B: fazendo com que ambos pensem estar falando diretamente um com o outro, quando na verdade toda a comunicação passa pelo atacante.</p>
           <p><strong>Como é executado em redes Wi-Fi:</strong></p>
           <ol>
             <li>Atacante cria um ponto de acesso Wi-Fi falso com nome confiável ("Starbucks_Free")</li>
@@ -118,18 +118,18 @@
             <li>Todo o tráfego da vítima passa pelo atacante</li>
             <li>Sem HTTPS, o atacante lê todo o conteúdo. Com HTTPS, ele ainda pode ver os domínios acessados (via DNS ou SNI), mas não o conteúdo</li>
           </ol>
-          <p><strong>Outra forma — ARP Spoofing:</strong> em redes locais, o atacante envia respostas ARP falsas, fazendo os dispositivos pensarem que o MAC do gateway é o MAC do atacante. Todo o tráfego de saída passa pelo atacante antes de ir para o gateway real.</p>
+          <p><strong>Outra forma: ARP Spoofing:</strong> em redes locais, o atacante envia respostas ARP falsas, fazendo os dispositivos pensarem que o MAC do gateway é o MAC do atacante. Todo o tráfego de saída passa pelo atacante antes de ir para o gateway real.</p>
           <p><strong>Defesa:</strong> use sempre HTTPS. Em redes não confiáveis, use VPN. HSTS (HTTP Strict Transport Security) força HTTPS e previne downgrade attacks.</p>
         </div>
 
-        <h3>DDoS — Distributed Denial of Service</h3>
+        <h3>DDoS: Distributed Denial of Service</h3>
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Como funciona</div>
-          <p>O objetivo do DDoS é tornar um serviço indisponível ao sobrecarregar seus recursos (banda, CPU, conexões). Um DoS simples vem de uma fonte. O DDoS usa <strong>múltiplas fontes simultâneas</strong> — geralmente uma <strong>botnet</strong>: rede de dispositivos comprometidos controlados pelo atacante.</p>
+          <p>O objetivo do DDoS é tornar um serviço indisponível ao sobrecarregar seus recursos (banda, CPU, conexões). Um DoS simples vem de uma fonte. O DDoS usa <strong>múltiplas fontes simultâneas</strong>: geralmente uma <strong>botnet</strong>: rede de dispositivos comprometidos controlados pelo atacante.</p>
           <p><strong>Tipos comuns:</strong></p>
           <ul>
             <li><strong>Volumétrico:</strong> inunda com tráfego massivo (Gbps). Objetivo: esgotar a banda. Ex: UDP flood, ICMP flood.</li>
-            <li><strong>Protocolo:</strong> explora fraquezas em protocolos. Ex: SYN flood — envia milhares de SYNs sem completar o handshake, lotando a tabela de conexões do servidor.</li>
+            <li><strong>Protocolo:</strong> explora fraquezas em protocolos. Ex: SYN flood: envia milhares de SYNs sem completar o handshake, lotando a tabela de conexões do servidor.</li>
             <li><strong>Camada 7 (Aplicação):</strong> envia requisições HTTP legítimas em volume massivo. Difícil de distinguir de tráfego real. Ex: HTTP flood.</li>
           </ul>
           <p><strong>Defesa:</strong> rate limiting, CDNs com capacidade de absorção (Cloudflare, AWS Shield), anycast routing, filtros de tráfego upstream no provedor.</p>
@@ -138,28 +138,28 @@
         <h3>IP Spoofing</h3>
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Como funciona</div>
-          <p>O atacante forja o endereço IP de origem dos pacotes que envia. Usos: ocultar a identidade real, fazer o alvo achar que o ataque vem de outro lugar, amplificar ataques DDoS (o atacante envia uma requisição com IP spoofado da vítima — a resposta volumosa vai para a vítima).</p>
-          <p><strong>Defesa:</strong> ISPs podem implementar <strong>BCP38</strong> (Ingress Filtering) — descartam pacotes de clientes cujo IP de origem não bate com o range alocado para aquele cliente. Infelizmente nem todos os ISPs fazem isso.</p>
+          <p>O atacante forja o endereço IP de origem dos pacotes que envia. Usos: ocultar a identidade real, fazer o alvo achar que o ataque vem de outro lugar, amplificar ataques DDoS (o atacante envia uma requisição com IP spoofado da vítima: a resposta volumosa vai para a vítima).</p>
+          <p><strong>Defesa:</strong> ISPs podem implementar <strong>BCP38</strong> (Ingress Filtering): descartam pacotes de clientes cujo IP de origem não bate com o range alocado para aquele cliente. Infelizmente nem todos os ISPs fazem isso.</p>
         </div>
 
         <h3>Phishing</h3>
         <div class="bloco-explicacao">
           <div class="bloco-header">📖 Como funciona</div>
-          <p>Phishing é engenharia social — o atacante cria e-mails, sites ou mensagens que imitam entidades confiáveis (banco, Amazon, Microsoft) para enganar a vítima a revelar credenciais, dados bancários ou instalar malware.</p>
+          <p>Phishing é engenharia social: o atacante cria e-mails, sites ou mensagens que imitam entidades confiáveis (banco, Amazon, Microsoft) para enganar a vítima a revelar credenciais, dados bancários ou instalar malware.</p>
           <p><strong>Variações:</strong></p>
           <ul>
             <li><strong>Spear phishing:</strong> direcionado a uma pessoa específica, com informações personalizadas (nome, cargo, projeto atual).</li>
             <li><strong>Smishing:</strong> phishing via SMS.</li>
             <li><strong>Vishing:</strong> phishing via chamada de voz.</li>
           </ul>
-          <p><strong>Defesa técnica:</strong> SPF, DKIM e DMARC (registros DNS que autenticam e-mails), filtros de e-mail, MFA (autenticação de dois fatores). A principal defesa é treinamento de usuários — tecnologia sozinha não resolve.</p>
+          <p><strong>Defesa técnica:</strong> SPF, DKIM e DMARC (registros DNS que autenticam e-mails), filtros de e-mail, MFA (autenticação de dois fatores). A principal defesa é treinamento de usuários: tecnologia sozinha não resolve.</p>
         </div>
       </div>
 
       <!-- VPN -->
       <div class="section" id="vpn">
         <div class="section-header">
-          <h2>VPN — Virtual Private Network</h2>
+          <h2>VPN: Virtual Private Network</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="seg-vpn" data-fav-title="VPN" data-fav-page="Segurança">☆</button>
             <label class="section-check" data-section="vpn"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -179,26 +179,26 @@
             <li>O tráfego entre o servidor VPN e o destino final (a menos que use HTTPS)</li>
             <li>Malware já instalado no seu dispositivo</li>
             <li>Cookies e fingerprint do navegador que identificam você</li>
-            <li>Você ainda precisa confiar no provedor de VPN — ele vê seu tráfego</li>
+            <li>Você ainda precisa confiar no provedor de VPN: ele vê seu tráfego</li>
           </ul>
-          <p><strong>Protocolos VPN:</strong> OpenVPN, WireGuard (moderno, rápido), IKEv2/IPSec, L2TP/IPSec. WireGuard é o estado da arte atualmente — código base menor, criptografia moderna, performance superior.</p>
+          <p><strong>Protocolos VPN:</strong> OpenVPN, WireGuard (moderno, rápido), IKEv2/IPSec, L2TP/IPSec. WireGuard é o estado da arte atualmente: código base menor, criptografia moderna, performance superior.</p>
         </div>
 
         <div class="bloco-erros">
           <div class="bloco-header">⚠️ VPN não é invisibilidade total</div>
-          <p>Marketing de VPN exagera nas promessas. Uma VPN comercial muda quem pode ver seu tráfego — do ISP para o provedor de VPN. Se o provedor de VPN guardar logs, você não está protegido contra investigações legais. Para anonimato real, o modelo de ameaça é muito mais complexo.</p>
+          <p>Marketing de VPN exagera nas promessas. Uma VPN comercial muda quem pode ver seu tráfego: do ISP para o provedor de VPN. Se o provedor de VPN guardar logs, você não está protegido contra investigações legais. Para anonimato real, o modelo de ameaça é muito mais complexo.</p>
         </div>
       </div>
 
       <div class="divider"></div>
       <div class="flashcard-section" data-flashcard-set="seguranca">
-        <div class="fc-header"><h3>🃏 Flashcards — Segurança</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-header"><h3>🃏 Flashcards: Segurança</h3><span class="fc-counter">1 / 6</span></div>
         <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
         <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
       </div>
 
       <div class="quiz-section" data-quiz-set="seguranca">
-        <div class="quiz-header"><h3>📝 Quiz — Segurança</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-header"><h3>📝 Quiz: Segurança</h3><span class="quiz-score-badge"></span></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>

@@ -1,4 +1,4 @@
-/* ── RedesWiki — Exercícios práticos guiados ────────── */
+/* ── RedesWiki: Exercícios práticos guiados ────────── */
 'use strict';
 
 (() => {

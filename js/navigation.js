@@ -1,4 +1,4 @@
-/* ── RedesWiki — Navigation & Scroll ─────────────────── */
+/* ── RedesWiki: Navigation & Scroll ─────────────────── */
 'use strict';
 
 const Navigation = (() => {

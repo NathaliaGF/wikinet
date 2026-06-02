@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Equipamentos de Rede — RedesWiki</title>
-  <meta name="description" content="Roteadores, switches, firewalls, proxies e balanceadores — o hardware real por trás da internet.">
+  <title>Equipamentos de Rede: RedesWiki</title>
+  <meta name="description" content="Roteadores, switches, firewalls, proxies e balanceadores: o hardware real por trás da internet.">
   <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/equipamentos.html">
   <meta name="theme-color" content="#4f8ef7">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/equipamentos.html">
-  <meta property="og:title" content="Equipamentos de Rede — RedesWiki">
-  <meta property="og:description" content="Roteadores, switches, firewalls, proxies e balanceadores de carga — o hardware real da internet.">
+  <meta property="og:title" content="Equipamentos de Rede: RedesWiki">
+  <meta property="og:description" content="Roteadores, switches, firewalls, proxies e balanceadores de carga: o hardware real da internet.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
   <!-- PWA -->
@@ -61,7 +61,7 @@
       <div class="page-header">
         <div class="page-tag">Módulo 06</div>
         <h1 class="page-title">Equipamentos de Rede</h1>
-        <p class="page-description">Roteadores, switches, firewalls e proxies — o que cada um faz, em qual camada atua e qual a diferença real entre eles.</p>
+        <p class="page-description">Roteadores, switches, firewalls e proxies: o que cada um faz, em qual camada atua e qual a diferença real entre eles.</p>
       </div>
 
       <div class="module-progress">
@@ -88,7 +88,7 @@
         </div>
 
         <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia — GPS / Sistema viário</div>
+          <div class="bloco-header">💡 Analogia: GPS / Sistema viário</div>
           <p>O roteador é como o sistema de rodovias interestaduais: ele conecta <em>cidades diferentes</em> (redes diferentes) e sabe qual caminho tomar (qual rota) para que um carro (pacote) saia de São Paulo (rede A) e chegue ao Rio de Janeiro (rede B).</p>
         </div>
       </div>
@@ -107,13 +107,13 @@
           <div class="bloco-header">📖 O que é e como funciona</div>
           <p>O <strong>switch</strong> conecta dispositivos <em>dentro da mesma rede local</em>. Opera na <strong>Camada 2 (Enlace de Dados)</strong>, usando <strong>endereços MAC</strong> (não IPs) para decidir para qual porta enviar cada quadro Ethernet.</p>
           <p>Quando o switch recebe um quadro, ele lê o MAC de destino e consulta sua <strong>tabela MAC</strong> (também chamada de tabela CAM). Se sabe para qual porta esse MAC está conectado, envia apenas naquela porta. Se não sabe, envia para todas as portas (flood).</p>
-          <p>Com o tempo, o switch aprende quais MACs estão em quais portas e para de fazer flood — assim o tráfego fica isolado, evitando colisões e aumentando a eficiência.</p>
+          <p>Com o tempo, o switch aprende quais MACs estão em quais portas e para de fazer flood: assim o tráfego fica isolado, evitando colisões e aumentando a eficiência.</p>
           <p><strong>Switch Layer 3:</strong> switches mais avançados também fazem roteamento IP (Camada 3), combinando funções de switch e roteador. Muito usado em redes corporativas.</p>
         </div>
 
         <div class="bloco-analogia">
-          <div class="bloco-header">💡 Analogia — Porteiro de prédio inteligente</div>
-          <p>O switch é como um porteiro que conhece o rosto (MAC) de todos os moradores. Quando chega uma entrega (pacote) para o João do apartamento 42, ele não manda para todos os andares — vai direto ao 42. Um hub antigo, por comparação, gritaria o nome de João para todos os andares ao mesmo tempo.</p>
+          <div class="bloco-header">💡 Analogia: Porteiro de prédio inteligente</div>
+          <p>O switch é como um porteiro que conhece o rosto (MAC) de todos os moradores. Quando chega uma entrega (pacote) para o João do apartamento 42, ele não manda para todos os andares: vai direto ao 42. Um hub antigo, por comparação, gritaria o nome de João para todos os andares ao mesmo tempo.</p>
         </div>
 
         <div class="bloco-erros">
@@ -152,14 +152,14 @@
 
         <div class="bloco-memorizar">
           <div class="bloco-header">⚡ Onde o firewall fica</div>
-          <p>O firewall geralmente fica na <strong>borda da rede</strong> — entre a internet e a rede interna. Em ambientes corporativos, há firewalls em múltiplos pontos (edge firewall, firewall interno entre segmentos, firewall no host). Em casa, o seu roteador já tem um firewall básico embutido.</p>
+          <p>O firewall geralmente fica na <strong>borda da rede</strong>: entre a internet e a rede interna. Em ambientes corporativos, há firewalls em múltiplos pontos (edge firewall, firewall interno entre segmentos, firewall no host). Em casa, o seu roteador já tem um firewall básico embutido.</p>
         </div>
       </div>
 
       <!-- Proxy -->
       <div class="section" id="proxy">
         <div class="section-header">
-          <h2>Proxy — Forward e Reverse</h2>
+          <h2>Proxy: Forward e Reverse</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="eq-proxy" data-fav-title="Proxy" data-fav-page="Equipamentos">☆</button>
             <label class="section-check" data-section="proxy"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -172,13 +172,13 @@
           <p><strong>Forward Proxy (Proxy de Saída):</strong></p>
           <ul>
             <li>Fica entre os clientes (sua rede) e a internet</li>
-            <li>Os clientes configuram o proxy — todo tráfego passa por ele</li>
+            <li>Os clientes configuram o proxy: todo tráfego passa por ele</li>
             <li>Usos: filtragem de conteúdo (ex: bloquear redes sociais na empresa), cache de conteúdo (economiza banda), anonimização (o servidor externo vê o IP do proxy, não do cliente)</li>
           </ul>
           <p><strong>Reverse Proxy (Proxy Reverso):</strong></p>
           <ul>
             <li>Fica na frente dos servidores de aplicação</li>
-            <li>Os clientes externos não sabem que existe — pensam que estão falando diretamente com o servidor</li>
+            <li>Os clientes externos não sabem que existe: pensam que estão falando diretamente com o servidor</li>
             <li>Usos: balanceamento de carga (distribuir requisições entre múltiplos servidores), terminação SSL/TLS, cache, proteção dos servidores de origem</li>
             <li>Exemplos: nginx, HAProxy, AWS ALB, Cloudflare</li>
           </ul>
@@ -190,20 +190,20 @@
             <li><strong>Roteador:</strong> Camada 3, conecta redes diferentes, usa IP, decide caminhos</li>
             <li><strong>Switch:</strong> Camada 2, conecta dispositivos na mesma rede, usa MAC, muito rápido</li>
             <li><strong>Firewall:</strong> inspeciona e filtra tráfego com base em regras de segurança</li>
-            <li><strong>Proxy:</strong> intermediário — forward (cliente → internet) ou reverso (internet → servidor)</li>
+            <li><strong>Proxy:</strong> intermediário: forward (cliente → internet) ou reverso (internet → servidor)</li>
           </ul>
         </div>
       </div>
 
       <div class="divider"></div>
       <div class="flashcard-section" data-flashcard-set="equipamentos">
-        <div class="fc-header"><h3>🃏 Flashcards — Equipamentos</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-header"><h3>🃏 Flashcards: Equipamentos</h3><span class="fc-counter">1 / 6</span></div>
         <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
         <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
       </div>
 
       <div class="quiz-section" data-quiz-set="equipamentos">
-        <div class="quiz-header"><h3>📝 Quiz — Equipamentos</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-header"><h3>📝 Quiz: Equipamentos</h3><span class="quiz-score-badge"></span></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>

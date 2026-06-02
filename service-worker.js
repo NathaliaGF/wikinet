@@ -1,4 +1,4 @@
-/* ── RedesWiki Service Worker — Offline First ────────── */
+/* ── RedesWiki Service Worker: Offline First ────────── */
 'use strict';
 
 const CACHE_NAME = 'redeswiki-v14';

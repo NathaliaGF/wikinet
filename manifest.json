@@ -1,5 +1,5 @@
 {
-  "name": "RedesWiki — Aprenda Redes do Zero",
+  "name": "RedesWiki: Aprenda Redes do Zero",
   "short_name": "RedesWiki",
   "description": "Wiki interativa para aprender redes de computadores: IP, TCP/IP, DNS, HTTP, segurança e mais.",
   "start_url": ".",
@@ -29,7 +29,7 @@
     {
       "name": "Fundamentos",
       "url": "./pages/fundamentos.html",
-      "description": "Módulo 1 — Fundamentos de Redes"
+      "description": "Módulo 1: Fundamentos de Redes"
     },
     {
       "name": "Simulado",

@@ -1,4 +1,4 @@
-/* ── RedesWiki — Laboratório Interativo ─────────────── */
+/* ── RedesWiki: Laboratório Interativo ─────────────── */
 'use strict';
 
 const Lab = (() => {
@@ -85,7 +85,7 @@ const Lab = (() => {
           { k: 'MAC Origem', v: 'AA:BB:CC:11:22:33' },
           { k: 'MAC Destino', v: 'FF:GG:HH:44:55:66 (roteador)' },
           { k: 'VLAN', v: '1 (default)' },
-          { k: 'TTL', v: '64 (não alterado — L2)' }
+          { k: 'TTL', v: '64 (não alterado: L2)' }
         ],
         note: 'O switch opera na camada 2. Ele consulta a tabela MAC e encaminha o quadro sem alterar o TTL.'
       },
@@ -365,11 +365,11 @@ const Lab = (() => {
     }
 
     const DNS_REC_TYPES = [
-      { type: 'A',    emoji: '📍', label: 'Registros A — IPv4',     help: 'Mapeia o domínio para um endereço IPv4. É o registro mais comum — quando você acessa um site, o navegador busca o tipo A.' },
-      { type: 'AAAA', emoji: '🌐', label: 'Registros AAAA — IPv6',  help: 'Mapeia o domínio para um endereço IPv6. Cada vez mais comum conforme o espaço IPv4 se esgota.' },
-      { type: 'MX',   emoji: '📧', label: 'MX — Mail Exchange',     help: 'Define quais servidores recebem e-mails do domínio. O número à esquerda é a prioridade: menor = mais preferido.' },
-      { type: 'NS',   emoji: '🏷️', label: 'NS — Name Servers',     help: 'Servidores DNS autoritativos do domínio — são eles que respondem definitivamente sobre ele.' },
-      { type: 'TXT',  emoji: '📝', label: 'TXT — Texto',           help: 'Registros de texto livres. Usados para SPF (anti-spam), DKIM (assinatura de e-mail) e verificações de propriedade de domínio.' }
+      { type: 'A',    emoji: '📍', label: 'Registros A: IPv4',     help: 'Mapeia o domínio para um endereço IPv4. É o registro mais comum: quando você acessa um site, o navegador busca o tipo A.' },
+      { type: 'AAAA', emoji: '🌐', label: 'Registros AAAA: IPv6',  help: 'Mapeia o domínio para um endereço IPv6. Cada vez mais comum conforme o espaço IPv4 se esgota.' },
+      { type: 'MX',   emoji: '📧', label: 'MX: Mail Exchange',     help: 'Define quais servidores recebem e-mails do domínio. O número à esquerda é a prioridade: menor = mais preferido.' },
+      { type: 'NS',   emoji: '🏷️', label: 'NS: Name Servers',     help: 'Servidores DNS autoritativos do domínio: são eles que respondem definitivamente sobre ele.' },
+      { type: 'TXT',  emoji: '📝', label: 'TXT: Texto',           help: 'Registros de texto livres. Usados para SPF (anti-spam), DKIM (assinatura de e-mail) e verificações de propriedade de domínio.' }
     ];
 
     function renderDnsBlock(rtype, answers, errorMsg) {
@@ -403,7 +403,7 @@ const Lab = (() => {
       timingEl.textContent = `${Math.round(performance.now() - t0)}ms`;
       recordsEl.innerHTML = DNS_REC_TYPES.map((rtype, i) => {
         const res = results[i];
-        if (res.status === 'rejected') return renderDnsBlock(rtype, null, 'Erro de rede ao consultar — verifique sua conexão');
+        if (res.status === 'rejected') return renderDnsBlock(rtype, null, 'Erro de rede ao consultar: verifique sua conexão');
         const d = res.value;
         if (d.Status === 3) return renderDnsBlock(rtype, null, 'Domínio não encontrado (NXDOMAIN)');
         if (d.Status !== 0) return renderDnsBlock(rtype, null, `Sem registros (código DoH ${d.Status})`);
@@ -505,7 +505,7 @@ const Lab = (() => {
         <div class="mitm-node mitm-node--evil" id="mitmNodeAttacker">
           <div class="mitm-sees-bubble" id="mitmSeesBubble">
             <div class="mitm-sees-label" id="mitmSeesLabel">Atacante vê:</div>
-            <div class="mitm-sees-data" id="mitmSeesData">—</div>
+            <div class="mitm-sees-data" id="mitmSeesData">:</div>
           </div>
           <div class="mitm-node-icon">😈</div>
           <div class="mitm-node-label">Atacante</div>
@@ -542,7 +542,7 @@ const Lab = (() => {
 
       // Reset
       [fill1, fill2].forEach(f => { f.style.transition = 'none'; f.style.width = '0'; });
-      seesData.textContent = '—';
+      seesData.textContent = ':';
       seesLabel.textContent = 'Atacante vê:';
       seesBubble.className = 'mitm-sees-bubble';
       [nodeAlice, nodeAttacker, nodeServer].forEach(n =>
@@ -630,7 +630,7 @@ const Lab = (() => {
     function showDetail(layer) {
       detailsEl.innerHTML = `
         <div class="osi-detail-card" style="border-color:${layer.color}">
-          <strong style="color:${layer.color}">Camada ${layer.num} — ${layer.name}</strong>
+          <strong style="color:${layer.color}">Camada ${layer.num}: ${layer.name}</strong>
           <pre class="osi-detail-pre">${layer.fields}</pre>
         </div>`;
     }
@@ -702,7 +702,7 @@ const Lab = (() => {
           <label class="http-label">Versão HTTP</label>
           <select id="httpVersion" class="lab-select">
             <option value="1.1">HTTP/1.1</option>
-            <option value="2">HTTP/2 (binário — mostrado como texto)</option>
+            <option value="2">HTTP/2 (binário: mostrado como texto)</option>
           </select>
 
           <label class="http-label">Headers</label>
@@ -834,7 +834,7 @@ const Lab = (() => {
       'x-xss-protection':           'Header legado que ativava filtro anti-XSS do navegador (obsoleto no Chrome).',
       'x-content-type-options':     'Impede que o browser adivinhe o tipo MIME (MIME sniffing). Sempre "nosniff".',
       'referrer-policy':            'Controla quais informações de referer são enviadas com as requisições.',
-      'etag':                       'Hash do conteúdo usado para cache condicional — o browser envia If-None-Match e recebe 304 se não mudou.',
+      'etag':                       'Hash do conteúdo usado para cache condicional: o browser envia If-None-Match e recebe 304 se não mudou.',
       'last-modified':              'Data da última modificação. Usada com If-Modified-Since para cache condicional.',
       'server':                     'Identifica o software do servidor (ex: nginx/1.18). Às vezes omitido por segurança.',
       'x-powered-by':               'Tecnologia backend (ex: PHP/8.1). Frequentemente removido por segurança.',
@@ -891,10 +891,10 @@ const Lab = (() => {
         html += `<span class="http-insp-status" style="color:${statusColors[statusClass]}">${status}${stText ? ' ' + stText : ''}</span>`;
       }
       html += `<span class="http-insp-time">⏱ ${elapsed}ms</span>`;
-      if (corsBlocked) html += `<span class="http-insp-cors-badge" title="HEAD bloqueado por CORS — dados via proxy, limitados">⚠️ CORS</span>`;
+      if (corsBlocked) html += `<span class="http-insp-cors-badge" title="HEAD bloqueado por CORS: dados via proxy, limitados">⚠️ CORS</span>`;
       html += `</div>`;
       if (corsBlocked) {
-        html += `<div class="http-insp-cors-note">Este servidor bloqueou a inspeção direta (política CORS). Isso é uma medida de segurança — o servidor decide quais origens podem ler seus cabeçalhos via JS. Dados limitados obtidos via proxy.</div>`;
+        html += `<div class="http-insp-cors-note">Este servidor bloqueou a inspeção direta (política CORS). Isso é uma medida de segurança: o servidor decide quais origens podem ler seus cabeçalhos via JS. Dados limitados obtidos via proxy.</div>`;
       }
       const allKeys = Object.keys(headers);
       if (!allKeys.length) {
@@ -1071,9 +1071,9 @@ const Lab = (() => {
     if (!container) return;
 
     const STEPS = [
-      { phase: 'SYN', from: 'client', label: 'SYN', seqAck: 'SEQ=1000, ACK=—', clientState: 'SYN_SENT', serverState: 'LISTEN', desc: 'O cliente envia SYN com seu número de sequência inicial (ISN=1000). Indica que quer iniciar uma conexão.', flags: ['SYN'] },
+      { phase: 'SYN', from: 'client', label: 'SYN', seqAck: 'SEQ=1000, ACK=:', clientState: 'SYN_SENT', serverState: 'LISTEN', desc: 'O cliente envia SYN com seu número de sequência inicial (ISN=1000). Indica que quer iniciar uma conexão.', flags: ['SYN'] },
       { phase: 'SYN-ACK', from: 'server', label: 'SYN-ACK', seqAck: 'SEQ=5000, ACK=1001', clientState: 'SYN_SENT', serverState: 'SYN_RECEIVED', desc: 'O servidor confirma o SEQ do cliente (ACK=1001) e envia seu próprio ISN (SEQ=5000). Dois handshakes em um.', flags: ['SYN', 'ACK'] },
-      { phase: 'ACK', from: 'client', label: 'ACK', seqAck: 'SEQ=1001, ACK=5001', clientState: 'ESTABLISHED', serverState: 'ESTABLISHED', desc: 'O cliente confirma o SEQ do servidor (ACK=5001). Conexão estabelecida — os dois lados estão sincronizados.', flags: ['ACK'] }
+      { phase: 'ACK', from: 'client', label: 'ACK', seqAck: 'SEQ=1001, ACK=5001', clientState: 'ESTABLISHED', serverState: 'ESTABLISHED', desc: 'O cliente confirma o SEQ do servidor (ACK=5001). Conexão estabelecida: os dois lados estão sincronizados.', flags: ['ACK'] }
     ];
 
     container.insertAdjacentHTML('beforeend', `
@@ -1202,7 +1202,7 @@ const Lab = (() => {
           <div class="arp-msg" id="arpMsg" hidden></div>
         </div>
         <div class="arp-log" id="arpLog"><em>Sem eventos ainda.</em></div>
-        <h3 class="arp-cache-title">📋 Tabela ARP — Host A</h3>
+        <h3 class="arp-cache-title">📋 Tabela ARP: Host A</h3>
         <table class="arp-cache-table">
           <thead><tr><th>IP</th><th>MAC</th><th>Tipo</th></tr></thead>
           <tbody id="arpCacheBody"><tr><td colspan="3" class="arp-empty">Tabela vazia</td></tr></tbody>
@@ -1353,13 +1353,13 @@ const Lab = (() => {
           <div class="ipasn-section-title">Localização e Rede</div>
           <table class="ipasn-table">
             <tr><th>IP consultado</th><td><code>${escapeHtml(ip.ip || target)}</code></td></tr>
-            <tr><th>País</th><td>${ip.country_name ? escapeHtml(ip.country_name) + (ip.country_code ? ` <span class="ipasn-cc">(${escapeHtml(ip.country_code)})</span>` : '') : '—'}</td></tr>
-            <tr><th>Região / Cidade</th><td>${escapeHtml([ip.region, ip.city].filter(Boolean).join(', ') || '—')}</td></tr>
-            <tr><th>ISP / Operadora</th><td>${escapeHtml(ip.org || '—')}</td></tr>
-            <tr><th title="Autonomous System Number: identificador único de uma rede autônoma na Internet. Cada ISP ou grande empresa tem o seu.">ASN ⓘ</th><td><code>${escapeHtml(ip.asn || '—')}</code></td></tr>
-            <tr><th>Fuso horário</th><td>${escapeHtml(ip.timezone || '—')}</td></tr>
+            <tr><th>País</th><td>${ip.country_name ? escapeHtml(ip.country_name) + (ip.country_code ? ` <span class="ipasn-cc">(${escapeHtml(ip.country_code)})</span>` : '') : ':'}</td></tr>
+            <tr><th>Região / Cidade</th><td>${escapeHtml([ip.region, ip.city].filter(Boolean).join(', ') || ':')}</td></tr>
+            <tr><th>ISP / Operadora</th><td>${escapeHtml(ip.org || ':')}</td></tr>
+            <tr><th title="Autonomous System Number: identificador único de uma rede autônoma na Internet. Cada ISP ou grande empresa tem o seu.">ASN ⓘ</th><td><code>${escapeHtml(ip.asn || ':')}</code></td></tr>
+            <tr><th>Fuso horário</th><td>${escapeHtml(ip.timezone || ':')}</td></tr>
           </table>
-          <p class="ipasn-tip">💡 <strong>O que é ASN?</strong> Autonomous System Number — identifica uma rede autônoma na internet. Ex: Google tem AS15169, Cloudflare tem AS13335.</p>`;
+          <p class="ipasn-tip">💡 <strong>O que é ASN?</strong> Autonomous System Number: identifica uma rede autônoma na internet. Ex: Google tem AS15169, Cloudflare tem AS13335.</p>`;
       }
       if (rdap) {
         const events = (rdap.events || []).reduce((a, e) => { a[e.eventAction] = e.eventDate; return a; }, {});
@@ -1375,7 +1375,7 @@ const Lab = (() => {
             ${events.registration ? `<tr><th>Registrado em</th><td>${escapeHtml(events.registration.slice(0, 10))}</td></tr>` : ''}
             ${events['last changed'] ? `<tr><th>Última atualização</th><td>${escapeHtml(events['last changed'].slice(0, 10))}</td></tr>` : ''}
           </table>
-          <p class="ipasn-tip">💡 <strong>RDAP</strong> (Registration Data Access Protocol) é o banco de dados oficial de alocação de blocos IP — mostra quem registrou aquele bloco de endereços.</p>`;
+          <p class="ipasn-tip">💡 <strong>RDAP</strong> (Registration Data Access Protocol) é o banco de dados oficial de alocação de blocos IP: mostra quem registrou aquele bloco de endereços.</p>`;
       }
       html += '</div>';
       result.innerHTML = html;

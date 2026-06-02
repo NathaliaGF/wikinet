@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Troubleshooting — RedesWiki</title>
+  <title>Troubleshooting: RedesWiki</title>
   <meta name="description" content="ping, traceroute, nslookup, netstat: como diagnosticar e resolver problemas de rede na prática.">
   <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/troubleshooting.html">
   <meta name="theme-color" content="#4f8ef7">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nathaliagf.github.io/wikinet/pages/troubleshooting.html">
-  <meta property="og:title" content="Troubleshooting — RedesWiki">
+  <meta property="og:title" content="Troubleshooting: RedesWiki">
   <meta property="og:description" content="ping, traceroute, nslookup, netstat: como diagnosticar problemas de rede na prática.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -72,7 +72,7 @@
       <!-- Metodologia -->
       <div class="section" id="metodologia">
         <div class="section-header">
-          <h2>A Metodologia — Como Pensar</h2>
+          <h2>A Metodologia: Como Pensar</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ts-met" data-fav-title="Metodologia de Troubleshooting" data-fav-page="Troubleshooting">☆</button>
             <label class="section-check" data-section="metodologia"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -94,14 +94,14 @@
 
         <div class="bloco-memorizar">
           <div class="bloco-header">⚡ Regra de ouro do troubleshooting</div>
-          <p><strong>"O que mudou?"</strong> — A pergunta mais importante. A rede funcionava antes? O que foi alterado recentemente? Updates de sistema? Novo roteador? Mudança de ISP? 80% dos problemas novos têm uma causa recente identificável.</p>
+          <p><strong>"O que mudou?"</strong>: A pergunta mais importante. A rede funcionava antes? O que foi alterado recentemente? Updates de sistema? Novo roteador? Mudança de ISP? 80% dos problemas novos têm uma causa recente identificável.</p>
         </div>
       </div>
 
       <!-- ping -->
       <div class="section" id="ping">
         <div class="section-header">
-          <h2>ping — Testando Conectividade</h2>
+          <h2>ping: Testando Conectividade</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ts-ping" data-fav-title="Comando ping" data-fav-page="Troubleshooting">☆</button>
             <label class="section-check" data-section="ping"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -139,10 +139,10 @@ round-trip min/avg/max/stddev = 11.9/12.4/13.1/0.4 ms</code></pre>
           </ul>
           <p><strong>Sequência de diagnóstico com ping:</strong></p>
           <ol>
-            <li><code>ping 127.0.0.1</code> — testa o próprio stack de rede do SO. Se falhar, problema no SO.</li>
-            <li><code>ping 192.168.1.1</code> — testa conectividade com o gateway. Se falhar, problema na rede local.</li>
-            <li><code>ping 8.8.8.8</code> — testa conectividade internet. Se falhar, problema de roteamento/ISP.</li>
-            <li><code>ping google.com</code> — testa DNS. Se falhar aqui mas IP funcionar, problema de DNS.</li>
+            <li><code>ping 127.0.0.1</code>: testa o próprio stack de rede do SO. Se falhar, problema no SO.</li>
+            <li><code>ping 192.168.1.1</code>: testa conectividade com o gateway. Se falhar, problema na rede local.</li>
+            <li><code>ping 8.8.8.8</code>: testa conectividade internet. Se falhar, problema de roteamento/ISP.</li>
+            <li><code>ping google.com</code>: testa DNS. Se falhar aqui mas IP funcionar, problema de DNS.</li>
           </ol>
         </div>
 
@@ -173,7 +173,7 @@ round-trip min/avg/max/stddev = 11.9/12.4/13.1/0.4 ms</code></pre>
       <!-- traceroute -->
       <div class="section" id="traceroute">
         <div class="section-header">
-          <h2>traceroute / tracert — Rastreando o Caminho</h2>
+          <h2>traceroute / tracert: Rastreando o Caminho</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ts-trace" data-fav-title="traceroute" data-fav-page="Troubleshooting">☆</button>
             <label class="section-check" data-section="traceroute"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -201,9 +201,9 @@ tracert google.com</code></pre>
         <div class="bloco-exemplo">
           <div class="bloco-header">🔍 Como interpretar</div>
           <ul>
-            <li><strong>Latência crescendo gradualmente:</strong> normal — cada hop adiciona tempo de processamento e distância física.</li>
+            <li><strong>Latência crescendo gradualmente:</strong> normal: cada hop adiciona tempo de processamento e distância física.</li>
             <li><strong>Latência pulando muito em um hop específico:</strong> gargalo naquele roteador.</li>
-            <li><strong>"* * *":</strong> não significa que a rota parou — muitos roteadores bloqueiam ICMP. Se o destino final responde, a rota está ok.</li>
+            <li><strong>"* * *":</strong> não significa que a rota parou: muitos roteadores bloqueiam ICMP. Se o destino final responde, a rota está ok.</li>
             <li><strong>Rota para quando a latência aumenta abruptamente:</strong> indica congestionamento ou problema naquele segmento.</li>
           </ul>
         </div>
@@ -235,7 +235,7 @@ tracert google.com</code></pre>
       <!-- nslookup -->
       <div class="section" id="nslookup">
         <div class="section-header">
-          <h2>nslookup — Depurando DNS</h2>
+          <h2>nslookup: Depurando DNS</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ts-ns" data-fav-title="nslookup" data-fav-page="Troubleshooting">☆</button>
             <label class="section-check" data-section="nslookup"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -266,7 +266,7 @@ Address: 142.250.78.14  ← IP resolvido</code></pre>
 
           <p><strong>Cenários de diagnóstico:</strong></p>
           <ul>
-            <li><strong>"Can't resolve":</strong> o DNS não conseguiu resolver. Tente com 8.8.8.8 explicitamente — se funcionar, o problema é no seu servidor DNS padrão.</li>
+            <li><strong>"Can't resolve":</strong> o DNS não conseguiu resolver. Tente com 8.8.8.8 explicitamente: se funcionar, o problema é no seu servidor DNS padrão.</li>
             <li><strong>IP errado:</strong> propagação DNS incompleta, ou cache corrompido. Limpe o cache com <code>ipconfig /flushdns</code> (Windows) ou <code>sudo systemd-resolve --flush-caches</code> (Linux).</li>
             <li><strong>SERVFAIL:</strong> o servidor DNS tentou resolver mas falhou.</li>
             <li><strong>NXDOMAIN:</strong> o domínio não existe.</li>
@@ -300,7 +300,7 @@ Address: 142.250.78.14  ← IP resolvido</code></pre>
       <!-- netstat -->
       <div class="section" id="netstat">
         <div class="section-header">
-          <h2>netstat — Conexões Ativas</h2>
+          <h2>netstat: Conexões Ativas</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ts-net" data-fav-title="netstat" data-fav-page="Troubleshooting">☆</button>
             <label class="section-check" data-section="netstat"><input type="checkbox"><span class="check-text">Marcar como estudado</span></label>
@@ -411,13 +411,13 @@ ss -tlnp | grep :80  # Linux moderno</code></pre>
 
       <div class="divider"></div>
       <div class="flashcard-section" data-flashcard-set="troubleshooting">
-        <div class="fc-header"><h3>🃏 Flashcards — Troubleshooting</h3><span class="fc-counter">1 / 6</span></div>
+        <div class="fc-header"><h3>🃏 Flashcards: Troubleshooting</h3><span class="fc-counter">1 / 6</span></div>
         <div class="fc-viewport"><div class="fc-card"><div class="fc-front"><div class="fc-hint">Clique para ver a resposta</div><div class="fc-question"></div></div><div class="fc-back"><div class="fc-hint">Resposta</div><div class="fc-answer"></div></div></div></div>
         <div class="fc-controls"><button class="fc-btn" data-fc-prev>← Anterior</button><button class="fc-btn fc-shuffle" data-fc-shuffle>🔀 Embaralhar</button><button class="fc-btn" data-fc-next>Próximo →</button></div>
       </div>
 
       <div class="quiz-section" data-quiz-set="troubleshooting">
-        <div class="quiz-header"><h3>📝 Quiz — Troubleshooting</h3><span class="quiz-score-badge"></span></div>
+        <div class="quiz-header"><h3>📝 Quiz: Troubleshooting</h3><span class="quiz-score-badge"></span></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>
         <div class="quiz-question"><div class="quiz-q-num"></div><div class="quiz-q-text"></div><div class="quiz-options"></div><div class="quiz-feedback"></div><div class="quiz-nav"><span></span><button class="quiz-next-btn"></button></div></div>

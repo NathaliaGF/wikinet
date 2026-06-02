@@ -1,4 +1,4 @@
-/* ── RedesWiki — All content data ────────────────────── */
+/* ── RedesWiki: All content data ────────────────────── */
 'use strict';
 
 const MODULES = [
@@ -44,13 +44,13 @@ const MODULES = [
     sections: ['ipv4','mascara-subrede','cidr','ipv6','gateway','nat','arp','calculadora-subrede'],
     keywords: ['ipv4','endereço','endereçamento','sub-rede','subnet','subnetting','máscara','máscara de rede','cidr','nat','arp','gateway','dhcp','classe a','classe b','classe c','broadcast','multicast','unicast','loopback','127.0.0.1','192.168','10.0.0.0','172.16','ip privado','ip público','roteamento','mac address','endereço mac','port forwarding','redirecionamento de porta'],
     navTopics: [
-      { id: 'ipv4', title: '1. IPv4 — Formato e Classes' },
+      { id: 'ipv4', title: '1. IPv4: Formato e Classes' },
       { id: 'mascara-subrede', title: '2. Máscara de Sub-rede' },
-      { id: 'cidr', title: '3. CIDR — Notação em Barra' },
-      { id: 'ipv6', title: '4. IPv6 — Por que ele existe?' },
+      { id: 'cidr', title: '3. CIDR: Notação em Barra' },
+      { id: 'ipv6', title: '4. IPv6: Por que ele existe?' },
       { id: 'gateway', title: '5. Gateway Padrão' },
-      { id: 'nat', title: '6. NAT — Network Address Translation' },
-      { id: 'arp', title: '7. ARP — Address Resolution Protocol' },
+      { id: 'nat', title: '6. NAT: Network Address Translation' },
+      { id: 'arp', title: '7. ARP: Address Resolution Protocol' },
       { id: 'calculadora-subrede', title: '8. Calculadora de Sub-redes' }
     ]
   },
@@ -80,8 +80,8 @@ const MODULES = [
     sections: ['visao-geral','dns-resolucao','tcp-handshake','tls-handshake','http-request','resposta-render'],
     keywords: ['site','navegador','browser','chrome','firefox','safari','dns','tcp','tls','http','https','handshake','renderização','url','domínio','requisição','resposta','cache','web','internet','servidor web','html','css','javascript','carregar página','abrir site','certificado ssl','syn','syn-ack','ack'],
     navTopics: [
-      { id: 'visao-geral', title: '1. Visão Geral — Os 7 Passos' },
-      { id: 'dns-resolucao', title: '2. Resolução DNS — Passo a Passo' },
+      { id: 'visao-geral', title: '1. Visão Geral: Os 7 Passos' },
+      { id: 'dns-resolucao', title: '2. Resolução DNS: Passo a Passo' },
       { id: 'tcp-handshake', title: '3. Three-Way Handshake TCP' },
       { id: 'tls-handshake', title: '4. Handshake TLS' },
       { id: 'http-request', title: '5. Requisição HTTP e Resposta' },
@@ -92,7 +92,7 @@ const MODULES = [
     id: 'equipamentos',
     num: 6,
     title: 'Equipamentos de Rede',
-    description: 'Roteadores, switches, firewalls e proxies — diferenças reais.',
+    description: 'Roteadores, switches, firewalls e proxies: diferenças reais.',
     icon: '🖥️',
     url: 'pages/equipamentos.html',
     sections: ['roteador','switch','firewall','proxy'],
@@ -101,7 +101,7 @@ const MODULES = [
       { id: 'roteador', title: '1. Roteador' },
       { id: 'switch', title: '2. Switch' },
       { id: 'firewall', title: '3. Firewall' },
-      { id: 'proxy', title: '4. Proxy — Forward e Reverse' }
+      { id: 'proxy', title: '4. Proxy: Forward e Reverse' }
     ]
   },
   {
@@ -116,7 +116,7 @@ const MODULES = [
     navTopics: [
       { id: 'firewall-tipos', title: '1. Firewall: Stateful vs Stateless' },
       { id: 'ataques', title: '2. Ataques Comuns' },
-      { id: 'vpn', title: '3. VPN — Virtual Private Network' }
+      { id: 'vpn', title: '3. VPN: Virtual Private Network' }
     ]
   },
   {
@@ -129,11 +129,11 @@ const MODULES = [
     sections: ['metodologia','ping','traceroute','nslookup','netstat','fluxo-diagnostico'],
     keywords: ['troubleshooting','diagnóstico','debug','problema','falha','ping','traceroute','tracert','nslookup','netstat','linux','ubuntu','debian','centos','windows','terminal','comando','shell','bash','cmd','powershell','ttl','timeout','conexão recusada','connection refused','erro','latência','perda de pacote','packet loss','hop','salto','rota','roteamento','tcpdump','wireshark','ss','ip route','ifconfig','ipconfig','arp -a','dig','host','curl'],
     navTopics: [
-      { id: 'metodologia', title: '1. A Metodologia — Como Pensar' },
-      { id: 'ping', title: '2. ping — Testando Conectividade' },
-      { id: 'traceroute', title: '3. traceroute / tracert — Rastreando o Caminho' },
-      { id: 'nslookup', title: '4. nslookup — Depurando DNS' },
-      { id: 'netstat', title: '5. netstat — Conexões Ativas' },
+      { id: 'metodologia', title: '1. A Metodologia: Como Pensar' },
+      { id: 'ping', title: '2. ping: Testando Conectividade' },
+      { id: 'traceroute', title: '3. traceroute / tracert: Rastreando o Caminho' },
+      { id: 'nslookup', title: '4. nslookup: Depurando DNS' },
+      { id: 'netstat', title: '5. netstat: Conexões Ativas' },
       { id: 'fluxo-diagnostico', title: '6. Fluxograma de Diagnóstico' }
     ]
   },
@@ -190,7 +190,7 @@ const MODULES = [
 ];
 
 const STUDY_PATH = [
-  { step: 1, title: 'Comece pelo Módulo 1 — Fundamentos', desc: 'Entenda o que é IP, porta e pacote antes de qualquer coisa.' },
+  { step: 1, title: 'Comece pelo Módulo 1: Fundamentos', desc: 'Entenda o que é IP, porta e pacote antes de qualquer coisa.' },
   { step: 2, title: 'Siga para Modelos de Camadas (Módulo 2)', desc: 'O modelo OSI é a linguagem universal de redes. Memorize as 7 camadas.' },
   { step: 3, title: 'Estude Endereçamento (Módulo 3)', desc: 'IPv4, máscara de sub-rede e NAT são conceitos que aparecem em TODO lugar.' },
   { step: 4, title: 'Aprenda os Protocolos (Módulo 4)', desc: 'DNS, TCP/UDP e HTTP/HTTPS são usados diariamente. Entenda como funcionam.' },
@@ -390,7 +390,7 @@ const FLASHCARDS = {
     { q: 'O que é uma porta de rede?', a: 'Um número (0–65535) que identifica qual serviço/aplicação dentro de um computador deve receber os dados. IP = endereço da casa, porta = número do apartamento.' },
     { q: 'O que é um pacote de dados?', a: 'Um pedaço pequeno de informação, com cabeçalho (remetente, destinatário, sequência) e dados. Uma mensagem grande é dividida em vários pacotes.' },
     { q: 'O que é latência e como ela é medida?', a: 'Tempo que um pacote leva para ir do ponto A ao ponto B e voltar (RTT). Medida em milissegundos (ms). Valores abaixo de 50ms são considerados bons.' },
-    { q: 'O que é largura de banda (bandwidth)?', a: 'A capacidade máxima de transferência de dados de um link, medida em Mbps ou Gbps. É o tamanho do "cano" — não confunda com velocidade.' },
+    { q: 'O que é largura de banda (bandwidth)?', a: 'A capacidade máxima de transferência de dados de um link, medida em Mbps ou Gbps. É o tamanho do "cano": não confunda com velocidade.' },
     { q: 'O que é jitter?', a: 'A variação no tempo de chegada de pacotes consecutivos. Alta jitter = pacotes chegando em intervalos irregulares = problema para chamadas de voz e vídeo.' }
   ],
   modelos: [
@@ -398,7 +398,7 @@ const FLASHCARDS = {
     { q: 'Qual é a função da camada de Transporte (OSI)?', a: 'Garantir a entrega confiável (TCP) ou rápida (UDP) dos dados entre aplicações. Responsável por portas, segmentação e controle de fluxo.' },
     { q: 'Qual mnemônico para as 7 camadas OSI (de baixo para cima)?', a: '"Físicos Engenheiros Nunca Tomam Shots Antes do Almoço": Física, Enlace, Rede, Transporte, Sessão, Apresentação, Aplicação.' },
     { q: 'Quantas camadas tem o modelo TCP/IP?', a: '4 camadas: Acesso à Rede, Internet, Transporte e Aplicação.' },
-    { q: 'Qual camada OSI é responsável pelo roteamento entre redes?', a: 'Camada 3 — Rede. É aqui que o endereço IP opera e os roteadores tomam decisões de caminho.' },
+    { q: 'Qual camada OSI é responsável pelo roteamento entre redes?', a: 'Camada 3: Rede. É aqui que o endereço IP opera e os roteadores tomam decisões de caminho.' },
     { q: 'O que é encapsulamento em redes?', a: 'O processo de adicionar um cabeçalho (e às vezes um trailer) em cada camada conforme os dados descem na pilha, antes de serem transmitidos.' },
     { q: 'O que acontece na camada de Apresentação (OSI)?', a: 'Traduz dados entre o formato da aplicação e o formato de rede. Cuida de codificação (UTF-8, ASCII), compressão e criptografia básica.' }
   ],
@@ -440,7 +440,7 @@ const FLASHCARDS = {
     { q: 'O que é um ataque MITM (Man-in-the-Middle)?', a: 'O atacante se posiciona entre dois comunicadores sem que eles saibam, podendo espionar e alterar os dados trocados. Exemplo: em Wi-Fi público falso.' },
     { q: 'O que é DDoS?', a: 'Distributed Denial of Service. Múltiplos dispositivos comprometidos (botnet) enviam tráfego massivo a um alvo para esgotá-lo e tirá-lo do ar.' },
     { q: 'O que é IP Spoofing?', a: 'Falsificação do endereço IP de origem de um pacote para se fazer passar por outro host ou ocultar a identidade real do atacante.' },
-    { q: 'O que é um firewall stateful vs stateless?', a: 'Stateless analisa cada pacote isoladamente. Stateful rastreia o estado das conexões — sabe se um pacote pertence a uma conexão legítima já estabelecida.' },
+    { q: 'O que é um firewall stateful vs stateless?', a: 'Stateless analisa cada pacote isoladamente. Stateful rastreia o estado das conexões: sabe se um pacote pertence a uma conexão legítima já estabelecida.' },
     { q: 'O que uma VPN protege?', a: 'Cria um túnel criptografado entre seu dispositivo e o servidor VPN. Protege o tráfego contra interceptação na rede intermediária (ISP, Wi-Fi público).' },
     { q: 'O que é phishing?', a: 'Técnica de engenharia social onde o atacante se faz passar por entidade confiável (banco, empresa) para enganar o usuário a revelar senhas ou dados.' }
   ],
@@ -453,13 +453,13 @@ const FLASHCARDS = {
     { q: 'Se ping para 8.8.8.8 funciona mas para google.com não, qual é o problema?', a: 'Problema de DNS. Você tem conectividade IP, mas o servidor DNS não está resolvendo nomes. Verifique as configurações de DNS ou tente mudar para 8.8.8.8.' }
   ],
   portas: [
-    { q: 'Qual porta usa o SSH?', a: 'Porta 22 (TCP) — Secure Shell: acesso remoto criptografado a servidores.' },
-    { q: 'Qual porta usa o HTTP?', a: 'Porta 80 (TCP) — Hypertext Transfer Protocol: web sem criptografia.' },
-    { q: 'Qual porta usa o HTTPS?', a: 'Porta 443 (TCP) — HTTP sobre TLS: web com criptografia.' },
-    { q: 'Qual porta usa o SMTP?', a: 'Porta 25 (TCP) — Simple Mail Transfer Protocol: envio de e-mail entre servidores.' },
-    { q: 'Qual porta usa o DNS?', a: 'Porta 53 (UDP e TCP) — Domain Name System: resolução de nomes.' },
-    { q: 'Qual porta usa o RDP?', a: 'Porta 3389 (TCP) — Remote Desktop Protocol: acesso remoto gráfico ao Windows.' },
-    { q: 'Qual porta usa o MySQL?', a: 'Porta 3306 (TCP) — banco de dados MySQL/MariaDB.' }
+    { q: 'Qual porta usa o SSH?', a: 'Porta 22 (TCP): Secure Shell: acesso remoto criptografado a servidores.' },
+    { q: 'Qual porta usa o HTTP?', a: 'Porta 80 (TCP): Hypertext Transfer Protocol: web sem criptografia.' },
+    { q: 'Qual porta usa o HTTPS?', a: 'Porta 443 (TCP): HTTP sobre TLS: web com criptografia.' },
+    { q: 'Qual porta usa o SMTP?', a: 'Porta 25 (TCP): Simple Mail Transfer Protocol: envio de e-mail entre servidores.' },
+    { q: 'Qual porta usa o DNS?', a: 'Porta 53 (UDP e TCP): Domain Name System: resolução de nomes.' },
+    { q: 'Qual porta usa o RDP?', a: 'Porta 3389 (TCP): Remote Desktop Protocol: acesso remoto gráfico ao Windows.' },
+    { q: 'Qual porta usa o MySQL?', a: 'Porta 3306 (TCP): banco de dados MySQL/MariaDB.' }
   ]
 };
 
@@ -470,7 +470,7 @@ const QUIZZES = {
       q: 'Usando a analogia postal, o que seria o endereço IP de um computador?',
       opts: ['O nome do morador', 'O número do apartamento', 'O endereço completo da casa', 'O código postal da cidade'],
       correct: 2,
-      explanation: 'O endereço IP identifica o dispositivo na rede, assim como o endereço de uma casa identifica onde ela fica. A porta seria o número do apartamento — ela identifica qual serviço dentro do dispositivo.'
+      explanation: 'O endereço IP identifica o dispositivo na rede, assim como o endereço de uma casa identifica onde ela fica. A porta seria o número do apartamento: ela identifica qual serviço dentro do dispositivo.'
     },
     {
       q: 'Você está assistindo a uma live no YouTube e o vídeo trava de tempos em tempos, mesmo com boa velocidade de download. Qual problema de rede é o mais provável?',
@@ -494,7 +494,7 @@ const QUIZZES = {
     },
     {
       q: 'Você envia um e-mail. O protocolo SMTP opera em qual camada OSI?',
-      opts: ['Camada 3 — Rede', 'Camada 4 — Transporte', 'Camada 7 — Aplicação', 'Camada 2 — Enlace'],
+      opts: ['Camada 3: Rede', 'Camada 4: Transporte', 'Camada 7: Aplicação', 'Camada 2: Enlace'],
       correct: 2,
       explanation: 'Protocolos de aplicação como SMTP, HTTP, FTP e DNS operam na Camada 7 (Aplicação). Ela é a interface entre o software e a rede.'
     },
@@ -528,7 +528,7 @@ const QUIZZES = {
   protocolos: [
     {
       q: 'Você está construindo um app de chat de vídeo em tempo real. Qual protocolo de transporte é mais adequado?',
-      opts: ['TCP — pela confiabilidade na entrega', 'UDP — pela menor latência', 'HTTP — pela simplicidade', 'SMTP — pelo suporte a mídia'],
+      opts: ['TCP: pela confiabilidade na entrega', 'UDP: pela menor latência', 'HTTP: pela simplicidade', 'SMTP: pelo suporte a mídia'],
       correct: 1,
       explanation: 'Em video chamadas, é melhor perder um frame ocasional do que esperar pela retransmissão. O UDP entrega sem esperar confirmação, mantendo o fluxo contínuo de dados em tempo real.'
     },
@@ -607,7 +607,7 @@ const QUIZZES = {
   ],
   troubleshooting: [
     {
-      q: 'Você executa: ping google.com — e recebe "Request timed out". Qual é o próximo passo de diagnóstico?',
+      q: 'Você executa: ping google.com: e recebe "Request timed out". Qual é o próximo passo de diagnóstico?',
       opts: ['Reiniciar o computador imediatamente', 'Testar ping para o gateway padrão (ex: 192.168.1.1)', 'Checar o e-mail do suporte', 'Executar traceroute para um IP qualquer'],
       correct: 1,
       explanation: 'A metodologia correta é diagnosticar de dentro para fora: primeiro verifique a rede local (ping ao gateway). Se o gateway responde mas google.com não, o problema está fora da sua rede local.'
@@ -616,13 +616,13 @@ const QUIZZES = {
       q: 'O traceroute mostra 15 hops até o destino, mas o hop 8 aparece com "* * *". O que isso significa?',
       opts: ['O destino foi alcançado no hop 8', 'O roteador no hop 8 não responde a pacotes ICMP (mas pode estar funcionando)', 'A conexão foi perdida permanentemente no hop 8', 'O TTL chegou a zero no hop 8'],
       correct: 1,
-      explanation: '"* * *" não significa que a rota parou. Muitos roteadores bloqueiam respostas ICMP por segurança. O traceroute continua além desse hop — se o destino final responde, a rota está funcional.'
+      explanation: '"* * *" não significa que a rota parou. Muitos roteadores bloqueiam respostas ICMP por segurança. O traceroute continua além desse hop: se o destino final responde, a rota está funcional.'
     },
     {
       q: 'O comando nslookup google.com retorna "SERVFAIL". O que isso indica?',
       opts: ['O servidor do Google está fora do ar', 'O servidor DNS configurado não conseguiu resolver a consulta', 'Não há conexão com a internet', 'O firewall bloqueou o acesso ao Google'],
       correct: 1,
-      explanation: 'SERVFAIL (Server Failure) indica que o servidor DNS tentou resolver mas falhou — pode ser problema de configuração no DNS, propagação incompleta, ou o servidor DNS em si com problema.'
+      explanation: 'SERVFAIL (Server Failure) indica que o servidor DNS tentou resolver mas falhou: pode ser problema de configuração no DNS, propagação incompleta, ou o servidor DNS em si com problema.'
     }
   ],
   portas: [
@@ -634,9 +634,9 @@ const QUIZZES = {
     },
     {
       q: 'Você precisa acessar remotamente um servidor Linux de forma segura. Qual porta deve estar aberta?',
-      opts: ['Porta 23 — Telnet', 'Porta 22 — SSH', 'Porta 3389 — RDP', 'Porta 21 — FTP'],
+      opts: ['Porta 23: Telnet', 'Porta 22: SSH', 'Porta 3389: RDP', 'Porta 21: FTP'],
       correct: 1,
-      explanation: 'SSH (porta 22) é a opção segura para acesso remoto a servidores Linux. O Telnet (23) existe mas transmite dados em texto puro, sem criptografia — não use em produção.'
+      explanation: 'SSH (porta 22) é a opção segura para acesso remoto a servidores Linux. O Telnet (23) existe mas transmite dados em texto puro, sem criptografia: não use em produção.'
     },
     {
       q: 'Um servidor de e-mail recebe mensagens de outros servidores. Qual porta deve estar aberta para isso?',

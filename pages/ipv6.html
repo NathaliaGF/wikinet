@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IPv6 — RedesWiki</title>
+  <title>IPv6: RedesWiki</title>
   <meta name="description" content="IPv6 completo: endereçamento, prefixos, tipos de endereço, migração, diferenças com IPv4 e por que o mundo está adotando.">
   <link rel="canonical" href="https://nathaliagf.github.io/wikinet/pages/ipv6.html">
   <meta name="theme-color" content="#4f8ef7">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="IPv6 — RedesWiki">
+  <meta property="og:title" content="IPv6: RedesWiki">
   <meta property="og:description" content="Endereçamento IPv6, tipos de endereço, prefixos especiais e migração de IPv4.">
   <meta property="og:image" content="https://nathaliagf.github.io/wikinet/icons/og-cover.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -44,8 +44,8 @@
     <main class="article-wrapper" id="main-content">
       <div class="page-header">
         <div class="page-tag">Módulo 10</div>
-        <h1 class="page-title">IPv6 — O Protocolo do Futuro</h1>
-        <p class="page-description">O IPv4 está esgotado. O IPv6 resolve isso com um espaço de endereços praticamente infinito — e traz mudanças arquiteturais importantes que todo profissional de redes precisa conhecer.</p>
+        <h1 class="page-title">IPv6: O Protocolo do Futuro</h1>
+        <p class="page-description">O IPv4 está esgotado. O IPv6 resolve isso com um espaço de endereços praticamente infinito: e traz mudanças arquiteturais importantes que todo profissional de redes precisa conhecer.</p>
 
         <div class="lesson-map">
           <div class="lesson-step">
@@ -101,7 +101,7 @@
           <strong>Esgotamento do IPv4:</strong> A IANA (autoridade global) distribuiu o último bloco /8 em <strong>fevereiro de 2011</strong>. As regiões usam NAT em larga escala para esticar o IPv4, mas isso cria complexidade, latência e impede conexões ponto a ponto reais.
         </div>
 
-        <p>O IPv6 resolve isso usando endereços de <strong>128 bits</strong>, o que dá <strong>340 undecilhões</strong> de endereços (3,4 × 10³⁸). Dá para atribuir bilhões de endereços para cada ser humano, cada sensor e cada dispositivo já fabricado — e ainda sobraria.</p>
+        <p>O IPv6 resolve isso usando endereços de <strong>128 bits</strong>, o que dá <strong>340 undecilhões</strong> de endereços (3,4 × 10³⁸). Dá para atribuir bilhões de endereços para cada ser humano, cada sensor e cada dispositivo já fabricado: e ainda sobraria.</p>
 
         <div class="concept-grid">
           <div class="concept-card">
@@ -158,7 +158,7 @@
         </ol>
 
         <div class="info-box">
-          <strong>Regra do <code>::</code>:</strong> Ele pode ser usado <em>apenas uma vez</em> no endereço. Se usado duas vezes, fica ambíguo — o computador não saberia quantos zeros substituir em cada lado.
+          <strong>Regra do <code>::</code>:</strong> Ele pode ser usado <em>apenas uma vez</em> no endereço. Se usado duas vezes, fica ambíguo: o computador não saberia quantos zeros substituir em cada lado.
         </div>
 
         <h3>Exemplos de abreviação</h3>
@@ -231,7 +231,7 @@
       <!-- ── SEÇÃO 4 ── -->
       <div class="section" id="header-ipv6">
         <div class="section-header">
-          <h2>4. Header IPv6 — Mais Simples que o IPv4</h2>
+          <h2>4. Header IPv6: Mais Simples que o IPv4</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ipv6-header" data-fav-title="Header IPv6" data-fav-page="IPv6">☆</button>
             <label class="section-check" data-section="header-ipv6">
@@ -268,7 +268,7 @@
       <!-- ── SEÇÃO 5 ── -->
       <div class="section" id="autoconfig">
         <div class="section-header">
-          <h2>5. Autoconfiguração — SLAAC e DHCPv6</h2>
+          <h2>5. Autoconfiguração: SLAAC e DHCPv6</h2>
           <div class="section-actions">
             <button class="fav-btn" data-fav-id="ipv6-slaac" data-fav-title="Autoconfiguração SLAAC e DHCPv6" data-fav-page="IPv6">☆</button>
             <label class="section-check" data-section="autoconfig">
@@ -278,7 +278,7 @@
         </div>
         <p class="section-intro">Uma das grandes vantagens do IPv6 é que os dispositivos podem se configurar <strong>automaticamente</strong>, sem precisar de um servidor DHCP.</p>
 
-        <h3>SLAAC — Stateless Address Autoconfiguration (RFC 4862)</h3>
+        <h3>SLAAC: Stateless Address Autoconfiguration (RFC 4862)</h3>
         <p>Processo automático em 4 etapas:</p>
         <ol>
           <li><strong>Link-Local automático:</strong> A interface gera um endereço <code>fe80::/10</code> usando EUI-64 ou aleatório.</li>
@@ -321,9 +321,9 @@
           <table class="content-table">
             <thead><tr><th>Mecanismo</th><th>Quando usar</th><th>Complexidade</th></tr></thead>
             <tbody>
-              <tr><td>Dual Stack</td><td>Sempre que possível — padrão recomendado</td><td>Baixa</td></tr>
+              <tr><td>Dual Stack</td><td>Sempre que possível: padrão recomendado</td><td>Baixa</td></tr>
               <tr><td>6in4 / GRE</td><td>Conectar ilhas IPv6 via backbone IPv4</td><td>Média</td></tr>
-              <tr><td>Teredo / 6to4</td><td>Legacy — evitar em novas redes</td><td>Alta (instável)</td></tr>
+              <tr><td>Teredo / 6to4</td><td>Legacy: evitar em novas redes</td><td>Alta (instável)</td></tr>
               <tr><td>NAT64 + DNS64</td><td>Redes só-IPv6 que precisam alcançar IPv4</td><td>Média-Alta</td></tr>
               <tr><td>464XLAT</td><td>Dispositivos legados em redes IPv6-only</td><td>Alta</td></tr>
             </tbody>

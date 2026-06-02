@@ -1,4 +1,4 @@
-/* ── RedesWiki — Pomodoro Timer ───────────────────────── */
+/* ── RedesWiki: Pomodoro Timer ───────────────────────── */
 'use strict';
 
 (function () {
@@ -101,9 +101,9 @@
     const isBreak = mode === 'break' || mode === 'long';
     const pct     = total() > 0 ? (1 - remaining / total()) * 100 : 0;
     const label   = mode === 'idle' ? 'Pronto para começar'
-                  : mode === 'work' ? 'Foco — 25 minutos'
-                  : mode === 'long' ? 'Pausa longa — 15 min'
-                  : 'Pausa — 5 minutos';
+                  : mode === 'work' ? 'Foco: 25 minutos'
+                  : mode === 'long' ? 'Pausa longa: 15 min'
+                  : 'Pausa: 5 minutos';
 
     elTime.textContent = fmt(remaining);
     elTime.className   = 'rw-pom-time' + (isBreak ? ' rw-pom-break' : '');
@@ -120,8 +120,8 @@
       + (isBreak          && ticking ? ' rw-pom-pause'   : '');
 
     document.title = ticking
-      ? `${fmt(remaining)} — RedesWiki`
-      : document.title.replace(/^\d\d:\d\d — /, '');
+      ? `${fmt(remaining)}: RedesWiki`
+      : document.title.replace(/^\d\d:\d\d: /, '');
   }
 
   /* ── Panel open/toggle ───────────────────────────────── */

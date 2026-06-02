@@ -1,4 +1,4 @@
-/* ── RedesWiki — Cheat Sheet: busca + copiar ─────────── */
+/* ── RedesWiki: Cheat Sheet: busca + copiar ─────────── */
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {

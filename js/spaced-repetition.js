@@ -1,4 +1,4 @@
-/* ── RedesWiki — SM-2 Spaced Repetition ──────────────── */
+/* ── RedesWiki: SM-2 Spaced Repetition ──────────────── */
 'use strict';
 
 const SR = (() => {

@@ -1,4 +1,4 @@
-/* ── RedesWiki — Quizzes, Flashcards (SM-2), Search ──── */
+/* ── RedesWiki: Quizzes, Flashcards (SM-2), Search ──── */
 'use strict';
 
 const Interactive = (() => {

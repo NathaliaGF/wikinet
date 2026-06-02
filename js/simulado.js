@@ -1,4 +1,4 @@
-/* ── RedesWiki — Simulado avançado ───────────────────── */
+/* ── RedesWiki: Simulado avançado ───────────────────── */
 'use strict';
 
 (() => {

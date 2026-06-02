@@ -1,4 +1,4 @@
-/* ── RedesWiki — Calculadora de Sub-redes ────────────── */
+/* ── RedesWiki: Calculadora de Sub-redes ────────────── */
 'use strict';
 
 const SubnetCalc = (() => {
@@ -67,7 +67,7 @@ const SubnetCalc = (() => {
       prefix = maskToPrefix(m2[2]);
       if (prefix === null) return null;
     } else {
-      // Just an IP — assume /24
+      // Just an IP: assume /24
       const ipOnly = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(raw);
       if (ipOnly) { ipStr = raw; prefix = 24; }
       else return null;
@@ -180,7 +180,7 @@ const SubnetCalc = (() => {
         </div>
         <div class="sc-row">
           <span class="sc-label">Hosts utilizáveis</span>
-          <span class="sc-val">${r.usable > 0 ? r.usable.toLocaleString('pt-BR') : '—'}</span>
+          <span class="sc-val">${r.usable > 0 ? r.usable.toLocaleString('pt-BR') : ':'}</span>
         </div>
         <div class="sc-row">
           <span class="sc-label">Classe</span>

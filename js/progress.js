@@ -1,4 +1,4 @@
-/* ── RedesWiki — Progress, Learning State & Analytics ─ */
+/* ── RedesWiki: Progress, Learning State & Analytics ─ */
 'use strict';
 
 const StorageHub = window.StorageHub || (() => {

@@ -1,4 +1,4 @@
-/* ── RedesWiki — Banco de questões para simulado ─────── */
+/* ── RedesWiki: Banco de questões para simulado ─────── */
 'use strict';
 
 const CERT_QUESTIONS = [
@@ -20,7 +20,7 @@ const CERT_QUESTIONS = [
   {
     tema: 'Fundamentos',
     q: 'Você tem 100Mbps de banda e 200ms de latência. Qual é o impacto para uma videochamada?',
-    opts: ['Nenhum — banda alta resolve tudo', 'A videochamada terá atraso perceptível de 400ms no RTT', 'O vídeo será de baixa qualidade', 'A criptografia será desativada'],
+    opts: ['Nenhum: banda alta resolve tudo', 'A videochamada terá atraso perceptível de 400ms no RTT', 'O vídeo será de baixa qualidade', 'A criptografia será desativada'],
     correct: 1,
     exp: 'Banda e latência são independentes. 200ms de latência = 400ms RTT, perceptível em VoIP. Banda alta não reduz latência.'
   },
@@ -36,7 +36,7 @@ const CERT_QUESTIONS = [
   {
     tema: 'Modelos',
     q: 'Em qual camada OSI o endereço MAC é relevante?',
-    opts: ['Camada 1 — Física', 'Camada 2 — Enlace de Dados', 'Camada 3 — Rede', 'Camada 4 — Transporte'],
+    opts: ['Camada 1: Física', 'Camada 2: Enlace de Dados', 'Camada 3: Rede', 'Camada 4: Transporte'],
     correct: 1,
     exp: 'Endereços MAC (físicos) operam na Camada 2 (Enlace de Dados). Switches usam tabelas MAC para encaminhar quadros.'
   },
@@ -68,7 +68,7 @@ const CERT_QUESTIONS = [
     q: 'Qual é o endereço de broadcast de 192.168.10.0/24?',
     opts: ['192.168.10.0', '192.168.10.1', '192.168.10.254', '192.168.10.255'],
     correct: 3,
-    exp: 'O broadcast é o último endereço da rede — todos os bits de host em 1. Em /24: 192.168.10.255.'
+    exp: 'O broadcast é o último endereço da rede: todos os bits de host em 1. Em /24: 192.168.10.255.'
   },
   {
     tema: 'Endereçamento',
@@ -80,9 +80,9 @@ const CERT_QUESTIONS = [
   {
     tema: 'Endereçamento',
     q: 'O que representa o endereço 127.0.0.1?',
-    opts: ['Gateway padrão', 'Servidor DNS local', 'Endereço de loopback — o próprio host', 'Endereço de broadcast'],
+    opts: ['Gateway padrão', 'Servidor DNS local', 'Endereço de loopback: o próprio host', 'Endereço de broadcast'],
     correct: 2,
-    exp: '127.0.0.1 é o loopback — pacotes enviados para ele nunca saem da máquina. Usado para testar o stack TCP/IP local.'
+    exp: '127.0.0.1 é o loopback: pacotes enviados para ele nunca saem da máquina. Usado para testar o stack TCP/IP local.'
   },
 
   /* ── Protocolos ───────────────────────────────────── */
@@ -128,21 +128,21 @@ const CERT_QUESTIONS = [
     q: 'Você acessa example.com e o servidor responde com código 301. O que acontece?',
     opts: ['A página é exibida normalmente', 'O navegador é redirecionado permanentemente para outra URL', 'Há um erro de autenticação', 'O recurso não foi encontrado'],
     correct: 1,
-    exp: '301 Moved Permanently — o recurso foi movido definitivamente. O navegador segue o header Location automaticamente e atualiza os bookmarks.'
+    exp: '301 Moved Permanently: o recurso foi movido definitivamente. O navegador segue o header Location automaticamente e atualiza os bookmarks.'
   },
   {
     tema: 'Acesso a Site',
     q: 'O que é HSTS (HTTP Strict Transport Security)?',
     opts: ['Um tipo de certificado digital', 'Header que força o navegador a usar apenas HTTPS naquele domínio', 'Protocolo alternativo ao TLS', 'Mecanismo de autenticação de dois fatores'],
     correct: 1,
-    exp: 'HSTS é um header HTTP que instrui o navegador a nunca acessar o site por HTTP puro — sempre HTTPS. Previne ataques de downgrade.'
+    exp: 'HSTS é um header HTTP que instrui o navegador a nunca acessar o site por HTTP puro: sempre HTTPS. Previne ataques de downgrade.'
   },
 
   /* ── Equipamentos ─────────────────────────────────── */
   {
     tema: 'Equipamentos',
     q: 'Um switch recebe um quadro com MAC de destino desconhecido. O que ele faz?',
-    opts: ['Descarta o quadro', 'Envia apenas para a porta do gateway', 'Faz flood — envia para todas as portas exceto a de origem', 'Solicita o MAC via ARP'],
+    opts: ['Descarta o quadro', 'Envia apenas para a porta do gateway', 'Faz flood: envia para todas as portas exceto a de origem', 'Solicita o MAC via ARP'],
     correct: 2,
     exp: 'Quando o MAC de destino não está na tabela CAM, o switch faz flooding: envia o quadro para todas as portas menos a de origem.'
   },
@@ -195,7 +195,7 @@ const CERT_QUESTIONS = [
   {
     tema: 'Troubleshooting',
     q: 'netstat mostra várias conexões em estado TIME_WAIT. Isso indica:',
-    opts: ['Problema grave — serviço travado', 'Ataque DDoS em andamento', 'Conexões TCP encerradas recentemente aguardando timeout de 2 minutos (normal)', 'Firewall bloqueando conexões'],
+    opts: ['Problema grave: serviço travado', 'Ataque DDoS em andamento', 'Conexões TCP encerradas recentemente aguardando timeout de 2 minutos (normal)', 'Firewall bloqueando conexões'],
     correct: 2,
     exp: 'TIME_WAIT é um estado normal pós-encerramento TCP. O sistema aguarda 2×MSL (geralmente 60–120s) para descartar pacotes atrasados. Muitos TIME_WAIT é sinal de alta rotatividade de conexões, não necessariamente problema.'
   },
@@ -220,12 +220,12 @@ const CERT_QUESTIONS = [
     q: 'Um script tenta conectar em 22/tcp e recebe "Permission denied (publickey)". Isso significa:',
     opts: ['A porta 22 está fechada no firewall', 'SSH está rodando na porta 22 mas autenticação por senha está desabilitada', 'O serviço SSH está offline', 'O TTL do pacote expirou'],
     correct: 1,
-    exp: '"Permission denied (publickey)" é resposta do SSH server — a porta está aberta, o daemon está rodando, mas o servidor exige chave SSH e não aceita senha.'
+    exp: '"Permission denied (publickey)" é resposta do SSH server: a porta está aberta, o daemon está rodando, mas o servidor exige chave SSH e não aceita senha.'
   },
   {
     tema: 'Portas',
     q: 'Por que ISPs geralmente bloqueiam a porta 25 de saída para clientes residenciais?',
-    opts: ['Para economizar banda', 'Para forçar o uso do HTTPS', 'Para prevenir envio direto de spam — clientes devem usar porta 587 com autenticação', 'Porta 25 é reservada para roteadores'],
+    opts: ['Para economizar banda', 'Para forçar o uso do HTTPS', 'Para prevenir envio direto de spam: clientes devem usar porta 587 com autenticação', 'Porta 25 é reservada para roteadores'],
     correct: 2,
     exp: 'Hosts comprometidos em redes residenciais eram usados para enviar spam diretamente via porta 25. ISPs bloqueiam para forçar o uso de servidores de relay autenticados (porta 587).'
   }

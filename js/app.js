@@ -1,4 +1,4 @@
-/* ── RedesWiki — App initialization ──────────────────── */
+/* ── RedesWiki: App initialization ──────────────────── */
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -62,7 +62,7 @@ function showInstallBanner() {
     banner.setAttribute('role', 'banner');
     banner.innerHTML = `
       <span class="rw-install-icon">📱</span>
-      <span class="rw-install-text"><strong>RedesWiki</strong> funciona offline — instale na tela inicial para acesso rápido.</span>
+      <span class="rw-install-text"><strong>RedesWiki</strong> funciona offline: instale na tela inicial para acesso rápido.</span>
       <button class="rw-install-cta" id="rwInstallAccept" type="button">Instalar</button>
       <button class="rw-install-x" id="rwInstallDismiss" type="button" aria-label="Fechar">✕</button>
     `;

@@ -1,4 +1,4 @@
-/* ── RedesWiki — Study Heatmap + Weekly Report ─────── */
+/* ── RedesWiki: Study Heatmap + Weekly Report ─────── */
 'use strict';
 
 const Heatmap = (() => {
