@@ -23,7 +23,7 @@
 
   function init() {
     const wrap = document.getElementById('simQuestionWrap');
-    if (!wrap || !Array.isArray(window.CERT_QUESTIONS)) return;
+    if (!wrap || typeof CERT_QUESTIONS === 'undefined' || !Array.isArray(CERT_QUESTIONS)) return;
 
     const els = getEls();
     populateThemeSelect(els);
@@ -87,7 +87,7 @@
 
   function populateThemeSelect(els) {
     if (!els.themeSelect) return;
-    const themes = [...new Set(window.CERT_QUESTIONS.map(q => q.tema))].sort();
+    const themes = [...new Set(CERT_QUESTIONS.map(q => q.tema))].sort();
     els.themeSelect.innerHTML = '<option value="">Todos os temas</option>' + themes.map(theme => `
       <option value="${theme}">${theme}</option>
     `).join('');
@@ -101,7 +101,7 @@
   }
 
   function getQuestionPool() {
-    const all = [...window.CERT_QUESTIONS];
+    const all = [...CERT_QUESTIONS];
     if (state.mode === 'theme' && state.theme) {
       const filtered = all.filter(q => q.tema === state.theme);
       return filtered.length ? filtered : all;
@@ -261,8 +261,8 @@
     const perTheme = getPerThemeBreakdown();
     els.breakdown.innerHTML = Object.entries(perTheme).map(([theme, stats]) => {
       const pct = Math.round((stats.score / stats.total) * 100);
-      const moduleId = window.THEME_TO_MODULE?.[theme];
-      const module = window.MODULES?.find(item => item.id === moduleId);
+      const moduleId = THEME_TO_MODULE?.[theme];
+      const module = MODULES?.find(item => item.id === moduleId);
       return `
         <div class="sim-bd-item">
           <div class="sim-bd-tema">${theme}</div>
@@ -287,8 +287,8 @@
     }
 
     els.recommendations.innerHTML = weakThemes.map(theme => {
-      const moduleId = window.THEME_TO_MODULE?.[theme];
-      const module = window.MODULES?.find(item => item.id === moduleId);
+      const moduleId = THEME_TO_MODULE?.[theme];
+      const module = MODULES?.find(item => item.id === moduleId);
       return `
         <div class="sim-rec-card">
           <strong>${theme}</strong>
