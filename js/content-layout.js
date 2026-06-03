@@ -183,7 +183,7 @@
     }
 
     setTimeout(syncProg, 400);
-    document.addEventListener('progress-changed', syncProg);
+    document.addEventListener('rw:progress-change', syncProg);
     return aside;
   }
 

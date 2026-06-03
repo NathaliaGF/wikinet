@@ -933,10 +933,6 @@ function decorateModulePage() {
         <span><strong>Tempo:</strong> ${meta.estTime || '30-45 min'}</span>
         <span><strong>Pronto para:</strong> ${meta.goalTags?.slice(0, 2).join(' • ') || 'trilha-base'}</span>
       </div>
-      <div class="page-route-links">
-        ${prevModule ? `<a href="${getRelativePath(prevModule.url)}">← Revisar ${prevModule.title}</a>` : '<span></span>'}
-        ${nextModule ? `<a href="${getRelativePath(nextModule.url)}">Próximo módulo: ${nextModule.title} →</a>` : ''}
-      </div>
     `);
   }
 
