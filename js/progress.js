@@ -195,10 +195,10 @@ const Progress = (() => {
 
     const actions = section.querySelector('.section-actions');
     if (actions) {
-      actions.after(group);
+      actions.append(group);
     } else {
       const intro = section.querySelector('.section-intro');
-      if (intro) intro.after(group);
+      if (intro) intro.before(group);
       else section.prepend(group);
     }
 
@@ -911,10 +911,12 @@ const Progress = (() => {
         }, 600);
       });
 
-      /* attach after section-state-group if it exists, else end of section */
-      const stateGroup = section.querySelector('.section-state-group');
-      if (stateGroup) { stateGroup.after(wrap); }
-      else { section.appendChild(wrap); }
+      /* attach just below the section header, above the intro */
+      const secHeader = section.querySelector('.section-header');
+      const intro     = section.querySelector('.section-intro');
+      if (intro)      { intro.before(wrap); }
+      else if (secHeader) { secHeader.after(wrap); }
+      else            { section.appendChild(wrap); }
     });
   }
 

@@ -933,34 +933,6 @@ function decorateModulePage() {
         <span><strong>Tempo:</strong> ${meta.estTime || '30-45 min'}</span>
         <span><strong>Pronto para:</strong> ${meta.goalTags?.slice(0, 2).join(' • ') || 'trilha-base'}</span>
       </div>
-      ${readiness ? `
-        <div class="page-readiness ${readiness.ready ? 'ready' : 'needs-review'}">
-          <div class="page-learning-kicker">Pronto para avançar?</div>
-          <h3>${readiness.label}</h3>
-          <div class="page-readiness-grid">
-            <span class="${readiness.checks.sectionsDone ? 'ok' : 'pending'}">Seções: ${readiness.completion.pct}%</span>
-            <span class="${readiness.checks.quizReady ? 'ok' : 'pending'}">Quiz: ${readiness.quiz.attempts ? `${readiness.quiz.lastPct}%` : 'não feito'}</span>
-            <span class="${readiness.checks.termsReviewed ? 'ok' : 'pending'}">Termos centrais: ${readiness.flashcards.total ? `${readiness.flashcards.pct}% revisados` : 'n/a'}</span>
-          </div>
-        </div>
-      ` : ''}
-      <div class="page-learning-panel">
-        <div class="page-learning-card">
-          <div class="page-learning-kicker">Pré-requisitos</div>
-          <h3>O que convém saber antes</h3>
-          <p>${prerequisites.length ? prerequisites.map(item => item.title).join(', ') : 'Nenhum. Este módulo pode ser estudado como ponto de partida.'}</p>
-        </div>
-        <div class="page-learning-card">
-          <div class="page-learning-kicker">Ao final desta aula</div>
-          <h3>Você já deve conseguir</h3>
-          <ul>${(meta.outcomes || []).map(item => `<li>${item}</li>`).join('')}</ul>
-        </div>
-        <div class="page-learning-card">
-          <div class="page-learning-kicker">Erros comuns</div>
-          <h3>O que costuma travar iniciantes</h3>
-          <ul>${(meta.commonGaps || []).map(item => `<li>${item}</li>`).join('')}</ul>
-        </div>
-      </div>
       <div class="page-route-links">
         ${prevModule ? `<a href="${getRelativePath(prevModule.url)}">← Revisar ${prevModule.title}</a>` : '<span></span>'}
         ${nextModule ? `<a href="${getRelativePath(nextModule.url)}">Próximo módulo: ${nextModule.title} →</a>` : ''}

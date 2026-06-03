@@ -747,12 +747,17 @@ li { margin-bottom: 0.4rem; color: var(--text-secondary); }
   animation: fadeInUp 0.35s ease forwards;
 }
 .section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; margin-bottom: 1.25rem;
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: .5rem; margin-bottom: 1.25rem;
 }
-.section-header h2 { margin: 0; }
+.section-header h2 { flex: 1; min-width: min(100%, 220px); margin: 0; }
 .section-header h3 { margin: 0; }
-.section-actions { display: flex; align-items: center; gap: 0.45rem; flex-shrink: 0; }
+.section-actions {
+  display: flex; align-items: center; gap: 0.4rem;
+  flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end;
+}
+/* Lido/Entendi/Revisar — now inside section-actions, flow inline */
+.section-actions .section-state-group { display: contents; }
 
 /* ── Teaching blocks ─────────────────────────────────── */
 .bloco-explicacao,
@@ -890,8 +895,8 @@ tr:hover td { background: var(--bg-tertiary); }
 .section-state-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  margin: -0.1rem 0 1rem;
+  gap: 0.4rem;
+  margin: 0;
 }
 .section-state-btn {
   border: 1px solid var(--border);
@@ -1803,9 +1808,10 @@ h2:focus-within .rw-anchor-link { opacity: 1; }
 
 /* ── Section personal notes ──────────────────────────── */
 .rw-notes-wrap {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px dashed var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: .75rem;
 }
 .rw-notes-toggle {
   display: inline-flex;

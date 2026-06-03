@@ -7,7 +7,7 @@
     'why-it-matters-card':    { label: 'Por que importa',           icon: '🛡️', bg: 'rgba(99,102,241,.18)', dot: '#6366f1' },
     'analogy-card':           { label: 'Analogia',                  icon: '📊', bg: 'rgba(20,184,166,.18)', dot: '#14b8a6' },
     'technical-view-card':    { label: 'Visão técnica',             icon: '⚙️', bg: 'rgba(148,163,184,.18)',dot: '#94a3b8' },
-    'common-mistake-card':    { label: 'Erro comum',                icon: '⚠️', bg: 'rgba(245,158,11,.18)', dot: '#f59e0b' },
+    'common-mistake-card':    { label: 'Erros Comuns',                icon: '⚠️', bg: 'rgba(245,158,11,.18)', dot: '#f59e0b' },
     'mental-flow-card':       { label: 'Fluxo mental',              icon: '🔄', bg: 'rgba(245,158,11,.18)', dot: '#f59e0b' },
     'cyber-connection-card':  { label: 'Conexão com cyber',         icon: '🔒', bg: 'rgba(79,142,247,.22)', dot: '#4f8ef7' },
     'quick-quiz-card':        { label: 'Teste rápido',              icon: '✏️', bg: 'rgba(139,92,246,.18)', dot: '#8b5cf6' },
@@ -20,7 +20,7 @@
     'bloco-exemplo':    { label: 'Exemplo',    icon: '📦', bg: 'rgba(245,158,11,.18)', dot: '#f59e0b' },
     'bloco-resumo':     { label: 'Resumo',     icon: '📌', bg: 'rgba(139,92,246,.18)', dot: '#8b5cf6' },
     'bloco-memorizar':  { label: 'Para fixar', icon: '🔑', bg: 'rgba(245,158,11,.18)', dot: '#f59e0b' },
-    'bloco-erros':      { label: 'Erro comum', icon: '⚠️', bg: 'rgba(239,68,68,.18)',  dot: '#ef4444' },
+    'bloco-erros':      { label: 'Erros Comuns', icon: '⚠️', bg: 'rgba(239,68,68,.18)',  dot: '#ef4444' },
     'bloco-revisao':    { label: 'Revisão',    icon: '📋', bg: 'rgba(16,185,129,.18)', dot: '#10b981' },
   };
 
