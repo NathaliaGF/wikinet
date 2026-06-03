@@ -757,28 +757,28 @@ const CERT_QUESTIONS = [
   },
   // Modelos de Camadas
   {
-    tema: 'Modelos de Camadas',
+    tema: 'Modelos',
     q: 'Em qual camada OSI o endereço MAC opera?',
     opts: ['Camada 1 (Física)', 'Camada 2 (Enlace de Dados)', 'Camada 3 (Rede)', 'Camada 4 (Transporte)'],
     correct: 1,
     exp: 'O endereço MAC (Media Access Control) opera na Camada 2 (Enlace de Dados). Ele identifica o dispositivo dentro de uma rede local. O roteador usa o MAC para entrega na última milha, mas o endereço IP (Camada 3) para roteamento entre redes.'
   },
   {
-    tema: 'Modelos de Camadas',
+    tema: 'Modelos',
     q: 'Um firewall que inspeciona o conteúdo da camada de aplicação (payload HTTP, DNS) opera em qual camada OSI?',
     opts: ['Camada 3', 'Camada 4', 'Camada 5', 'Camada 7'],
     correct: 3,
     exp: 'Firewalls de Camada 7 (Next-Generation Firewalls) inspecionam o conteúdo da aplicação — requisições HTTP, queries DNS, payloads — e não apenas IPs e portas. Isso permite regras como "bloquear upload de arquivos pelo Chrome".'
   },
   {
-    tema: 'Modelos de Camadas',
+    tema: 'Modelos',
     q: 'Qual é a PDU (unidade de dados) da Camada de Transporte no modelo OSI?',
     opts: ['Bit', 'Frame (Quadro)', 'Pacote', 'Segmento'],
     correct: 3,
     exp: 'Cada camada OSI tem seu nome para a unidade de dados: Física=Bit, Enlace=Frame, Rede=Pacote, Transporte=Segmento, e Sessão/Apresentação/Aplicação=Dados/Mensagem.'
   },
   {
-    tema: 'Modelos de Camadas',
+    tema: 'Modelos',
     q: 'Um switch Camada 2 recebe um frame com MAC de destino desconhecido. O que ele faz?',
     opts: ['Descarta o frame', 'Envia o frame apenas para a porta do gateway', 'Encaminha (flood) o frame para todas as portas, exceto a de origem', 'Devolve o frame ao remetente com erro'],
     correct: 2,
@@ -1062,7 +1062,7 @@ const CERT_QUESTIONS = [
     exp: 'QoS classifica e prioriza o tráfego de rede. Voz (VoIP) e vídeo em tempo real são sensíveis a latência e jitter e recebem alta prioridade. Downloads em massa recebem menor prioridade. Sem QoS, um download grande pode degradar uma chamada de voz.'
   },
   {
-    tema: 'Modelos de Camadas',
+    tema: 'Modelos',
     q: 'Por que o modelo TCP/IP é mais amplamente utilizado que o modelo OSI na prática?',
     opts: ['O TCP/IP tem mais camadas e é mais completo', 'O TCP/IP foi desenvolvido antes do OSI e é o protocolo real da internet; o OSI é um modelo de referência teórico', 'O OSI foi abandonado pela IETF', 'O TCP/IP é mais seguro'],
     correct: 1,
@@ -1125,7 +1125,7 @@ const CERT_QUESTIONS = [
     exp: 'CSMA/CD é o mecanismo de acesso ao meio do Ethernet half-duplex: "ouça antes de transmitir" (Carrier Sense), "detecte colisões" (CD) e transmita novamente após espera aleatória. Com switches full-duplex modernos, cada porta é um domínio de colisão separado e o CSMA/CD é obsoleto.'
   },
   {
-    tema: 'Modelos de Camadas',
+    tema: 'Modelos',
     q: 'O que é o conceito de "camada N depende da camada N-1" no modelo OSI?',
     opts: ['Cada camada fornece serviços apenas para a camada imediatamente superior', 'Camadas superiores só funcionam se as camadas inferiores estiverem operacionais — a Camada de Aplicação falha se a Física não transmite bits', 'Camadas podem se comunicar diretamente saltando camadas intermediárias', 'Apenas as camadas pares se comunicam entre hosts'],
     correct: 1,
@@ -1170,5 +1170,42 @@ const CERT_QUESTIONS = [
     opts: ['Uma rede virtual que aumenta a velocidade das portas', 'Segmentação lógica de uma rede física em múltiplos domínios de broadcast independentes, isolando o tráfego sem precisar de hardware separado', 'Um protocolo para balancear tráfego entre switches', 'Uma técnica de criptografia para redes locais'],
     correct: 1,
     exp: 'VLANs (IEEE 802.1Q) permitem que um mesmo switch físico opere como múltiplos switches lógicos isolados. Cada VLAN é um domínio de broadcast separado. Uso típico: VLAN 10 para usuários, VLAN 20 para servidores, VLAN 30 para câmeras — isolados logicamente sem precisar de switches físicos separados.'
+  },
+
+  /* ── Modelos — questões adicionais ───────────────────── */
+  {
+    tema: 'Modelos',
+    q: 'O que é encapsulamento no contexto do modelo OSI?',
+    opts: ['Compressão de dados para economizar banda', 'Cada camada adiciona seu próprio cabeçalho (e às vezes trailer) ao dado recebido da camada superior antes de passar para a camada abaixo', 'Criptografia aplicada em cada camada', 'Fragmentação de pacotes grandes em menores'],
+    correct: 1,
+    exp: 'Encapsulamento é o processo pelo qual cada camada OSI envolve os dados recebidos com seu cabeçalho: a camada de Aplicação entrega dados; a de Transporte adiciona cabeçalho TCP/UDP (segmento); a de Rede adiciona cabeçalho IP (pacote); a de Enlace adiciona cabeçalho e trailer Ethernet (frame); a Física transmite bits.'
+  },
+  {
+    tema: 'Modelos',
+    q: 'Qual camada OSI é responsável pelo controle de fluxo e recuperação de erros de forma confiável?',
+    opts: ['Camada 2 (Enlace de Dados)', 'Camada 3 (Rede)', 'Camada 4 (Transporte)', 'Camada 5 (Sessão)'],
+    correct: 2,
+    exp: 'A Camada 4 (Transporte) — usando TCP — oferece controle de fluxo (janela deslizante para não sobrecarregar o receptor), controle de congestionamento e retransmissão de segmentos perdidos. O UDP, também da Camada 4, não oferece essas garantias.'
+  },
+  {
+    tema: 'Modelos',
+    q: 'Qual é a principal função da Camada de Sessão (Camada 5) no modelo OSI?',
+    opts: ['Roteamento entre redes diferentes', 'Estabelecer, gerenciar e encerrar sessões de comunicação entre aplicações, incluindo checkpoint e recuperação', 'Converter formatos de dados entre sistemas', 'Controlar o acesso ao meio físico'],
+    correct: 1,
+    exp: 'A Camada 5 (Sessão) gerencia o diálogo entre processos: estabelece a sessão, mantém a sincronização com pontos de checkpoint (para retomar após falha) e encerra ordenadamente. Exemplos: NetBIOS, RPC, e o mecanismo de sessão do TLS que permite retomada de sessão sem renegociar.'
+  },
+  {
+    tema: 'Modelos',
+    q: 'No modelo OSI, o que significa "comunicação par a par" (peer-to-peer) entre camadas?',
+    opts: ['Dois computadores trocando arquivos diretamente', 'A camada N de um host se comunica logicamente com a camada N do host remoto usando o mesmo protocolo, mesmo que os dados físicos passem por todas as camadas abaixo', 'Um protocolo que não usa servidor central', 'Comunicação direta entre switch e roteador'],
+    correct: 1,
+    exp: 'Cada camada OSI em um host "conversa" logicamente com a camada equivalente no host remoto: a Camada 4 TCP fala com TCP do outro lado. Fisicamente, os dados descem todas as camadas no emissor, cruzam a rede, e sobem todas as camadas no receptor. Os cabeçalhos adicionados por cada camada são lidos e removidos pela camada par.'
+  },
+  {
+    tema: 'Modelos',
+    q: 'Um técnico quer saber em qual camada OSI ocorre a segmentação de dados grandes em unidades menores para transmissão. Qual é a resposta correta?',
+    opts: ['Camada 1 (Física)', 'Camada 2 (Enlace de Dados)', 'Camada 4 (Transporte)', 'Camada 7 (Aplicação)'],
+    correct: 2,
+    exp: 'A Camada 4 (Transporte) segmenta dados grandes em segmentos menores que cabem no MTU da rede. O TCP numera cada segmento para que o receptor possa remontá-los na ordem correta. Isso é diferente da fragmentação IP (Camada 3), que fragmenta pacotes quando eles excedem o MTU de um link intermediário.'
   }
 ];

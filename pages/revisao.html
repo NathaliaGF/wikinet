@@ -30,6 +30,7 @@
   <div class="main-content">
     <div class="topbar">
       <div class="topbar-left">
+        <button id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/>
@@ -67,6 +68,16 @@
         <div class="section-header"><h2>Simulado e exercícios</h2></div>
         <div class="learning-dashboard-grid" id="simuladoPanel"></div>
         <div class="learning-dashboard-grid" id="exercisePanel"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header"><h2>Backup de progresso</h2></div>
+        <p class="section-intro">Seu progresso fica salvo localmente no navegador. Exporte para não perder nada ao limpar o cache ou mudar de dispositivo.</p>
+        <div class="gp-actions">
+          <button class="gp-export" id="exportProgress">⬇ Exportar JSON</button>
+          <button class="gp-export" id="importProgress">⬆ Importar JSON</button>
+          <button class="gp-reset" id="resetProgress">Resetar tudo</button>
+        </div>
       </section>
 
       <section class="section">

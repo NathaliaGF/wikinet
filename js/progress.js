@@ -690,6 +690,38 @@ const Progress = (() => {
     });
   }
 
+  function initImport() {
+    const btn = document.getElementById('importProgress');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json,application/json';
+      input.addEventListener('change', () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const payload = JSON.parse(reader.result);
+            if (!payload?.data || typeof payload.data !== 'object') throw new Error('Arquivo inválido.');
+            if (!confirm(`Importar progresso exportado em ${payload.exportedAt ? new Date(payload.exportedAt).toLocaleString('pt-BR') : 'data desconhecida'}?\n\nIsso substituirá o progresso atual.`)) return;
+            Object.entries(payload.data).forEach(([key, value]) => {
+              if (value === null || value === undefined) localStorage.removeItem(key);
+              else localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+            });
+            alert('Progresso importado. A página será recarregada.');
+            location.reload();
+          } catch (err) {
+            alert(`Falha ao importar: ${err.message}`);
+          }
+        };
+        reader.readAsText(file);
+      });
+      input.click();
+    });
+  }
+
   function initReset() {
     const btn = document.getElementById('resetProgress');
     if (!btn) return;
@@ -1093,6 +1125,7 @@ const Progress = (() => {
     renderFavorites();
     initReset();
     initExport();
+    initImport();
     initShareButtons();
     initSectionNotes();
   }
