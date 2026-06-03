@@ -724,5 +724,451 @@ const CERT_QUESTIONS = [
     opts: ['Cabo de rede com defeito', 'A porta do switch conectada ao gateway não está configurada como trunk ou não permite a VLAN do host', 'O gateway tem o ARP desabilitado', 'O host tem máscara de sub-rede incorreta'],
     correct: 1,
     exp: 'Para rotear entre VLANs, o switch precisa de uma porta trunk para o roteador (ou um switch Layer 3). Se a VLAN do host não for permitida na trunk ou a subinterface do roteador não estiver configurada para essa VLAN, o tráfego inter-VLAN não flui.'
+  },
+
+  // Fundamentos
+  {
+    tema: 'Fundamentos',
+    q: 'Um host envia um pacote com TTL=1 para um destino distante. O que acontece no primeiro roteador?',
+    opts: ['O pacote é entregue normalmente', 'O TTL é decrementado para 0 e o roteador descarta o pacote enviando ICMP Time Exceeded', 'O roteador ignora o TTL e encaminha o pacote', 'O TTL é reiniciado para 64'],
+    correct: 1,
+    exp: 'Cada roteador decrementa o TTL em 1. Quando chega a 0, o pacote é descartado e o roteador envia uma mensagem ICMP Type 11 (Time Exceeded) de volta ao remetente. É assim que o traceroute funciona.'
+  },
+  {
+    tema: 'Fundamentos',
+    q: 'Qual é a diferença entre throughput e largura de banda (bandwidth)?',
+    opts: ['São termos sinônimos', 'Bandwidth é a capacidade máxima teórica do link; throughput é a transferência real medida em condições reais', 'Throughput mede latência; bandwidth mede velocidade', 'Bandwidth só se aplica a redes sem fio'],
+    correct: 1,
+    exp: 'Bandwidth é o teto teórico (ex.: link de 100 Mbps). Throughput é o que realmente passa, descontando overhead de protocolo, perdas e retransmissões. O throughput real é sempre menor que o bandwidth.'
+  },
+  {
+    tema: 'Fundamentos',
+    q: 'Um técnico observa que dois computadores na mesma rede conseguem se comunicar, mas não alcançam a internet. Qual componente está mais provavelmente mal configurado?',
+    opts: ['Endereço IP', 'Máscara de sub-rede', 'Gateway padrão', 'Servidor DNS'],
+    correct: 2,
+    exp: 'A comunicação local funciona com apenas IP e máscara corretos. Para sair da rede local rumo à internet, o dispositivo precisa de um gateway padrão válido que aponte para o roteador.'
+  },
+  {
+    tema: 'Fundamentos',
+    q: 'O que caracteriza uma rede half-duplex em comparação com full-duplex?',
+    opts: ['Half-duplex transmite em frequências mais altas', 'Em half-duplex apenas um dispositivo transmite por vez; em full-duplex ambos podem transmitir simultaneamente', 'Half-duplex só existe em redes sem fio', 'Full-duplex requer dois cabos; half-duplex usa um'],
+    correct: 1,
+    exp: 'Half-duplex (como walkie-talkie) permite transmissão em apenas uma direção por vez. Full-duplex (como telefone) permite transmissão simultânea nos dois sentidos. Switches modernos operam em full-duplex por padrão.'
+  },
+  // Modelos de Camadas
+  {
+    tema: 'Modelos de Camadas',
+    q: 'Em qual camada OSI o endereço MAC opera?',
+    opts: ['Camada 1 (Física)', 'Camada 2 (Enlace de Dados)', 'Camada 3 (Rede)', 'Camada 4 (Transporte)'],
+    correct: 1,
+    exp: 'O endereço MAC (Media Access Control) opera na Camada 2 (Enlace de Dados). Ele identifica o dispositivo dentro de uma rede local. O roteador usa o MAC para entrega na última milha, mas o endereço IP (Camada 3) para roteamento entre redes.'
+  },
+  {
+    tema: 'Modelos de Camadas',
+    q: 'Um firewall que inspeciona o conteúdo da camada de aplicação (payload HTTP, DNS) opera em qual camada OSI?',
+    opts: ['Camada 3', 'Camada 4', 'Camada 5', 'Camada 7'],
+    correct: 3,
+    exp: 'Firewalls de Camada 7 (Next-Generation Firewalls) inspecionam o conteúdo da aplicação — requisições HTTP, queries DNS, payloads — e não apenas IPs e portas. Isso permite regras como "bloquear upload de arquivos pelo Chrome".'
+  },
+  {
+    tema: 'Modelos de Camadas',
+    q: 'Qual é a PDU (unidade de dados) da Camada de Transporte no modelo OSI?',
+    opts: ['Bit', 'Frame (Quadro)', 'Pacote', 'Segmento'],
+    correct: 3,
+    exp: 'Cada camada OSI tem seu nome para a unidade de dados: Física=Bit, Enlace=Frame, Rede=Pacote, Transporte=Segmento, e Sessão/Apresentação/Aplicação=Dados/Mensagem.'
+  },
+  {
+    tema: 'Modelos de Camadas',
+    q: 'Um switch Camada 2 recebe um frame com MAC de destino desconhecido. O que ele faz?',
+    opts: ['Descarta o frame', 'Envia o frame apenas para a porta do gateway', 'Encaminha (flood) o frame para todas as portas, exceto a de origem', 'Devolve o frame ao remetente com erro'],
+    correct: 2,
+    exp: 'Quando o MAC de destino não está na tabela CAM do switch, ele faz flooding: envia o frame para todas as portas exceto a de origem. O dispositivo correto responde, e o switch aprende o MAC e registra a porta correspondente.'
+  },
+  // Endereçamento
+  {
+    tema: 'Endereçamento',
+    q: 'Um host com IP 10.0.0.5/29 tenta se comunicar com 10.0.0.12. Esses dois hosts estão na mesma sub-rede?',
+    opts: ['Sim, ambos estão na rede 10.0.0.0/29', 'Não, 10.0.0.5 está na rede 10.0.0.0/29 e 10.0.0.12 está na rede 10.0.0.8/29', 'Sim, /29 cobre toda a faixa 10.0.0.0–10.0.0.15', 'Não é possível determinar sem a máscara completa'],
+    correct: 1,
+    exp: '/29 usa 29 bits de rede, deixando 3 bits para hosts: blocos de 8 endereços. Rede 10.0.0.0/29 cobre .0–.7; rede 10.0.0.8/29 cobre .8–.15. Logo, .5 e .12 estão em sub-redes diferentes e precisam de roteamento.'
+  },
+  {
+    tema: 'Endereçamento',
+    q: 'Qual é o endereço de broadcast da rede 192.168.10.64/26?',
+    opts: ['192.168.10.127', '192.168.10.128', '192.168.10.255', '192.168.10.95'],
+    correct: 0,
+    exp: '/26 tem blocos de 64 endereços. A rede 192.168.10.64/26 vai de .64 (endereço de rede) a .127 (broadcast). O último endereço do bloco é sempre o broadcast.'
+  },
+  {
+    tema: 'Endereçamento',
+    q: 'Qual comando exibiria a tabela ARP em um sistema Linux?',
+    opts: ['arp -a', 'ip neigh show', 'netstat -r', 'Tanto A quanto B'],
+    correct: 3,
+    exp: 'Tanto "arp -a" (comando legado) quanto "ip neigh show" (iproute2, comando moderno) exibem a tabela ARP no Linux. A tabela ARP mapeia endereços IP para MACs na rede local.'
+  },
+  {
+    tema: 'Endereçamento',
+    q: 'Um host recebe o endereço 169.254.10.5. O que isso indica?',
+    opts: ['O host está em uma rede privada classe B', 'O DHCP atribuiu um endereço APIPA — o host não conseguiu um endereço DHCP válido', 'O host está usando IPv6 link-local', 'O IP foi atribuído manualmente pelo administrador'],
+    correct: 1,
+    exp: '169.254.0.0/16 é o bloco APIPA (Automatic Private IP Addressing). O Windows e outros SOs atribuem um IP dessa faixa automaticamente quando o cliente DHCP não recebe resposta. O host pode se comunicar com outros hosts APIPA na mesma rede, mas não acessa a internet.'
+  },
+  {
+    tema: 'Endereçamento',
+    q: 'Você precisa criar 5 sub-redes com no mínimo 25 hosts cada, a partir de 192.168.1.0/24. Qual é o menor prefixo que atende ao requisito?',
+    opts: ['/26', '/27', '/28', '/25'],
+    correct: 1,
+    exp: '/27 tem 32 endereços por bloco, 30 utilizáveis por hosts — suficiente para 25 hosts. /28 teria apenas 14 utilizáveis, insuficiente. Com /27 você tem 8 sub-redes disponíveis em /24, cobrindo as 5 necessárias.'
+  },
+  // Protocolos
+  {
+    tema: 'Protocolos',
+    q: 'Por que o DNS usa UDP na porta 53 para consultas, mas TCP na mesma porta para transferências de zona?',
+    opts: ['UDP é mais seguro para consultas', 'Consultas são pequenas e UDP é mais rápido; transferências de zona são grandes e requerem a confiabilidade do TCP', 'TCP é reservado para servidores autoritativos', 'UDP não suporta respostas maiores que 512 bytes em nenhum caso'],
+    correct: 1,
+    exp: 'Consultas DNS são curtas (< 512 bytes): UDP elimina o overhead do handshake TCP e é suficiente. Transferências de zona (zona inteira de um servidor para outro) são grandes e críticas: o TCP garante entrega ordenada e sem perda. Desde o EDNS0, consultas UDP podem ter até 4096 bytes.'
+  },
+  {
+    tema: 'Protocolos',
+    q: 'O que é um handshake TLS 1.3 comparado ao TLS 1.2?',
+    opts: ['TLS 1.3 remove a criptografia em troca de velocidade', 'TLS 1.3 completa o handshake em 1-RTT (ou 0-RTT para reconexões), versus 2-RTT do TLS 1.2', 'TLS 1.3 usa apenas certificados ECC', 'Não há diferença prática de desempenho'],
+    correct: 1,
+    exp: 'TLS 1.3 reduziu o handshake de 2 round-trips (TLS 1.2) para 1 RTT, removendo cifras legadas e simplificando a negociação. Para reconexões, o 0-RTT permite retomar a sessão sem round-trip adicional. Isso reduz a latência de conexões HTTPS.'
+  },
+  {
+    tema: 'Protocolos',
+    q: 'Um aplicativo precisa transmitir dados de vídeo ao vivo com a menor latência possível, aceitando eventual perda de frames. Qual protocolo de transporte é mais adequado?',
+    opts: ['TCP', 'UDP', 'ICMP', 'FTP'],
+    correct: 1,
+    exp: 'UDP não tem handshake, confirmação (ACK) nem retransmissão. Isso minimiza a latência. Para streaming ao vivo, um frame perdido é melhor descartado do que retransmitido (o que atrasaria todos os frames seguintes). Aplicações de vídeo implementam seu próprio controle de qualidade sobre UDP (ex.: QUIC, RTP).'
+  },
+  {
+    tema: 'Protocolos',
+    q: 'Qual registro DNS aponta um domínio para outro domínio (alias)?',
+    opts: ['Registro A', 'Registro AAAA', 'Registro CNAME', 'Registro MX'],
+    correct: 2,
+    exp: 'CNAME (Canonical Name) cria um alias de um nome para outro. Ex.: www.empresa.com CNAME empresa.com. O cliente resolve empresa.com separadamente. O CNAME não pode coexistir com outros registros no mesmo nome.'
+  },
+  {
+    tema: 'Protocolos',
+    q: 'O que é o campo "window size" no cabeçalho TCP?',
+    opts: ['O número máximo de conexões simultâneas', 'A quantidade de dados que o receptor consegue aceitar sem enviar um ACK', 'O tempo máximo de espera por retransmissão', 'O número de sequência do próximo segmento'],
+    correct: 1,
+    exp: 'O window size (tamanho da janela) implementa o controle de fluxo TCP: informa ao remetente quantos bytes o receptor ainda consegue receber no buffer. Se o buffer encher, o receptor anuncia window size=0, pausando o remetente até que haja espaço.'
+  },
+  {
+    tema: 'Protocolos',
+    q: 'Qual é a diferença entre SMTP (porta 25) e SMTP Submission (porta 587)?',
+    opts: ['Porta 25 usa TLS; porta 587 não usa criptografia', 'Porta 25 é para relay inter-servidor; porta 587 é para clientes autenticados enviarem e-mail', 'São equivalentes; a escolha depende do cliente', 'Porta 587 é exclusiva para empresas'],
+    correct: 1,
+    exp: 'Porta 25 é usada entre servidores de e-mail (MTA para MTA). ISPs a bloqueiam para clientes residenciais para prevenir spam. Porta 587 (SMTP Submission) é para clientes de e-mail enviarem mensagens ao seu servidor com autenticação SASL e STARTTLS obrigatório.'
+  },
+  // Acesso a Site
+  {
+    tema: 'Acesso a Site',
+    q: 'Qual é a ordem correta dos eventos ao digitar https://www.exemplo.com no browser?',
+    opts: [
+      'TCP handshake → DNS → TLS → HTTP GET → resposta',
+      'DNS → TCP handshake → TLS handshake → HTTP GET → resposta',
+      'TLS → DNS → TCP → HTTP → resposta',
+      'DNS → HTTP GET → TCP → TLS → resposta'
+    ],
+    correct: 1,
+    exp: 'A ordem é: 1) DNS resolve o nome para IP. 2) TCP three-way handshake estabelece a conexão. 3) TLS handshake negocia criptografia. 4) HTTP GET é enviado pelo túnel TLS. 5) Servidor responde com o HTML. Cada etapa depende da anterior.'
+  },
+  {
+    tema: 'Acesso a Site',
+    q: 'O que é o registro DNS SOA?',
+    opts: ['Aponta um domínio para um servidor de e-mail', 'Define o servidor autoritativo principal de uma zona e parâmetros como TTL negativo e serial', 'É o alias de um domínio para outro', 'Autentica a cadeia de certificados HTTPS'],
+    correct: 1,
+    exp: 'SOA (Start of Authority) é o primeiro registro de uma zona DNS. Define: servidor primário, e-mail do administrador, número serial (versionamento), e intervalos de refresh, retry e expire usados pelos servidores secundários para sincronizar a zona.'
+  },
+  {
+    tema: 'Acesso a Site',
+    q: 'Um usuário reporta que o site abre pelo IP mas não pelo nome de domínio. Qual é a causa provável?',
+    opts: ['O servidor web está offline', 'Há um problema na resolução DNS', 'O firewall está bloqueando HTTPS', 'O certificado TLS está expirado'],
+    correct: 1,
+    exp: 'Se o IP funciona mas o nome não, o problema está na camada DNS: o nome não resolve ou resolve para um IP errado. O servidor web está operacional (IP funciona). O próximo passo é usar nslookup ou dig para verificar a resolução do nome.'
+  },
+  {
+    tema: 'Acesso a Site',
+    q: 'O que o HTTP/2 melhorou em relação ao HTTP/1.1?',
+    opts: ['Adicionou criptografia obrigatória', 'Introduziu multiplexação de streams: múltiplos pedidos simultâneos sobre uma única conexão TCP', 'Substituiu o TCP pelo UDP', 'Adicionou suporte a cookies'],
+    correct: 1,
+    exp: 'HTTP/1.1 abre uma conexão TCP por requisição (ou usa pipelining com limitações). HTTP/2 multiplexa: várias requisições e respostas trafegam em paralelo sobre uma única conexão TCP, usando frames binários. Isso elimina o head-of-line blocking e reduz latência.'
+  },
+  // Equipamentos
+  {
+    tema: 'Equipamentos',
+    q: 'Qual é a vantagem de um switch gerenciável sobre um switch não gerenciável?',
+    opts: ['O switch gerenciável é mais rápido', 'Permite configurar VLANs, QoS, espelhamento de portas, STP e monitoramento SNMP', 'O switch gerenciável não precisa de energia elétrica', 'Apenas switches gerenciáveis operam em full-duplex'],
+    correct: 1,
+    exp: 'Switches gerenciáveis (managed) permitem configuração via CLI, web ou SNMP: VLANs para segmentação de rede, QoS para priorizar tráfego, port mirroring para captura de pacotes, STP para evitar loops e SNMP para monitoramento. Switches não gerenciáveis funcionam plug-and-play sem controle.'
+  },
+  {
+    tema: 'Equipamentos',
+    q: 'O que é uma DMZ em arquitetura de redes?',
+    opts: ['Uma rede sem fio pública', 'Um segmento de rede isolado entre a internet e a rede interna, onde ficam servidores publicamente acessíveis', 'Um protocolo de roteamento dinâmico', 'Uma técnica de compressão de dados'],
+    correct: 1,
+    exp: 'DMZ (Demilitarized Zone) é um segmento de rede posicionado entre dois firewalls: um voltado para a internet e outro para a rede interna. Servidores web, de e-mail e DNS ficam na DMZ — expostos externamente, mas separados da rede corporativa para limitar o blast radius de uma invasão.'
+  },
+  {
+    tema: 'Equipamentos',
+    q: 'Qual é a função do STP (Spanning Tree Protocol)?',
+    opts: ['Balancear carga entre links redundantes', 'Prevenir loops de rede em topologias com switches redundantes bloqueando portas selecionadas', 'Criar VLANs automaticamente', 'Autenticar dispositivos na rede'],
+    correct: 1,
+    exp: 'Redes com switches redundantes criam loops: frames em broadcast ficam circulando infinitamente (broadcast storm). O STP resolve isso elegendo uma root bridge e bloqueando portas redundantes, mantendo apenas um caminho ativo. Se o caminho ativo falhar, STP reativa a porta bloqueada.'
+  },
+  {
+    tema: 'Equipamentos',
+    q: 'Qual é a diferença entre um roteador e um switch de camada 3?',
+    opts: ['São equipamentos idênticos', 'Switch L3 roteia entre VLANs em hardware (ASIC) com latência menor; roteadores tradicionais processam em software e suportam mais protocolos WAN', 'Switch L3 não suporta roteamento inter-VLAN', 'Roteadores operam na camada 2'],
+    correct: 1,
+    exp: 'Ambos fazem roteamento IP, mas switches L3 usam hardware dedicado (ASIC) para encaminhamento, resultando em latência muito menor e maior throughput. Roteadores tradicionais processam pacotes em CPU de software, têm suporte a mais protocolos WAN (BGP, MPLS) e são usados em bordas de rede.'
+  },
+  // Segurança
+  {
+    tema: 'Segurança',
+    q: 'O que é ARP Spoofing e como o TLS mitiga o risco?',
+    opts: [
+      'ARP Spoofing falsifica respostas ARP para redirecionar tráfego local; TLS criptografa os dados interceptados, tornando-os inúteis sem a chave privada',
+      'ARP Spoofing é um ataque de força bruta; TLS aumenta o tamanho das chaves',
+      'ARP Spoofing só funciona em redes WAN; TLS protege apenas conexões locais',
+      'TLS impede completamente o ARP Spoofing'
+    ],
+    correct: 0,
+    exp: 'No ARP Spoofing, o atacante envia respostas ARP falsas associando seu MAC ao IP do gateway, redirecionando o tráfego da vítima. O TLS não impede o redirecionamento, mas o atacante vê apenas dados cifrados — sem a chave privada do servidor, a interceptação é inútil.'
+  },
+  {
+    tema: 'Segurança',
+    q: 'O que é um ataque de força bruta e qual controle o mitiga de forma mais eficaz?',
+    opts: ['Exploração de zero-day; patch imediato', 'Tentativas exaustivas de adivinhar credenciais; autenticação multifator (MFA)', 'Intercepção de tráfego; VPN', 'Engenharia social; treinamento de usuários'],
+    correct: 1,
+    exp: 'Força bruta testa sistematicamente combinações de senha até acertar. Mesmo com rate limiting e bloqueio de conta, é possível contorná-los com botnets distribuídas. O MFA adiciona um segundo fator (OTP, chave física) que torna as credenciais vazadas inúteis para o atacante.'
+  },
+  {
+    tema: 'Segurança',
+    q: 'Qual protocolo substitui o Telnet para acesso remoto seguro e por quê?',
+    opts: ['FTP, porque usa dois canais', 'SSH, porque criptografa toda a sessão incluindo credenciais', 'HTTPS, porque usa certificados', 'RDP, porque é mais rápido'],
+    correct: 1,
+    exp: 'O Telnet transmite todos os dados, incluindo usuário e senha, em texto puro — qualquer sniffing na rede captura as credenciais. O SSH (porta 22) criptografa toda a sessão com criptografia assimétrica para troca de chaves e simétrica para o canal de dados.'
+  },
+  {
+    tema: 'Segurança',
+    q: 'O que diferencia um IDS de um IPS?',
+    opts: ['IDS bloqueia ataques; IPS apenas registra', 'IDS detecta e alerta sobre atividade suspeita sem bloquear; IPS detecta e bloqueia automaticamente o tráfego malicioso', 'IPS é um hardware físico; IDS é um software', 'IDS analisa tráfego criptografado; IPS não consegue'],
+    correct: 1,
+    exp: 'IDS (Intrusion Detection System) fica no modo passivo: monitora o tráfego, detecta anomalias e gera alertas, mas não interfere no fluxo. IPS (Intrusion Prevention System) fica inline na rede: além de detectar, bloqueia o tráfego malicioso em tempo real.'
+  },
+  {
+    tema: 'Segurança',
+    q: 'O que é um ataque de ransomware em contexto de rede?',
+    opts: ['Sobrecarga de um servidor com requisições legítimas', 'Malware que cifra arquivos da vítima e exige resgate, geralmente se propagando via phishing ou exploração de vulnerabilidades de rede', 'Interceptação de tráfego em rede pública', 'Falsificação de identidade em e-mail'],
+    correct: 1,
+    exp: 'Ransomware cifra arquivos locais e de rede (compartilhamentos) e exige pagamento pela chave de descriptografia. Entra geralmente via phishing, RDP exposto ou vulnerabilidades não corrigidas. A mitigação inclui backups offsite, segmentação de rede e princípio do menor privilégio.'
+  },
+  // Troubleshooting
+  {
+    tema: 'Troubleshooting',
+    q: 'Um usuário consegue fazer ping para o gateway (192.168.1.1) mas não para 8.8.8.8. Qual é a causa mais provável?',
+    opts: ['Problema no cabo de rede', 'O gateway não está roteando para a internet ou há um problema no ISP após o gateway', 'Problema de DNS', 'O firewall local está bloqueando ICMP'],
+    correct: 1,
+    exp: 'Ping para o gateway confirma que a rede local está funcional. Falha para 8.8.8.8 (IP direto, sem DNS) indica que o problema está no roteamento além do gateway: o roteador pode não ter rota para internet, ou há falha na conexão com o ISP.'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'O comando "netstat -tulnp" no Linux exibe quais informações?',
+    opts: ['Tabela de roteamento', 'Portas TCP e UDP em estado LISTEN com o processo responsável', 'Estatísticas de erros de interface', 'Resolução de nomes DNS'],
+    correct: 1,
+    exp: 'As flags significam: -t (TCP), -u (UDP), -l (apenas LISTEN), -n (IPs numéricos, sem resolução), -p (mostra o PID/processo). Esse comando é essencial para verificar quais serviços estão escutando em quais portas, útil para hardening e diagnóstico de conflito de portas.'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'O traceroute mostra asteriscos (* * *) em todos os hops após o hop 5. O que isso indica?',
+    opts: ['A rota está funcionando normalmente; asteriscos são esperados', 'O tráfego chega ao hop 5, mas os roteadores seguintes estão bloqueando ou não respondendo ao ICMP/UDP de diagnóstico', 'O TTL foi zerado no hop 5', 'Há um loop de roteamento'],
+    correct: 1,
+    exp: 'Asteriscos em traceroute significam que o roteador naquele hop não respondeu dentro do timeout — geralmente porque seu firewall bloqueia mensagens ICMP Time Exceeded de saída. O tráfego real pode estar passando normalmente. Confirme com ping para o destino final.'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'Qual ferramenta do Linux permite capturar pacotes de rede diretamente na interface, similar ao Wireshark via terminal?',
+    opts: ['netstat', 'tcpdump', 'nmap', 'ifconfig'],
+    correct: 1,
+    exp: 'tcpdump é um analisador de pacotes em linha de comando. Permite filtrar por protocolo, porta, IP de origem/destino e salvar capturas em formato .pcap legível pelo Wireshark. Ex.: tcpdump -i eth0 port 443 -w captura.pcap'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'Um servidor web responde ao ping mas o site retorna "Connection refused" na porta 80. O que o técnico deve verificar primeiro?',
+    opts: ['Configuração do DNS', 'Se o serviço web (Apache/Nginx) está rodando e escutando na porta 80', 'Rota de volta ao cliente', 'Certificado TLS'],
+    correct: 1,
+    exp: '"Connection refused" significa que o host respondeu mas nada está escutando na porta 80. O serviço web pode ter parado ou estar escutando em outra porta. Use "netstat -tlnp | grep :80" ou "ss -tlnp | grep :80" para confirmar se há processo escutando.'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'Qual comando no Windows equivale ao "traceroute" do Linux?',
+    opts: ['trace', 'pathping apenas', 'tracert', 'route print'],
+    correct: 2,
+    exp: 'No Windows, o equivalente é "tracert" (trace route). Usa ICMP Echo Requests com TTL crescente, ao contrário do traceroute Linux que por padrão usa UDP. O "pathping" também existe no Windows e combina ping e tracert, mas com estatísticas por hop.'
+  },
+  // Portas
+  {
+    tema: 'Portas',
+    q: 'Um servidor retorna "Connection refused" na porta 443. Qual é a causa mais provável?',
+    opts: ['O cliente não tem HTTPS habilitado', 'O serviço HTTPS não está rodando ou está escutando em outra porta', 'O certificado TLS está expirado', 'O DNS está mal configurado'],
+    correct: 1,
+    exp: '"Connection refused" vem do sistema operacional do servidor, não do serviço. Significa que a porta está fechada (nenhum processo escutando). O serviço HTTPS pode ter parado, estar em outra porta (ex.: 8443) ou o firewall local pode estar rejeitando conexões.'
+  },
+  {
+    tema: 'Portas',
+    q: 'Qual é o range de portas efêmeras (dinâmicas) no Linux por padrão?',
+    opts: ['0–1023', '1024–49151', '32768–60999', '49152–65535'],
+    correct: 2,
+    exp: 'No Linux, o range de portas efêmeras padrão é 32768–60999 (configurável em /proc/sys/net/ipv4/ip_local_port_range). São usadas pelo SO para a porta de origem de conexões TCP/UDP de saída. A RFC 6335 define o range dinâmico como 49152–65535, mas o Linux usa um range diferente por padrão.'
+  },
+  {
+    tema: 'Portas',
+    q: 'Qual porta usa o protocolo LDAP para comunicação não criptografada?',
+    opts: ['389', '636', '445', '88'],
+    correct: 0,
+    exp: 'LDAP (Lightweight Directory Access Protocol) usa a porta 389 para comunicação não criptografada. A porta 636 é usada para LDAPS (LDAP sobre TLS). LDAP é usado em Active Directory, OpenLDAP e outros serviços de diretório.'
+  },
+  {
+    tema: 'Portas',
+    q: 'Um administrador vê tráfego inesperado na porta 4444 TCP em um servidor. O que isso pode indicar?',
+    opts: ['Tráfego de atualização automática', 'Possível backdoor ou shell reverso (Metasploit usa 4444 como padrão)', 'Serviço de banco de dados', 'Serviço de impressão de rede'],
+    correct: 1,
+    exp: 'A porta 4444 TCP é a porta padrão do Metasploit para shells reversos e é associada a diversas ferramentas de ataque. Tráfego nessa porta deve ser investigado imediatamente — pode indicar comprometimento do servidor com um backdoor ativo.'
+  },
+  {
+    tema: 'Portas',
+    q: 'Qual porta usa o protocolo SNMP para monitoramento de rede?',
+    opts: ['Porta 162 TCP', 'Porta 161 UDP para polling; porta 162 UDP para traps', 'Porta 514 UDP', 'Porta 1433 TCP'],
+    correct: 1,
+    exp: 'SNMP (Simple Network Management Protocol) usa porta 161 UDP para o gerente consultar (poll) agentes nos dispositivos monitorados. A porta 162 UDP é usada para SNMP Traps: o dispositivo envia alertas proativamente ao gerente quando algo anormal ocorre.'
+  },
+  {
+    tema: 'Portas',
+    q: 'Quais portas usa o protocolo FTP e para que cada uma serve?',
+    opts: ['Porta 20 e 21: ambas para transferência de dados', 'Porta 21 para controle (comandos); porta 20 para transferência de dados (modo ativo)', 'Porta 22 para autenticação; porta 21 para dados', 'Porta 21 apenas — a porta 20 é opcional'],
+    correct: 1,
+    exp: 'FTP usa duas conexões: porta 21 TCP para o canal de controle (autenticação, comandos como LIST, RETR) e porta 20 TCP para o canal de dados em modo ativo. No modo passivo, o servidor abre uma porta aleatória acima de 1024 para dados, o que facilita atravessar firewalls.'
+  },
+  // Mais questões de todos os temas para atingir 60 total
+  {
+    tema: 'Fundamentos',
+    q: 'O que é QoS (Quality of Service) em redes?',
+    opts: ['Uma métrica de velocidade de conexão', 'Mecanismo que prioriza certos tipos de tráfego (voz, vídeo) sobre outros (downloads) para garantir qualidade para aplicações sensíveis à latência', 'Protocolo de autenticação de rede', 'Sistema de compressão de pacotes'],
+    correct: 1,
+    exp: 'QoS classifica e prioriza o tráfego de rede. Voz (VoIP) e vídeo em tempo real são sensíveis a latência e jitter e recebem alta prioridade. Downloads em massa recebem menor prioridade. Sem QoS, um download grande pode degradar uma chamada de voz.'
+  },
+  {
+    tema: 'Modelos de Camadas',
+    q: 'Por que o modelo TCP/IP é mais amplamente utilizado que o modelo OSI na prática?',
+    opts: ['O TCP/IP tem mais camadas e é mais completo', 'O TCP/IP foi desenvolvido antes do OSI e é o protocolo real da internet; o OSI é um modelo de referência teórico', 'O OSI foi abandonado pela IETF', 'O TCP/IP é mais seguro'],
+    correct: 1,
+    exp: 'O modelo OSI foi criado pela ISO como modelo de referência educacional. O TCP/IP surgiu da ARPANET e se tornou o protocolo real da internet antes do OSI ser finalizado. Na prática, o TCP/IP é implementado; o OSI é usado para entender e diagnosticar redes por camadas.'
+  },
+  {
+    tema: 'Endereçamento',
+    q: 'O que é o protocolo DHCP Snooping e para que serve?',
+    opts: ['Um protocolo de descoberta de roteadores DHCP', 'Uma funcionalidade de switches que filtra mensagens DHCP inválidas, prevenindo servidores DHCP não autorizados (rogue DHCP)', 'Um método de criptografia para tráfego DHCP', 'Um protocolo para redundância de servidores DHCP'],
+    correct: 1,
+    exp: 'DHCP Snooping é configurado em switches gerenciáveis. Ele define portas "confiáveis" (uplinks para o servidor DHCP legítimo) e "não confiáveis" (portas de acesso). Mensagens DHCP Offer e Ack vindas de portas não confiáveis são descartadas, impedindo que um atacante distribua IPs falsos.'
+  },
+  {
+    tema: 'Protocolos',
+    q: 'O que são os flags SYN, ACK e FIN no TCP e para que servem?',
+    opts: ['São tipos de erro TCP', 'SYN inicia conexão; ACK confirma recebimento; FIN encerra a conexão ordeiramente', 'SYN criptografa; ACK autentica; FIN comprime', 'São apenas headers opcionais'],
+    correct: 1,
+    exp: 'SYN (synchronize) abre conexão no three-way handshake. ACK (acknowledgment) confirma o recebimento de dados ou de outros flags. FIN (finish) inicia o encerramento gracioso de uma conexão TCP (four-way termination: FIN, ACK, FIN, ACK). RST encerra abruptamente.'
+  },
+  {
+    tema: 'Acesso a Site',
+    q: 'O que é um ataque de DNS Spoofing e como o DNSSEC mitiga?',
+    opts: ['DNS Spoofing filtra consultas DNS; DNSSEC aumenta a velocidade', 'DNS Spoofing injeta respostas DNS falsas redirecionando usuários para sites maliciosos; DNSSEC assina digitalmente os registros DNS para verificar autenticidade', 'DNSSEC criptografa o conteúdo DNS; DNS Spoofing quebra a criptografia', 'DNSSEC é obrigatório em todos os domínios .com'],
+    correct: 1,
+    exp: 'No DNS Spoofing, o atacante envia uma resposta DNS falsa antes do servidor legítimo, envenenando o cache. DNSSEC adiciona assinaturas digitais aos registros DNS (RRSIG). O resolver valida a assinatura com a chave pública do domínio — registros falsificados não passam na verificação.'
+  },
+  {
+    tema: 'Equipamentos',
+    q: 'O que é PoE (Power over Ethernet) e onde é utilizado?',
+    opts: ['Um protocolo de balanceamento de carga', 'Tecnologia que transmite energia elétrica junto com dados pelo cabo Ethernet, eliminando fontes separadas em dispositivos como APs, câmeras IP e telefones VoIP', 'Um padrão de cabeamento para 10 Gbps', 'Sistema de failover para switches'],
+    correct: 1,
+    exp: 'PoE (IEEE 802.3af/at/bt) permite que um switch PoE alimente dispositivos via cabo Cat5e/Cat6. Elimina a necessidade de tomadas próximas a cada AP, câmera IP ou telefone VoIP. O switch detecta se o dispositivo suporta PoE antes de enviar energia.'
+  },
+  {
+    tema: 'Segurança',
+    q: 'O que é o princípio de menor privilégio (Principle of Least Privilege) em segurança de redes?',
+    opts: ['Usar as senhas mais curtas possíveis', 'Conceder a cada usuário, processo ou sistema apenas as permissões mínimas necessárias para sua função, reduzindo o impacto de comprometimentos', 'Permitir acesso total apenas ao administrador', 'Desabilitar todos os serviços não essenciais'],
+    correct: 1,
+    exp: 'PoLP limita o blast radius: se uma conta ou processo for comprometido, o atacante só tem acesso ao mínimo necessário. Em redes, isso se aplica a ACLs (um servidor web não precisa rotear para redes internas), contas de serviço (sem admin) e segmentação de VLANs.'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'Um script bash tenta conectar na porta 443 de um servidor e recebe "Connection timed out" em vez de "Connection refused". Qual é a diferença?',
+    opts: ['São equivalentes', 'Connection refused: porta fechada, host respondeu; Connection timed out: host não respondeu — pode estar offline, firewall descartando silenciosamente (DROP) ou rota inexistente', 'Timed out ocorre apenas em UDP', 'Refused indica problema de SSL'],
+    correct: 1,
+    exp: '"Connection refused" (RST) significa que o host está ativo mas nada escuta na porta — resposta imediata. "Connection timed out" significa que nenhuma resposta chegou no tempo limite: o host pode estar offline, um firewall com regra DROP (silencioso) está bloqueando, ou não há rota de volta.'
+  },
+  {
+    tema: 'Portas',
+    q: 'Qual porta usa o protocolo NTP (Network Time Protocol) e por que a sincronização de tempo é crítica em redes?',
+    opts: ['Porta 123 UDP; a sincronização de tempo é importante para logs, autenticação Kerberos e certificados digitais terem timestamps corretos', 'Porta 80 TCP; para sincronizar relógios de servidores web', 'Porta 443 TCP; para sincronização segura', 'Porta 53 UDP; NTP usa a infraestrutura DNS'],
+    correct: 0,
+    exp: 'NTP usa porta 123 UDP. Tempo correto é crítico: Kerberos (autenticação Active Directory) rejeita tickets com mais de 5 minutos de diferença. Logs com timestamps errados dificultam forensics. Certificados X.509 têm validade baseada em tempo — um relógio errado pode invalidar HTTPS.'
+  },
+  {
+    tema: 'Fundamentos',
+    q: 'O que é CSMA/CD e em qual tecnologia ele é usado?',
+    opts: ['Protocolo de roteamento; usado em redes sem fio', 'Carrier Sense Multiple Access with Collision Detection; usado em Ethernet half-duplex para gerenciar colisões de quadros', 'Protocolo de criptografia; usado em VPNs', 'Algoritmo de compressão; usado em cabos de fibra óptica'],
+    correct: 1,
+    exp: 'CSMA/CD é o mecanismo de acesso ao meio do Ethernet half-duplex: "ouça antes de transmitir" (Carrier Sense), "detecte colisões" (CD) e transmita novamente após espera aleatória. Com switches full-duplex modernos, cada porta é um domínio de colisão separado e o CSMA/CD é obsoleto.'
+  },
+  {
+    tema: 'Modelos de Camadas',
+    q: 'O que é o conceito de "camada N depende da camada N-1" no modelo OSI?',
+    opts: ['Cada camada fornece serviços apenas para a camada imediatamente superior', 'Camadas superiores só funcionam se as camadas inferiores estiverem operacionais — a Camada de Aplicação falha se a Física não transmite bits', 'Camadas podem se comunicar diretamente saltando camadas intermediárias', 'Apenas as camadas pares se comunicam entre hosts'],
+    correct: 1,
+    exp: 'No modelo OSI, cada camada usa os serviços da camada abaixo para oferecer serviços à camada acima. Por isso, no troubleshooting, começamos pela Camada 1 (cabo/física) antes de verificar a Camada 7 (aplicação): não adianta verificar DNS se o cabo está desconectado.'
+  },
+  {
+    tema: 'Endereçamento',
+    q: 'O que é um endereço IP anycast e como ele difere de unicast e multicast?',
+    opts: [
+      'Anycast é um IP atribuído a um único host; unicast a grupos; multicast a todos',
+      'Unicast: um para um; Multicast: um para muitos assinantes; Anycast: um endereço atribuído a múltiplos nós — o pacote é entregue ao mais próximo topologicamente',
+      'Anycast só existe no IPv6',
+      'Anycast e broadcast são sinônimos'
+    ],
+    correct: 1,
+    exp: 'Anycast atribui o mesmo IP a múltiplos servidores geograficamente distribuídos. O roteamento BGP direciona o pacote ao servidor "mais próximo". O DNS raiz usa anycast: os 13 nomes de servidores raiz são servidos por centenas de instâncias distribuídas pelo mundo.'
+  },
+  {
+    tema: 'Segurança',
+    q: 'O que é um ataque de "credential stuffing"?',
+    opts: ['Ataque de força bruta em senhas aleatórias', 'Uso automatizado de pares usuário/senha vazados de outros serviços para tentar login em outros sistemas', 'Falsificação de certificados digitais', 'Sobrecarga de servidores de autenticação'],
+    correct: 1,
+    exp: 'Credential stuffing usa listas de credenciais de vazamentos anteriores (have i been pwned) e as testa automaticamente em outros serviços. É eficaz porque usuários reutilizam senhas. A defesa inclui MFA, detecção de logins de IPs incomuns e senhas únicas por serviço.'
+  },
+  {
+    tema: 'Troubleshooting',
+    q: 'Qual é a diferença entre "ss" e "netstat" para verificar conexões de rede no Linux?',
+    opts: ['São idênticos em funcionalidade', 'ss é mais rápido e moderno (usa kernel diretamente via netlink); netstat é legado e mais lento em sistemas com muitas conexões', 'netstat exibe mais informações que ss', 'ss só funciona no Ubuntu'],
+    correct: 1,
+    exp: '"ss" (socket statistics) faz parte do pacote iproute2, consulta o kernel diretamente via netlink socket e é muito mais eficiente com grande número de conexões. "netstat" lê /proc/net/* e é mais lento. Para novos sistemas, prefira: ss -tulnp (equivale a netstat -tulnp).'
+  },
+  {
+    tema: 'Acesso a Site',
+    q: 'O que é o header HTTP "Content-Security-Policy" e para que serve?',
+    opts: ['Define o tipo de conteúdo da resposta', 'Instrui o browser a restringir de quais origens scripts, estilos e recursos podem ser carregados, mitigando XSS', 'Força o uso de HTTPS', 'Controla o cache do browser'],
+    correct: 1,
+    exp: 'CSP é um header de segurança que diz ao browser: "só aceite scripts de domínios X, estilos de Y, imagens de Z". Isso mitiga ataques XSS (Cross-Site Scripting) pois mesmo que o atacante injete um <script>, o browser bloqueará a execução se a origem não estiver na whitelist da CSP.'
+  },
+  {
+    tema: 'Equipamentos',
+    q: 'O que é uma VLAN e qual problema ela resolve?',
+    opts: ['Uma rede virtual que aumenta a velocidade das portas', 'Segmentação lógica de uma rede física em múltiplos domínios de broadcast independentes, isolando o tráfego sem precisar de hardware separado', 'Um protocolo para balancear tráfego entre switches', 'Uma técnica de criptografia para redes locais'],
+    correct: 1,
+    exp: 'VLANs (IEEE 802.1Q) permitem que um mesmo switch físico opere como múltiplos switches lógicos isolados. Cada VLAN é um domínio de broadcast separado. Uso típico: VLAN 10 para usuários, VLAN 20 para servidores, VLAN 30 para câmeras — isolados logicamente sem precisar de switches físicos separados.'
   }
 ];
