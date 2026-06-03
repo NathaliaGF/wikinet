@@ -1129,7 +1129,6 @@ const Progress = (() => {
     initExport();
     initImport();
     initShareButtons();
-    initSectionNotes();
   }
 
   return {
