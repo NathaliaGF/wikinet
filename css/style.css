@@ -124,7 +124,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
 }
 h1 { font-size: 2.2rem; font-weight: 700; }
-h2 { font-size: 1.65rem; font-weight: 600; margin: 2.5rem 0 1rem; }
+h2 { font-size: 1.65rem; font-weight: 600; margin: 3rem 0 1.25rem; }
 h3 { font-size: 1.25rem; font-weight: 600; margin: 2rem 0 0.75rem; }
 h4 { font-size: 1.05rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
 
@@ -742,7 +742,7 @@ li { margin-bottom: 0.4rem; color: var(--text-secondary); }
 
 /* ── Section ─────────────────────────────────────────── */
 .section {
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   scroll-margin-top: 80px;
   animation: fadeInUp 0.35s ease forwards;
 }
@@ -763,28 +763,35 @@ li { margin-bottom: 0.4rem; color: var(--text-secondary); }
 .bloco-erros,
 .bloco-revisao {
   border-radius: var(--radius);
-  padding: 1.15rem 1.4rem;
-  margin: 1.2rem 0;
-  border: 1px solid;
+  padding: 1.4rem 1.6rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border);
   border-left-width: 4px;
 }
 .bloco-explicacao {
-  background: var(--bg-secondary);
-  border-color: var(--border);
+  background: rgba(255,255,255,0.025);
   border-left-color: var(--accent);
 }
-.bloco-analogia  { background: var(--analogy-bg);  border-color: var(--analogy-bdr); }
-.bloco-exemplo   { background: var(--example-bg);  border-color: var(--example-bdr); }
-.bloco-resumo    { background: var(--summary-bg);  border-color: var(--summary-bdr); }
-.bloco-memorizar { background: var(--memorize-bg); border-color: var(--memorize-bdr);}
-.bloco-erros     { background: var(--error-bg);    border-color: var(--error-bdr);   }
-.bloco-revisao   { background: var(--review-bg);   border-color: var(--review-bdr);  }
+.bloco-analogia  { background: rgba(79,142,247,0.07);  border-left-color: var(--analogy-bdr); }
+.bloco-exemplo   { background: rgba(34,197,94,0.07);   border-left-color: var(--example-bdr); }
+.bloco-resumo    { background: rgba(139,92,246,0.07);  border-left-color: var(--summary-bdr); }
+.bloco-memorizar { background: rgba(245,158,11,0.07);  border-left-color: var(--memorize-bdr);}
+.bloco-erros     { background: rgba(239,68,68,0.07);   border-left-color: var(--error-bdr);   }
+.bloco-revisao   { background: rgba(16,185,129,0.07);  border-left-color: var(--review-bdr);  }
+
+[data-theme="light"] .bloco-explicacao { background: var(--bg-secondary); }
+[data-theme="light"] .bloco-analogia   { background: var(--analogy-bg); }
+[data-theme="light"] .bloco-exemplo    { background: var(--example-bg); }
+[data-theme="light"] .bloco-resumo     { background: var(--summary-bg); }
+[data-theme="light"] .bloco-memorizar  { background: var(--memorize-bg);}
+[data-theme="light"] .bloco-erros      { background: var(--error-bg);   }
+[data-theme="light"] .bloco-revisao    { background: var(--review-bg);  }
 
 .bloco-header {
   display: flex; align-items: center; gap: 0.55rem;
-  margin-bottom: 0.65rem;
-  font-size: 0.78rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 0.7rem;
+  font-size: 0.8rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
 }
 .bloco-explicacao .bloco-header { color: var(--accent); }
 .bloco-analogia   .bloco-header { color: var(--analogy-txt); }
@@ -794,17 +801,16 @@ li { margin-bottom: 0.4rem; color: var(--text-secondary); }
 .bloco-erros      .bloco-header { color: var(--error-txt); }
 .bloco-revisao    .bloco-header { color: var(--review-txt); }
 
-.bloco-analogia  p { color: var(--analogy-txt); }
-.bloco-exemplo   p { color: var(--example-txt); }
-.bloco-resumo    p { color: var(--summary-txt); }
-.bloco-memorizar p { color: var(--memorize-txt); }
-.bloco-erros     p { color: var(--error-txt); }
-.bloco-revisao   p { color: var(--review-txt); }
+.bloco-analogia  p,
+.bloco-exemplo   p,
+.bloco-resumo    p,
+.bloco-memorizar p,
+.bloco-erros     p,
+.bloco-revisao   p { color: var(--text-secondary); }
 
 .bloco-memorizar ul li,
-.bloco-resumo ul li { color: var(--memorize-txt); }
-.bloco-resumo ul li  { color: var(--summary-txt); }
-.bloco-erros ul li   { color: var(--error-txt); }
+.bloco-resumo    ul li,
+.bloco-erros     ul li { color: var(--text-secondary); }
 
 .section > p,
 .section-intro,
@@ -1028,15 +1034,16 @@ mark.search-hl {
 }
 
 .section-intro {
-  margin: -0.2rem 0 1rem;
+  margin: -0.2rem 0 1.5rem;
   max-width: 60ch;
-  color: var(--text-muted);
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 .ped-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .ped-grid > * {
@@ -2034,7 +2041,7 @@ h2:focus-within .rw-anchor-link { opacity: 1; }
 
 /* ── Info boxes ───────────────────────────────────────── */
 .info-box {
-  background: var(--analogy-bg);
+  background: rgba(79,142,247,0.07);
   border-left: 3px solid var(--accent);
   border-radius: var(--radius-sm);
   padding: 0.9rem 1.1rem;
@@ -2045,17 +2052,23 @@ h2:focus-within .rw-anchor-link { opacity: 1; }
 }
 .info-box strong { color: var(--text-primary); }
 .info-box--warning {
-  background: var(--error-bg);
+  background: rgba(239,68,68,0.07);
   border-left-color: var(--error-bdr);
-  color: var(--error-txt);
+  color: var(--text-secondary);
 }
-.info-box--warning strong { color: #fca5a5; }
+.info-box--warning strong { color: var(--text-primary); }
 .info-box--tip {
-  background: var(--example-bg);
+  background: rgba(34,197,94,0.07);
   border-left-color: var(--example-bdr);
-  color: var(--example-txt);
+  color: var(--text-secondary);
 }
-.info-box--tip strong { color: #86efac; }
+.info-box--tip strong { color: var(--text-primary); }
+
+[data-theme="light"] .info-box          { background: var(--analogy-bg); }
+[data-theme="light"] .info-box--warning { background: var(--error-bg);   color: var(--error-txt); }
+[data-theme="light"] .info-box--warning strong { color: var(--error-txt); }
+[data-theme="light"] .info-box--tip     { background: var(--example-bg); color: var(--example-txt); }
+[data-theme="light"] .info-box--tip strong { color: var(--example-txt); }
 
 /* ── Concept grid ─────────────────────────────────────── */
 .concept-grid {

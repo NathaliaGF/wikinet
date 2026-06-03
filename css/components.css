@@ -657,10 +657,11 @@
   border-color: var(--accent);
 }
 .fc-back {
-  background: var(--analogy-bg);
+  background: rgba(79,142,247,0.15);
   border-color: var(--analogy-bdr);
   transform: rotateY(180deg);
 }
+[data-theme="light"] .fc-back { background: var(--analogy-bg); }
 .fc-hint {
   font-size: 0.72rem; color: var(--text-muted);
   margin-bottom: 0.75rem;
