@@ -1,113 +1,113 @@
 # RedesWiki
 
-> Wiki interativa de redes de computadores — 100% frontend, sem backend, sem dependências de servidor.
+> Interactive computer networking wiki: 100% frontend, no backend, no server-side dependencies. (Site content is in Brazilian Portuguese.)
 
-**Acesse em:** [nathaliagf.github.io/wikinet](https://nathaliagf.github.io/wikinet/)
-
----
-
-## Sobre o projeto
-
-O RedesWiki é um site de estudo completo sobre redes de computadores, criado para ser uma referência clara e prática — do absoluto zero até conceitos aplicados em troubleshooting e cibersegurança. O conteúdo foi organizado para quem aprende lendo, praticando e revisando: cada módulo combina explicação, analogias, diagramas, flashcards, quiz e exercícios.
-
-Todo o progresso do usuário é salvo localmente no navegador (localStorage). Não há login, não há servidor, não há dados enviados a lugar nenhum.
+**Live demo:** [nathaliagf.github.io/wikinet](https://nathaliagf.github.io/wikinet/)
 
 ---
 
-## Acesso
+## About
 
-O projeto roda diretamente no GitHub Pages — basta acessar a URL acima. Não é necessário instalar nada.
+RedesWiki is a complete study site on computer networking, built to be a clear and practical reference, from absolute zero up to applied troubleshooting and cybersecurity concepts. The content is organised for people who learn by reading, practising and reviewing: each module combines explanation, analogies, diagrams, flashcards, a quiz and exercises.
 
-É também um **Progressive Web App (PWA)**: pode ser instalado na tela inicial do celular ou desktop para funcionar offline, como um aplicativo nativo.
-
----
-
-## Conteúdo
-
-### 9 Módulos de estudo
-
-| # | Módulo | Tópicos |
-|---|--------|---------|
-| 1 | **Fundamentos de Redes** | O que é uma rede, cliente/servidor, pacotes, IP, porta, latência, banda, jitter |
-| 2 | **Modelos de Camadas** | OSI (7 camadas), TCP/IP (4 camadas), encapsulamento, diagnóstico por camada |
-| 3 | **Endereçamento** | IPv4, IPv6, CIDR, máscara de sub-rede, NAT, ARP, gateway, calculadora de sub-redes |
-| 4 | **Protocolos Principais** | TCP, UDP, DNS, DHCP, HTTP, HTTPS, TLS, SSH, FTP, SMTP, SIP/VoIP |
-| 5 | **O que Acontece ao Acessar um Site** | Resolução DNS → handshake TCP → TLS → HTTP → renderização |
-| 6 | **Equipamentos de Rede** | Roteador, switch, firewall, proxy forward e reverso |
-| 7 | **Segurança Básica** | Firewalls stateful/stateless, MITM, DDoS, spoofing, phishing, VPN |
-| 8 | **Troubleshooting** | Metodologia de diagnóstico, ping, traceroute, nslookup, netstat |
-| 9 | **Portas Conhecidas** | Tabela completa das principais portas TCP/UDP e seus serviços |
-
-### Ferramentas de estudo
-
-| Ferramenta | Descrição |
-|-----------|-----------|
-| **Flashcards** | Baralhos por módulo com algoritmo SM-2 de repetição espaçada; suporte a teclado (Espaço/Setas/1-4) e swipe |
-| **Quiz** | 3 questões por módulo com feedback imediato e explicação da resposta correta |
-| **Simulado** | Questões mistas de todos os módulos para diagnóstico de lacunas |
-| **Exercícios práticos** | Cenários guiados de troubleshooting com pistas progressivas |
-| **Central de Revisão** | Fila consolidada de revisão, módulos fracos e histórico de performance |
-| **Glossário** | 113 termos de redes com definições em português, busca e registro de consultas |
-| **Calculadora de sub-redes** | Calcula rede, broadcast, hosts disponíveis e notação CIDR |
-| **Pomodoro** | Timer 25/5/15 min integrado para sessões de estudo com notificações |
+All user progress is stored locally in the browser (localStorage). There is no login, no server, and no data is sent anywhere.
 
 ---
 
-## Funcionalidades
+## Access
 
-### Aprendizado
-- Progresso por seção com três estados: **Lido**, **Entendi**, **Revisar**
-- Detecção de conclusão de módulo com animação de confetti e link para o próximo
-- Algoritmo **SM-2** de repetição espaçada nos flashcards
-- Painel de aprendizagem na home com próximo módulo recomendado, fila de revisão e temas mais fracos
-- Trilhas de estudo por objetivo (iniciante, troubleshooting, cibersegurança, certificação)
-- Exportação de progresso para referência pessoal
+The project runs directly on GitHub Pages: just open the URL above. Nothing to install.
+
+It is also a **Progressive Web App (PWA)**: it can be installed on a phone or desktop home screen and works offline like a native app.
+
+---
+
+## Content
+
+### 9 study modules
+
+| # | Module | Topics |
+|---|--------|--------|
+| 1 | **Networking Fundamentals** | What a network is, client/server, packets, IP, port, latency, bandwidth, jitter |
+| 2 | **Layer Models** | OSI (7 layers), TCP/IP (4 layers), encapsulation, layer-by-layer diagnosis |
+| 3 | **Addressing** | IPv4, IPv6, CIDR, subnet mask, NAT, ARP, gateway, subnet calculator |
+| 4 | **Core Protocols** | TCP, UDP, DNS, DHCP, HTTP, HTTPS, TLS, SSH, FTP, SMTP, SIP/VoIP |
+| 5 | **What Happens When You Visit a Website** | DNS resolution → TCP handshake → TLS → HTTP → rendering |
+| 6 | **Network Equipment** | Router, switch, firewall, forward and reverse proxy |
+| 7 | **Basic Security** | Stateful/stateless firewalls, MITM, DDoS, spoofing, phishing, VPN |
+| 8 | **Troubleshooting** | Diagnostic methodology, ping, traceroute, nslookup, netstat |
+| 9 | **Well-Known Ports** | Full table of the main TCP/UDP ports and their services |
+
+### Study tools
+
+| Tool | Description |
+|------|-------------|
+| **Flashcards** | Per-module decks with the SM-2 spaced-repetition algorithm; keyboard (Space/Arrows/1-4) and swipe support |
+| **Quiz** | 3 questions per module with instant feedback and an explanation of the right answer |
+| **Mock exam** | Mixed questions from all modules to find knowledge gaps |
+| **Hands-on exercises** | Guided troubleshooting scenarios with progressive hints |
+| **Review hub** | Consolidated review queue, weak modules and performance history |
+| **Glossary** | 113 networking terms with definitions, search and lookup history |
+| **Subnet calculator** | Computes network, broadcast, usable hosts and CIDR notation |
+| **Pomodoro** | Built-in 25/5/15 min timer for study sessions, with notifications |
+
+---
+
+## Features
+
+### Learning
+- Per-section progress with three states: **Read**, **Understood**, **Review**
+- Module completion detection with a confetti animation and a link to the next module
+- **SM-2** spaced-repetition algorithm in the flashcards
+- Learning panel on the home page with the recommended next module, review queue and weakest topics
+- Study tracks by goal (beginner, troubleshooting, cybersecurity, certification)
+- Progress export for personal reference
 
 ### Interface
-- Tema **claro/escuro** com preferência salva
-- Sidebar colapsável com navegação por módulo e busca global
-- **Sumário flutuante (TOC)** com scroll spy nas páginas de módulo
-- **Next/Previous** no rodapé de cada módulo para navegação sequencial
-- Busca com destaque de termos — funciona entre páginas via URLSearchParams
-- Links de compartilhamento por seção (Web Share API com fallback para clipboard)
-- Favoritos salvos localmente
-- Animações de progresso (respeitam `prefers-reduced-motion`)
+- **Light/dark** theme with saved preference
+- Collapsible sidebar with per-module navigation and global search
+- **Floating table of contents (TOC)** with scroll spy on module pages
+- **Next/Previous** links in each module footer for sequential navigation
+- Search with term highlighting that works across pages via URLSearchParams
+- Per-section share links (Web Share API with clipboard fallback)
+- Locally saved favourites
+- Progress animations (respect `prefers-reduced-motion`)
 
-### PWA e offline
-- Service Worker com cache-first — todo o conteúdo funciona sem internet após o primeiro acesso
-- Manifesto PWA com ícones PNG 192×192 e 512×512
-- Indicador online/offline com toast discreto
-- Banner de instalação "Adicionar à tela inicial" (aparece uma vez, pode ser dispensado)
+### PWA and offline
+- Service Worker with cache-first strategy: all content works offline after the first visit
+- PWA manifest with 192×192 and 512×512 PNG icons
+- Online/offline indicator with a discreet toast
+- "Add to home screen" install banner (shown once, can be dismissed)
 
-### Acessibilidade e SEO
-- Skip navigation link (`Ir para o conteúdo`)
-- ARIA labels, `aria-pressed`, `aria-expanded` nos componentes interativos
-- Fallback `<noscript>` em todas as páginas
-- Meta description única por página
-- Open Graph e Twitter Card para preview em redes sociais
-- `<link rel="canonical">` e `sitemap.xml`
-- Stylesheet de impressão (`@media print`) que remove chrome e formata para papel
+### Accessibility and SEO
+- Skip navigation link
+- ARIA labels, `aria-pressed` and `aria-expanded` on interactive components
+- `<noscript>` fallback on every page
+- Unique meta description per page
+- Open Graph and Twitter Card for social previews
+- `<link rel="canonical">` and `sitemap.xml`
+- Print stylesheet (`@media print`) that strips page chrome and formats for paper
 
-### Diagramas visuais (SVG inline)
-- OSI vs TCP/IP — comparação lado a lado com mapeamento de camadas
-- Encapsulamento — fluxo visual de adição de cabeçalhos por camada
-- Three-Way Handshake TCP — diagrama de sequência com setas SYN/SYN-ACK/ACK
-- Resolução DNS — fluxo completo: cliente → recursivo → raiz → autoritativo → resposta
+### Visual diagrams (inline SVG)
+- OSI vs TCP/IP: side-by-side comparison with layer mapping
+- Encapsulation: visual flow of headers added per layer
+- TCP three-way handshake: sequence diagram with SYN/SYN-ACK/ACK arrows
+- DNS resolution: full flow, client → recursive → root → authoritative → response
 
 ---
 
-## Estrutura de arquivos
+## File structure
 
 ```
 WikiCodex/
-├── index.html              # Home com módulos, trilhas e painel de aprendizagem
-├── 404.html                # Página de erro personalizada
+├── index.html              # Home with modules, tracks and learning panel
+├── 404.html                # Custom error page
 ├── manifest.json           # PWA manifest
-├── service-worker.js       # Cache offline (cache-first, v3)
-├── sitemap.xml             # Sitemap para indexação
-├── .nojekyll               # Desativa Jekyll no GitHub Pages
+├── service-worker.js       # Offline cache (cache-first, v3)
+├── sitemap.xml             # Sitemap for indexing
+├── .nojekyll               # Disables Jekyll on GitHub Pages
 │
-├── pages/                  # Módulos e ferramentas
+├── pages/                  # Modules and tools
 │   ├── fundamentos.html
 │   ├── modelos.html
 │   ├── enderecamento.html
@@ -117,86 +117,86 @@ WikiCodex/
 │   ├── seguranca.html
 │   ├── troubleshooting.html
 │   ├── portas.html
-│   ├── revisao.html        # Central de revisão
-│   ├── simulado.html       # Simulado de certificação
-│   └── exercicios.html     # Exercícios práticos
+│   ├── revisao.html        # Review hub
+│   ├── simulado.html       # Certification mock exam
+│   └── exercicios.html     # Hands-on exercises
 │
 ├── css/
-│   ├── style.css           # Estilos globais, variáveis, temas, layout
-│   └── components.css      # Componentes reutilizáveis (cards pedagógicos, etc.)
+│   ├── style.css           # Global styles, variables, themes, layout
+│   └── components.css      # Reusable components (teaching cards, etc.)
 │
 ├── js/
-│   ├── app.js              # Inicialização, sidebar, TOC, nav, PWA, online/offline
-│   ├── progress.js         # Progresso, analytics, SM-2 wrapper, conclusão de módulo
-│   ├── navigation.js       # Navegação entre módulos e âncoras
-│   ├── interactive.js      # Flashcards (teclado + swipe), quiz, busca, glossário UI
-│   ├── glossary.js         # Lógica do glossário com busca e registro de consultas
-│   ├── review.js           # Central de revisão (fetch de conteúdo por módulo)
-│   ├── simulado.js         # Motor do simulado com histórico e estatísticas
-│   ├── exercicios.js       # Exercícios práticos com pistas progressivas
-│   ├── spaced-repetition.js# Algoritmo SM-2 para flashcards
-│   ├── subnet-calc.js      # Calculadora de sub-redes IPv4
-│   └── pomodoro.js         # Timer Pomodoro 25/5/15 min com notificações
+│   ├── app.js              # Init, sidebar, TOC, nav, PWA, online/offline
+│   ├── progress.js         # Progress, analytics, SM-2 wrapper, module completion
+│   ├── navigation.js       # Navigation between modules and anchors
+│   ├── interactive.js      # Flashcards (keyboard + swipe), quiz, search, glossary UI
+│   ├── glossary.js         # Glossary logic with search and lookup history
+│   ├── review.js           # Review hub (per-module content fetch)
+│   ├── simulado.js         # Mock exam engine with history and stats
+│   ├── exercicios.js       # Hands-on exercises with progressive hints
+│   ├── spaced-repetition.js# SM-2 algorithm for flashcards
+│   ├── subnet-calc.js      # IPv4 subnet calculator
+│   └── pomodoro.js         # 25/5/15 min Pomodoro timer with notifications
 │
 ├── data/
 │   ├── content.js          # MODULES, FLASHCARDS, QUIZZES, PORTS, STUDY_GOALS
-│   ├── glossary-terms.js   # 113 termos de redes com definições em português
-│   └── certification-quiz.js # Questões do simulado de certificação
+│   ├── glossary-terms.js   # 113 networking terms with definitions
+│   └── certification-quiz.js # Certification mock exam questions
 │
 └── icons/
-    ├── icon-192.png        # Ícone PWA 192×192
-    ├── icon-512.png        # Ícone PWA 512×512
-    └── og-cover.png        # Imagem Open Graph 1200×630
+    ├── icon-192.png        # PWA icon 192×192
+    ├── icon-512.png        # PWA icon 512×512
+    └── og-cover.png        # Open Graph image 1200×630
 ```
 
 ---
 
-## Tecnologias
+## Tech
 
-- **HTML5 / CSS3 / JavaScript** — puro, sem frameworks
-- **Service Worker API** — cache offline
-- **localStorage / sessionStorage** — persistência de progresso local
-- **Web Share API** — compartilhamento nativo com fallback para clipboard
-- **Notification API** — alertas do Pomodoro
-- **IntersectionObserver** — scroll spy no TOC
-- **Canvas API** — animação de confetti na conclusão de módulo
-- **Google Fonts** — Lora (headings) + DM Sans (corpo)
+- **HTML5 / CSS3 / JavaScript**: vanilla, no frameworks
+- **Service Worker API**: offline cache
+- **localStorage / sessionStorage**: local progress persistence
+- **Web Share API**: native sharing with clipboard fallback
+- **Notification API**: Pomodoro alerts
+- **IntersectionObserver**: scroll spy in the TOC
+- **Canvas API**: confetti animation on module completion
+- **Google Fonts**: Lora (headings) + DM Sans (body)
 
 ---
 
-## Como rodar localmente
+## Running locally
 
-Qualquer servidor HTTP estático funciona. O mais simples:
+Any static HTTP server works. The simplest:
 
 ```bash
-# Python (já vem instalado na maioria dos sistemas)
+# Python (already installed on most systems)
 python3 -m http.server 8080
 
-# Node.js (com npx, sem instalar nada)
+# Node.js (with npx, nothing to install)
 npx serve .
 
-# VS Code: extensão Live Server → botão "Go Live"
+# VS Code: Live Server extension → "Go Live"
 ```
 
-Acesse `http://localhost:8080` no navegador.
+Open `http://localhost:8080` in your browser.
 
-> **Atenção:** abrir `index.html` direto pelo sistema de arquivos (`file://`) não funciona corretamente — o Service Worker e alguns recursos precisam de um servidor HTTP.
+> **Note:** opening `index.html` straight from the filesystem (`file://`) does not work properly: the Service Worker and some features need an HTTP server.
 
 ---
 
 ## GitHub Pages
 
-O projeto está configurado para deploy direto na branch `main`. Para publicar:
+The project is set up to deploy straight from the `main` branch. To publish:
 
-1. Vá em **Settings → Pages** no repositório
-2. Selecione **Source: Deploy from a branch**
-3. Escolha `main` / `/ (root)`
-4. Salve — em alguns minutos o site estará disponível na URL acima
+1. Go to **Settings → Pages** in the repository
+2. Select **Source: Deploy from a branch**
+3. Choose `main` / `/ (root)`
+4. Save. The site will be available at the URL above in a few minutes
 
-O arquivo `.nojekyll` na raiz desativa o processamento Jekyll do GitHub Pages, garantindo que todos os arquivos sejam servidos corretamente.
+The `.nojekyll` file at the root disables Jekyll processing on GitHub Pages, so all files are served correctly.
 
 ---
 
-## Licença
+## License
 
-Este projeto é de uso pessoal e educacional.
+MIT, see [LICENSE](LICENSE).
