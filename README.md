@@ -2,7 +2,7 @@
 
 > Wiki interativa de redes de computadores — 100% frontend, sem backend, sem dependências de servidor.
 
-**Acesse em:** `<!-- URL do GitHub Pages será inserida aqui -->`
+**Acesse em:** [nathaliagf.github.io/wikinet](https://nathaliagf.github.io/wikinet/)
 
 ---
 
